@@ -33,39 +33,39 @@ import teilchen.Physics;
 public class Midpoint
     implements IIntegrator {
 
-    private final Vector<Derivate3f> myK1 = new Vector<Derivate3f> ();
+    private final Vector<Derivate3f> mK1 = new Vector<Derivate3f> ();
 
     public void step(final float theDeltaTime, final Physics theParticleSystem) {
 
-        Util.checkContainerSize(theParticleSystem.particles().size(), myK1, Derivate3f.class);
+        Util.checkContainerSize(theParticleSystem.particles().size(), mK1, Derivate3f.class);
 
         /* one */
         theParticleSystem.applyForces(theDeltaTime);
-        Util.calculateDerivatives(theParticleSystem.particles(), myK1);
+        Util.calculateDerivatives(theParticleSystem.particles(), mK1);
         for (int i = 0; i < theParticleSystem.particles().size(); i++) {
             Particle myParticle = theParticleSystem.particles().get(i);
             if (!myParticle.fixed()) {
-                myParticle.position().x += myK1.get(i).px * theDeltaTime / 2;
-                myParticle.position().y += myK1.get(i).py * theDeltaTime / 2;
-                myParticle.position().z += myK1.get(i).pz * theDeltaTime / 2;
-                myParticle.position().x += myK1.get(i).vx * theDeltaTime / 2;
-                myParticle.position().y += myK1.get(i).vy * theDeltaTime / 2;
-                myParticle.position().z += myK1.get(i).vz * theDeltaTime / 2;
+                myParticle.position().x += mK1.get(i).px * theDeltaTime / 2;
+                myParticle.position().y += mK1.get(i).py * theDeltaTime / 2;
+                myParticle.position().z += mK1.get(i).pz * theDeltaTime / 2;
+                myParticle.position().x += mK1.get(i).vx * theDeltaTime / 2;
+                myParticle.position().y += mK1.get(i).vy * theDeltaTime / 2;
+                myParticle.position().z += mK1.get(i).vz * theDeltaTime / 2;
             }
         }
 
         /* two */
         theParticleSystem.applyForces(theDeltaTime);
-        Util.calculateDerivatives(theParticleSystem.particles(), myK1);
+        Util.calculateDerivatives(theParticleSystem.particles(), mK1);
         for (int i = 0; i < theParticleSystem.particles().size(); i++) {
             Particle myParticle = theParticleSystem.particles().get(i);
             if (!myParticle.fixed()) {
-                myParticle.position().x += myK1.get(i).px * theDeltaTime;
-                myParticle.position().y += myK1.get(i).py * theDeltaTime;
-                myParticle.position().z += myK1.get(i).pz * theDeltaTime;
-                myParticle.velocity().x += myK1.get(i).vx * theDeltaTime;
-                myParticle.velocity().y += myK1.get(i).vy * theDeltaTime;
-                myParticle.velocity().z += myK1.get(i).vz * theDeltaTime;
+                myParticle.position().x += mK1.get(i).px * theDeltaTime;
+                myParticle.position().y += mK1.get(i).py * theDeltaTime;
+                myParticle.position().z += mK1.get(i).pz * theDeltaTime;
+                myParticle.velocity().x += mK1.get(i).vx * theDeltaTime;
+                myParticle.velocity().y += mK1.get(i).vy * theDeltaTime;
+                myParticle.velocity().z += mK1.get(i).vz * theDeltaTime;
             }
         }
     }

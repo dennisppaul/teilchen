@@ -34,13 +34,13 @@ import teilchen.Physics;
 public class Euler
     implements IIntegrator {
 
-    private final Vector3f temp1;
+    private final Vector3f mTemp1;
 
-    private final Vector3f temp2;
+    private final Vector3f mTemp2;
 
     public Euler() {
-        temp1 = new Vector3f();
-        temp2 = new Vector3f();
+        mTemp1 = new Vector3f();
+        mTemp2 = new Vector3f();
     }
 
 
@@ -61,14 +61,14 @@ public class Euler
 
 
     private final void integrate(final float theDeltaTime, final Particle theParticle) {
-        temp1.set(theParticle.force());
-        temp1.scale(theDeltaTime / theParticle.mass());
+        mTemp1.set(theParticle.force());
+        mTemp1.scale(theDeltaTime / theParticle.mass());
 
-        temp2.set(theParticle.velocity());
-        temp2.scale(theDeltaTime);
+        mTemp2.set(theParticle.velocity());
+        mTemp2.scale(theDeltaTime);
 
-        theParticle.velocity().add(temp1);
-        theParticle.position().add(temp2);
+        theParticle.velocity().add(mTemp1);
+        theParticle.position().add(mTemp2);
     }
 }
 
