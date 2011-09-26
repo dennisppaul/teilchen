@@ -2,3 +2,9 @@
 nbproject/project.xml
 
 nbproject/project.properties
+
+nbproject/*
+
+.project
+
+.classpath
