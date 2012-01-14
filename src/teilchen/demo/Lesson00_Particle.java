@@ -24,9 +24,9 @@
 package teilchen.demo;
 
 
+import processing.core.PApplet;
 import teilchen.Particle;
 import teilchen.Physics;
-import processing.core.PApplet;
 
 
 /**

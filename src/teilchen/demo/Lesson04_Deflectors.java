@@ -24,13 +24,13 @@
 package teilchen.demo;
 
 
+import processing.core.PApplet;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.ShortLivedParticle;
 import teilchen.force.Gravity;
 import teilchen.force.PlaneDeflector;
 import teilchen.force.ViscousDrag;
-import processing.core.PApplet;
 
 
 /**
@@ -90,7 +90,7 @@ public class Lesson04_Deflectors
         ShortLivedParticle myNewParticle = new ShortLivedParticle();
         myNewParticle.position().set(mouseX, mouseY);
         myNewParticle.velocity().set(0, random(100) + 50);
-        /*  this particle is removed after a specific interval */
+        /* this particle is removed after a specific interval */
         myNewParticle.setMaxAge(4);
         /* add particle manually to the particle system */
         mPhysics.add(myNewParticle);

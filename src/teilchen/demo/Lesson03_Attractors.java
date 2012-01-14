@@ -24,12 +24,12 @@
 package teilchen.demo;
 
 
+import processing.core.PApplet;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.constraint.Teleporter;
 import teilchen.force.Attractor;
 import teilchen.force.ViscousDrag;
-import processing.core.PApplet;
 
 
 /**
@@ -66,6 +66,7 @@ public class Lesson03_Attractors
             Particle myParticle = mPhysics.makeParticle();
             myParticle.position().set(random(width), random(height));
         }
+        mPhysics.particles().firstElement().fixed(true);
 
         /* create an attractor */
         mAttractor = new Attractor();

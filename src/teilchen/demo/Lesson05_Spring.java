@@ -24,11 +24,11 @@
 package teilchen.demo;
 
 
+import processing.core.PApplet;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.force.Spring;
 import teilchen.force.ViscousDrag;
-import processing.core.PApplet;
 
 
 /**

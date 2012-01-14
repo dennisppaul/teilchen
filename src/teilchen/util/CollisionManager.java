@@ -54,7 +54,7 @@ public class CollisionManager {
 
     private final Physics _myCollisionPhysics;
 
-    private float _myMinimumDistance;
+    private float mMinimumDistance;
 
     private Vector3f _myResolveSamePosition;
 
@@ -72,7 +72,7 @@ public class CollisionManager {
 
     private float _myCollisionResolverInterval = 0;
 
-    private int _myDistanceMode = DISTANCE_MODE_FIXED;
+    private int mDistanceMode = DISTANCE_MODE_FIXED;
 
     public static final int DISTANCE_MODE_RADIUS = 0;
 
@@ -87,13 +87,13 @@ public class CollisionManager {
         _myResolveSamePosition = new Vector3f(1, 1, 1);
         _myCollisionSpringConstant = 20.0f;
         _myCollisionSpringDamping = 1.0f;
-        _myMinimumDistance = 20;
+        mMinimumDistance = 20;
         _myResolverType = ResolverType.SPRING;
         _myRandom = new Random();
     }
 
     public void distancemode(int theDistanceMode) {
-        _myDistanceMode = theDistanceMode;
+        mDistanceMode = theDistanceMode;
     }
 
     public void setResolverType(ResolverType theResolverType) {
@@ -121,11 +121,11 @@ public class CollisionManager {
     }
 
     public void minimumDistance(float theMinimumDistance) {
-        _myMinimumDistance = theMinimumDistance;
+        mMinimumDistance = theMinimumDistance;
     }
 
     public float minimumDistance() {
-        return _myMinimumDistance;
+        return mMinimumDistance;
     }
 
     public Physics collision() {
@@ -195,7 +195,7 @@ public class CollisionManager {
                 final float myMinimumDistance = getMinimumDistance(theParticle, myOtherParticle);
                 if (myDistance < myMinimumDistance) {
                     if (theParticle.fixed() && myOtherParticle.fixed()) {
-                        continue;
+//                        continue;
                     }
                     /**
                      * because of the way we handle the collision resolver creation
@@ -302,10 +302,10 @@ public class CollisionManager {
     private float getMinimumDistance(Particle theParticle, Particle myOtherParticle) {
         final float myMinimumDistance;
 
-        if (_myDistanceMode == DISTANCE_MODE_RADIUS) {
+        if (mDistanceMode == DISTANCE_MODE_RADIUS) {
             myMinimumDistance = theParticle.radius() + myOtherParticle.radius();
         } else {
-            myMinimumDistance = _myMinimumDistance;
+            myMinimumDistance = mMinimumDistance;
         }
         return myMinimumDistance;
     }

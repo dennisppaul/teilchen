@@ -43,7 +43,7 @@ public class Physics {
 
     private final Vector<Particle> _myParticles;
 
-    private final Vector<IForce> _myForces;
+    private final Vector<IForce> mForces;
 
     private final Vector<IConstraint> _myConstraints;
 
@@ -63,7 +63,7 @@ public class Physics {
 
     public Physics() {
         _myParticles = new Vector<Particle>();
-        _myForces = new Vector<IForce>();
+        mForces = new Vector<IForce>();
         _myConstraints = new Vector<IConstraint>();
         _myIntegrator = new Midpoint();
     }
@@ -162,23 +162,23 @@ public class Physics {
             System.err.println(
                     "### WARNING / 'viscous drag' might have no effect with 'verlet' integration. use 'Verlet.damping(float theDamping)' instead.");
         }
-        _myForces.add(theForce);
+        mForces.add(theForce);
     }
 
     public void addForces(final Vector<IForce> theForces) {
-        _myForces.addAll(theForces);
+        mForces.addAll(theForces);
     }
 
     public void remove(IForce theForce) {
-        _myForces.remove(theForce);
+        mForces.remove(theForce);
     }
 
     public Vector<IForce> forces() {
-        return _myForces;
+        return mForces;
     }
 
     public IForce forces(final int theIndex) {
-        return _myForces.get(theIndex);
+        return mForces.get(theIndex);
     }
 
     public void applyForces(final float theDeltaTime) {
@@ -195,8 +195,8 @@ public class Physics {
         }
 
         /* add new forces to each particle */
-        synchronized (_myForces) {
-            Iterator<IForce> iter = _myForces.iterator();
+        synchronized (mForces) {
+            Iterator<IForce> iter = mForces.iterator();
             while (iter.hasNext()) {
                 IForce myForce = iter.next();
                 if (myForce.active()) {
@@ -210,7 +210,7 @@ public class Physics {
         T myForce;
         try {
             myForce = theForceClass.newInstance();
-            _myForces.add(myForce);
+            mForces.add(myForce);
         } catch (Exception ex) {
             System.out.println(ex);
             myForce = null;
@@ -220,7 +220,7 @@ public class Physics {
 
     public Spring makeSpring(final Particle theA, final Particle theB) {
         Spring mySpring = new Spring(theA, theB);
-        _myForces.add(mySpring);
+        mForces.add(mySpring);
         return mySpring;
     }
 
@@ -228,7 +228,7 @@ public class Physics {
                              final Particle theB,
                              final float theRestLength) {
         Spring mySpring = new Spring(theA, theB, theRestLength);
-        _myForces.add(mySpring);
+        mForces.add(mySpring);
         return mySpring;
     }
 
@@ -237,7 +237,7 @@ public class Physics {
                              final float theSpringConstant,
                              final float theSpringDamping) {
         Spring mySpring = new Spring(theA, theB, theSpringConstant, theSpringDamping);
-        _myForces.add(mySpring);
+        mForces.add(mySpring);
         return mySpring;
     }
 
@@ -247,7 +247,7 @@ public class Physics {
                              final float theSpringDamping,
                              final float theRestLength) {
         Spring mySpring = new Spring(theA, theB, theSpringConstant, theSpringDamping, theRestLength);
-        _myForces.add(mySpring);
+        mForces.add(mySpring);
         return mySpring;
     }
 
@@ -308,8 +308,8 @@ public class Physics {
     }
 
     protected synchronized void handleForces() {
-        synchronized (_myForces) {
-            final Iterator<IForce> iter = _myForces.iterator();
+        synchronized (mForces) {
+            final Iterator<IForce> iter = mForces.iterator();
             while (iter.hasNext()) {
                 final IForce myForce = iter.next();
                 if (myForce.dead()) {

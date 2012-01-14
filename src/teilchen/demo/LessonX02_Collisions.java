@@ -25,7 +25,7 @@ package teilchen.demo;
 
 
 import mathematik.Vector3f;
-
+import processing.core.PApplet;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.constraint.Box;
@@ -33,7 +33,6 @@ import teilchen.force.Gravity;
 import teilchen.force.Spring;
 import teilchen.force.ViscousDrag;
 import teilchen.util.CollisionManager;
-import processing.core.PApplet;
 
 
 public class LessonX02_Collisions
