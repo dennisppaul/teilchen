@@ -26,10 +26,10 @@ package teilchen.gestalt.test;
 import java.util.Vector;
 
 import gestalt.Gestalt;
-import gestalt.candidates.JoglGLUTBitmapFont;
-import gestalt.p5.GestaltPlugIn;
+import gestalt.shape.FastBitmapFont;
+import gestalt.processing.GestaltPlugIn;
 import gestalt.render.Drawable;
-import gestalt.render.plugin.FrameGrabber;
+import gestalt.render.controller.FrameGrabber;
 import gestalt.shape.Line;
 import gestalt.shape.Plane;
 
@@ -209,7 +209,7 @@ public class TestFollowerCamera
 
         public final Plane view;
 
-        private final JoglGLUTBitmapFont _myFont;
+        private final FastBitmapFont _myFont;
 
         private int myCurrentSeekPositionID;
 
@@ -228,9 +228,9 @@ public class TestFollowerCamera
             _myRotation = new Rotation();
 
             /* create font */
-            _myFont = new JoglGLUTBitmapFont();
+            _myFont = new FastBitmapFont();
             _myFont.color.set(0, 1);
-            _myFont.align = JoglGLUTBitmapFont.CENTERED;
+            _myFont.align = FastBitmapFont.CENTERED;
             _myFont.text = String.valueOf(theID);
             view.setChildContainer(new Vector<Drawable> ());
             view.add(_myFont);

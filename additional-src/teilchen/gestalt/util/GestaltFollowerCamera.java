@@ -26,8 +26,8 @@ package teilchen.gestalt.util;
 
 import gestalt.Gestalt;
 import gestalt.context.GLContext;
-import gestalt.p5.GestaltPlugIn;
-import gestalt.render.plugin.Camera;
+import gestalt.processing.GestaltPlugIn;
+import gestalt.render.controller.Camera;
 
 import mathematik.Vector3f;
 

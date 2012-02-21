@@ -32,8 +32,8 @@ package verhalten.view;
 import javax.media.opengl.GL;
 
 import gestalt.context.GLContext;
-import gestalt.impl.jogl.context.JoglGLContext;
-import gestalt.impl.jogl.shape.JoglMaterial;
+import gestalt.context.GLContext;
+import gestalt.material.Material;
 import gestalt.shape.AbstractShape;
 
 import mathematik.Vector3f;
@@ -48,7 +48,7 @@ public class JoglWallView
 
     public JoglWallView(IVerhaltenWall theWall) {
         _myWall = theWall;
-        material = new JoglMaterial();
+        material = new Material();
     }
 
 
@@ -57,7 +57,7 @@ public class JoglWallView
         material().begin(theRenderContext);
 
         /* draw entity */
-        GL gl = ( (JoglGLContext) theRenderContext).gl;
+        GL gl = (  theRenderContext).gl;
 
         /* draw wall */
         gl.glColor3f(1, 1, 1);

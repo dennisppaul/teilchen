@@ -1,9 +1,9 @@
 package teilchen.gestalt.util;
 
-import gestalt.candidates.JoglDisposableBin;
+import gestalt.render.bin.DisposableBin;
 import gestalt.context.GLContext;
-import gestalt.impl.jogl.context.JoglGLContext;
-import gestalt.impl.jogl.shape.JoglMaterial;
+import gestalt.context.GLContext;
+import gestalt.material.Material;
 import gestalt.shape.AbstractShape;
 import javax.media.opengl.GL;
 import mathematik.TransformMatrix4f;
@@ -20,24 +20,24 @@ public class FlowFieldView extends AbstractShape {
 
     private FlowField _myFlowField;
 
-    private JoglDisposableBin _myViewBin;
+    private DisposableBin _myViewBin;
 
     public boolean drawVectors;
 
 
     public FlowFieldView(FlowField theField) {
         _myFlowField = theField;
-        material = new JoglMaterial();
+        material = new Material();
         scale.set(theField.scale());
         transform = new TransformMatrix4f(theField.transform());
-        _myViewBin = new JoglDisposableBin();
+        _myViewBin = new DisposableBin();
         _myViewBin.fill = false;
         _myViewBin.wireframe = true;
     }
 
 
     public void draw(GLContext theRenderContext) {
-        GL gl = ((JoglGLContext) theRenderContext).gl;
+        GL gl = ( theRenderContext).gl;
 
         material.begin(theRenderContext);
 

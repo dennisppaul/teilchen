@@ -23,14 +23,11 @@
 
 package teilchen.gestalt.util;
 
-
-import java.util.Vector;
-
-import gestalt.candidates.JoglPointSpriteCloud;
-import gestalt.impl.jogl.shape.JoglMesh;
+import gestalt.shape.PointSpriteCloud;
 import gestalt.model.ModelData;
 import gestalt.model.ModelLoaderOBJ;
 import gestalt.render.Drawable;
+import gestalt.shape.Mesh;
 import gestalt.util.scenewriter.DrawableOBJTranslator;
 import gestalt.util.scenewriter.MeshTranslator;
 import gestalt.util.scenewriter.SceneWriter;
@@ -38,17 +35,19 @@ import gestalt.util.scenewriter.SceneWriter;
 import data.Resource;
 import teilchen.Particle;
 
+import java.util.Vector;
+
 
 public class OBJParticleCloudTranslator
         implements DrawableOBJTranslator {
 
-    private final JoglMesh _myMesh;
+    private final Mesh _myMesh;
 
     private final Vector<Particle> _myParticles;
 
     public OBJParticleCloudTranslator(Vector<Particle> theParticles) {
         ModelData myModelData = ModelLoaderOBJ.getModelData(Resource.getStream("ikosaeder.obj"));
-        _myMesh = new JoglMesh(myModelData.vertices, 3,
+        _myMesh = new Mesh(myModelData.vertices, 3,
                                myModelData.vertexColors, 4,
                                myModelData.texCoordinates, 2,
                                myModelData.normals,
@@ -57,7 +56,7 @@ public class OBJParticleCloudTranslator
     }
 
     public boolean isClass(Drawable theDrawable) {
-        return theDrawable instanceof JoglPointSpriteCloud;
+        return theDrawable instanceof PointSpriteCloud;
     }
 
     public void parse(SceneWriter theParent, Drawable theDrawable) {

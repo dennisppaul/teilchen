@@ -32,7 +32,7 @@ package verhalten.view;
 import javax.media.opengl.GL;
 
 import gestalt.context.GLContext;
-import gestalt.impl.jogl.context.JoglGLContext;
+import gestalt.context.GLContext;
 
 import mathematik.Vector3f;
 
@@ -53,7 +53,7 @@ public class JoglSeekView
 
     public void draw(GLContext theRenderContext, IVerhaltenEntity theEntity) {
         /* -- */
-        GL gl = ( (JoglGLContext) theRenderContext).gl;
+        GL gl = (  theRenderContext).gl;
         gl.glPushMatrix();
 
         /* draw direction */

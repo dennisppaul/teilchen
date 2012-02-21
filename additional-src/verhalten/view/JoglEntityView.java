@@ -26,9 +26,9 @@ package verhalten.view;
 
 import gestalt.Gestalt;
 import gestalt.context.GLContext;
-import gestalt.impl.jogl.context.JoglGLContext;
-import gestalt.impl.jogl.shape.JoglMaterial;
-import gestalt.impl.jogl.shape.atom.JoglAtomPlane;
+import gestalt.context.GLContext;
+import gestalt.material.Material;
+import gestalt.shape.atom.AtomPlane;
 import gestalt.shape.AbstractShape;
 
 import javax.media.opengl.GL;
@@ -44,7 +44,7 @@ public class JoglEntityView
     public JoglEntityView(IVerhaltenEntity theEntity) {
         _myEntity = theEntity;
         scale().set(10, 10, 10);
-        material = new JoglMaterial();
+        material = new Material();
         material().wireframe = true;
     }
 
@@ -54,7 +54,7 @@ public class JoglEntityView
         material().begin(theRenderContext);
 
         /* draw entity */
-        GL gl = ( (JoglGLContext) theRenderContext).gl;
+        GL gl = (  theRenderContext).gl;
 
         /* --- */
         gl.glPushMatrix();
@@ -66,7 +66,7 @@ public class JoglEntityView
         gl.glTranslatef(_myEntity.position().x, _myEntity.position().y, _myEntity.position().z);
         gl.glPushMatrix();
         gl.glScalef(scale().x, scale().y, scale().z);
-        JoglAtomPlane.draw(gl, Gestalt.SHAPE_ORIGIN_CENTERED);
+        AtomPlane.draw(gl, Gestalt.SHAPE_ORIGIN_CENTERED);
         gl.glPopMatrix();
 
         /** @todo replace this with a sphere */

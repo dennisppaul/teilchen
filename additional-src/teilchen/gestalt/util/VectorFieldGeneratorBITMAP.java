@@ -24,8 +24,8 @@
 package teilchen.gestalt.util;
 
 
-import gestalt.shape.Color;
-import gestalt.texture.Bitmap;
+import gestalt.material.Color;
+import gestalt.material.texture.Bitmap;
 
 import mathematik.Vector3f;
 import teilchen.force.vectorfield.VectorFieldGenerator;

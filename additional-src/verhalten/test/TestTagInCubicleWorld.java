@@ -28,8 +28,8 @@ import java.util.Vector;
 
 import gestalt.render.AnimatorRenderer;
 import gestalt.shape.Plane;
-import gestalt.shape.material.TexturePlugin;
-import gestalt.texture.FontProducer;
+import gestalt.material.TexturePlugin;
+import gestalt.material.texture.FontProducer;
 import gestalt.util.CameraMover;
 
 import mathematik.Vector3f;

@@ -28,16 +28,16 @@ import java.util.Vector;
 import javax.media.opengl.GL;
 
 import gestalt.Gestalt;
-import gestalt.candidates.JoglPointSprites;
+import gestalt.material.PointSprite;
 import gestalt.context.GLContext;
-import gestalt.impl.jogl.context.JoglGLContext;
-import gestalt.impl.jogl.shape.JoglMaterial;
+import gestalt.context.GLContext;
+import gestalt.material.Material;
 import gestalt.render.BasicRenderer;
 import gestalt.shape.AbstractShape;
-import gestalt.shape.Color;
-import gestalt.shape.Material;
+import gestalt.material.Color;
+import gestalt.material.Material;
 import gestalt.shape.Mesh;
-import gestalt.texture.Bitmap;
+import gestalt.material.texture.Bitmap;
 
 import mathematik.Vector3f;
 
@@ -54,13 +54,13 @@ public class GestaltDrawLib {
         extends AbstractShape {
 
         public GestaltAbstactParticleView() {
-            material = new JoglMaterial();
+            material = new Material();
         }
 
 
         public void draw(GLContext theRenderContext) {
 
-            GL gl = ( (JoglGLContext) theRenderContext).gl;
+            GL gl = (  theRenderContext).gl;
 
             /* begin material */
             material.begin(theRenderContext);
@@ -144,14 +144,14 @@ public class GestaltDrawLib {
             trianglecolor = new Color(1, 0, 0, 1);
             normalcolor = new Color(1, 1, 0, 1);
             boundingboxcolor = new Color(1, 0.5f, 0, 1);
-            material = new JoglMaterial();
+            material = new Material();
             material.wireframe = true;
         }
 
 
         public void draw(GLContext theRenderContext) {
 
-            GL gl = ( (JoglGLContext) theRenderContext).gl;
+            GL gl = (  theRenderContext).gl;
 
             /* begin material */
             material.begin(theRenderContext);
@@ -252,7 +252,7 @@ public class GestaltDrawLib {
 
         private final Mesh _myMesh;
 
-        private final JoglPointSprites _myPointSprites;
+        private final PointSprite _myPointSprites;
 
         private final BasicRenderer _myGestalt;
 
@@ -275,7 +275,7 @@ public class GestaltDrawLib {
                                                         Gestalt.MESH_POINTS);
 
             /* create texture */
-            _myPointSprites = new JoglPointSprites();
+            _myPointSprites = new PointSprite();
             _myPointSprites.load(theBitmap);
             _myPointSprites.quadric = new float[] {10, 0.2f, 0.001f};
             _myPointSprites.pointsize = 300;
@@ -302,7 +302,7 @@ public class GestaltDrawLib {
         }
 
 
-        public JoglPointSprites pointsprite() {
+        public PointSprite pointsprite() {
             return _myPointSprites;
         }
 

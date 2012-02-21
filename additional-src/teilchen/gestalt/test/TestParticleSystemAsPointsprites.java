@@ -24,8 +24,8 @@
 package teilchen.gestalt.test;
 
 
-import gestalt.p5.GestaltPlugIn;
-import gestalt.texture.Bitmaps;
+import gestalt.processing.GestaltPlugIn;
+import gestalt.material.texture.Bitmaps;
 
 import mathematik.Vector3f;
 

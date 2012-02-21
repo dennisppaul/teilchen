@@ -26,9 +26,9 @@ package teilchen.gestalt.util;
 
 import gestalt.Gestalt;
 import gestalt.context.GLContext;
-import gestalt.impl.jogl.context.JoglGLContext;
-import gestalt.impl.jogl.shape.JoglMaterial;
-import gestalt.impl.jogl.shape.atom.JoglAtomCube;
+import gestalt.context.GLContext;
+import gestalt.material.Material;
+import gestalt.shape.atom.AtomCube;
 import gestalt.shape.AbstractShape;
 
 import javax.media.opengl.GL;
@@ -46,7 +46,7 @@ public class JoglCubicleWorldView
 
     public JoglCubicleWorldView(CubicleWorld theWorld) {
         _myWorld = theWorld;
-        material = new JoglMaterial();
+        material = new Material();
         material().wireframe = true;
         material().transparent = true;
     }
@@ -62,7 +62,7 @@ public class JoglCubicleWorldView
         final Vector3f myScale = _myWorld.cellscale();
 
         /* draw world */
-        GL gl = ( (JoglGLContext) theRenderContext).gl;
+        GL gl = (  theRenderContext).gl;
         gl.glPushMatrix();
         /* rotation + translation */
         gl.glMultMatrixf(myTransform.toArray(), 0);
@@ -79,7 +79,7 @@ public class JoglCubicleWorldView
                     } else {
                         gl.glColor4f(1, 1, 1, 0.125f);
                     }
-                    JoglAtomCube.draw(gl, Gestalt.SHAPE_ORIGIN_BOTTOM_LEFT);
+                    AtomCube.draw(gl, Gestalt.SHAPE_ORIGIN_BOTTOM_LEFT);
                     gl.glPopMatrix();
                 }
             }

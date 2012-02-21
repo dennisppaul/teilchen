@@ -1,6 +1,6 @@
 package teilchen.gestalt.test;
 
-import gestalt.candidates.JoglDisposableBin;
+import gestalt.render.bin.DisposableBin;
 import gestalt.render.AnimatorRenderer;
 import mathematik.Util;
 import mathematik.Vector3f;
@@ -26,7 +26,7 @@ public class TestFluidField extends AnimatorRenderer {
 
     private FlowFieldForceMOUSE _myForce;
 
-    private JoglDisposableBin _myViewBin;
+    private DisposableBin _myViewBin;
 
 
     public void setup() {
@@ -50,7 +50,7 @@ public class TestFluidField extends AnimatorRenderer {
                     Util.random(0, _myFlowField.scale().y), 0));
         }
 
-        _myViewBin = new JoglDisposableBin();
+        _myViewBin = new DisposableBin();
         _myViewBin.color().set(1f, 0f, 0f, 1f);
 
         bin(BIN_3D).add(_myFluidFieldView);

@@ -28,8 +28,8 @@ import java.util.Vector;
 
 import gestalt.Gestalt;
 import gestalt.extension.quadline.QuadLine;
-import gestalt.p5.GestaltPlugIn;
-import gestalt.shape.Material;
+import gestalt.processing.GestaltPlugIn;
+import gestalt.material.Material;
 import gestalt.util.scenewriter.SceneWriter;
 
 import mathematik.Vector3f;

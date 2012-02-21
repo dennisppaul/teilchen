@@ -33,8 +33,8 @@ import javax.media.opengl.GL;
 
 import gestalt.Gestalt;
 import gestalt.context.GLContext;
-import gestalt.impl.jogl.context.JoglGLContext;
-import gestalt.impl.jogl.shape.atom.JoglAtomPlane;
+import gestalt.context.GLContext;
+import gestalt.shape.atom.AtomPlane;
 
 import mathematik.Vector3f;
 
@@ -55,7 +55,7 @@ public class JoglObstacleAvoidanceView
 
     public void draw(GLContext theRenderContext, IVerhaltenEntity theEntity) {
         /* -- */
-        GL gl = ( (JoglGLContext) theRenderContext).gl;
+        GL gl = (  theRenderContext).gl;
         gl.glPushMatrix();
 
         /* draw direction */
@@ -104,7 +104,7 @@ public class JoglObstacleAvoidanceView
             gl.glColor3f(1, 1, 0);
             gl.glPushMatrix();
             gl.glScalef(20, 20, 20);
-            JoglAtomPlane.draw(gl, Gestalt.SHAPE_ORIGIN_CENTERED);
+            AtomPlane.draw(gl, Gestalt.SHAPE_ORIGIN_CENTERED);
             gl.glPopMatrix();
 
             Vector<Vector3f> myObstacles = _myBehavior.getLocalObstaclePositions();

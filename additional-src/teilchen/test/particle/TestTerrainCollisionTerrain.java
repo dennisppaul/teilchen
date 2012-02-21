@@ -23,23 +23,18 @@
 
 package teilchen.test.particle;
 
-
-import java.util.Iterator;
-import javax.media.opengl.GL;
-
-import gestalt.candidates.JoglPointSpriteCloud;
 import gestalt.candidates.JoglTerrain;
 import gestalt.context.DisplayCapabilities;
 import gestalt.context.GLContext;
-import gestalt.impl.jogl.context.JoglGLContext;
-import gestalt.impl.jogl.shape.JoglMaterial;
-import gestalt.impl.jogl.shape.atom.JoglAtomCube;
+import gestalt.material.Material;
+import gestalt.material.TexturePlugin;
+import gestalt.material.texture.Bitmaps;
+import gestalt.material.texture.bitmap.ByteBitmap;
 import gestalt.render.AnimatorRenderer;
 import gestalt.shape.AbstractShape;
 import gestalt.shape.Plane;
-import gestalt.shape.material.TexturePlugin;
-import gestalt.texture.Bitmaps;
-import gestalt.texture.bitmap.ByteBitmap;
+import gestalt.shape.PointSpriteCloud;
+import gestalt.shape.atom.AtomCube;
 
 import mathematik.TransformMatrix4f;
 import mathematik.Vector3f;
@@ -47,9 +42,13 @@ import mathematik.Vector3f;
 import data.Resource;
 import teilchen.Particle;
 import teilchen.Physics;
-import teilchen.gestalt.util.TerrainCollider;
 import teilchen.force.Gravity;
 import teilchen.force.ViscousDrag;
+import teilchen.gestalt.util.TerrainCollider;
+
+import java.util.Iterator;
+
+import javax.media.opengl.GL;
 
 
 public class TestTerrainCollisionTerrain
@@ -61,7 +60,7 @@ public class TestTerrainCollisionTerrain
 
     private Physics _myParticleSystem;
 
-    private JoglPointSpriteCloud _myParticleView;
+    private PointSpriteCloud _myParticleView;
 
     private JoglTerrain _myTerrainGeometry;
 
@@ -109,7 +108,7 @@ public class TestTerrainCollisionTerrain
 
         _myParticleTexture = drawablefactory().texture();
         _myParticleTexture.load(Bitmaps.getBitmap(Resource.getStream("flower-particle.png")));
-        _myParticleView = new JoglPointSpriteCloud();
+        _myParticleView = new PointSpriteCloud();
         _myParticleView.loadBitmap(Bitmaps.getBitmap(Resource.getStream("flower-particle.png")));
         _myParticleView.material().blendmode = MATERIAL_BLEND_INVERS_MULTIPLY;
         _myParticleView.material().depthtest = false;
@@ -229,7 +228,7 @@ public class TestTerrainCollisionTerrain
 
         public JoglTerrainCollisionView(TerrainCollider theWorld) {
             _myWorld = theWorld;
-            material = new JoglMaterial();
+            material = new Material();
             material().wireframe = true;
             material().transparent = true;
         }
@@ -244,7 +243,7 @@ public class TestTerrainCollisionTerrain
             final Vector3f myScale = new Vector3f(_myWorld.scale());
 
             /* draw world */
-            GL gl = ( (JoglGLContext) theRenderContext).gl;
+            GL gl = (  theRenderContext).gl;
             gl.glPushMatrix();
             /* rotation + translation */
             gl.glMultMatrixf(myTransform.toArray(), 0);
@@ -256,7 +255,7 @@ public class TestTerrainCollisionTerrain
                     gl.glTranslatef(x, y, 0);
                     gl.glScalef(1, 1, _myWorld.heightfield[x][y]);
                     gl.glColor4f(1, 1, 1, 0.08f);
-                    JoglAtomCube.draw(gl, SHAPE_ORIGIN_BOTTOM_LEFT);
+                    AtomCube.draw(gl, SHAPE_ORIGIN_BOTTOM_LEFT);
                     gl.glPopMatrix();
                 }
             }

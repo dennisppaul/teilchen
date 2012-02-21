@@ -222,7 +222,7 @@ public class FlowField implements IForce {
 
 
 //    public void draw(GLContext theRenderContext) {
-//        GL gl = ((JoglGLContext) theRenderContext).gl;
+//        GL gl = ( theRenderContext).gl;
 //        float vu;
 //        float vv;
 //

@@ -27,15 +27,15 @@ package teilchen.test.particle;
 import java.util.Iterator;
 import javax.media.opengl.GL;
 
-import gestalt.candidates.JoglPointSpriteCloud;
+import gestalt.shape.PointSpriteCloud;
 import gestalt.context.GLContext;
-import gestalt.impl.jogl.context.JoglGLContext;
-import gestalt.impl.jogl.shape.JoglMaterial;
-import gestalt.impl.jogl.shape.atom.JoglAtomCube;
+import gestalt.context.GLContext;
+import gestalt.material.Material;
+import gestalt.shape.atom.AtomCube;
 import gestalt.render.AnimatorRenderer;
 import gestalt.shape.AbstractShape;
 import gestalt.shape.Plane;
-import gestalt.texture.Bitmaps;
+import gestalt.material.texture.Bitmaps;
 
 import mathematik.TransformMatrix4f;
 import mathematik.Vector2f;
@@ -63,7 +63,7 @@ public class TestTerrainCollision
 
     private Physics _myParticleSystem;
 
-    private JoglPointSpriteCloud _myParticleView;
+    private PointSpriteCloud _myParticleView;
 
     public void setup() {
         /* setup renderer */
@@ -111,7 +111,7 @@ public class TestTerrainCollision
             }
         }
 
-        _myParticleView = new JoglPointSpriteCloud();
+        _myParticleView = new PointSpriteCloud();
         _myParticleView.loadBitmap(Bitmaps.getBitmap(Resource.getStream("flower-particle.png")));
         _myParticleView.material().blendmode = MATERIAL_BLEND_INVERS_MULTIPLY;
         _myParticleView.material().depthtest = false;
@@ -213,7 +213,7 @@ public class TestTerrainCollision
 
         public JoglTerrainCollisionView(TerrainCollider theWorld) {
             _myWorld = theWorld;
-            material = new JoglMaterial();
+            material = new Material();
             material().wireframe = true;
             material().transparent = true;
         }
@@ -228,7 +228,7 @@ public class TestTerrainCollision
             final Vector3f myScale = _myWorld.scale();
 
             /* draw world */
-            GL gl = ( (JoglGLContext) theRenderContext).gl;
+            GL gl = (  theRenderContext).gl;
             gl.glPushMatrix();
             /* rotation + translation */
             gl.glMultMatrixf(myTransform.toArray(), 0);
@@ -240,7 +240,7 @@ public class TestTerrainCollision
                     gl.glTranslatef(x, y, 0);
                     gl.glScalef(1, 1, _myWorld.heightfield[x][y]);
                     gl.glColor4f(1, 1, 1, 0.08f);
-                    JoglAtomCube.draw(gl, SHAPE_ORIGIN_BOTTOM_LEFT);
+                    AtomCube.draw(gl, SHAPE_ORIGIN_BOTTOM_LEFT);
                     gl.glPopMatrix();
                 }
             }

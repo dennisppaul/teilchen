@@ -24,7 +24,7 @@
 package teilchen.test.particle;
 
 
-import gestalt.p5.Ge;
+import gestalt.processing.G5;
 
 import mathematik.Vector3f;
 
@@ -57,10 +57,10 @@ public class TestCloth
         size(1024, 768, OPENGL);
         frameRate(60);
 
-        Ge.setup(this, false);
-        Ge.gestalt().framesetup().depthbufferclearing = false;
-        Ge.gestalt().framesetup().colorbufferclearing = false;
-        Ge.fpscounter(true).display().color.set(1);
+        G5.setup(this, false);
+        G5.gestalt().framesetup().depthbufferclearing = false;
+        G5.gestalt().framesetup().colorbufferclearing = false;
+        G5.fpscounter(true).display().color.set(1);
 
         _myParticleSystem = new Physics();
         _myParticleSystem.contraint_iterations_per_steps = 3;

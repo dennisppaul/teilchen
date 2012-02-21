@@ -30,7 +30,7 @@ package verhalten.test;
 
 
 import gestalt.render.AnimatorRenderer;
-import gestalt.shape.Cube;
+import gestalt.shape.Cuboid;
 import gestalt.util.CameraMover;
 
 import mathematik.Vector3f;
@@ -88,7 +88,7 @@ public class TestSwarm
 
         private static final long serialVersionUID = -6043927846991252641L;
 
-        private Cube _myShape;
+        private Cuboid _myShape;
 
         private Rotation _myRotation;
 
@@ -107,8 +107,8 @@ public class TestSwarm
         private float[] _myDirectionsWeight;
 
         public SwarmEntity() {
-            /* setup a cube */
-            _myShape = drawablefactory().cube();
+            /* setup a cuboid */
+            _myShape = drawablefactory().cuboid();
             _myShape.material().color.a = 0.125f;
             _myShape.material().wireframe = true;
             _myShape.setTransformRef(transform());
