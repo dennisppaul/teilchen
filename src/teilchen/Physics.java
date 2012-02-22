@@ -1,7 +1,7 @@
 /*
  * Particles
  *
- * Copyright (C) 2010
+ * Copyright (C) 2012
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,11 +23,6 @@
 
 package teilchen;
 
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Vector;
-
 import mathematik.Vector3f;
 
 import teilchen.constraint.IConstraint;
@@ -37,6 +32,10 @@ import teilchen.force.ViscousDrag;
 import teilchen.integration.IIntegrator;
 import teilchen.integration.Midpoint;
 import teilchen.integration.Verlet;
+
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Vector;
 
 
 public class Physics {
