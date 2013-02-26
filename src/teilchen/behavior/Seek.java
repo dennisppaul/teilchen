@@ -1,7 +1,7 @@
 /*
- * Particles
+ * Teilchen
  *
- * Copyright (C) 2012
+ * Copyright (C) 2013
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,17 +20,14 @@
  *
  */
 
-
 package teilchen.behavior;
-
 
 import mathematik.Vector3f;
 
 import teilchen.IBehaviorParticle;
 
-
 public class Seek
-    implements IBehavior, Verhalten {
+        implements IBehavior, Verhalten {
 
     static final long serialVersionUID = -3781170603537691477L;
 
@@ -42,49 +39,55 @@ public class Seek
 
     private float _myDistanceToPoint;
 
+    private boolean mOverSteer;
+
     public Seek() {
         _mySeekPosition = new Vector3f();
         _myForce = new Vector3f();
+        mOverSteer = false;
     }
 
+    public boolean oversteer() {
+        return mOverSteer;
+    }
+
+    public void oversteer(boolean pOverSteer) {
+        mOverSteer = pOverSteer;
+    }
 
     public Vector3f position() {
         return _mySeekPosition;
     }
 
-
     public void setPositionRef(final Vector3f thePoint) {
         _mySeekPosition = thePoint;
     }
 
-
     public float distancetopoint() {
         return _myDistanceToPoint;
     }
-
 
     public void update(float theDeltaTime, IBehaviorParticle theParent) {
         _myForce.sub(_mySeekPosition, theParent.position());
         _myDistanceToPoint = _myForce.length();
         if (_myDistanceToPoint > SMALLEST_ACCEPTABLE_DISTANCE) {
             _myForce.scale(theParent.maximumInnerForce() / _myDistanceToPoint);
-            _myForce.sub(_myForce, theParent.velocity());
+            if (mOverSteer) {
+                _myForce.sub(_myForce, theParent.velocity());
+            }
             _myForce.scale(weight());
         } else {
             _myForce.set(0, 0, 0);
         }
     }
 
-
     public Vector3f force() {
         return _myForce;
     }
 
-
     public float weight() {
         return _myWeight;
     }
-
 
     public void weight(float theWeight) {
         _myWeight = theWeight;

@@ -86,14 +86,14 @@ public class TestSeparation
         {
             JoglEngineView myView;
             myView = new JoglEngineView(_mySeparatorEngine);
-            myView.material().color.set(1, 1, 1);
+            myView.material().color4f().set(1, 1, 1);
             myView.addBehavior(new JoglSeparationView(_mySeparation));
             bin(BIN_3D).add(myView);
         }
         {
             JoglEngineView myView;
             myView = new JoglEngineView(_mySeekerEngine);
-            myView.material().color.set(0, 0.5f, 1);
+            myView.material().color4f().set(0, 0.5f, 1);
             myView.addBehavior(new JoglSeekView(_mySeek));
             bin(BIN_3D).add(myView);
         }

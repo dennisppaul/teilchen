@@ -1,7 +1,7 @@
 /*
- * Particles
+ * Teilchen
  *
- * Copyright (C) 2012
+ * Copyright (C) 2013
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -74,7 +74,7 @@ public class TestParticlesDeformingModel
         /* load model */
         _myModel = G.model(Resource.getStream("rotated-cube.obj"));
         _myModel.mesh().material().lit = true;
-        _myModel.mesh().material().color.set(0.25f, 0.75f, 1.0f);
+        _myModel.mesh().material().color4f().set(0.25f, 0.75f, 1.0f);
 
         System.out.println("### INFO / creating " + (_myModel.mesh().vertices().length / 9) + " deflectors.");
         _myParticleSystem.addForces(teilchen.util.Util.createTriangleDeflectorsIndexed(_myModel.mesh().vertices(),

@@ -1,7 +1,7 @@
 /*
- * Particles
+ * Teilchen
  *
- * Copyright (C) 2012
+ * Copyright (C) 2013
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,12 +24,12 @@
 package teilchen.test.particle.behavior;
 
 
+import processing.core.PApplet;
 import teilchen.BehaviorParticle;
 import teilchen.Physics;
 import teilchen.behavior.Arrival;
 import teilchen.force.Gravity;
 import teilchen.force.ViscousDrag;
-import processing.core.PApplet;
 
 
 public class TestBehaviorArrival

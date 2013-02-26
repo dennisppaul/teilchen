@@ -1,7 +1,7 @@
 /*
- * Particles
+ * Teilchen
  *
- * Copyright (C) 2012
+ * Copyright (C) 2013
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,15 +24,16 @@
 package teilchen.demo;
 
 
+import processing.core.PApplet;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.force.Spring;
-import processing.core.PApplet;
 import teilchen.util.AntiOverlap;
 
 
 /**
- * this sketch is exactly like Lesson06_Springs, except that it also shows how to remove overlaps.
+ * this sketch is exactly like Lesson06_Springs, except that it also shows how
+ * to remove overlaps.
  */
 public class LessonX01_Overlap
         extends PApplet {
@@ -60,7 +61,10 @@ public class LessonX01_Overlap
             float mRestlength = mSpring.restlength();
             mSpring.restlength(mRestlength * 1.5f);
 
-            /* we define a radius for the particle so the particle has dimensions */
+            /*
+             * we define a radius for the particle so the particle has
+             * dimensions
+             */
             mParticle.radius(PARTICLE_RADIUS);
         }
 
@@ -98,7 +102,3 @@ public class LessonX01_Overlap
         PApplet.main(new String[] {LessonX01_Overlap.class.getName()});
     }
 }
-
-
-
-

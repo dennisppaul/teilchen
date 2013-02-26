@@ -1,7 +1,7 @@
 /*
- * Particles
+ * Teilchen
  *
- * Copyright (C) 2012
+ * Copyright (C) 2013
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -78,7 +78,7 @@ public class TestFollowerCamera
 
         /* create path view */
         _myLine = gestalt.drawablefactory().line();
-        _myLine.material().color.set(0, 0.2f);
+        _myLine.material().color4f().set(0, 0.2f);
         _myLine.material().depthmask = false;
         _myLine.material().depthtest = false;
         _myLine.linewidth = 1;
@@ -219,7 +219,7 @@ public class TestFollowerCamera
             /* create view */
             view = gestalt.drawablefactory().plane();
             view.scale().set(20, 5);
-            view.material().color.set(0, 0.25f);
+            view.material().color4f().set(0, 0.25f);
             view.material().depthtest = true;
             view.material().depthmask = false;
             view.material().transparent = true;

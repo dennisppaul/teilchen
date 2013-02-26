@@ -1,7 +1,7 @@
 /*
- * Particles
+ * Teilchen
  *
- * Copyright (C) 2012
+ * Copyright (C) 2013
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -181,7 +181,7 @@ public class TestTagInCubicleWorld
 
             /* setup view */
             _myView = new JoglEngineView(engine);
-            _myView.material().color.set(0, 0.5f, 1);
+            _myView.material().color4f().set(0, 0.5f, 1);
             _myView.addBehavior(new JoglSeekView(_mySeek));
             bin(BIN_3D).add(_myView);
 
@@ -304,7 +304,7 @@ public class TestTagInCubicleWorld
 
             /* setup view */
             _myView = new JoglEngineView(engine);
-            _myView.material().color.set(1, 1, 1);
+            _myView.material().color4f().set(1, 1, 1);
             _myView.addBehavior(new JoglSeparationView(_mySeparation));
 
             /* cubicle stuff */

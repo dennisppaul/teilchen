@@ -25,9 +25,7 @@
  * test the cohesion, alignment and seperation behavior.
  */
 
-
 package verhalten.test;
-
 
 import gestalt.render.AnimatorRenderer;
 import gestalt.shape.Cuboid;
@@ -39,13 +37,12 @@ import verhalten.Alignment;
 import verhalten.Cohesion;
 import verhalten.Containment;
 import verhalten.Engine;
-//import verhalten.OverlapRemover;
 import verhalten.Rotation;
 import verhalten.Separation;
 
 
 public class TestSwarm
-    extends AnimatorRenderer {
+        extends AnimatorRenderer {
 
     private SwarmEntity[] _mySwarmEntities;
 
@@ -54,9 +51,9 @@ public class TestSwarm
         _mySwarmEntities = new SwarmEntity[50];
         for (int i = 0; i < _mySwarmEntities.length; i++) {
             _mySwarmEntities[i] = new SwarmEntity();
-            _mySwarmEntities[i].position().set( (float) Math.random() * 100,
-                                               (float) Math.random() * 100,
-                                               (float) Math.random() * 100);
+            _mySwarmEntities[i].position().set((float)Math.random() * 100,
+                                               (float)Math.random() * 100,
+                                               (float)Math.random() * 100);
         }
 
         /* setup renderer */
@@ -65,7 +62,6 @@ public class TestSwarm
         camera().setMode(CAMERA_MODE_LOOK_AT);
         camera().nearclipping = 3;
     }
-
 
     public void loop(float theDeltaTime) {
         for (int i = 0; i < _mySwarmEntities.length; i++) {
@@ -77,14 +73,12 @@ public class TestSwarm
         CameraMover.handleKeyEvent(camera(), event(), theDeltaTime);
     }
 
-
     public static void main(String[] arg) {
         new TestSwarm().init();
     }
 
-
     private class SwarmEntity
-        extends Engine {
+            extends Engine {
 
         private static final long serialVersionUID = -6043927846991252641L;
 
@@ -101,7 +95,6 @@ public class TestSwarm
         private Alignment _myAlignment;
 
 //        private OverlapRemover _myOverlapRemover;
-
         private Vector3f[] _myDirections;
 
         private float[] _myDirectionsWeight;
@@ -109,7 +102,7 @@ public class TestSwarm
         public SwarmEntity() {
             /* setup a cuboid */
             _myShape = drawablefactory().cuboid();
-            _myShape.material().color.a = 0.125f;
+            _myShape.material().color4f().a = 0.125f;
             _myShape.material().wireframe = true;
             _myShape.setTransformRef(transform());
             _myShape.scale().set(15, 5, 5);
@@ -119,7 +112,7 @@ public class TestSwarm
             /* setup behavior */
             setSpeed(100.0f);
             setMaximumForce(50.0f);
-            setMaximumSpeed( (float) Math.random() * 20.0f + 30.0f);
+            setMaximumSpeed((float)Math.random() * 20.0f + 30.0f);
 
             _myRotation = new Rotation(10);
             _myRotation.setUpVector(new Vector3f(0, 1, 0));
@@ -143,7 +136,6 @@ public class TestSwarm
 //            _myOverlapRemover = new OverlapRemover();
             setBoundingRadius(10f);
         }
-
 
         public void loop(float theDeltaTime) {
             /* calculate new directions */

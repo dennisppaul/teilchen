@@ -1,7 +1,7 @@
 /*
- * Particles
+ * Teilchen
  *
- * Copyright (C) 2012
+ * Copyright (C) 2013
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -31,7 +31,7 @@ import teilchen.Physics;
 
 
 public class Attractor
-    implements IForce {
+        implements IForce {
 
     protected Vector3f _myPosition;
 
@@ -50,36 +50,29 @@ public class Attractor
         _myActive = true;
     }
 
-
     public Vector3f position() {
         return _myPosition;
     }
-
 
     public void setPositionRef(Vector3f thePosition) {
         _myPosition = thePosition;
     }
 
-
     public float strength() {
         return _myStrength;
     }
-
 
     public void strength(float theStrength) {
         _myStrength = theStrength;
     }
 
-
     public float radius() {
         return _myRadius;
     }
 
-
     public void radius(float theRadius) {
         _myRadius = theRadius;
     }
-
 
     public void apply(float theDeltaTime, Physics theParticleSystem) {
         if (_myStrength != 0) {
@@ -92,13 +85,14 @@ public class Attractor
                         float myFallOff = 1f - myDistance / _myRadius;
                         final float myForce = myFallOff * myFallOff * _myStrength;
                         myTemp.scale(myForce / myDistance);
-                        myParticle.force().add(myTemp);
+                        if (!myParticle.fixed()) {
+                            myParticle.force().add(myTemp);
+                        }
                     }
                 }
             }
         }
     }
-
 
     protected static float fastInverseSqrt(float v) {
         final float half = 0.5f * v;
@@ -108,16 +102,13 @@ public class Attractor
         return v * (1.5f - half * v * v);
     }
 
-
     public boolean dead() {
         return false;
     }
 
-
     public boolean active() {
         return _myActive;
     }
-
 
     public void active(boolean theActiveState) {
         _myActive = theActiveState;

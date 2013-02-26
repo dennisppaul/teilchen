@@ -1,7 +1,7 @@
 /*
- * Particles
+ * Teilchen
  *
- * Copyright (C) 2012
+ * Copyright (C) 2013
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -79,7 +79,7 @@ public class TestTerrainCollision
         myPlane.scale().set(500, 500);
         myPlane.material().addTexture().load(Bitmaps.getBitmap(Resource.getStream("flower-particle.png")));
         myPlane.material().blendmode = MATERIAL_BLEND_INVERS_MULTIPLY;
-        myPlane.material().color.set(1, 1, 1, 0.75f);
+        myPlane.material().color4f().set(1, 1, 1, 0.75f);
         bin(BIN_3D).add(myPlane);
 
         /* physics */
@@ -115,7 +115,7 @@ public class TestTerrainCollision
         _myParticleView.loadBitmap(Bitmaps.getBitmap(Resource.getStream("flower-particle.png")));
         _myParticleView.material().blendmode = MATERIAL_BLEND_INVERS_MULTIPLY;
         _myParticleView.material().depthtest = false;
-        _myParticleView.material().color.set(1.0f, 0.5f);
+        _myParticleView.material().color4f().set(1.0f, 0.5f);
         _myParticleView.POINT_SIZE = 40;
         bin(BIN_3D).add(_myParticleView);
 

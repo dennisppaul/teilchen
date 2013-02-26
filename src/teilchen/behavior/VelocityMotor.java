@@ -1,7 +1,7 @@
 /*
- * Particles
+ * Teilchen
  *
- * Copyright (C) 2012
+ * Copyright (C) 2013
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,14 +20,10 @@
  *
  */
 
-
 package teilchen.behavior;
 
-
 import mathematik.Vector3f;
-
 import teilchen.IBehaviorParticle;
-
 
 public class VelocityMotor
         implements IBehavior,

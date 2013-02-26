@@ -72,7 +72,7 @@ public class TestObstacleAvoidance
         for (int i = 0; i < _myObstacles.length; i++) {
             _myObstacles[i] = new AnObstacle();
             JoglEntityView myJoglEntityView = new JoglEntityView(_myObstacles[i]);
-            myJoglEntityView.material().color.set(0);
+            myJoglEntityView.material().color4f().set(0);
             bin(BIN_3D).add(myJoglEntityView);
         }
 
@@ -104,7 +104,7 @@ public class TestObstacleAvoidance
             JoglEngineView myView;
             myView = new JoglEngineView(_myEngine[i]);
             myView.addBehavior(new JoglObstacleAvoidanceView(_myObstacleAvoidance[i]));
-            myView.material().color.set(0);
+            myView.material().color4f().set(0);
             bin(BIN_3D).add(myView);
         }
     }

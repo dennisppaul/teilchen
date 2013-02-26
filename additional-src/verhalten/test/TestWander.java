@@ -61,7 +61,7 @@ public class TestWander
         /* setup view */
         JoglEngineView myView;
         myView = new JoglEngineView(_myWanderEngine);
-        myView.material().color.set(1, 1, 1);
+        myView.material().color4f().set(1, 1, 1);
         myView.addBehavior(new JoglWanderView(_myWander));
         bin(BIN_3D).add(myView);
     }

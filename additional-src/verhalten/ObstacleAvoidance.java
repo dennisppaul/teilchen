@@ -33,7 +33,6 @@ package verhalten;
 
 
 import java.util.Vector;
-
 import mathematik.TransformMatrix4f;
 import mathematik.Vector3f;
 

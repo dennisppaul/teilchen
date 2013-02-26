@@ -112,7 +112,7 @@ public class TestWallAvoidance
             myView = new JoglEngineView(_myEngine[i]);
             myView.addBehavior(new JoglWallAvoidanceView(_myWallAvoidance[i]));
             myView.addBehavior(new JoglWanderView(_myWander[i]));
-            myView.material().color.set(1, 1, 1);
+            myView.material().color4f().set(1, 1, 1);
             bin(BIN_3D).add(myView);
         }
     }

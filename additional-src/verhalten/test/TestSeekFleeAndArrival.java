@@ -84,21 +84,21 @@ public class TestSeekFleeAndArrival
         {
             JoglEngineView myView;
             myView = new JoglEngineView(_mySeekEngine);
-            myView.material().color.set(1, 1, 1);
+            myView.material().color4f().set(1, 1, 1);
             myView.addBehavior(new JoglSeekView(_mySeek));
             bin(BIN_3D).add(myView);
         }
         {
             JoglEngineView myView;
             myView = new JoglEngineView(_myFleeEngine);
-            myView.material().color.set(0.75f, 0.75f, 0.75f);
+            myView.material().color4f().set(0.75f, 0.75f, 0.75f);
             myView.addBehavior(new JoglFleeView(_myFlee));
             bin(BIN_3D).add(myView);
         }
         {
             JoglEngineView myView;
             myView = new JoglEngineView(_myArriveEngine);
-            myView.material().color.set(0.5f, 0.5f, 0.5f);
+            myView.material().color4f().set(0.5f, 0.5f, 0.5f);
             myView.addBehavior(new JoglArrivalView(_myArrive));
             bin(BIN_3D).add(myView);
         }

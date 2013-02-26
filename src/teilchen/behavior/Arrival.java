@@ -1,7 +1,7 @@
 /*
- * Particles
+ * Teilchen
  *
- * Copyright (C) 2012
+ * Copyright (C) 2013
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,142 +20,139 @@
  *
  */
 
-
 package teilchen.behavior;
 
-
 import mathematik.Vector3f;
-
 import teilchen.IBehaviorParticle;
 
-
 public class Arrival
-    implements IBehavior, Verhalten {
+        implements IBehavior, Verhalten {
 
     static final long serialVersionUID = 6897889750581191781L;
 
-    private Vector3f _mySeekPosition;
+    private Vector3f mSeekPosition;
 
-    private final Vector3f _myForce;
+    private final Vector3f mForce;
 
-    private float _myWeight;
+    private float mWeight;
 
-    private float _myOutterRadius;
+    private float mBreakRadius;
 
-//    private float _myArrivedRadius;
+    private float mBreakForce;
 
-    private float _myBreakForce;
+    private boolean mIsArriving;
 
-    private boolean _myArriving;
+    private boolean mHasArrived;
 
-    private boolean _myArrived;
+    private boolean mOverSteer;
 
     public Arrival() {
-        _myOutterRadius = 50.0f;
-        _myBreakForce = 50.0f;
-//        _myArrivedRadius = 5.0f;
-        _myArriving = false;
-        _myForce = new Vector3f();
-        _mySeekPosition = new Vector3f();
-        _myWeight = 1;
-        _myArrived = false;
+        mBreakRadius = 50.0f;
+        mBreakForce = 50.0f;
+        mForce = new Vector3f();
+        mSeekPosition = new Vector3f();
+        mWeight = 1;
+        mIsArriving = false;
+        mHasArrived = false;
+        mOverSteer = true;
     }
-
 
     public boolean arriving() {
-        return _myArriving;
+        return mIsArriving;
     }
-
 
     public boolean arrived() {
-        return _myArrived;
+        return mHasArrived;
     }
 
+    public boolean oversteer() {
+        return mOverSteer;
+    }
+
+    public void oversteer(boolean pOverSteer) {
+        mOverSteer = pOverSteer;
+    }
 
     public Vector3f position() {
-        return _mySeekPosition;
+        return mSeekPosition;
     }
 
-
-    public void setPositionRef(final Vector3f thePoint) {
-        _mySeekPosition = thePoint;
+    public void setPositionRef(final Vector3f pPoint) {
+        mSeekPosition = pPoint;
     }
 
-
-    public void breakforce(float theBreakForce) {
-        _myBreakForce = theBreakForce;
+    public void breakforce(float pBreakForce) {
+        mBreakForce = pBreakForce;
     }
-
 
     public float breakforce() {
-        return _myBreakForce;
+        return mBreakForce;
     }
 
-
-    public void breakradius(float theOutterRadius) {
-        _myOutterRadius = theOutterRadius;
+    public void breakradius(float pOutterRadius) {
+        mBreakRadius = pOutterRadius;
     }
-
 
     public float breakradius() {
-        return _myOutterRadius;
+        return mBreakRadius;
     }
 
+    public void update(float theDeltaTime, IBehaviorParticle pParent) {
+        mForce.sub(mSeekPosition, pParent.position());
+        final float myDistanceToArrivalPoint = mForce.length();
 
-//    public void arrivedradius(float theArrivedRadius) {
-//        _myArrivedRadius = theArrivedRadius;
-//    }
-//
-//
-//    public float arrivedradius() {
-//        return _myArrivedRadius;
-//    }
-
-
-    public void update(float theDeltaTime, IBehaviorParticle theParent) {
-        _myForce.sub(_mySeekPosition, theParent.position());
-        final float myDistanceToArrivalPoint = _myForce.length();
-
-        /* set properties */
-        if (myDistanceToArrivalPoint < _myOutterRadius) {
-            _myArriving = true;
-        } else {
-            _myArriving = false;
-            _myArrived = false;
-        }
         /* get direction */
-        if (!_myArriving) {
-            /* outside of the outter radius continue 'seeking' */
-            _myForce.scale(theParent.maximumInnerForce() / myDistanceToArrivalPoint);
-            _myForce.sub(_myForce, theParent.velocity());
-        } else {
-            if (theParent.velocity().lengthSquared() > -SMALLEST_ACCEPTABLE_DISTANCE &&
-                theParent.velocity().lengthSquared() < SMALLEST_ACCEPTABLE_DISTANCE) {
+        if (myDistanceToArrivalPoint < mBreakRadius) {
+            mIsArriving = true;
+            final float mSpeed = pParent.velocity().length();
+            final float MIN_ACCEPTABLE_SPEED = 10.0f;
+            if (mSpeed < MIN_ACCEPTABLE_SPEED) {
                 /* sleep */
-                _myForce.set(0, 0, 0);
-                _myArrived = true;
+                mForce.set(0, 0, 0);
+                mHasArrived = true;
             } else {
                 /* break */
-                _myForce.set(theParent.velocity().x * -_myBreakForce,
-                             theParent.velocity().y * -_myBreakForce,
-                             theParent.velocity().z * -_myBreakForce);
-            }
-        }
-        _myForce.scale(weight());
-    }
+                final boolean USE_WEIGHTED_BREAK_FORCE = true;
+                if (USE_WEIGHTED_BREAK_FORCE) {
+                    final float mRatio = myDistanceToArrivalPoint / mBreakRadius;
 
+                    final Vector3f mBreakForceVector = new Vector3f(pParent.velocity());
+                    mBreakForceVector.scale(-mBreakForce);
+                    mBreakForceVector.scale(1.0f - mRatio);
+
+                    final Vector3f mSteerForce = new Vector3f(mForce);
+                    mSteerForce.scale(pParent.maximumInnerForce() / myDistanceToArrivalPoint);
+                    mSteerForce.scale(mRatio);
+
+                    mForce.add(mBreakForceVector, mSteerForce);
+                } else {
+                    mForce.set(pParent.velocity().x * -mBreakForce,
+                               pParent.velocity().y * -mBreakForce,
+                               pParent.velocity().z * -mBreakForce);
+                }
+                mHasArrived = false;
+            }
+        } else {
+            /* outside of the outter radius continue 'seeking' */
+            mForce.scale(pParent.maximumInnerForce() / myDistanceToArrivalPoint);
+            if (mOverSteer) {
+                mForce.sub(mForce, pParent.velocity());
+            }
+            mIsArriving = false;
+            mHasArrived = false;
+        }
+        mForce.scale(weight());
+    }
 
     public Vector3f force() {
-        return _myForce;
+        return mForce;
     }
-
 
     public float weight() {
-        return _myWeight;
+        return mWeight;
     }
 
-
-    public void weight(float theWeight) {
-        _myWeight = theWeight;
+    public void weight(float pWeight) {
+        mWeight = pWeight;
     }
 }
