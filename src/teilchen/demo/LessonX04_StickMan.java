@@ -24,6 +24,7 @@
 package teilchen.demo;
 
 
+import processing.core.PApplet;
 import teilchen.Physics;
 import teilchen.force.Attractor;
 import teilchen.force.Gravity;
@@ -32,7 +33,6 @@ import teilchen.force.ViscousDrag;
 import teilchen.integration.RungeKutta;
 import teilchen.util.AntiOverlap;
 import teilchen.util.StickMan;
-import processing.core.PApplet;
 
 
 /**

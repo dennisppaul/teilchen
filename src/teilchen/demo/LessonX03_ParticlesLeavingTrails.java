@@ -23,15 +23,18 @@
 
 package teilchen.demo;
 
-
-import java.util.Vector;
-
+import mathematik.Vector3f;
+import processing.core.PApplet;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.ShortLivedParticle;
+import teilchen.constraint.Box;
+import teilchen.force.Attractor;
 import teilchen.force.Gravity;
+import teilchen.force.ViscousDrag;
 import teilchen.util.ParticleTrail;
-import processing.core.PApplet;
+
+import java.util.Vector;
 
 
 public class LessonX03_ParticlesLeavingTrails
@@ -40,6 +43,8 @@ public class LessonX03_ParticlesLeavingTrails
     private Physics mPhysics;
 
     private Vector<ParticleTrail> mTrails;
+
+    private Attractor mAttractor;
 
     public void setup() {
         size(640, 480, OPENGL);
@@ -52,8 +57,24 @@ public class LessonX03_ParticlesLeavingTrails
         /* create a gravitational force */
         Gravity myGravity = new Gravity();
         mPhysics.add(myGravity);
-        myGravity.force().y = 30;
-        myGravity.force().x = 5;
+        myGravity.force().y = 20;
+
+        /* create drag */
+        ViscousDrag myViscousDrag = new ViscousDrag();
+        myViscousDrag.coefficient = 0.1f;
+        mPhysics.add(myViscousDrag);
+
+        final float mBorder = 40;
+        Box mBox = new Box(new Vector3f(mBorder, mBorder, mBorder), new Vector3f(width - mBorder, height - mBorder, 100 - mBorder));
+        mBox.reflect(true);
+        mPhysics.add(mBox);
+
+        /* create an attractor */
+        mAttractor = new Attractor();
+        mAttractor.radius(200);
+        mAttractor.strength(-300);
+        mPhysics.add(mAttractor);
+
 
         /* create trails and particles */
         mTrails = new Vector<ParticleTrail>();
@@ -72,13 +93,16 @@ public class LessonX03_ParticlesLeavingTrails
 
     private void resetParticles(float x, float y) {
         for (ParticleTrail myTrails : mTrails) {
-            myTrails.particle().position().set(x + random(-100, 100), y + random(-10, 10), 0);
-            myTrails.particle().velocity().set(random(-10, 10), random(-50, -20), 0);
+            myTrails.particle().position().set(x + random(-10, 10), y + random(-10, 10), 0);
+            myTrails.particle().velocity().set(random(-10, 10), random(-10, 10), random(-10, 10));
             myTrails.fragments().clear();
         }
     }
 
     public void draw() {
+        /* set attractor to mouse position */
+        mAttractor.position().set(mouseX, mouseY);
+
         for (ParticleTrail myTrails : mTrails) {
             myTrails.loop(1f / frameRate);
         }
@@ -98,13 +122,15 @@ public class LessonX03_ParticlesLeavingTrails
 
         /* draw head */
         if (mFragments.size() > 1) {
-            stroke(255, 0, 127);
-            line(mFragments.get(mFragments.size() - 1).position().x,
-                 mFragments.get(mFragments.size() - 1).position().y,
-                 mFragments.get(mFragments.size() - 1).position().z,
-                 mParticle.position().x,
-                 mParticle.position().y,
-                 mParticle.position().z);
+            fill(255, 0, 127);
+            noStroke();
+            pushMatrix();
+            translate(mParticle.position().x,
+                      mParticle.position().y,
+                      mParticle.position().z);
+            sphereDetail(4);
+            sphere(3);
+            popMatrix();
         }
 
         /* draw trail */
@@ -112,13 +138,23 @@ public class LessonX03_ParticlesLeavingTrails
             if (mFragments.get(i) instanceof ShortLivedParticle) {
                 final float mRatio = 1.0f - ((ShortLivedParticle)mFragments.get(i)).ageRatio();
                 stroke(127, mRatio * 255);
+                strokeWeight(mRatio * 3);
             }
+            int j = (i + 1) % mFragments.size();
             line(mFragments.get(i).position().x,
                  mFragments.get(i).position().y,
                  mFragments.get(i).position().z,
-                 mFragments.get(i + 1).position().x,
-                 mFragments.get(i + 1).position().y,
-                 mFragments.get(i + 1).position().z);
+                 mFragments.get(j).position().x,
+                 mFragments.get(j).position().y,
+                 mFragments.get(j).position().z);
+        }
+        if (!mFragments.isEmpty()) {
+            line(mFragments.lastElement().position().x,
+                 mFragments.lastElement().position().y,
+                 mFragments.lastElement().position().z,
+                 mParticle.position().x,
+                 mParticle.position().y,
+                 mParticle.position().z);
         }
     }
 

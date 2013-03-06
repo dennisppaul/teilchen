@@ -23,7 +23,6 @@
 
 package teilchen.force;
 
-
 import teilchen.IConnection;
 import teilchen.Particle;
 import teilchen.Physics;
@@ -39,9 +38,9 @@ public class Spring
 
     protected float _myRestLength;
 
-    protected final Particle _myA;
+    protected Particle _myA;
 
-    protected final Particle _myB;
+    protected Particle _myB;
 
     protected boolean _myOneWay;
 
@@ -106,12 +105,21 @@ public class Spring
         return _myB;
     }
 
+    public final Particle a(Particle theA) {
+        return _myA = theA;
+    }
+
+    public final Particle b(Particle theB) {
+        return _myB = theB;
+    }
+
     public final float currentLength() {
         return _myA.position().distance(_myB.position());
     }
 
     /**
      * spring constant.
+     *
      * @return float
      */
     public final float strength() {
@@ -120,6 +128,7 @@ public class Spring
 
     /**
      * spring constant.
+     *
      * @param theSpringConstant float
      */
     public final void strength(float theSpringConstant) {
@@ -156,12 +165,12 @@ public class Spring
             a2bZ *= myInversDistance;
         }
 
-      final  float mSpringForce = -(myDistance - _myRestLength) * _mySpringConstant;
-      final  float Va2bX = _myA.velocity().x - _myB.velocity().x;
-      final  float Va2bY = _myA.velocity().y - _myB.velocity().y;
-      final  float Va2bZ = _myA.velocity().z - _myB.velocity().z;
-      final  float mDampingForce = -_mySpringDamping * (a2bX * Va2bX + a2bY * Va2bY + a2bZ * Va2bZ);
-      final  float r = mSpringForce + mDampingForce;
+        final float mSpringForce = -(myDistance - _myRestLength) * _mySpringConstant;
+        final float Va2bX = _myA.velocity().x - _myB.velocity().x;
+        final float Va2bY = _myA.velocity().y - _myB.velocity().y;
+        final float Va2bZ = _myA.velocity().z - _myB.velocity().z;
+        final float mDampingForce = -_mySpringDamping * (a2bX * Va2bX + a2bY * Va2bY + a2bZ * Va2bZ);
+        final float r = mSpringForce + mDampingForce;
         a2bX *= r;
         a2bY *= r;
         a2bZ *= r;

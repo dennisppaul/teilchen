@@ -23,7 +23,6 @@
 
 package teilchen.constraint;
 
-
 import teilchen.Physics;
 
 
@@ -31,4 +30,7 @@ public interface IConstraint {
 
     void apply(final Physics theParticleSystem);
 
+    boolean active();
+
+    void active(boolean theActiveState);
 }

@@ -19,6 +19,8 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
+
 package teilchen.gestalt.util;
 
 import java.util.Iterator;
@@ -52,7 +54,6 @@ public class TerrainCollider
 
     private float _myCoefficientOfRestitution = 0.5f;
 
-
     public TerrainCollider(int theWidth, int theHeight) {
         _myTransform = new TransformMatrix4f(TransformMatrix4f.IDENTITY);
         _myScale = new Vector3f(1, 1, 1);
@@ -61,7 +62,6 @@ public class TerrainCollider
         _myInversRotation = new Matrix3f(Matrix3f.IDENTITY);
         heightfield = new float[width + 1][height + 1];
     }
-
 
     public TerrainCollider(JoglTerrain theTerrain) {
         width = theTerrain.getQuadsX();
@@ -80,7 +80,6 @@ public class TerrainCollider
         }
     }
 
-
     public void updateTerrain(JoglTerrain theTerrain) {
         for (int x = 0; x < theTerrain.vertices().length; x++) {
             for (int y = 0; y < theTerrain.vertices()[x].length; y++) {
@@ -89,7 +88,6 @@ public class TerrainCollider
             }
         }
     }
-
 
     public void apply(final Physics theParticleSystem) {
         /* cache invers rotation matrix */
@@ -103,15 +101,14 @@ public class TerrainCollider
         }
     }
 
-
     private void handleEntity(Particle theEntity) {
         /* transform position to terrain space */
         final Vector3f myPosition = new Vector3f(theEntity.position());
         toLocal(myPosition);
 
         /* round off */
-        final int x = (int) Math.floor(myPosition.x);
-        final int y = (int) Math.floor(myPosition.y);
+        final int x = (int)Math.floor(myPosition.x);
+        final int y = (int)Math.floor(myPosition.y);
         final float myRatioX = myPosition.x - x;
         final float myRatioY = myPosition.y - y;
 
@@ -150,22 +147,19 @@ public class TerrainCollider
                 theEntity.position().z = myPosition.z;
 
                 teilchen.util.Util.reflectVelocity(theEntity,
-                                                    myNormal,
-                                                    _myCoefficientOfRestitution);
+                                                   myNormal,
+                                                   _myCoefficientOfRestitution);
             }
         }
     }
-
 
     public void coefficientofrestitution(float theCoefficientOfRestitution) {
         _myCoefficientOfRestitution = theCoefficientOfRestitution;
     }
 
-
     public float coefficientofrestitution() {
         return _myCoefficientOfRestitution;
     }
-
 
     private void toLocal(final Vector3f thePosition) {
         /* translation */
@@ -179,7 +173,6 @@ public class TerrainCollider
         thePosition.divide(myScale);
     }
 
-
     private void toGlobal(final Vector3f thePosition) {
         /* scale */
         Vector3f myScale = new Vector3f(_myScale);
@@ -192,7 +185,6 @@ public class TerrainCollider
         thePosition.add(_myTransform.translation);
     }
 
-
     private boolean checkBounds(int theX, int theY) {
         if (theX < width && theX >= 0) {
             if (theY < height && theY >= 0) {
@@ -202,14 +194,13 @@ public class TerrainCollider
         return false;
     }
 
-
     public boolean isInCollider(Vector3f thePosition) {
         final Vector3f myPosition = new Vector3f(thePosition);
         toLocal(myPosition);
 
         /* round off */
-        final int x = (int) Math.floor(myPosition.x);
-        final int y = (int) Math.floor(myPosition.y);
+        final int x = (int)Math.floor(myPosition.x);
+        final int y = (int)Math.floor(myPosition.y);
         if (x < width && x >= 0) {
             if (y < height && y >= 0) {
                 return true;
@@ -218,13 +209,18 @@ public class TerrainCollider
         return false;
     }
 
-
     public Vector3f scale() {
         return _myScale;
     }
 
-
     public TransformMatrix4f transform() {
         return _myTransform;
+    }
+
+    public boolean active() {
+        return true;
+    }
+
+    public void active(boolean theActiveState) {
     }
 }

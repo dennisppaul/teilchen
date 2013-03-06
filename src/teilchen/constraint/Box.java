@@ -23,7 +23,6 @@
 
 package teilchen.constraint;
 
-
 import mathematik.Vector3f;
 
 import teilchen.Particle;
@@ -33,6 +32,8 @@ import teilchen.integration.Verlet;
 
 public class Box
         implements IConstraint {
+
+    protected boolean mActive = true;
 
     private final Vector3f _myMin;
 
@@ -74,7 +75,6 @@ public class Box
 
     private static final Vector3f[] _myNormals;
 
-
     static {
         _myNormals = new Vector3f[6];
         _myNormals[0] = new Vector3f(-1, 0, 0);
@@ -94,6 +94,11 @@ public class Box
     }
 
     public void apply(final Physics theParticleSystem) {
+
+        if (!mActive) {
+            return;
+        }
+
         for (final Particle myParticle : theParticleSystem.particles()) {
             if (_myTeleport) {
                 if (myParticle.position().x > _myMax.x) {
@@ -152,8 +157,8 @@ public class Box
                             myParticle.old_position().sub(myDiff);
                         } else {
                             teilchen.util.Util.reflectVelocity(myParticle,
-                                                                _myNormals[myTag],
-                                                                _myCoefficientOfRestitution);
+                                                               _myNormals[myTag],
+                                                               _myCoefficientOfRestitution);
                         }
                     } else {
                         myParticle.velocity().set(0, 0, 0);
@@ -161,5 +166,13 @@ public class Box
                 }
             }
         }
+    }
+
+    public boolean active() {
+        return mActive;
+    }
+
+    public void active(boolean theActiveState) {
+        mActive = theActiveState;
     }
 }

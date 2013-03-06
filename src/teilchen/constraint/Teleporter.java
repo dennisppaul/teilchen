@@ -23,7 +23,6 @@
 
 package teilchen.constraint;
 
-
 import mathematik.Vector3f;
 import teilchen.Particle;
 import teilchen.Physics;
@@ -31,6 +30,8 @@ import teilchen.Physics;
 
 public class Teleporter
         implements IConstraint {
+
+    protected boolean mActive = true;
 
     private final Vector3f mMin;
 
@@ -54,6 +55,10 @@ public class Teleporter
     }
 
     public void apply(Physics theParticleSystem) {
+        if (!mActive) {
+            return;
+        }
+
         for (final Particle mParticle : theParticleSystem.particles()) {
             if (mParticle.position().x > mMax.x) {
                 mParticle.position().x = mMin.x;
@@ -74,5 +79,13 @@ public class Teleporter
                 mParticle.position().z = mMax.z;
             }
         }
+    }
+
+    public boolean active() {
+        return mActive;
+    }
+
+    public void active(boolean theActiveState) {
+        mActive = theActiveState;
     }
 }

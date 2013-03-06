@@ -22,7 +22,6 @@
 
 package teilchen.demo;
 
-import java.util.Vector;
 import processing.core.PApplet;
 import teilchen.BehaviorParticle;
 import teilchen.Physics;
@@ -30,6 +29,8 @@ import teilchen.behavior.Arrival;
 import teilchen.force.Spring;
 import teilchen.force.ViscousDrag;
 import teilchen.util.CollisionManager;
+
+import java.util.Vector;
 
 /**
  * this demo shows how to add behaviors to particles. in this example the

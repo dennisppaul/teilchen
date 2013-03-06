@@ -23,7 +23,6 @@
 
 package teilchen.constraint;
 
-
 import mathematik.Util;
 import mathematik.Vector3f;
 
@@ -35,9 +34,10 @@ import teilchen.Physics;
  * it probably pays of two check if we deal with a 2D or 3D constraint.
  * it s just checking components once and then saving a lot of time.
  */
-
 public class Angular
-    implements IConstraint {
+        implements IConstraint {
+
+    protected boolean mActive = true;
 
     private final Particle _myA;
 
@@ -70,7 +70,6 @@ public class Angular
         range(theMinimumAngle, theMaximumAngle);
     }
 
-
     public Angular(Particle theA, Particle theB, Particle theC) {
         this(theA,
              theB,
@@ -78,23 +77,19 @@ public class Angular
              0, 0);
     }
 
-
     public void range(float theMinimumAngle, float theMaximumAngle) {
         _myMinimumAngle = theMinimumAngle;
         _myMaximumAngle = theMaximumAngle;
         sortAngles();
     }
 
-
     public float minimumAngle() {
         return _myMinimumAngle;
     }
 
-
     public float maximumAngle() {
         return _myMaximumAngle;
     }
-
 
     private void sortAngles() {
         final float myMaximumAngle = _myMaximumAngle;
@@ -103,11 +98,13 @@ public class Angular
         _myMinimumAngle = Math.min(myMaximumAngle, myMinimumAngle);
     }
 
-
     public void apply(Physics theParticleSystem) {
 
-        /** @todo test for special case: a and c are in the same place. */
+        if (!mActive) {
+            return;
+        }
 
+        /** @todo test for special case: a and c are in the same place. */
         _myTempA.sub(_myB.position(), _myA.position());
         _myTempB.sub(_myB.position(), _myC.position());
 
@@ -115,7 +112,6 @@ public class Angular
         _myTempB.normalize();
 
         /** @todo check for special cases! like angle being 0 etc. */
-
         /** @todo check if the range exceeds PI. */
         if (_myMinimumAngle < Math.PI && _myMaximumAngle > Math.PI) {
             System.out.println("### WARNING split range and check twice.");
@@ -127,8 +123,8 @@ public class Angular
             myCosinusAngle = 1;
         }
 
-        final float myTempCosMaximumAngle = (float) Math.cos(_myMaximumAngle);
-        final float myTempCosMinimumAngle = (float) Math.cos(_myMinimumAngle);
+        final float myTempCosMaximumAngle = (float)Math.cos(_myMaximumAngle);
+        final float myTempCosMinimumAngle = (float)Math.cos(_myMinimumAngle);
         final float myCosMaximumAngle = Math.max(myTempCosMinimumAngle, myTempCosMaximumAngle);
         final float myCosMinimumAngle = Math.min(myTempCosMinimumAngle, myTempCosMaximumAngle);
 
@@ -165,7 +161,6 @@ public class Angular
         }
     }
 
-
     private void calculateNormal(Vector3f myVectorA, Vector3f myVectorB) {
         _myTempNormal.cross(myVectorA, myVectorB);
         _myTempNormal.normalize();
@@ -174,7 +169,6 @@ public class Angular
             System.out.println("### WARNING can t find normal.");
         }
     }
-
 
     private void correctAngle(double theTheta) {
         if (theTheta < -EPSILON || theTheta > EPSILON) {
@@ -195,7 +189,6 @@ public class Angular
         }
     }
 
-
     private boolean checkForHemisphere(Vector3f myVectorA, Vector3f myVectorB) {
         /* special case thus easy to find the direction */
         if (myVectorA.z == 0 && myVectorB.z == 0) {
@@ -210,5 +203,13 @@ public class Angular
             System.out.println("### WARNING calculate for 3D plane / not implemented.");
             return true;
         }
+    }
+
+    public boolean active() {
+        return mActive;
+    }
+
+    public void active(boolean theActiveState) {
+        mActive = theActiveState;
     }
 }

@@ -23,7 +23,6 @@
 
 package teilchen.constraint;
 
-
 import mathematik.Vector3f;
 
 import teilchen.IConnection;
@@ -32,7 +31,8 @@ import teilchen.Physics;
 
 
 public class Stick
-    implements IConstraint, IConnection {
+        implements IConstraint,
+                   IConnection {
 
     protected final Particle _myA;
 
@@ -48,6 +48,8 @@ public class Stick
 
     protected float _myDamping;
 
+    protected boolean mActive = true;
+
     protected static final float EPSILON = 0.0001f;
 
     public Stick(Particle theA, Particle theB) {
@@ -55,7 +57,6 @@ public class Stick
              theB,
              theA.position().distance(theB.position()));
     }
-
 
     public Stick(final Particle theA,
                  final Particle theB,
@@ -69,55 +70,49 @@ public class Stick
         _myDamping = 1f;
     }
 
-
     public void setRestLengthByPosition() {
         _myRestLength = _myA.position().distance(_myB.position());
     }
-
 
     public float damping() {
         return _myDamping;
     }
 
-
     public void damping(float theDamping) {
         _myDamping = theDamping;
     }
-
 
     public float restlength() {
         return _myRestLength;
     }
 
-
     public void restlength(float theRestLength) {
         _myRestLength = theRestLength;
     }
-
 
     public final Particle a() {
         return _myA;
     }
 
-
     public final Particle b() {
         return _myB;
     }
-
 
     public void setOneWay(boolean theOneWayState) {
         _myOneWay = theOneWayState;
     }
 
-
     public void apply(Physics theParticleSystem) {
+        if (!mActive) {
+            return;
+        }
         if (_myA.fixed() && _myB.fixed()) {
             return;
         }
         _myTempDistanceVector.sub(_myA.position(), _myB.position());
         final float myDistanceSquared = _myTempDistanceVector.lengthSquared();
         if (myDistanceSquared > 0) {
-            final float myDistance = (float) Math.sqrt(myDistanceSquared);
+            final float myDistance = (float)Math.sqrt(myDistanceSquared);
             final float myDifference = _myRestLength - myDistance;
             if (myDifference > EPSILON || myDifference < -EPSILON) {
                 if (!_myOneWay) {
@@ -152,5 +147,13 @@ public class Stick
                 _myB.position().x += _myRestLength / 2;
             }
         }
+    }
+
+    public boolean active() {
+        return mActive;
+    }
+
+    public void active(boolean theActiveState) {
+        mActive = theActiveState;
     }
 }

@@ -25,6 +25,8 @@ package teilchen.test.particle;
 
 
 import mathematik.Vector3f;
+
+import processing.core.PApplet;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.constraint.Stick;
@@ -33,7 +35,6 @@ import teilchen.force.ViscousDrag;
 import teilchen.integration.Euler;
 import teilchen.integration.Midpoint;
 import teilchen.integration.RungeKutta;
-import processing.core.PApplet;
 
 
 public class TestStickConstraints

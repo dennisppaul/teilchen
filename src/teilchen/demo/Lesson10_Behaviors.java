@@ -24,10 +24,10 @@
 package teilchen.demo;
 
 
+import processing.core.PApplet;
 import teilchen.BehaviorParticle;
 import teilchen.Physics;
 import teilchen.behavior.Arrival;
-import processing.core.PApplet;
 
 
 /**
