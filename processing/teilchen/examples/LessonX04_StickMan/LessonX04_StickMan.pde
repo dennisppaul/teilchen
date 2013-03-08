@@ -1,5 +1,3 @@
-import processing.opengl.*;
-
 import teilchen.Physics;
 import teilchen.force.Attractor;
 import teilchen.force.Gravity;
@@ -8,6 +6,7 @@ import teilchen.force.ViscousDrag;
 import teilchen.integration.RungeKutta;
 import teilchen.util.AntiOverlap;
 import teilchen.util.StickMan;
+
 
 /**
  * this demo shows some advanced use of particles, springs and attractors to create stickmen.
@@ -101,16 +100,16 @@ void draw() {
   for (int i = 0; i < mPhysics.forces().size(); i++) {
     if (mPhysics.forces(i) instanceof Spring) {
       Spring mySpring = (Spring)mPhysics.forces(i);
-      line(mySpring.a().position().x,
-      mySpring.a().position().y,
-      mySpring.b().position().x,
+      line(mySpring.a().position().x, 
+      mySpring.a().position().y, 
+      mySpring.b().position().x, 
       mySpring.b().position().y);
     }
   }
 
   /* draw particles */
   for (int i = 0; i < mPhysics.particles().size(); i++) {
-    ellipse(mPhysics.particles(i).position().x,
+    ellipse(mPhysics.particles(i).position().x, 
     mPhysics.particles(i).position().y, 5, 5);
   }
 

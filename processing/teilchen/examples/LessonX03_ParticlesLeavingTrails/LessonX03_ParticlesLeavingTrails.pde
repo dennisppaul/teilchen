@@ -1,16 +1,20 @@
-import processing.opengl.*;
-
-import java.util.Vector;
-
+import mathematik.Vector3f;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.ShortLivedParticle;
+import teilchen.constraint.Box;
+import teilchen.force.Attractor;
 import teilchen.force.Gravity;
+import teilchen.force.ViscousDrag;
 import teilchen.util.ParticleTrail;
+
+import java.util.Vector;
 
 Physics mPhysics;
 
 Vector<ParticleTrail> mTrails;
+
+Attractor mAttractor;
 
 void setup() {
   size(640, 480, OPENGL);
@@ -23,18 +27,31 @@ void setup() {
   /* create a gravitational force */
   Gravity myGravity = new Gravity();
   mPhysics.add(myGravity);
-  myGravity.force().y = 30;
-  myGravity.force().x = 5;
+  myGravity.force().y = 20;
+
+  /* create drag */
+  ViscousDrag myViscousDrag = new ViscousDrag();
+  myViscousDrag.coefficient = 0.1f;
+  mPhysics.add(myViscousDrag);
+
+  final float mBorder = 40;
+  Box mBox = new Box(new Vector3f(mBorder, mBorder, mBorder), new Vector3f(width - mBorder, height - mBorder, 100 - mBorder));
+  mBox.reflect(true);
+  mPhysics.add(mBox);
+
+  /* create an attractor */
+  mAttractor = new Attractor();
+  mAttractor.radius(200);
+  mAttractor.strength(-300);
+  mPhysics.add(mAttractor);
+
 
   /* create trails and particles */
   mTrails = new Vector<ParticleTrail>();
   for (int i = 0; i < 500; i++) {
     Particle mParticle = mPhysics.makeParticle();
-    mParticle.mass(2.0);
-    ParticleTrail myParticleTrail = new ParticleTrail(mPhysics,
-    mParticle,
-    0.2f,
-    random(0.5f, 1));
+    mParticle.mass(2.0f);
+    ParticleTrail myParticleTrail = new ParticleTrail(mPhysics, mParticle, 0.2f, random(0.5f, 1));
     myParticleTrail.mass(0.5f);
     mTrails.add(myParticleTrail);
   }
@@ -42,24 +59,27 @@ void setup() {
 }
 
 void resetParticles(float x, float y) {
-        for (ParticleTrail myTrails : mTrails) {
-            myTrails.particle().position().set(x + random(-100, 100), y + random(-10, 10), 0);
-            myTrails.particle().velocity().set(random(-10, 10), random(-50, -20), 0);
-            myTrails.fragments().clear();
-        }
+  for (ParticleTrail myTrails : mTrails) {
+    myTrails.particle().position().set(x + random(-10, 10), y + random(-10, 10), 0);
+    myTrails.particle().velocity().set(random(-10, 10), random(-10, 10), random(-10, 10));
+    myTrails.fragments().clear();
+  }
 }
 
 void draw() {
-        for (ParticleTrail myTrails : mTrails) {
-            myTrails.loop(1f / frameRate);
-        }
+  /* set attractor to mouse position */
+  mAttractor.position().set(mouseX, mouseY);
 
-        mPhysics.step(1f / frameRate);
+  for (ParticleTrail myTrails : mTrails) {
+    myTrails.loop(1f / frameRate);
+  }
 
-        background(255);
-        for (ParticleTrail myTrail : mTrails) {
-            drawTrail(myTrail);
-        }
+  mPhysics.step(1f / frameRate);
+
+  background(255);
+  for (ParticleTrail myTrail : mTrails) {
+    drawTrail(myTrail);
+  }
 }
 
 void drawTrail(ParticleTrail theTrail) {
@@ -69,27 +89,39 @@ void drawTrail(ParticleTrail theTrail) {
 
   /* draw head */
   if (mFragments.size() > 1) {
-    stroke(255, 0, 127);
-    line(mFragments.get(mFragments.size() - 1).position().x,
-    mFragments.get(mFragments.size() - 1).position().y,
-    mFragments.get(mFragments.size() - 1).position().z,
-    mParticle.position().x,
-    mParticle.position().y,
+    fill(255, 0, 127);
+    noStroke();
+    pushMatrix();
+    translate(mParticle.position().x, 
+    mParticle.position().y, 
     mParticle.position().z);
+    sphereDetail(4);
+    sphere(3);
+    popMatrix();
   }
 
   /* draw trail */
   for (int i = 0; i < mFragments.size() - 1; i++) {
     if (mFragments.get(i) instanceof ShortLivedParticle) {
-      final float mRatio = 1.0 - ((ShortLivedParticle)mFragments.get(i)).ageRatio();
+      final float mRatio = 1.0f - ((ShortLivedParticle)mFragments.get(i)).ageRatio();
       stroke(127, mRatio * 255);
+      strokeWeight(mRatio * 3);
     }
-    line(mFragments.get(i).position().x,
-    mFragments.get(i).position().y,
-    mFragments.get(i).position().z,
-    mFragments.get(i + 1).position().x,
-    mFragments.get(i + 1).position().y,
-    mFragments.get(i + 1).position().z);
+    int j = (i + 1) % mFragments.size();
+    line(mFragments.get(i).position().x, 
+    mFragments.get(i).position().y, 
+    mFragments.get(i).position().z, 
+    mFragments.get(j).position().x, 
+    mFragments.get(j).position().y, 
+    mFragments.get(j).position().z);
+  }
+  if (!mFragments.isEmpty()) {
+    line(mFragments.lastElement().position().x, 
+    mFragments.lastElement().position().y, 
+    mFragments.lastElement().position().z, 
+    mParticle.position().x, 
+    mParticle.position().y, 
+    mParticle.position().z);
   }
 }
 
