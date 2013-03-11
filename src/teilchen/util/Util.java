@@ -24,8 +24,6 @@
 package teilchen.util;
 
 
-import java.util.Vector;
-
 import mathematik.Vector3f;
 
 import teilchen.Particle;
@@ -34,11 +32,12 @@ import teilchen.force.IForce;
 import teilchen.force.TriangleDeflector;
 import teilchen.force.TriangleDeflectorIndexed;
 
+import java.util.Vector;
+
 
 public class Util {
 
     public final static void satisfyNeighborConstraints(final Vector<Particle> theParticles, final float theRelaxedness) {
-        /* this is a very nice way of test all against all. */
         for (int i = 0; i < theParticles.size(); i++) {
             final Particle p1 = theParticles.get(i);
             for (int j = i + 1; j < theParticles.size(); j++) {
@@ -49,7 +48,7 @@ public class Util {
                     p2.position().x -= 0.01f;
                     continue;
                 }
-                /* recover ill positions */
+                /* recover bad positions */
                 if (p1.position().isNaN()) {
                     p1.position().set(p1.old_position());
                 }
@@ -57,7 +56,7 @@ public class Util {
                     p2.position().set(p2.old_position());
                 }
                 final float myDistance = p1.position().distance(p2.position());
-                /* skipt on bad values */
+                /* skip bad values */
                 if (myDistance == 0.0f || Float.isNaN(myDistance)) {
                     continue;
                 }
@@ -79,6 +78,7 @@ public class Util {
 
     private static final Vector3f TMP_TANGENT = new Vector3f();
 
+
     public final static void reflectVelocity(final Particle theParticle,
                                              final Vector3f theNormal,
                                              float theCoefficientOfRestitution) {
@@ -99,6 +99,7 @@ public class Util {
         }
     }
 
+
     public final static void reflect(final Vector3f theVector, final Vector3f theNormal, final float theCoefficientOfRestitution) {
         final Vector3f myNormalComponent = new Vector3f();
         final Vector3f myTangentComponent = new Vector3f();
@@ -114,6 +115,7 @@ public class Util {
         theVector.add(myTangentComponent, myNormalComponent);
     }
 
+
     public final static void reflect(final Vector3f theVector, final Vector3f theNormal) {
         /* normal */
         TMP_NORMAL.set(theNormal);
@@ -125,6 +127,7 @@ public class Util {
         /* set reflection vector */
         theVector.add(TMP_TANGENT, TMP_NORMAL);
     }
+
 
     public static final Vector<IForce> createTriangleDeflectors(final float[] theVertices,
                                                                 final float theCoefficientOfRestitution) {
@@ -146,6 +149,7 @@ public class Util {
         }
         return myDeflectors;
     }
+
 
     public static final Vector<IForce> createTriangleDeflectorsIndexed(final float[] theVertices,
                                                                        final float theCoefficientOfRestitution) {

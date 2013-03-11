@@ -26,6 +26,7 @@ package teilchen.demo;
 
 import mathematik.Vector3f;
 
+import processing.core.PApplet;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.constraint.IConstraint;
@@ -33,7 +34,6 @@ import teilchen.constraint.Stick;
 import teilchen.force.Attractor;
 import teilchen.force.Gravity;
 import teilchen.integration.Verlet;
-import processing.core.PApplet;
 
 
 public class Lesson09_Cloth
@@ -48,6 +48,7 @@ public class Lesson09_Cloth
     private final int GRID_HEIGHT = 16;
 
     private Attractor mAttractor;
+
 
     public void setup() {
         size(640, 480, OPENGL);
@@ -75,8 +76,8 @@ public class Lesson09_Cloth
             for (int x = 0; x < GRID_WIDTH; x++) {
                 mParticles[x][y] = mPhysics.makeParticle();
                 mParticles[x][y].position().set((x + 0.5f) * mGridStepX,
-                                                  y * mGridStepY,
-                                                  random(0, 1));
+                                                y * mGridStepY,
+                                                random(0, 1));
                 mParticles[x][y].old_position().set(mParticles[x][y].position());
                 mParticles[x][y].mass(0.1f);
 
@@ -114,6 +115,7 @@ public class Lesson09_Cloth
         }
     }
 
+
     public void draw() {
 
         /* update */
@@ -137,8 +139,8 @@ public class Lesson09_Cloth
         }
     }
 
+
     public static void main(String[] args) {
         PApplet.main(new String[] {Lesson09_Cloth.class.getName()});
     }
 }
-

@@ -31,7 +31,7 @@ import teilchen.force.Gravity;
 import teilchen.force.Spring;
 import teilchen.force.ViscousDrag;
 import teilchen.integration.RungeKutta;
-import teilchen.util.AntiOverlap;
+import teilchen.util.Overlap;
 import teilchen.util.StickMan;
 
 
@@ -83,7 +83,7 @@ public class LessonX04_StickMan
     public void draw() {
 
         mPhysics.step(1f / 60f);
-        AntiOverlap.remove(mPhysics.particles());
+        Overlap.resolveOverlap(mPhysics.particles());
 
         /* constraint particles */
         for (int i = 0; i < mPhysics.particles().size(); i++) {

@@ -24,16 +24,21 @@
 package teilchen.demo;
 
 
+import mathematik.Vector3f;
+
 import processing.core.PApplet;
 import teilchen.Particle;
 import teilchen.Physics;
+import teilchen.force.Gravity;
 import teilchen.force.Spring;
-import teilchen.util.AntiOverlap;
+import teilchen.force.ViscousDrag;
+import teilchen.util.Overlap;
+import teilchen.util.Packing;
 
 
 /**
  * this sketch is exactly like Lesson06_Springs, except that it also shows how
- * to remove overlaps.
+ * to resolveOverlap overlaps.
  */
 public class LessonX01_Overlap
         extends PApplet {
@@ -42,7 +47,8 @@ public class LessonX01_Overlap
 
     private Particle mRoot;
 
-    private static final float PARTICLE_RADIUS = 6;
+    private static final float PARTICLE_RADIUS = 13;
+
 
     public void setup() {
         size(640, 480, OPENGL);
@@ -50,26 +56,37 @@ public class LessonX01_Overlap
         frameRate(30);
 
         mPhysics = new Physics();
+
+        /* create drag */
+        mPhysics.add(new ViscousDrag());
+        mPhysics.add(new Gravity(new Vector3f(0, 100f, 0)));
+
+
         mRoot = mPhysics.makeParticle(width / 2, height / 2, 0.0f);
         mRoot.mass(30);
+        mRoot.fixed(true);
+        mRoot.radius(PARTICLE_RADIUS);
     }
+
 
     public void draw() {
         if (mousePressed) {
             Particle mParticle = mPhysics.makeParticle(mouseX, mouseY, 0);
-            Spring mSpring = mPhysics.makeSpring(mRoot, mParticle);
-            float mRestlength = mSpring.restlength();
-            mSpring.restlength(mRestlength * 1.5f);
+            mPhysics.makeSpring(mRoot, mParticle);
 
             /*
              * we define a radius for the particle so the particle has
              * dimensions
              */
-            mParticle.radius(PARTICLE_RADIUS);
+            mParticle.radius(random(PARTICLE_RADIUS / 2) + PARTICLE_RADIUS);
         }
 
+
         /* move overlapping particles away from each other */
-        AntiOverlap.remove(mPhysics.particles());
+        for (int i = 0; i < 10; i++) {
+            mRoot.position().set(width / 2, height / 2, 0.0f); // a bit of a 'hack'
+            Overlap.resolveOverlap(mPhysics.particles());
+        }
 
         /* update the particle system */
         final float mDeltaTime = 1.0f / frameRate;
@@ -89,14 +106,16 @@ public class LessonX01_Overlap
             }
         }
         /* draw particles */
-        fill(245);
+        fill(255, 127);
         stroke(164);
         for (int i = 0; i < mPhysics.particles().size(); i++) {
             ellipse(mPhysics.particles().get(i).position().x,
                     mPhysics.particles().get(i).position().y,
-                    PARTICLE_RADIUS * 2, PARTICLE_RADIUS * 2);
+                    mPhysics.particles().get(i).radius() * 2,
+                    mPhysics.particles().get(i).radius() * 2);
         }
     }
+
 
     public static void main(String[] args) {
         PApplet.main(new String[] {LessonX01_Overlap.class.getName()});

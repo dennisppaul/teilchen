@@ -24,19 +24,18 @@
 package teilchen.util;
 
 
-import java.util.List;
-
 import mathematik.Vector3f;
 
+import java.util.List;
 
-public class AntiOverlap {
 
-    private static final Vector3f _myVectorBetweenEntities = new Vector3f();
+public class Overlap {
 
-    public static final Vector3f RESOLVE_SAME_PLACE = new Vector3f(1, 0, 0);
+    public static Vector3f RESOLVE_SAME_PLACE = new Vector3f(1, 0, 0);
 
-    public static<E extends Overlapper>void remove(E theEntityA,
-                                                   E theEntityB) {
+
+    public static <E extends SpatialEntity> void resolveOverlap(E theEntityA,
+                                                                E theEntityB) {
         if (theEntityB == theEntityA) {
             return;
         }
@@ -45,17 +44,16 @@ public class AntiOverlap {
             return;
         }
 
-        _myVectorBetweenEntities.sub(theEntityA.position(), theEntityB.position());
-
-        float myDistance = _myVectorBetweenEntities.length();
+        final Vector3f mAB = mathematik.Util.sub(theEntityA.position(), theEntityB.position());
+        final float myDistance = mAB.length();
 
         if (myDistance > 0) {
             float myOverlap = theEntityB.radius() + theEntityA.radius() - myDistance;
 
             if (myOverlap > 0) {
-                _myVectorBetweenEntities.scale(0.5f * myOverlap / myDistance);
-                theEntityA.position().add(_myVectorBetweenEntities);
-                theEntityB.position().sub(_myVectorBetweenEntities);
+                mAB.scale(0.5f * myOverlap / myDistance);
+                theEntityA.position().add(mAB);
+                theEntityB.position().sub(mAB);
             }
         } else {
             if (RESOLVE_SAME_PLACE != null) {
@@ -69,34 +67,31 @@ public class AntiOverlap {
     }
 
 
-    public static<E extends Overlapper>void remove(E theEntity,
-                                                   E[] theEntities) {
-
+    public static <E extends SpatialEntity> void resolveOverlap(E theEntity,
+                                                                E[] theEntities) {
         if (theEntities == null || theEntities.length < 1) {
             return;
         }
 
         for (int i = 0; i < theEntities.length; i++) {
-            remove(theEntities[i], theEntity);
+            resolveOverlap(theEntities[i], theEntity);
         }
     }
 
 
-    public static<E extends Overlapper>void remove(E theEntity,
-                                                   List<E> theEntities) {
-
+    public static <E extends SpatialEntity> void resolveOverlap(E theEntity,
+                                                                List<E> theEntities) {
         if (theEntities == null || theEntities.size() < 1) {
             return;
         }
 
         for (int i = 0; i < theEntities.size(); i++) {
-            remove(theEntities.get(i), theEntity);
+            resolveOverlap(theEntities.get(i), theEntity);
         }
     }
 
 
-    public static<E extends Overlapper>void remove(List<E> theEntities) {
-
+    public static <E extends SpatialEntity> void resolveOverlap(List<E> theEntities) {
         if (theEntities == null || theEntities.isEmpty()) {
             return;
         }
@@ -107,17 +102,9 @@ public class AntiOverlap {
                 if (i == j) {
                     continue;
                 }
-                final Overlapper myOtherEntity = theEntities.get(j);
-                remove(theEntities.get(i), myOtherEntity);
+//                final SpatialEntity myOtherEntity = theEntities.get(j);
+                resolveOverlap(theEntities.get(i), theEntities.get(j));
             }
         }
-    }
-
-
-    public interface Overlapper {
-        float radius();
-
-
-        Vector3f position();
     }
 }

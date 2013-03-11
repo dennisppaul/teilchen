@@ -21,70 +21,16 @@
  */
 
 
-package teilchen;
+package teilchen.util;
 
 
 import mathematik.Vector3f;
 
-import teilchen.util.SpatialEntity;
 
-
-public interface Particle
-        extends SpatialEntity {
-
-    boolean fixed();
-
-
-    void fixed(boolean theFixed);
-
-
-    float age();
-
-
-    void age(float theAge);
-
-
-    float mass();
-
-
-    void mass(float theMass);
-
-
-    Vector3f position();
-
-
-    Vector3f old_position();
-
-
-    void setPositionRef(Vector3f thePosition);
-
-
-    Vector3f velocity();
-
-
-    Vector3f force();
-
-
-    boolean dead();
-
-
-    boolean tagged();
-
-
-    void tag(boolean theTag);
-
-
-    void accumulateInnerForce(final float theDeltaTime);
-
+public interface SpatialEntity {
 
     float radius();
 
 
-    void radius(float theRadius);
-
-
-    boolean still();
-
-
-    void still(boolean theStill);
+    Vector3f position();
 }
