@@ -27,26 +27,31 @@ package teilchen.util;
 import mathematik.TransformMatrix4f;
 import mathematik.Vector3f;
 
+import processing.core.PApplet;
 import teilchen.cubicle.CubicleAtom;
 import teilchen.cubicle.CubicleWorld;
-import processing.core.PApplet;
 
 
 public class P5CubicleWorldView {
 
-    private final CubicleWorld _myWorld;
+    private final CubicleWorld mCubicleWorld;
+
+    public int color_full = -1;
+
+    public int color_empty = -8421505;
+
 
     public P5CubicleWorldView(CubicleWorld theWorld) {
-        _myWorld = theWorld;
+        mCubicleWorld = theWorld;
     }
 
 
     public void draw(PApplet theParent) {
 
         /* collect data */
-        final CubicleAtom[][][] myData = _myWorld.getDataRef();
-        final TransformMatrix4f myTransform = _myWorld.transform();
-        final Vector3f myScale = _myWorld.cellscale();
+        final CubicleAtom[][][] myData = mCubicleWorld.getDataRef();
+        final TransformMatrix4f myTransform = mCubicleWorld.transform();
+        final Vector3f myScale = mCubicleWorld.cellscale();
 
         /* draw world */
         theParent.pushMatrix();
@@ -67,10 +72,13 @@ public class P5CubicleWorldView {
                     CubicleAtom myCubicle = myData[x][y][z];
                     theParent.pushMatrix();
                     theParent.translate(x, y, z);
+                    theParent.translate(mCubicleWorld.cellscale().x / 2 / myScale.x,
+                                        mCubicleWorld.cellscale().y / 2 / myScale.y,
+                                        mCubicleWorld.cellscale().z / 2 / myScale.z);
                     if (myCubicle.size() > 0) {
-                        theParent.stroke(255, 128, 0, 200);
+                        theParent.stroke(color_full);
                     } else {
-                        theParent.stroke(255, 255, 255, 127);
+                        theParent.stroke(color_empty);
                     }
                     theParent.box(1);
                     theParent.popMatrix();
