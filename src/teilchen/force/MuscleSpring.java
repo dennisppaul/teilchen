@@ -31,21 +31,21 @@ import teilchen.Physics;
 public class MuscleSpring
     extends Spring {
 
-    private float _myAmplitude = 1;
+    private float mAmplitude = 1;
 
-    private float _myOffset = 0;
+    private float mOffset = 0;
 
-    private float _myFrequency = 1;
+    private float mFrequency = 1;
 
-    private float _myInitialRestLength;
+    private float mInitialRestLength;
 
-    private float _myCurrentTime;
+    private float mCurrentTime;
 
-    private boolean _myAutomaticContraction = true;
+    private boolean mAutomaticContraction = true;
 
     public MuscleSpring(Particle theA, Particle theB) {
         super(theA, theB);
-        _myInitialRestLength = _myRestLength;
+        mInitialRestLength = mRestLength;
     }
 
 
@@ -59,42 +59,42 @@ public class MuscleSpring
               theSpringConstant,
               theSpringDamping,
               theRestLength);
-        _myInitialRestLength = _myRestLength;
+        mInitialRestLength = mRestLength;
     }
 
 
     public void setRestLengthByPosition() {
-        _myInitialRestLength = _myA.position().distance(_myB.position());
+        mInitialRestLength = mA.position().distance(mB.position());
     }
 
 
     public float restlength() {
-        return _myInitialRestLength;
+        return mInitialRestLength;
     }
 
 
     public void restlength(float theRestLength) {
-        _myInitialRestLength = theRestLength;
+        mInitialRestLength = theRestLength;
     }
 
 
     public void frequency(final float theFrequency) {
-        _myFrequency = theFrequency;
+        mFrequency = theFrequency;
     }
 
 
     public float frequency() {
-        return _myFrequency;
+        return mFrequency;
     }
 
 
     public void amplitude(final float theAmplitude) {
-        _myAmplitude = theAmplitude;
+        mAmplitude = theAmplitude;
     }
 
 
     public float amplitude() {
-        return _myAmplitude;
+        return mAmplitude;
     }
 
 
@@ -103,22 +103,22 @@ public class MuscleSpring
      * @param theOffset float
      */
     public void offset(final float theOffset) {
-        _myOffset = theOffset;
+        mOffset = theOffset;
     }
 
 
     public float offset() {
-        return _myOffset;
+        return mOffset;
     }
 
 
     public void apply(final float theDeltaTime, final Physics theParticleSystem) {
 
-        if (_myAutomaticContraction) {
-            _myCurrentTime += theDeltaTime;
+        if (mAutomaticContraction) {
+            mCurrentTime += theDeltaTime;
 
-            final float myOffset = (float) Math.sin(_myCurrentTime * _myFrequency + _myOffset) * _myAmplitude;
-            _myRestLength = _myInitialRestLength + myOffset;
+            final float myOffset = (float) Math.sin(mCurrentTime * mFrequency + mOffset) * mAmplitude;
+            mRestLength = mInitialRestLength + myOffset;
         }
 
         super.apply(theDeltaTime, theParticleSystem);

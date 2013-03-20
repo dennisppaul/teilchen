@@ -26,8 +26,6 @@
  * if the velocity sampler is enabled the velocity will averaged
  * to avoid jerky turning.
  */
-
-
 package verhalten;
 
 
@@ -38,7 +36,6 @@ import mathematik.Vector3f;
 /**
  * @deprecated PORTED TO MATHEMATIK
  */
-
 public class Rotation {
 
     private Vector3f[] _myVelocitySampler;
@@ -56,6 +53,7 @@ public class Rotation {
     private final Vector3f _myTempSideVector;
 
     private final Vector3f _myTempForwardVector;
+
 
     public Rotation() {
         this(1);
@@ -96,7 +94,7 @@ public class Rotation {
         _myVelocitySampler[_myVelocitySamplerPosition].set(theVelocity);
         _myAverageVelocity.add(theVelocity);
         _myCurrentAverageVelocity.set(_myAverageVelocity);
-        _myCurrentAverageVelocity.scale(1.0f / (float) _myVelocitySampler.length);
+        _myCurrentAverageVelocity.scale(1.0f / (float)_myVelocitySampler.length);
     }
 
 
@@ -123,8 +121,8 @@ public class Rotation {
 
     public void setUpVectorByAngle(final float roll) {
         // this is not thought out...
-        _myUpVector.x = (float) Math.sin(roll);
-        _myUpVector.z = - (float) Math.cos(roll);
+        _myUpVector.x = (float)Math.sin(roll);
+        _myUpVector.z = -(float)Math.cos(roll);
         _myUpVector.y = 0;
     }
 

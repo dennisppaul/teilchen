@@ -36,6 +36,9 @@ import java.util.Vector;
 import mathematik.Vector3f;
 
 
+/**
+ * @deprecated 
+ */
 public class Separation
     implements IVerhaltenBehavior, Verhalten, Serializable {
 
@@ -61,7 +64,7 @@ public class Separation
 
     public void get(final IVerhaltenEntity[] theNeighbors,
                     final Vector3f thePosition,
-                    Vector3f theDirection) {
+                    final Vector3f theDirection) {
 
         float[] myDistanceToNeighbors = new float[theNeighbors.length];
         float minDistanceToNeighbors = _myPrivacyRadius;

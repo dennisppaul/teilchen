@@ -23,6 +23,7 @@
 
 package teilchen;
 
+
 import mathematik.Vector3f;
 
 import teilchen.constraint.IConstraint;
@@ -40,13 +41,13 @@ import java.util.Vector;
 
 public class Physics {
 
-    private final Vector<Particle> _myParticles;
+    private final Vector<Particle> mParticles;
 
     private final Vector<IForce> mForces;
 
-    private final Vector<IConstraint> _myConstraints;
+    private final Vector<IConstraint> mConstraints;
 
-    private IIntegrator _myIntegrator;
+    private IIntegrator mIntegrator;
 
     private static final float EPSILON = 0.001f;
 
@@ -60,44 +61,52 @@ public class Physics {
 
     public static boolean HINT_UPDATE_OLD_POSITION = false;
 
+
     public Physics() {
-        _myParticles = new Vector<Particle>();
+        mParticles = new Vector<Particle>();
         mForces = new Vector<IForce>();
-        _myConstraints = new Vector<IConstraint>();
-        _myIntegrator = new Midpoint();
+        mConstraints = new Vector<IConstraint>();
+        mIntegrator = new Midpoint();
     }
 
 
     /* particles */
     public void add(Particle theParticle) {
-        _myParticles.add(theParticle);
+        mParticles.add(theParticle);
     }
+
 
     public void add(Collection<Particle> theParticles) {
-        _myParticles.addAll(theParticles);
+        mParticles.addAll(theParticles);
     }
+
 
     public void remove(Particle theParticle) {
-        _myParticles.remove(theParticle);
+        mParticles.remove(theParticle);
     }
+
 
     public void remove(Collection<Particle> theParticles) {
-        _myParticles.removeAll(theParticles);
+        mParticles.removeAll(theParticles);
     }
+
 
     public Vector<Particle> particles() {
-        return _myParticles;
+        return mParticles;
     }
 
+
     public Particle particles(final int theIndex) {
-        return _myParticles.get(theIndex);
+        return mParticles.get(theIndex);
     }
+
 
     public BasicParticle makeParticle() {
         BasicParticle myParticle = new BasicParticle();
-        _myParticles.add(myParticle);
+        mParticles.add(myParticle);
         return myParticle;
     }
+
 
     public BasicParticle makeParticle(final Vector3f thePosition) {
         BasicParticle myParticle = makeParticle();
@@ -106,6 +115,7 @@ public class Physics {
         return myParticle;
     }
 
+
     public BasicParticle makeParticle(final float x, final float y) {
         BasicParticle myParticle = makeParticle();
         myParticle.position().set(x, y);
@@ -113,12 +123,14 @@ public class Physics {
         return myParticle;
     }
 
+
     public BasicParticle makeParticle(final float x, final float y, final float z) {
         BasicParticle myParticle = makeParticle();
         myParticle.position().set(x, y, z);
         myParticle.old_position().set(myParticle.position());
         return myParticle;
     }
+
 
     public BasicParticle makeParticle(final float x, final float y, final float z, final float pMass) {
         BasicParticle myParticle = makeParticle();
@@ -128,6 +140,7 @@ public class Physics {
         return myParticle;
     }
 
+
     public BasicParticle makeParticle(final Vector3f thePosition, final float pMass) {
         BasicParticle myParticle = makeParticle();
         myParticle.setPositionRef(thePosition);
@@ -136,11 +149,12 @@ public class Physics {
         return myParticle;
     }
 
+
     public <T extends Particle> T makeParticle(Class<T> theParticleClass) {
         T myParticle;
         try {
             myParticle = theParticleClass.newInstance();
-            _myParticles.add(myParticle);
+            mParticles.add(myParticle);
         } catch (Exception ex) {
             System.err.println(ex);
             myParticle = null;
@@ -148,8 +162,9 @@ public class Physics {
         return myParticle;
     }
 
+
     public void removeTags() {
-        for (final Particle myParticle : _myParticles) {
+        for (final Particle myParticle : mParticles) {
             myParticle.tag(false);
         }
     }
@@ -157,33 +172,38 @@ public class Physics {
 
     /* forces */
     public void add(IForce theForce) {
-        if (theForce instanceof ViscousDrag && _myIntegrator instanceof Verlet) {
+        if (theForce instanceof ViscousDrag && mIntegrator instanceof Verlet) {
             System.err.println(
                     "### WARNING / 'viscous drag' might have no effect with 'verlet' integration. use 'Verlet.damping(float theDamping)' instead.");
         }
         mForces.add(theForce);
     }
 
+
     public void addForces(final Vector<IForce> theForces) {
         mForces.addAll(theForces);
     }
+
 
     public void remove(IForce theForce) {
         mForces.remove(theForce);
     }
 
+
     public Vector<IForce> forces() {
         return mForces;
     }
+
 
     public IForce forces(final int theIndex) {
         return mForces.get(theIndex);
     }
 
+
     public void applyForces(final float theDeltaTime) {
         /* accumulate inner forces */
-        synchronized (_myParticles) {
-            final Iterator<Particle> iter = _myParticles.iterator();
+        synchronized (mParticles) {
+            final Iterator<Particle> iter = mParticles.iterator();
             while (iter.hasNext()) {
                 final Particle myParticle = iter.next();
                 if (!myParticle.fixed()) {
@@ -197,13 +217,14 @@ public class Physics {
         synchronized (mForces) {
             Iterator<IForce> iter = mForces.iterator();
             while (iter.hasNext()) {
-                IForce myForce = iter.next();
-                if (myForce.active()) {
-                    myForce.apply(theDeltaTime, this);
+                final IForce mForce = iter.next();
+                if (mForce.active()) {
+                    mForce.apply(theDeltaTime, this);
                 }
             }
         }
     }
+
 
     public <T extends IForce> T makeForce(Class<T> theForceClass) {
         T myForce;
@@ -217,11 +238,13 @@ public class Physics {
         return myForce;
     }
 
+
     public Spring makeSpring(final Particle theA, final Particle theB) {
         Spring mySpring = new Spring(theA, theB);
         mForces.add(mySpring);
         return mySpring;
     }
+
 
     public Spring makeSpring(final Particle theA,
                              final Particle theB,
@@ -231,6 +254,7 @@ public class Physics {
         return mySpring;
     }
 
+
     public Spring makeSpring(final Particle theA,
                              final Particle theB,
                              final float theSpringConstant,
@@ -239,6 +263,7 @@ public class Physics {
         mForces.add(mySpring);
         return mySpring;
     }
+
 
     public Spring makeSpring(final Particle theA,
                              final Particle theB,
@@ -253,40 +278,47 @@ public class Physics {
 
     /* constraints */
     public void add(final IConstraint theConstraint) {
-        _myConstraints.add(theConstraint);
+        mConstraints.add(theConstraint);
     }
+
 
     public void addConstraints(final Vector<IConstraint> theConstraints) {
-        _myConstraints.addAll(theConstraints);
+        mConstraints.addAll(theConstraints);
     }
+
 
     public void remove(final IConstraint theConstraint) {
-        _myConstraints.remove(theConstraint);
+        mConstraints.remove(theConstraint);
     }
+
 
     public Vector<IConstraint> constraints() {
-        return _myConstraints;
+        return mConstraints;
     }
 
+
     public IConstraint constraints(final int theIndex) {
-        return _myConstraints.get(theIndex);
+        return mConstraints.get(theIndex);
     }
 
 
     /* integration */
     public void setInegratorRef(IIntegrator theIntegrator) {
-        _myIntegrator = theIntegrator;
+        mIntegrator = theIntegrator;
     }
 
+
     public IIntegrator getIntegrator() {
-        return _myIntegrator;
+        return mIntegrator;
     }
+
 
     public void loop(final float theDeltaTime, final int theIterations) {
         for (int i = 0; i < theIterations; i++) {
             step(theDeltaTime / (float)theIterations);
         }
     }
+
 
     public void step(final float theDeltaTime) {
         /* handle forces */
@@ -302,9 +334,11 @@ public class Physics {
         handleContraints();
     }
 
+
     protected synchronized void integrate(float theDeltaTime) {
-        _myIntegrator.step(theDeltaTime, this);
+        mIntegrator.step(theDeltaTime, this);
     }
+
 
     protected synchronized void handleForces() {
         synchronized (mForces) {
@@ -318,10 +352,11 @@ public class Physics {
         }
     }
 
+
     protected synchronized void handleContraints() {
-        synchronized (_myConstraints) {
+        synchronized (mConstraints) {
             for (int i = 0; i < contraint_iterations_per_steps; i++) {
-                final Iterator<IConstraint> iter = _myConstraints.iterator();
+                final Iterator<IConstraint> iter = mConstraints.iterator();
                 while (iter.hasNext()) {
                     final IConstraint myContraint = iter.next();
                     myContraint.apply(this);
@@ -330,9 +365,10 @@ public class Physics {
         }
     }
 
+
     protected synchronized void handleParticles(float theDeltaTime) {
-        synchronized (_myParticles) {
-            final Iterator<Particle> iter = _myParticles.iterator();
+        synchronized (mParticles) {
+            final Iterator<Particle> iter = mParticles.iterator();
             while (iter.hasNext()) {
                 final Particle myParticle = iter.next();
                 /* clear force */

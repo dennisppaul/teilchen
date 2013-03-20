@@ -26,6 +26,7 @@ package teilchen.util;
 
 import mathematik.Vector3f;
 
+import processing.core.PMatrix3D;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.force.IForce;
@@ -165,5 +166,41 @@ public class Util {
             myDeflectors.add(myTriangleDeflector);
         }
         return myDeflectors;
+    }
+
+
+    public static void pointAt(final PMatrix3D pResult,
+                               final Vector3f pPosition,
+                               final Vector3f pUpVector, /* should be normalized */
+                               final Vector3f pPointAtPosition) {
+
+        /* forward */
+        final Vector3f mForwardVector = mathematik.Util.sub(pPosition, pPointAtPosition);
+        mForwardVector.normalize();
+
+        /* side */
+        final Vector3f mSideVector = mathematik.Util.cross(pUpVector, mForwardVector);
+        mSideVector.normalize();
+
+        /* up */
+        final Vector3f mUpVector = mathematik.Util.cross(mForwardVector, mSideVector);
+        mUpVector.normalize();
+
+        if (!mSideVector.isNaN()
+                && !mUpVector.isNaN()
+                && !mForwardVector.isNaN()) {
+            /* x */
+            pResult.m00 = mSideVector.x;
+            pResult.m10 = mSideVector.y;
+            pResult.m20 = mSideVector.z;
+            /* y */
+            pResult.m01 = mUpVector.x;
+            pResult.m11 = mUpVector.y;
+            pResult.m21 = mUpVector.z;
+            /* z */
+            pResult.m02 = mForwardVector.x;
+            pResult.m12 = mForwardVector.y;
+            pResult.m22 = mForwardVector.z;
+        }
     }
 }

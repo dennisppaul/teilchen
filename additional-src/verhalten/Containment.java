@@ -45,6 +45,9 @@ import mathematik.Vector3f;
  */
 
 
+/**
+ * @deprecated 
+ */
 public class Containment
     implements Verhalten {
 

@@ -31,19 +31,19 @@ public class Seek
 
     static final long serialVersionUID = -3781170603537691477L;
 
-    private Vector3f _mySeekPosition;
+    private Vector3f mSeekPosition;
 
-    private Vector3f _myForce;
+    private Vector3f mForce;
 
-    private float _myWeight = 1;
+    private float mWeight = 1;
 
-    private float _myDistanceToPoint;
+    private float mDistanceToPoint;
 
     private boolean mOverSteer;
 
     public Seek() {
-        _mySeekPosition = new Vector3f();
-        _myForce = new Vector3f();
+        mSeekPosition = new Vector3f();
+        mForce = new Vector3f();
         mOverSteer = false;
     }
 
@@ -56,40 +56,40 @@ public class Seek
     }
 
     public Vector3f position() {
-        return _mySeekPosition;
+        return mSeekPosition;
     }
 
     public void setPositionRef(final Vector3f thePoint) {
-        _mySeekPosition = thePoint;
+        mSeekPosition = thePoint;
     }
 
     public float distancetopoint() {
-        return _myDistanceToPoint;
+        return mDistanceToPoint;
     }
 
     public void update(float theDeltaTime, IBehaviorParticle theParent) {
-        _myForce.sub(_mySeekPosition, theParent.position());
-        _myDistanceToPoint = _myForce.length();
-        if (_myDistanceToPoint > SMALLEST_ACCEPTABLE_DISTANCE) {
-            _myForce.scale(theParent.maximumInnerForce() / _myDistanceToPoint);
+        mForce.sub(mSeekPosition, theParent.position());
+        mDistanceToPoint = mForce.length();
+        if (mDistanceToPoint > SMALLEST_ACCEPTABLE_DISTANCE) {
+            mForce.scale(theParent.maximumInnerForce() / mDistanceToPoint);
             if (mOverSteer) {
-                _myForce.sub(_myForce, theParent.velocity());
+                mForce.sub(mForce, theParent.velocity());
             }
-            _myForce.scale(weight());
+            mForce.scale(weight());
         } else {
-            _myForce.set(0, 0, 0);
+            mForce.set(0, 0, 0);
         }
     }
 
     public Vector3f force() {
-        return _myForce;
+        return mForce;
     }
 
     public float weight() {
-        return _myWeight;
+        return mWeight;
     }
 
     public void weight(float theWeight) {
-        _myWeight = theWeight;
+        mWeight = theWeight;
     }
 }

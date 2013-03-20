@@ -23,6 +23,7 @@
 
 package teilchen.constraint;
 
+
 import mathematik.Vector3f;
 import teilchen.Particle;
 import teilchen.Physics;
@@ -37,22 +38,27 @@ public class Teleporter
 
     private final Vector3f mMax;
 
+
     public Teleporter() {
         this(new Vector3f(), new Vector3f());
     }
+
 
     public Teleporter(final Vector3f pMin, final Vector3f pMax) {
         mMin = new Vector3f(pMin);
         mMax = new Vector3f(pMax);
     }
 
+
     public Vector3f max() {
         return mMax;
     }
 
+
     public Vector3f min() {
         return mMin;
     }
+
 
     public void apply(Physics theParticleSystem) {
         if (!mActive) {
@@ -61,29 +67,31 @@ public class Teleporter
 
         for (final Particle mParticle : theParticleSystem.particles()) {
             if (mParticle.position().x > mMax.x) {
-                mParticle.position().x = mMin.x;
+                mParticle.position().x -= Math.abs(mMax.x - mMin.x);
             }
             if (mParticle.position().y > mMax.y) {
-                mParticle.position().y = mMin.y;
+                mParticle.position().y -= Math.abs(mMax.y - mMin.y);
             }
             if (mParticle.position().z > mMax.z) {
-                mParticle.position().z = mMin.z;
+                mParticle.position().z -= Math.abs(mMax.z - mMin.z);
             }
             if (mParticle.position().x < mMin.x) {
-                mParticle.position().x = mMax.x;
+                mParticle.position().x += Math.abs(mMax.x - mMin.x);
             }
             if (mParticle.position().y < mMin.y) {
-                mParticle.position().y = mMax.y;
+                mParticle.position().y += Math.abs(mMax.y - mMin.y);
             }
             if (mParticle.position().z < mMin.z) {
-                mParticle.position().z = mMax.z;
+                mParticle.position().z += Math.abs(mMax.z - mMin.z);
             }
         }
     }
 
+
     public boolean active() {
         return mActive;
     }
+
 
     public void active(boolean theActiveState) {
         mActive = theActiveState;

@@ -30,7 +30,8 @@ import mathematik.Vector3i;
 import processing.core.PApplet;
 import teilchen.cubicle.CubicleWorld;
 import teilchen.cubicle.ICubicleEntity;
-import teilchen.util.P5CubicleWorldView;
+import teilchen.util.CubicleWorldView;
+import teilchen.util.DrawLib;
 
 import java.util.Vector;
 
@@ -38,11 +39,11 @@ import java.util.Vector;
 public class LessonX07_CubicleWorld
         extends PApplet {
 
-    private final int NUMBER_OF_PARTICLES_ADDED = 100;
-
     private final int WORLD_NUMBER_OF_CUBICLES = 15;
 
     private final float WORLD_CUBICLE_SCALE = 20;
+
+    private final float WORLD_SCALE = WORLD_NUMBER_OF_CUBICLES * WORLD_CUBICLE_SCALE;
 
     private boolean showCubicles = true;
 
@@ -50,11 +51,9 @@ public class LessonX07_CubicleWorld
 
     private Vector3f mPosition = new Vector3f();
 
-    private int numParticles = 1;
-
     private CubicleWorld mCubicleWorld;
 
-    private P5CubicleWorldView mCubicleWorldView;
+    private CubicleWorldView mCubicleWorldView;
 
 
     public void setup() {
@@ -66,11 +65,9 @@ public class LessonX07_CubicleWorld
         /* setup world */
         mCubicleWorld = new CubicleWorld(WORLD_NUMBER_OF_CUBICLES, WORLD_NUMBER_OF_CUBICLES, WORLD_NUMBER_OF_CUBICLES);
         mCubicleWorld.cellscale().set(WORLD_CUBICLE_SCALE, WORLD_CUBICLE_SCALE, WORLD_CUBICLE_SCALE);
-        mCubicleWorld.transform().translation.set(-WORLD_NUMBER_OF_CUBICLES * mCubicleWorld.cellscale().x / 2,
-                                                  -WORLD_NUMBER_OF_CUBICLES * mCubicleWorld.cellscale().y / 2,
-                                                  -WORLD_NUMBER_OF_CUBICLES * mCubicleWorld.cellscale().z / 2);
+        mCubicleWorld.transform().translation.set(-WORLD_SCALE / 2, -WORLD_SCALE / 2, -WORLD_SCALE / 2);
 
-        mCubicleWorldView = new P5CubicleWorldView(mCubicleWorld);
+        mCubicleWorldView = new CubicleWorldView(mCubicleWorld);
         mCubicleWorldView.color_empty = color(0, 1);
         mCubicleWorldView.color_full = color(0, 4);
 
@@ -79,13 +76,18 @@ public class LessonX07_CubicleWorld
 
 
     public void draw() {
-        /* get entities from cubicle world */
+        /* handle entities */
+        if (frameRate > 30) {
+            addRandomEntities(2);
+        }
+
         mCubicleWorld.update();
         Vector<ICubicleEntity> mEntities = mCubicleWorld.getLocalEntities(mPosition, 1);
 
+        /* draw things */
         background(255);
-        pushMatrix();
 
+        pushMatrix();
         translate(width / 2, height / 2, 0);
 
         /* rotate */
@@ -102,7 +104,7 @@ public class LessonX07_CubicleWorld
         if (showCubicles) {
             stroke(0, 127);
             noFill();
-            mCubicleWorldView.draw(this);
+            mCubicleWorldView.draw(g);
         }
 
         /* draw entities */
@@ -114,7 +116,7 @@ public class LessonX07_CubicleWorld
             for (ICubicleEntity mEntity : mEntities) {
                 MCubicleEntity m = (MCubicleEntity)mEntity;
                 stroke(m.color);
-                drawCross(mEntity.position(), 5.0f);
+                DrawLib.cross3(g, mEntity.position(), 5.0f);
             }
         }
 
@@ -122,10 +124,10 @@ public class LessonX07_CubicleWorld
         stroke(255, 0, 0, 63);
         noFill();
         beginShape(LINES);
-        vertex(mPosition.x, -WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES / 2, 0);
-        vertex(mPosition.x, WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES / 2, 0);
-        vertex(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES / 2, mPosition.y, 0);
-        vertex(WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES / 2, mPosition.y, 0);
+        vertex(mPosition.x, -WORLD_SCALE / 2, 0);
+        vertex(mPosition.x, WORLD_SCALE / 2, 0);
+        vertex(-WORLD_SCALE / 2, mPosition.y, 0);
+        vertex(WORLD_SCALE / 2, mPosition.y, 0);
         endShape();
 
         /* draw selection sphere */
@@ -137,34 +139,19 @@ public class LessonX07_CubicleWorld
 
         fill(0);
         noStroke();
-        text("POINTS   : " + numParticles, 10, 12);
+        text("POINTS   : " + mCubicleWorld.entities().size(), 10, 12);
         text("SELECTED : " + mNumberOfPointsSelected, 10, 24);
         text("FPS      : " + frameRate, 10, 36);
     }
 
 
-    private void drawCross(Vector3f v, float pRadius) {
-        line(v.x - pRadius, v.y, v.z, v.x + pRadius, v.y, v.z);
-        line(v.x, v.y - pRadius, v.z, v.x, v.y + pRadius, v.z);
-        line(v.x, v.y, v.z - pRadius, v.x, v.y, v.z + pRadius);
-    }
-
-
-    public void keyPressed() {
-        if (key == ' ') {
-            for (int i = 0; i < NUMBER_OF_PARTICLES_ADDED; i++) {
-                MCubicleEntity mEntity = new MCubicleEntity();
-                mEntity.position().x = random(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES / 2, WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES / 2);
-                mEntity.position().y = random(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES / 2, WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES / 2);
-                mEntity.position().z = random(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES / 2, WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES / 2);
-                mCubicleWorld.add(mEntity);
-            }
-            numParticles += NUMBER_OF_PARTICLES_ADDED;
-        } else if (key == 'o') {
-            showCubicles = !showCubicles;
-        } else if (key == 'c') {
-            mCubicleWorld.removeAll();
-            numParticles = 0;
+    private void addRandomEntities(int pNumberParticles) {
+        for (int i = 0; i < pNumberParticles; i++) {
+            MCubicleEntity mEntity = new MCubicleEntity();
+            mEntity.position().x = random(-WORLD_SCALE / 2, WORLD_SCALE / 2);
+            mEntity.position().y = random(-WORLD_SCALE / 2, WORLD_SCALE / 2);
+            mEntity.position().z = random(-WORLD_SCALE / 2, WORLD_SCALE / 2);
+            mCubicleWorld.add(mEntity);
         }
     }
 
@@ -174,24 +161,24 @@ public class LessonX07_CubicleWorld
 
         int color = color(0, 127, random(0, 255), 127);
 
-        private Vector3i _myCubiclePosition;
+        private Vector3i mCubiclePosition;
 
-        private final Vector3f _myPosition;
+        private final Vector3f mPosition;
 
 
         public MCubicleEntity() {
-            _myCubiclePosition = new Vector3i();
-            _myPosition = new Vector3f();
+            mCubiclePosition = new Vector3i();
+            mPosition = new Vector3f();
         }
 
 
         public Vector3i cubicle() {
-            return _myCubiclePosition;
+            return mCubiclePosition;
         }
 
 
         public Vector3f position() {
-            return _myPosition;
+            return mPosition;
         }
 
 

@@ -27,6 +27,7 @@
 
 package verhalten.test;
 
+
 import gestalt.render.AnimatorRenderer;
 import gestalt.shape.Cuboid;
 import gestalt.util.CameraMover;
@@ -46,6 +47,7 @@ public class TestSwarm
 
     private SwarmEntity[] _mySwarmEntities;
 
+
     public void setup() {
         /* setup entities */
         _mySwarmEntities = new SwarmEntity[50];
@@ -63,6 +65,7 @@ public class TestSwarm
         camera().nearclipping = 3;
     }
 
+
     public void loop(float theDeltaTime) {
         for (int i = 0; i < _mySwarmEntities.length; i++) {
             _mySwarmEntities[i].loop(theDeltaTime);
@@ -73,9 +76,11 @@ public class TestSwarm
         CameraMover.handleKeyEvent(camera(), event(), theDeltaTime);
     }
 
+
     public static void main(String[] arg) {
         new TestSwarm().init();
     }
+
 
     private class SwarmEntity
             extends Engine {
@@ -98,6 +103,7 @@ public class TestSwarm
         private Vector3f[] _myDirections;
 
         private float[] _myDirectionsWeight;
+
 
         public SwarmEntity() {
             /* setup a cuboid */
@@ -136,6 +142,7 @@ public class TestSwarm
 //            _myOverlapRemover = new OverlapRemover();
             setBoundingRadius(10f);
         }
+
 
         public void loop(float theDeltaTime) {
             /* calculate new directions */

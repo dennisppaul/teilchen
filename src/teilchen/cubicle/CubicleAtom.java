@@ -32,40 +32,45 @@ import mathematik.Vector3i;
 /*
  * container class for ICubicleEntity representing one cube in the world.
  */
-
 public class CubicleAtom {
 
-    private Vector<ICubicleEntity> _myContainer;
+    private Vector<ICubicleEntity> mContainer;
 
-    private final Vector3i _myPosition;
+    private final Vector3i mPosition;
+
 
     public CubicleAtom(int x, int y, int z) {
-        _myContainer = new Vector<ICubicleEntity> ();
-        _myPosition = new Vector3i(x, y, z);
+        mContainer = new Vector<ICubicleEntity>();
+        mPosition = new Vector3i(x, y, z);
     }
 
 
     public Vector3i position() {
-        return _myPosition;
+        return mPosition;
     }
 
 
     public void add(ICubicleEntity theEntity) {
-        _myContainer.add(theEntity);
+        mContainer.add(theEntity);
     }
 
 
     public boolean remove(ICubicleEntity theEntity) {
-        return _myContainer.remove(theEntity);
+        return mContainer.remove(theEntity);
+    }
+
+
+    public void clear() {
+        mContainer.clear();
     }
 
 
     public int size() {
-        return _myContainer.size();
+        return mContainer.size();
     }
 
 
     public Vector<ICubicleEntity> data() {
-        return _myContainer;
+        return mContainer;
     }
 }

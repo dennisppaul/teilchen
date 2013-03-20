@@ -31,7 +31,9 @@ package verhalten;
 
 import mathematik.Vector3f;
 
-
+/**
+ * @deprecated 
+ */
 public interface Verhalten {
 
     int UNDEFINED = -1;

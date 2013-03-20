@@ -30,48 +30,50 @@ import teilchen.behavior.IBehavior;
 
 
 public class BehaviorParticle
-    extends BasicParticle implements IBehaviorParticle {
+        extends BasicParticle
+        implements IBehaviorParticle {
 
-    private final Vector<IBehavior> _myBehaviors;
+    private final Vector<IBehavior> mBehaviors;
 
-    private float _myMaximumInnerForce;
+    private float mMaximumInnerForce;
 
     private static final long serialVersionUID = 2735849326244271321L;
 
+
     public BehaviorParticle() {
-        _myBehaviors = new Vector<IBehavior> ();
-        _myMaximumInnerForce = 50;
+        mBehaviors = new Vector<IBehavior>();
+        mMaximumInnerForce = 50;
     }
 
 
     public void accumulateInnerForce(final float theDeltaTime) {
-        for (final IBehavior myBehavior : _myBehaviors) {
-            if (myBehavior != null) {
-                myBehavior.update(theDeltaTime, this);
-                force().add(myBehavior.force());
+        for (final IBehavior mBehavior : mBehaviors) {
+            if (mBehavior != null) {
+                mBehavior.update(theDeltaTime, this);
+                force().add(mBehavior.force());
             }
         }
         /* clamp to maximum force */
         if (maximumInnerForce() > 0) {
-            final float myForceLength = force().length();
-            if (myForceLength > maximumInnerForce()) {
-                force().scale(maximumInnerForce() / myForceLength);
+            final float mForceLength = force().length();
+            if (mForceLength > maximumInnerForce()) {
+                force().scale(maximumInnerForce() / mForceLength);
             }
         }
     }
 
 
     public float maximumInnerForce() {
-        return _myMaximumInnerForce;
+        return mMaximumInnerForce;
     }
 
 
     public void maximumInnerForce(float theForce) {
-        _myMaximumInnerForce = theForce;
+        mMaximumInnerForce = theForce;
     }
 
 
     public Vector<IBehavior> behaviors() {
-        return _myBehaviors;
+        return mBehaviors;
     }
 }

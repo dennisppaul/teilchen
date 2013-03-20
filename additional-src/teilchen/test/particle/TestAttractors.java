@@ -28,7 +28,7 @@ import teilchen.ShortLivedParticle;
 import teilchen.force.Attractor;
 import teilchen.force.Gravity;
 import teilchen.force.ViscousDrag;
-import teilchen.util.P5DrawLib;
+import teilchen.util.DrawLib;
 import processing.core.PApplet;
 
 
@@ -68,8 +68,8 @@ public class TestAttractors
 
         /* draw */
         background(255);
-        P5DrawLib.drawAttractor(g, _myParticleSystem.forces(), color(0, 255, 0, 64));
-        P5DrawLib.draw(g, _myParticleSystem.particles(), 10, color(0, 127));
+        DrawLib.drawAttractor(g, _myParticleSystem.forces(), color(0, 255, 0, 64));
+        DrawLib.draw(g, _myParticleSystem.particles(), 10, color(0, 127));
     }
 
 

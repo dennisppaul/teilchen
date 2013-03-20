@@ -31,96 +31,106 @@ import teilchen.IBehaviorParticle;
 
 
 public class Wander
-    implements IBehavior {
+        implements IBehavior {
 
     static final long serialVersionUID = 4957162698340669663L;
 
-    private Vector3f _myTempForce;
+    private Vector3f mForce;
 
-    private float _mySteeringStrength;
+    private float mSteeringStrength;
 
-    private float _mySteeringOffset;
+    private float mSteeringOffset;
 
-    private float _myCurrentSteeringStrength;
+    private float mCurrentSteeringStrength;
 
-    private Vector3f _myWanderTarget;
+    private Vector3f mUpVector;
 
-    private Vector3f _myUpVector;
+    private float mWeight;
 
-    private float _myWeight;
+    private final Random mRandom;
 
-    private final Random _myRandom;
+    private boolean mActive;
+
 
     public Wander() {
-        _myRandom = new Random();
+        mRandom = new Random();
 
-        _myTempForce = new Vector3f();
-        _mySteeringStrength = 10f;
-        _mySteeringOffset = 5f;
+        mForce = new Vector3f();
+        mSteeringStrength = 10f;
+        mSteeringOffset = 5f;
 
-        _myWanderTarget = new Vector3f();
-        _myUpVector = new Vector3f(0, 0, 1);
+        mUpVector = new Vector3f(0, 0, 1);
 
-        _myWeight = 1;
+        mWeight = 1;
+        mActive = true;
+    }
+
+
+    public boolean active() {
+        return mActive;
+    }
+
+
+    public void active(boolean pActive) {
+        mActive = pActive;
     }
 
 
     public Vector3f force() {
-        return _myTempForce;
+        return mForce;
     }
 
 
     public float weight() {
-        return _myWeight;
+        return mWeight;
     }
 
 
     public void weight(float theWeight) {
-        _myWeight = theWeight;
+        mWeight = theWeight;
     }
 
 
-    public void update(float theDeltaTime, IBehaviorParticle theParent) {
-        if (theParent.velocity().length() > 0) {
-            _myCurrentSteeringStrength += _myRandom.getFloat( -0.5f, 0.5f) * _mySteeringOffset;
-            _myCurrentSteeringStrength = Math.max(Math.min(_myCurrentSteeringStrength, _mySteeringStrength),
-                                                  -_mySteeringStrength);
+    public void update(float pDeltaTime, IBehaviorParticle pParent) {
+        if (mActive && pParent.velocity().length() > 0) {
+            mCurrentSteeringStrength += mRandom.getFloat(-0.5f, 0.5f) * mSteeringOffset;
+            mCurrentSteeringStrength = Math.max(Math.min(mCurrentSteeringStrength, mSteeringStrength), -mSteeringStrength);
 
-            _myWanderTarget.cross(_myUpVector, theParent.velocity());
-            _myWanderTarget.normalize();
-            _myWanderTarget.scale(_myCurrentSteeringStrength);
-            if (_myWanderTarget.isNaN()) {
-                _myTempForce.set(0, 0, 0);
+            final Vector3f mWanderTarget = mathematik.Util.cross(mUpVector, pParent.velocity());
+            mWanderTarget.normalize();
+            mWanderTarget.scale(mCurrentSteeringStrength);
+            if (mWanderTarget.isNaN()) {
+                mForce.set(0, 0, 0);
             } else {
-                _myTempForce.scale(_myWeight, _myWanderTarget);
+                mForce.scale(mWeight, mWanderTarget);
             }
         } else {
-            _myTempForce.set(0, 0, 0);
+            mForce.set(0, 0, 0);
         }
     }
 
 
     public Vector3f upvector() {
-        return _myUpVector;
+        return mUpVector;
     }
 
 
     public float steeringstrength() {
-        return _mySteeringStrength;
+        return mSteeringStrength;
     }
 
 
     public void steeringstrength(final float theSteeringStrength) {
-        _mySteeringStrength = theSteeringStrength;
+        mSteeringStrength = theSteeringStrength;
     }
 
 
     public float steeringoffset() {
-        return _mySteeringOffset;
+        return mSteeringOffset;
     }
 
 
     public void steeringoffset(final float theSteeringOffset) {
-        _mySteeringOffset = theSteeringOffset;
+        mSteeringOffset = theSteeringOffset;
     }
 }

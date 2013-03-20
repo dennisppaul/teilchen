@@ -30,7 +30,7 @@ import teilchen.ShortLivedParticle;
 import teilchen.force.Gravity;
 import teilchen.force.TriangleDeflector;
 import teilchen.force.ViscousDrag;
-import teilchen.util.P5DrawLib;
+import teilchen.util.DrawLib;
 import processing.core.PApplet;
 
 
@@ -109,7 +109,7 @@ public class TestTriangleDeflection
         }
 
         /* draw plane */
-        P5DrawLib.draw(g, _myTriangleDeflector, color(0, 0.5f), color(1, 0, 0, 0.25f), color(1, 1, 0, 0.5f));
+        DrawLib.draw(g, _myTriangleDeflector, color(0, 0.5f), color(1, 0, 0, 0.25f), color(1, 1, 0, 0.5f));
     }
 
 

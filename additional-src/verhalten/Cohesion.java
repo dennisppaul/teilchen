@@ -34,6 +34,9 @@ import java.util.Vector;
 import mathematik.Vector3f;
 
 
+/**
+ * @deprecated 
+ */
 public class Cohesion
     implements IVerhaltenBehavior {
 

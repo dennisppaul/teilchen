@@ -34,52 +34,52 @@ public class Flee
 
     static final long serialVersionUID = -6530887943347815188L;
 
-    private Vector3f _myFleePosition;
+    private Vector3f mFleePosition;
 
-    private Vector3f _myForce;
+    private Vector3f mForce;
 
-    private float _myWeight = 1;
+    private float mWeight = 1;
 
     public Flee() {
-        _myFleePosition = new Vector3f();
-        _myForce = new Vector3f();
+        mFleePosition = new Vector3f();
+        mForce = new Vector3f();
     }
 
 
     public Vector3f position() {
-        return _myFleePosition;
+        return mFleePosition;
     }
 
 
     public void setPositionRef(final Vector3f thePoint) {
-        _myFleePosition = thePoint;
+        mFleePosition = thePoint;
     }
 
 
     public void update(float theDeltaTime, IBehaviorParticle theParent) {
-        _myForce.sub(theParent.position(), _myFleePosition);
-        final float myDistanceToPoint = _myForce.length();
+        mForce.sub(theParent.position(), mFleePosition);
+        final float myDistanceToPoint = mForce.length();
         if (myDistanceToPoint > SMALLEST_ACCEPTABLE_DISTANCE) {
-            _myForce.scale(theParent.maximumInnerForce() / myDistanceToPoint);
-            _myForce.sub(_myForce, theParent.velocity());
-            _myForce.scale(weight());
+            mForce.scale(theParent.maximumInnerForce() / myDistanceToPoint);
+            mForce.sub(mForce, theParent.velocity());
+            mForce.scale(weight());
         } else {
-            _myForce.set(0, 0, 0);
+            mForce.set(0, 0, 0);
         }
     }
 
 
     public Vector3f force() {
-        return _myForce;
+        return mForce;
     }
 
 
     public float weight() {
-        return _myWeight;
+        return mWeight;
     }
 
 
     public void weight(float theWeight) {
-        _myWeight = theWeight;
+        mWeight = theWeight;
     }
 }

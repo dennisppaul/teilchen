@@ -32,19 +32,19 @@ public class Spring
         implements IForce,
                    IConnection {
 
-    protected float _mySpringConstant;
+    protected float mSpringConstant;
 
-    protected float _mySpringDamping;
+    protected float mSpringDamping;
 
-    protected float _myRestLength;
+    protected float mRestLength;
 
-    protected Particle _myA;
+    protected Particle mA;
 
-    protected Particle _myB;
+    protected Particle mB;
 
-    protected boolean _myOneWay;
+    protected boolean mOneWay;
 
-    protected boolean _myActive;
+    protected boolean mActive;
 
     public Spring(Particle theA, Particle theB) {
         this(theA,
@@ -76,45 +76,45 @@ public class Spring
                   final float theSpringConstant,
                   final float theSpringDamping,
                   final float theRestLength) {
-        _mySpringConstant = theSpringConstant;
-        _mySpringDamping = theSpringDamping;
-        _myRestLength = theRestLength;
-        _myA = theA;
-        _myB = theB;
-        _myOneWay = false;
-        _myActive = true;
+        mSpringConstant = theSpringConstant;
+        mSpringDamping = theSpringDamping;
+        mRestLength = theRestLength;
+        mA = theA;
+        mB = theB;
+        mOneWay = false;
+        mActive = true;
     }
 
     public void setRestLengthByPosition() {
-        _myRestLength = _myA.position().distance(_myB.position());
+        mRestLength = mA.position().distance(mB.position());
     }
 
     public float restlength() {
-        return _myRestLength;
+        return mRestLength;
     }
 
     public void restlength(float theRestLength) {
-        _myRestLength = theRestLength;
+        mRestLength = theRestLength;
     }
 
     public final Particle a() {
-        return _myA;
+        return mA;
     }
 
     public final Particle b() {
-        return _myB;
+        return mB;
     }
 
     public final Particle a(Particle theA) {
-        return _myA = theA;
+        return mA = theA;
     }
 
     public final Particle b(Particle theB) {
-        return _myB = theB;
+        return mB = theB;
     }
 
     public final float currentLength() {
-        return _myA.position().distance(_myB.position());
+        return mA.position().distance(mB.position());
     }
 
     /**
@@ -123,7 +123,7 @@ public class Spring
      * @return float
      */
     public final float strength() {
-        return _mySpringConstant;
+        return mSpringConstant;
     }
 
     /**
@@ -132,26 +132,26 @@ public class Spring
      * @param theSpringConstant float
      */
     public final void strength(float theSpringConstant) {
-        _mySpringConstant = theSpringConstant;
+        mSpringConstant = theSpringConstant;
     }
 
     public final float damping() {
-        return _mySpringDamping;
+        return mSpringDamping;
     }
 
     public final void damping(float theSpringDamping) {
-        _mySpringDamping = theSpringDamping;
+        mSpringDamping = theSpringDamping;
     }
 
     public void setOneWay(boolean theOneWayState) {
-        _myOneWay = theOneWayState;
+        mOneWay = theOneWayState;
     }
 
     public void apply(final float theDeltaTime, final Physics theParticleSystem) {
-//        if (!_myA.fixed() || !_myB.fixed()) {
-        float a2bX = _myA.position().x - _myB.position().x;
-        float a2bY = _myA.position().y - _myB.position().y;
-        float a2bZ = _myA.position().z - _myB.position().z;
+//        if (!mA.fixed() || !mB.fixed()) {
+        float a2bX = mA.position().x - mB.position().x;
+        float a2bY = mA.position().y - mB.position().y;
+        float a2bZ = mA.position().z - mB.position().z;
         final float myInversDistance = fastInverseSqrt(a2bX * a2bX + a2bY * a2bY + a2bZ * a2bZ);
         final float myDistance = 1.0F / myInversDistance;
 
@@ -165,26 +165,26 @@ public class Spring
             a2bZ *= myInversDistance;
         }
 
-        final float mSpringForce = -(myDistance - _myRestLength) * _mySpringConstant;
-        final float Va2bX = _myA.velocity().x - _myB.velocity().x;
-        final float Va2bY = _myA.velocity().y - _myB.velocity().y;
-        final float Va2bZ = _myA.velocity().z - _myB.velocity().z;
-        final float mDampingForce = -_mySpringDamping * (a2bX * Va2bX + a2bY * Va2bY + a2bZ * Va2bZ);
+        final float mSpringForce = -(myDistance - mRestLength) * mSpringConstant;
+        final float Va2bX = mA.velocity().x - mB.velocity().x;
+        final float Va2bY = mA.velocity().y - mB.velocity().y;
+        final float Va2bZ = mA.velocity().z - mB.velocity().z;
+        final float mDampingForce = -mSpringDamping * (a2bX * Va2bX + a2bY * Va2bY + a2bZ * Va2bZ);
         final float r = mSpringForce + mDampingForce;
         a2bX *= r;
         a2bY *= r;
         a2bZ *= r;
 
-        if (_myOneWay) {
-            if (!_myB.fixed()) {
-                _myB.force().add(-2 * a2bX, -2 * a2bY, -2 * a2bZ);
+        if (mOneWay) {
+            if (!mB.fixed()) {
+                mB.force().add(-2 * a2bX, -2 * a2bY, -2 * a2bZ);
             }
         } else {
-            if (!_myA.fixed()) {
-                _myA.force().add(a2bX, a2bY, a2bZ);
+            if (!mA.fixed()) {
+                mA.force().add(a2bX, a2bY, a2bZ);
             }
-            if (!_myB.fixed()) {
-                _myB.force().add(-a2bX, -a2bY, -a2bZ);
+            if (!mB.fixed()) {
+                mB.force().add(-a2bX, -a2bY, -a2bZ);
             }
         }
 //        }
@@ -199,14 +199,14 @@ public class Spring
     }
 
     public boolean dead() {
-        return _myA.dead() || _myB.dead();
+        return mA.dead() || mB.dead();
     }
 
     public boolean active() {
-        return _myActive;
+        return mActive;
     }
 
     public void active(boolean theActiveState) {
-        _myActive = theActiveState;
+        mActive = theActiveState;
     }
 }

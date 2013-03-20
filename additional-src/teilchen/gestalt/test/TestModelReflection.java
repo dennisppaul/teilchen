@@ -38,18 +38,19 @@ import teilchen.force.IForce;
 import teilchen.force.PlaneDeflector;
 import teilchen.force.TriangleDeflector;
 import teilchen.force.ViscousDrag;
-import teilchen.util.P5DrawLib;
+import teilchen.util.DrawLib;
 import processing.core.PApplet;
 
 
 public class TestModelReflection
-    extends PApplet {
+        extends PApplet {
 
     private Physics _myParticleSystem;
 
     private float _myYRotation;
 
     private PlaneDeflector _myGroudPlaneDeflector;
+
 
     public void setup() {
         size(640, 480, OPENGL);
@@ -130,12 +131,12 @@ public class TestModelReflection
         _myYRotation += 0.1f / frameRate;
         translate(width / 2, 0, -width);
         rotateY(_myYRotation);
-        translate( -width / 2, 0, 0);
+        translate(-width / 2, 0, 0);
         background(1);
 
         stroke(0, 0.5f);
         for (Particle myParticle : _myParticleSystem.particles()) {
-            final float myAgeRatio = 1 - ( (ShortLivedParticle) myParticle).ageRatio();
+            final float myAgeRatio = 1 - ((ShortLivedParticle)myParticle).ageRatio();
             pushMatrix();
             translate(myParticle.position().x, myParticle.position().y, myParticle.position().z);
             ellipse(0, 0, myAgeRatio * 15, myAgeRatio * 15);
@@ -146,11 +147,11 @@ public class TestModelReflection
         if (keyPressed) {
             for (IForce myForce : _myParticleSystem.forces()) {
                 if (myForce instanceof TriangleDeflector) {
-                    P5DrawLib.draw(g,
-                                   (TriangleDeflector) myForce,
-                                   color(0, 0.25f),
-                                   color(1, 0, 0, 0.05f),
-                                   color(1, 0.5f, 0, 0.75f));
+                    DrawLib.draw(g,
+                                 (TriangleDeflector)myForce,
+                                 color(0, 0.25f),
+                                 color(1, 0, 0, 0.05f),
+                                 color(1, 0.5f, 0, 0.75f));
                 }
             }
         }
@@ -159,12 +160,12 @@ public class TestModelReflection
 
     private void spawnParticle() {
         ShortLivedParticle myParticle = _myParticleSystem.makeParticle(ShortLivedParticle.class);
-        myParticle.velocity().x = (mouseX - pmouseX) * 25 + random( -10, 10);
-        myParticle.velocity().y = (mouseY - pmouseY) * 25 + random( -10, 10);
+        myParticle.velocity().x = (mouseX - pmouseX) * 25 + random(-10, 10);
+        myParticle.velocity().y = (mouseY - pmouseY) * 25 + random(-10, 10);
         myParticle.setMaxAge(10);
         myParticle.position().set(random(width * 0.25f, width * 0.75f),
                                   mouseY,
-                                  random( -width / 4, width / 4));
+                                  random(-width / 4, width / 4));
     }
 
 

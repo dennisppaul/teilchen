@@ -32,94 +32,94 @@ import mathematik.Vector3f;
 public class BasicParticle
     implements Particle, Serializable {
 
-    private boolean _myFixed;
+    private boolean mFixed;
 
-    private float _myAge;
+    private float mAge;
 
-    private float _myMass;
+    private float mMass;
 
-    private Vector3f _myPosition;
+    private Vector3f mPosition;
 
-    private Vector3f _myOldPosition;
+    private Vector3f mOldPosition;
 
-    private final Vector3f _myVelocity;
+    private final Vector3f mVelocity;
 
-    private final Vector3f _myForce;
+    private final Vector3f mForce;
 
-    private boolean _myTagged;
+    private boolean mTagged;
 
-    private boolean _myStill;
+    private boolean mStill;
 
-    private float _myRadius;
+    private float mRadius;
 
     private static final long serialVersionUID = 3737917975116369338L;
 
     public BasicParticle() {
-        _myPosition = new Vector3f();
-        _myOldPosition = new Vector3f();
-        _myVelocity = new Vector3f();
-        _myForce = new Vector3f();
-        _myMass = 1;
-        _myFixed = false;
-        _myAge = 0;
-        _myTagged = false;
-        _myStill = false;
-        _myRadius = 0;
+        mPosition = new Vector3f();
+        mOldPosition = new Vector3f();
+        mVelocity = new Vector3f();
+        mForce = new Vector3f();
+        mMass = 1;
+        mFixed = false;
+        mAge = 0;
+        mTagged = false;
+        mStill = false;
+        mRadius = 0;
     }
 
 
     public boolean fixed() {
-        return _myFixed;
+        return mFixed;
     }
 
 
     public void fixed(boolean theFixed) {
-        _myFixed = theFixed;
+        mFixed = theFixed;
     }
 
 
     public float age() {
-        return _myAge;
+        return mAge;
     }
 
 
     public void age(float theAge) {
-        _myAge = theAge;
+        mAge = theAge;
     }
 
 
     public float mass() {
-        return _myMass;
+        return mMass;
     }
 
 
     public void mass(float theMass) {
-        _myMass = theMass;
+        mMass = theMass;
     }
 
 
     public Vector3f position() {
-        return _myPosition;
+        return mPosition;
     }
 
 
     public Vector3f old_position() {
-        return _myOldPosition;
+        return mOldPosition;
     }
 
 
     public void setPositionRef(Vector3f thePosition) {
-        _myPosition = thePosition;
+        mPosition = thePosition;
     }
 
 
     public Vector3f velocity() {
-        return _myVelocity;
+        return mVelocity;
     }
 
 
     public Vector3f force() {
-        return _myForce;
+        return mForce;
     }
 
 
@@ -132,31 +132,31 @@ public class BasicParticle
 
 
     public boolean tagged() {
-        return _myTagged;
+        return mTagged;
     }
 
 
     public void tag(boolean theTag) {
-        _myTagged = theTag;
+        mTagged = theTag;
     }
 
 
     public boolean still() {
-        return _myStill;
+        return mStill;
     }
 
 
     public void still(boolean theStill) {
-        _myStill = theStill;
+        mStill = theStill;
     }
 
 
     public float radius() {
-        return _myRadius;
+        return mRadius;
     }
 
 
     public void radius(float theRadius) {
-        _myRadius = theRadius;
+        mRadius = theRadius;
     }
 }

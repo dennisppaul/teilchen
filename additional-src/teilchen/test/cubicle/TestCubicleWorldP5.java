@@ -26,26 +26,26 @@ package teilchen.test.cubicle;
 
 import teilchen.cubicle.CubicleEntity;
 import teilchen.cubicle.CubicleWorld;
-import teilchen.util.P5CubicleWorldView;
 import processing.core.PApplet;
+import teilchen.util.CubicleWorldView;
 
 
 /**
  * this version is still buggy :(
  */
-
 public class TestCubicleWorldP5
-    extends PApplet {
+        extends PApplet {
 
     private CubicleWorld _myWorld;
 
     private CubicleEntity[] _myEntity;
 
-    private P5CubicleWorldView _myView;
+    private CubicleWorldView _myView;
 
     private int _myCurrentEntity;
 
     private float _myRotation;
+
 
     public void setup() {
         size(640, 480, P3D);
@@ -55,7 +55,7 @@ public class TestCubicleWorldP5
         _myWorld = new CubicleWorld(10, 10, 2);
         _myWorld.cellscale().set(20, 20, 20);
         _myWorld.transform().translation.set(width / 2, height / 2);
-        _myView = new P5CubicleWorldView(_myWorld);
+        _myView = new CubicleWorldView(_myWorld);
 
         /* setup entity */
         _myEntity = new CubicleEntity[3];
@@ -69,7 +69,7 @@ public class TestCubicleWorldP5
     public void draw() {
 
         background(50);
-        _myView.draw(this);
+        _myView.draw(g);
 
         /* handle entities */
         _myEntity[_myCurrentEntity].position().set(mouseX, mouseY);

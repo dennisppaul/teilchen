@@ -33,7 +33,9 @@ import java.util.Vector;
 
 import mathematik.Vector3f;
 
-
+/**
+ * @deprecated 
+ */
 public class Alignment
     implements IVerhaltenBehavior {
 

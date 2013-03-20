@@ -30,7 +30,7 @@ import teilchen.Physics;
 import teilchen.force.Gravity;
 import teilchen.force.ViscousDrag;
 import teilchen.integration.RungeKutta;
-import teilchen.util.P5DrawLib;
+import teilchen.util.DrawLib;
 import teilchen.util.StableSpringQuad;
 import processing.core.PApplet;
 
@@ -77,10 +77,10 @@ public class TestStableQuads
         background(255);
 
         /* draw springs */
-        P5DrawLib.drawSprings(g, _myParticleSystem, color(0, 64));
+        DrawLib.drawSprings(g, _myParticleSystem, color(0, 64));
 
         /* draw particles */
-        P5DrawLib.drawParticles(g, _myParticleSystem, 5, color(0, 127));
+        DrawLib.drawParticles(g, _myParticleSystem, 5, color(0, 127));
     }
 
 

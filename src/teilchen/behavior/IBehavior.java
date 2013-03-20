@@ -34,7 +34,7 @@ import teilchen.IBehaviorParticle;
 public interface IBehavior
     extends Serializable {
 
-    void update(float theDeltaTime, final IBehaviorParticle theParent);
+    void update(float theDeltaTime, final IBehaviorParticle pParent);
 
 
     Vector3f force();

@@ -41,7 +41,7 @@ import teilchen.Physics;
 import teilchen.behavior.Arrival;
 import teilchen.force.ViscousDrag;
 import teilchen.gestalt.util.GestaltFollowerCamera;
-import teilchen.util.P5DrawLib;
+import teilchen.util.DrawLib;
 import processing.core.PApplet;
 
 
@@ -319,8 +319,9 @@ public class TestFollowerCamera
 
         public void drawCollectedPoints() {
             strokeWeight(2);
+            stroke(color(0, 64));
             for (int i = 0; i < data.length; i++) {
-                P5DrawLib.drawCross(g, data[i], 2, color(0, 64));
+                DrawLib.cross2(g, data[i], 2);
             }
             strokeWeight(1);
         }

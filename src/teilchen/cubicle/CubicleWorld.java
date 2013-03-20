@@ -199,6 +199,11 @@ public class CubicleWorld {
     }
 
 
+    public Vector<ICubicleEntity> entities() {
+        return mEntites;
+    }
+
+
     public Vector3i worldposition2index(Vector3f thePosition) {
         /* get position */
         final Vector3f myPosition = new Vector3f(thePosition);

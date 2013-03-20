@@ -34,19 +34,19 @@ public class Stick
         implements IConstraint,
                    IConnection {
 
-    protected final Particle _myA;
+    protected final Particle mA;
 
-    protected final Particle _myB;
+    protected final Particle mB;
 
-    protected float _myRestLength;
+    protected float mRestLength;
 
-    protected final Vector3f _myTempDistanceVector;
+    protected final Vector3f mTempDistanceVector;
 
-    protected final Vector3f _myTempVector;
+    protected final Vector3f mTempVector;
 
-    protected boolean _myOneWay;
+    protected boolean mOneWay;
 
-    protected float _myDamping;
+    protected float mDamping;
 
     protected boolean mActive = true;
 
@@ -61,90 +61,90 @@ public class Stick
     public Stick(final Particle theA,
                  final Particle theB,
                  final float theRestLength) {
-        _myRestLength = theRestLength;
-        _myA = theA;
-        _myB = theB;
-        _myTempDistanceVector = new Vector3f();
-        _myTempVector = new Vector3f();
-        _myOneWay = false;
-        _myDamping = 1f;
+        mRestLength = theRestLength;
+        mA = theA;
+        mB = theB;
+        mTempDistanceVector = new Vector3f();
+        mTempVector = new Vector3f();
+        mOneWay = false;
+        mDamping = 1f;
     }
 
     public void setRestLengthByPosition() {
-        _myRestLength = _myA.position().distance(_myB.position());
+        mRestLength = mA.position().distance(mB.position());
     }
 
     public float damping() {
-        return _myDamping;
+        return mDamping;
     }
 
     public void damping(float theDamping) {
-        _myDamping = theDamping;
+        mDamping = theDamping;
     }
 
     public float restlength() {
-        return _myRestLength;
+        return mRestLength;
     }
 
     public void restlength(float theRestLength) {
-        _myRestLength = theRestLength;
+        mRestLength = theRestLength;
     }
 
     public final Particle a() {
-        return _myA;
+        return mA;
     }
 
     public final Particle b() {
-        return _myB;
+        return mB;
     }
 
     public void setOneWay(boolean theOneWayState) {
-        _myOneWay = theOneWayState;
+        mOneWay = theOneWayState;
     }
 
     public void apply(Physics theParticleSystem) {
         if (!mActive) {
             return;
         }
-        if (_myA.fixed() && _myB.fixed()) {
+        if (mA.fixed() && mB.fixed()) {
             return;
         }
-        _myTempDistanceVector.sub(_myA.position(), _myB.position());
-        final float myDistanceSquared = _myTempDistanceVector.lengthSquared();
+        mTempDistanceVector.sub(mA.position(), mB.position());
+        final float myDistanceSquared = mTempDistanceVector.lengthSquared();
         if (myDistanceSquared > 0) {
             final float myDistance = (float)Math.sqrt(myDistanceSquared);
-            final float myDifference = _myRestLength - myDistance;
+            final float myDifference = mRestLength - myDistance;
             if (myDifference > EPSILON || myDifference < -EPSILON) {
-                if (!_myOneWay) {
-                    final float myDifferenceScale = _myDamping * 0.5f * myDifference / myDistance;
-                    _myTempVector.scale(myDifferenceScale, _myTempDistanceVector);
-                    if (_myA.fixed()) {
-                        _myB.position().sub(_myTempVector);
-                        _myB.position().sub(_myTempVector);
-                    } else if (_myB.fixed()) {
-                        _myA.position().add(_myTempVector);
-                        _myA.position().add(_myTempVector);
+                if (!mOneWay) {
+                    final float myDifferenceScale = mDamping * 0.5f * myDifference / myDistance;
+                    mTempVector.scale(myDifferenceScale, mTempDistanceVector);
+                    if (mA.fixed()) {
+                        mB.position().sub(mTempVector);
+                        mB.position().sub(mTempVector);
+                    } else if (mB.fixed()) {
+                        mA.position().add(mTempVector);
+                        mA.position().add(mTempVector);
                     } else {
-                        _myA.position().add(_myTempVector);
-                        _myB.position().sub(_myTempVector);
+                        mA.position().add(mTempVector);
+                        mB.position().sub(mTempVector);
                     }
                 } else {
                     final float myDifferenceScale = myDifference / myDistance;
-                    _myTempVector.scale(myDifferenceScale, _myTempDistanceVector);
-                    _myB.position().sub(_myTempVector);
+                    mTempVector.scale(myDifferenceScale, mTempDistanceVector);
+                    mB.position().sub(mTempVector);
                 }
             }
         } else {
-            if (_myA.fixed()) {
-                _myB.position().set(_myA.position());
-                _myB.position().x += _myRestLength;
-            } else if (_myB.fixed()) {
-                _myA.position().set(_myB.position());
-                _myA.position().x += _myRestLength;
+            if (mA.fixed()) {
+                mB.position().set(mA.position());
+                mB.position().x += mRestLength;
+            } else if (mB.fixed()) {
+                mA.position().set(mB.position());
+                mA.position().x += mRestLength;
             } else {
-                _myB.position().set(_myA.position());
-                _myA.position().x -= _myRestLength / 2;
-                _myB.position().x += _myRestLength / 2;
+                mB.position().set(mA.position());
+                mA.position().x -= mRestLength / 2;
+                mB.position().x += mRestLength / 2;
             }
         }
     }

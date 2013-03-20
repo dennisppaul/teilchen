@@ -48,15 +48,15 @@ public class CollisionManager {
 
     public boolean HINT_IGNORE_STILL_OR_FIXED = false;
 
-    private float _myCollisionSpringConstant;
+    private float mCollisionSpringConstant;
 
-    private float _myCollisionSpringDamping;
+    private float mCollisionSpringDamping;
 
-    private final Physics _myCollisionPhysics;
+    private final Physics mCollisionPhysics;
 
     private float mMinimumDistance;
 
-    private Vector3f _myResolveSamePosition;
+    private Vector3f mResolveSamePosition;
 
     public enum ResolverType {
 //        COLLISION_STICK, COLLISION_SPRING,
@@ -64,13 +64,13 @@ public class CollisionManager {
         SPRING, STICK
     }
 
-    private final Random _myRandom;
+    private final Random mRandom;
 
-    private ResolverType _myResolverType;
+    private ResolverType mResolverType;
 
-    private float _myCollisionResolverIntervalCounter = 1;
+    private float mCollisionResolverIntervalCounter = 1;
 
-    private float _myCollisionResolverInterval = 0;
+    private float mCollisionResolverInterval = 0;
 
     private int mDistanceMode = DISTANCE_MODE_FIXED;
 
@@ -83,13 +83,13 @@ public class CollisionManager {
     }
 
     public CollisionManager(final Physics thePhysics) {
-        _myCollisionPhysics = thePhysics;
-        _myResolveSamePosition = new Vector3f(1, 1, 1);
-        _myCollisionSpringConstant = 20.0f;
-        _myCollisionSpringDamping = 1.0f;
+        mCollisionPhysics = thePhysics;
+        mResolveSamePosition = new Vector3f(1, 1, 1);
+        mCollisionSpringConstant = 20.0f;
+        mCollisionSpringDamping = 1.0f;
         mMinimumDistance = 20;
-        _myResolverType = ResolverType.SPRING;
-        _myRandom = new Random();
+        mResolverType = ResolverType.SPRING;
+        mRandom = new Random();
     }
 
     public void distancemode(int theDistanceMode) {
@@ -97,27 +97,27 @@ public class CollisionManager {
     }
 
     public void setResolverType(ResolverType theResolverType) {
-        _myResolverType = theResolverType;
+        mResolverType = theResolverType;
     }
 
     public Vector3f resolveSamePosition() {
-        return _myResolveSamePosition;
+        return mResolveSamePosition;
     }
 
     public void springDamping(float theSpringDamping) {
-        _myCollisionSpringDamping = theSpringDamping;
+        mCollisionSpringDamping = theSpringDamping;
     }
 
     public float springDamping() {
-        return _myCollisionSpringDamping;
+        return mCollisionSpringDamping;
     }
 
     public void springConstant(float theSpringConstant) {
-        _myCollisionSpringConstant = theSpringConstant;
+        mCollisionSpringConstant = theSpringConstant;
     }
 
     public float springConstant() {
-        return _myCollisionSpringConstant;
+        return mCollisionSpringConstant;
     }
 
     public void minimumDistance(float theMinimumDistance) {
@@ -129,25 +129,25 @@ public class CollisionManager {
     }
 
     public Physics collision() {
-        return _myCollisionPhysics;
+        return mCollisionPhysics;
     }
 
     public Vector<IForce> collision_forces() {
-        return _myCollisionPhysics.forces();
+        return mCollisionPhysics.forces();
     }
 
     public void loop(float theDeltaTime) {
 
 //        /* collision resolver */
-//        if (_myCollisionResolverIntervalCounter > _myCollisionResolverInterval) {
-//            _myCollisionResolverIntervalCounter = 0;
+//        if (mCollisionResolverIntervalCounter > mCollisionResolverInterval) {
+//            mCollisionResolverIntervalCounter = 0;
 ////            createCollisionResolvers();
 //        } else {
-//            _myCollisionResolverIntervalCounter += theDeltaTime;
+//            mCollisionResolverIntervalCounter += theDeltaTime;
 //        }
 
         /* physics */
-        _myCollisionPhysics.step(theDeltaTime);
+        mCollisionPhysics.step(theDeltaTime);
 
 //        /* remove collision resolver */
 //        removeCollisionResolver();
@@ -155,30 +155,30 @@ public class CollisionManager {
 
     public void autoloop(float theDeltaTime) {
         /* collision resolver */
-        if (_myCollisionResolverIntervalCounter > _myCollisionResolverInterval) {
-            _myCollisionResolverIntervalCounter = 0;
-//            _myCollisionResolverIntervalCounter -= _myCollisionResolverInterval;
-//            _myCollisionResolverIntervalCounter %= _myCollisionResolverInterval;
+        if (mCollisionResolverIntervalCounter > mCollisionResolverInterval) {
+            mCollisionResolverIntervalCounter = 0;
+//            mCollisionResolverIntervalCounter -= mCollisionResolverInterval;
+//            mCollisionResolverIntervalCounter %= mCollisionResolverInterval;
             createCollisionResolvers();
         } else {
-            _myCollisionResolverIntervalCounter += theDeltaTime;
+            mCollisionResolverIntervalCounter += theDeltaTime;
         }
 
         /* physics */
-        _myCollisionPhysics.step(theDeltaTime);
+        mCollisionPhysics.step(theDeltaTime);
 
         /* remove collision resolver */
         removeCollisionResolver();
     }
 
     public void removeCollisionResolver() {
-        _myCollisionPhysics.forces().clear();
-        _myCollisionPhysics.constraints().clear();
+        mCollisionPhysics.forces().clear();
+        mCollisionPhysics.constraints().clear();
     }
 
     public void createCollisionResolvers() {
-        for (int i = 0; i < _myCollisionPhysics.particles().size(); i++) {
-            createCollisionResolver(_myCollisionPhysics.particles().get(i), i);
+        for (int i = 0; i < mCollisionPhysics.particles().size(); i++) {
+            createCollisionResolver(mCollisionPhysics.particles().get(i), i);
         }
     }
 
@@ -188,8 +188,8 @@ public class CollisionManager {
                 return;
             }
         }
-        for (int j = theStart; j < _myCollisionPhysics.particles().size(); j++) {
-            Particle myOtherParticle = _myCollisionPhysics.particles().get(j);
+        for (int j = theStart; j < mCollisionPhysics.particles().size(); j++) {
+            Particle myOtherParticle = mCollisionPhysics.particles().get(j);
             if (theParticle != myOtherParticle) { // && !myOtherParticle.fixed()) {
                 final float myDistance = theParticle.position().distance(myOtherParticle.position());
                 final float myMinimumDistance = getMinimumDistance(theParticle, myOtherParticle);
@@ -200,32 +200,32 @@ public class CollisionManager {
                     /**
                      * because of the way we handle the collision resolver creation
                      * there is no need to check for multiple spring connections.
-                     * checkSpringConnectionExistence(_myCollisionPhysics.getForces(),
+                     * checkSpringConnectionExistence(mCollisionPhysics.getForces(),
                      *                                myParticle,
                      *                                myOtherParticle);
                      */
-                    if (_myResolverType == ResolverType.SPRING) {
+                    if (mResolverType == ResolverType.SPRING) {
                         Spring mySpring = new Spring(theParticle,
                                                      myOtherParticle,
-                                                     _myCollisionSpringConstant,
-                                                     _myCollisionSpringDamping,
+                                                     mCollisionSpringConstant,
+                                                     mCollisionSpringDamping,
                                                      myMinimumDistance);
-                        _myCollisionPhysics.add(mySpring);
-                    } else if (_myResolverType == ResolverType.STICK) {
+                        mCollisionPhysics.add(mySpring);
+                    } else if (mResolverType == ResolverType.STICK) {
                         Stick mySpring = new Stick(theParticle,
                                                    myOtherParticle,
                                                    myMinimumDistance);
-                        _myCollisionPhysics.add(mySpring);
+                        mCollisionPhysics.add(mySpring);
                     }
 
                     /* hack to prevent particles from being in the same place */
                     if (myDistance < mathematik.Mathematik.EPSILON && myDistance > -mathematik.Mathematik.EPSILON) {
-                        myOtherParticle.position().x += _myRandom.getFloat(_myResolveSamePosition.x * -0.5f,
-                                                                           _myResolveSamePosition.x * 0.5f);
-                        myOtherParticle.position().y += _myRandom.getFloat(_myResolveSamePosition.y * -0.5f,
-                                                                           _myResolveSamePosition.y * 0.5f);
-                        myOtherParticle.position().z += _myRandom.getFloat(_myResolveSamePosition.z * -0.5f,
-                                                                           _myResolveSamePosition.z * 0.5f);
+                        myOtherParticle.position().x += mRandom.getFloat(mResolveSamePosition.x * -0.5f,
+                                                                           mResolveSamePosition.x * 0.5f);
+                        myOtherParticle.position().y += mRandom.getFloat(mResolveSamePosition.y * -0.5f,
+                                                                           mResolveSamePosition.y * 0.5f);
+                        myOtherParticle.position().z += mRandom.getFloat(mResolveSamePosition.z * -0.5f,
+                                                                           mResolveSamePosition.z * 0.5f);
                     }
                 }
             }
@@ -233,8 +233,8 @@ public class CollisionManager {
     }
 
     public void createCollisionResolvers(final CubicleWorld theWorld) {
-        for (int i = 0; i < _myCollisionPhysics.particles().size(); i++) {
-            final Particle myParticle = _myCollisionPhysics.particles().get(i);
+        for (int i = 0; i < mCollisionPhysics.particles().size(); i++) {
+            final Particle myParticle = mCollisionPhysics.particles().get(i);
             if (myParticle instanceof CubicleParticle) {
                 createCollisionResolver(theWorld, (CubicleParticle)myParticle);
             }
@@ -264,33 +264,33 @@ public class CollisionManager {
                             /**
                              * because of the way we handle the collision resolver creation
                              * there is no need to check for multiple spring connections.
-                             * checkSpringConnectionExistence(_myCollisionPhysics.getForces(),
+                             * checkSpringConnectionExistence(mCollisionPhysics.getForces(),
                              *                                myParticle,
                              *                                myOtherParticle);
                              */
-                            if (_myResolverType == ResolverType.SPRING) {
+                            if (mResolverType == ResolverType.SPRING) {
                                 Spring mySpring = new Spring(theParticle,
                                                              myOtherParticle,
-                                                             _myCollisionSpringConstant,
-                                                             _myCollisionSpringDamping,
+                                                             mCollisionSpringConstant,
+                                                             mCollisionSpringDamping,
                                                              myMinimumDistance);
-                                _myCollisionPhysics.add(mySpring);
-                            } else if (_myResolverType == ResolverType.STICK) {
+                                mCollisionPhysics.add(mySpring);
+                            } else if (mResolverType == ResolverType.STICK) {
                                 Stick mySpring = new Stick(theParticle,
                                                            myOtherParticle,
                                                            myMinimumDistance);
-                                _myCollisionPhysics.add(mySpring);
+                                mCollisionPhysics.add(mySpring);
                             }
 
                             /* hack to prevent particles from being in the same place */
                             if (myDistance < mathematik.Mathematik.EPSILON
                                     && myDistance > -mathematik.Mathematik.EPSILON) {
-                                myOtherParticle.position().x += _myRandom.getFloat(_myResolveSamePosition.x * -0.5f,
-                                                                                   _myResolveSamePosition.x * 0.5f);
-                                myOtherParticle.position().y += _myRandom.getFloat(_myResolveSamePosition.y * -0.5f,
-                                                                                   _myResolveSamePosition.y * 0.5f);
-                                myOtherParticle.position().z += _myRandom.getFloat(_myResolveSamePosition.z * -0.5f,
-                                                                                   _myResolveSamePosition.z * 0.5f);
+                                myOtherParticle.position().x += mRandom.getFloat(mResolveSamePosition.x * -0.5f,
+                                                                                   mResolveSamePosition.x * 0.5f);
+                                myOtherParticle.position().y += mRandom.getFloat(mResolveSamePosition.y * -0.5f,
+                                                                                   mResolveSamePosition.y * 0.5f);
+                                myOtherParticle.position().z += mRandom.getFloat(mResolveSamePosition.z * -0.5f,
+                                                                                   mResolveSamePosition.z * 0.5f);
                             }
                         }
                     }
@@ -344,14 +344,14 @@ public class CollisionManager {
         }
 
         public void apply(final float theDeltaTime, final Physics theParticleSystem) {
-            if (!_myA.fixed() || !_myB.fixed()) {
-                float a2bX = _myA.position().x - _myB.position().x;
-                float a2bY = _myA.position().y - _myB.position().y;
-                float a2bZ = _myA.position().z - _myB.position().z;
+            if (!mA.fixed() || !mB.fixed()) {
+                float a2bX = mA.position().x - mB.position().x;
+                float a2bY = mA.position().y - mB.position().y;
+                float a2bZ = mA.position().z - mB.position().z;
                 final float myInversDistance = fastInverseSqrt(a2bX * a2bX + a2bY * a2bY + a2bZ * a2bZ);
                 final float myDistance = 1.0F / myInversDistance;
 
-                if (myDistance < _myRestLength) {
+                if (myDistance < mRestLength) {
                     if (myDistance == 0.0F) {
                         a2bX = 0.0F;
                         a2bY = 0.0F;
@@ -362,21 +362,21 @@ public class CollisionManager {
                         a2bZ *= myInversDistance;
                     }
 
-                    final float mSpringForce = -(myDistance - _myRestLength) * _mySpringConstant;
-                    final float Va2bX = _myA.velocity().x - _myB.velocity().x;
-                    final float Va2bY = _myA.velocity().y - _myB.velocity().y;
-                    final float Va2bZ = _myA.velocity().z - _myB.velocity().z;
-                    final float mDampingForce = -_mySpringDamping * (a2bX * Va2bX + a2bY * Va2bY + a2bZ * Va2bZ);
+                    final float mSpringForce = -(myDistance - mRestLength) * mSpringConstant;
+                    final float Va2bX = mA.velocity().x - mB.velocity().x;
+                    final float Va2bY = mA.velocity().y - mB.velocity().y;
+                    final float Va2bZ = mA.velocity().z - mB.velocity().z;
+                    final float mDampingForce = -mSpringDamping * (a2bX * Va2bX + a2bY * Va2bY + a2bZ * Va2bZ);
                     final float r = mSpringForce + mDampingForce;
                     a2bX *= r;
                     a2bY *= r;
                     a2bZ *= r;
-                    if (!_myA.fixed()) {
-                        _myA.force().add(a2bX, a2bY, a2bZ);
+                    if (!mA.fixed()) {
+                        mA.force().add(a2bX, a2bY, a2bZ);
                     }
 
-                    if (!_myB.fixed()) {
-                        _myB.force().add(-a2bX, -a2bY, -a2bZ);
+                    if (!mB.fixed()) {
+                        mB.force().add(-a2bX, -a2bY, -a2bZ);
                     }
                 }
             }
@@ -397,29 +397,29 @@ public class CollisionManager {
         }
 
         public void apply(Physics theParticleSystem) {
-            if (!_myA.fixed() || !_myB.fixed()) {
-                _myTempDistanceVector.sub(_myA.position(), _myB.position());
-                final float myDistanceSquared = _myTempDistanceVector.lengthSquared();
+            if (!mA.fixed() || !mB.fixed()) {
+                mTempDistanceVector.sub(mA.position(), mB.position());
+                final float myDistanceSquared = mTempDistanceVector.lengthSquared();
                 if (myDistanceSquared > 0) {
-                    if (myDistanceSquared < _myRestLength * _myRestLength) {
+                    if (myDistanceSquared < mRestLength * mRestLength) {
                         final float myDistance = (float)Math.sqrt(myDistanceSquared);
-                        final float myDifference = _myRestLength - myDistance;
+                        final float myDifference = mRestLength - myDistance;
                         if (myDifference > EPSILON || myDifference < -EPSILON) {
-                            if (!_myOneWay) {
+                            if (!mOneWay) {
                                 final float myDifferenceScale = 0.5f * myDifference / myDistance;
-                                _myTempVector.scale(myDifferenceScale, _myTempDistanceVector);
-                                _myA.position().add(_myTempVector);
-                                _myB.position().sub(_myTempVector);
+                                mTempVector.scale(myDifferenceScale, mTempDistanceVector);
+                                mA.position().add(mTempVector);
+                                mB.position().sub(mTempVector);
                             } else {
                                 final float myDifferenceScale = myDifference / myDistance;
-                                _myTempVector.scale(myDifferenceScale, _myTempDistanceVector);
-                                _myB.position().sub(_myTempVector);
+                                mTempVector.scale(myDifferenceScale, mTempDistanceVector);
+                                mB.position().sub(mTempVector);
                             }
                         }
                     }
                 } else {
-                    _myB.position().set(_myA.position());
-                    _myB.position().x += _myRestLength;
+                    mB.position().set(mA.position());
+                    mB.position().x += mRestLength;
                 }
             }
         }
