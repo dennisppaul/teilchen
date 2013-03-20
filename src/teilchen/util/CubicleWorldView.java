@@ -27,12 +27,12 @@ package teilchen.util;
 import mathematik.TransformMatrix4f;
 import mathematik.Vector3f;
 
-import processing.core.PApplet;
+import processing.core.PGraphics;
 import teilchen.cubicle.CubicleAtom;
 import teilchen.cubicle.CubicleWorld;
 
 
-public class P5CubicleWorldView {
+public class CubicleWorldView {
 
     private final CubicleWorld mCubicleWorld;
 
@@ -41,12 +41,12 @@ public class P5CubicleWorldView {
     public int color_empty = -8421505;
 
 
-    public P5CubicleWorldView(CubicleWorld theWorld) {
+    public CubicleWorldView(CubicleWorld theWorld) {
         mCubicleWorld = theWorld;
     }
 
 
-    public void draw(PApplet theParent) {
+    public void draw(PGraphics theParent) {
 
         /* collect data */
         final CubicleAtom[][][] myData = mCubicleWorld.getDataRef();

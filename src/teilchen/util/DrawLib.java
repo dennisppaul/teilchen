@@ -38,7 +38,7 @@ import teilchen.force.TriangleDeflector;
 import processing.core.PGraphics;
 
 
-public class P5DrawLib {
+public class DrawLib {
 
     public static void drawAttractor(final PGraphics g,
                                      final List<IForce> theForces,
@@ -50,8 +50,10 @@ public class P5DrawLib {
         }
     }
 
+
     /**
      * draw attractors.
+     *
      * @param g PGraphics
      * @param myAttractor Attractor
      * @param theColor int
@@ -69,6 +71,7 @@ public class P5DrawLib {
         g.popMatrix();
     }
 
+
     public static void drawParticles(final PGraphics g,
                                      final Physics theParticleSystem,
                                      float theSize,
@@ -78,6 +81,7 @@ public class P5DrawLib {
              theSize,
              theColor);
     }
+
 
     public static void drawParticles(final PGraphics g,
                                      final Physics theParticleSystem,
@@ -90,6 +94,7 @@ public class P5DrawLib {
              theStrokeColor,
              theFillColor);
     }
+
 
     public static void drawSprings(final PGraphics g,
                                    final Physics theParticleSystem,
@@ -107,8 +112,10 @@ public class P5DrawLib {
         }
     }
 
+
     /**
      * draw particles.
+     *
      * @param g PGraphics
      * @param theParticles Vector
      * @param theSize float
@@ -130,8 +137,10 @@ public class P5DrawLib {
         }
     }
 
+
     /**
      * draw particles.
+     *
      * @param g PGraphics
      * @param theParticles Vector
      * @param theSize float
@@ -154,8 +163,10 @@ public class P5DrawLib {
         }
     }
 
+
     /**
      * draw triangle deflector with bounding box.
+     *
      * @param g PGraphics
      * @param theTriangleDeflector TriangleDeflector
      * @param theTriangleColor int
@@ -183,8 +194,10 @@ public class P5DrawLib {
              theBBColor);
     }
 
+
     /**
      * draw buunding box.
+     *
      * @param g PGraphics
      * @param theWorldAxisAlignedBoundingBox WorldAxisAlignedBoundingBox
      * @param theColor int
@@ -203,8 +216,10 @@ public class P5DrawLib {
         g.popMatrix();
     }
 
+
     /**
      * draw a triangle with a normal
+     *
      * @param g PGraphics
      * @param a Vector3f
      * @param b Vector3f
@@ -242,30 +257,47 @@ public class P5DrawLib {
                myCenterOfMass.z + myNormal.z);
     }
 
-    /**
-     * draw a cross.
-     * @param thePosition Vector3f
-     * @param mySize float
-     * @param theColor int
-     */
-    public static void drawCross(final PGraphics g,
-                                 final Vector3f thePosition,
-                                 float mySize,
-                                 int theColor) {
-        g.stroke(theColor);
+
+    public static void cross2(final PGraphics g,
+                              final Vector3f pPosition,
+                              float pSize) {
         g.line(
-                thePosition.x + mySize,
-                thePosition.y + mySize,
-                thePosition.z,
-                thePosition.x - mySize,
-                thePosition.y - mySize,
-                thePosition.z);
+                pPosition.x + pSize,
+                pPosition.y + pSize,
+                pPosition.z,
+                pPosition.x - pSize,
+                pPosition.y - pSize,
+                pPosition.z);
         g.line(
-                thePosition.x + mySize,
-                thePosition.y - mySize,
-                thePosition.z,
-                thePosition.x - mySize,
-                thePosition.y + mySize,
-                thePosition.z);
+                pPosition.x + pSize,
+                pPosition.y - pSize,
+                pPosition.z,
+                pPosition.x - pSize,
+                pPosition.y + pSize,
+                pPosition.z);
+    }
+
+
+    public static void cross3(final PGraphics g,
+                              final Vector3f pPosition,
+                              float pSize) {
+        g.line(pPosition.x - pSize,
+               pPosition.y,
+               pPosition.z,
+               pPosition.x + pSize,
+               pPosition.y,
+               pPosition.z);
+        g.line(pPosition.x,
+               pPosition.y - pSize,
+               pPosition.z,
+               pPosition.x,
+               pPosition.y + pSize,
+               pPosition.z);
+        g.line(pPosition.x,
+               pPosition.y,
+               pPosition.z - pSize,
+               pPosition.x,
+               pPosition.y,
+               pPosition.z + pSize);
     }
 }

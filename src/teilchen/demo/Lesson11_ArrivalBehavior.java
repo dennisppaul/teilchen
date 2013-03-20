@@ -33,7 +33,7 @@ import teilchen.behavior.Arrival;
 /**
  * this sketch shows how to assign an 'arrival' behavior to a particle.
  */
-public class Lesson10_Behaviors
+public class Lesson11_ArrivalBehavior
         extends PApplet {
 
     private Physics mPhysics;
@@ -41,6 +41,7 @@ public class Lesson10_Behaviors
     private BehaviorParticle mParticle;
 
     private Arrival mArrival;
+
 
     public void setup() {
         size(640, 480, OPENGL);
@@ -56,12 +57,13 @@ public class Lesson10_Behaviors
         mParticle = mPhysics.makeParticle(BehaviorParticle.class);
         mParticle.maximumInnerForce(100);
 
-        /* create arrival behavior */
+        /* create behavior */
         mArrival = new Arrival();
         mArrival.breakforce(mParticle.maximumInnerForce() * 0.25f);
         mArrival.breakradius(mParticle.maximumInnerForce() * 0.25f);
         mParticle.behaviors().add(mArrival);
     }
+
 
     public void draw() {
 
@@ -99,7 +101,8 @@ public class Lesson10_Behaviors
                 mArrival.breakradius() * 2);
     }
 
+
     public static void main(String[] args) {
-        PApplet.main(new String[] {Lesson10_Behaviors.class.getName()});
+        PApplet.main(new String[] {Lesson11_ArrivalBehavior.class.getName()});
     }
 }
