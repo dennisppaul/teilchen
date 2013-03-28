@@ -72,8 +72,6 @@ public class Physics {
         mParticles.add(theParticle);
     }
 
-
-
     public void add(Collection<? extends Particle> theParticles) {
         mParticles.addAll(theParticles);
     }
@@ -81,7 +79,6 @@ public class Physics {
     public void remove(Particle theParticle) {
         mParticles.remove(theParticle);
     }
-
 
     public void remove(Collection<? extends Particle> theParticles) {
 
@@ -167,7 +164,7 @@ public class Physics {
         mForces.add(theForce);
     }
 
-    public void addForces(final Vector<IForce> theForces) {
+    public void addForces(final Vector<? extends IForce> theForces) {
         mForces.addAll(theForces);
     }
 
@@ -259,7 +256,7 @@ public class Physics {
         mConstraints.add(theConstraint);
     }
 
-    public void addConstraints(final Vector<IConstraint> theConstraints) {
+    public void addConstraints(final Vector<? extends IConstraint> theConstraints) {
         mConstraints.addAll(theConstraints);
     }
 
