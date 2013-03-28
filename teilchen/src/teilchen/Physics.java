@@ -72,7 +72,9 @@ public class Physics {
         mParticles.add(theParticle);
     }
 
-    public void add(Collection<Particle> theParticles) {
+
+
+    public void add(Collection<? extends Particle> theParticles) {
         mParticles.addAll(theParticles);
     }
 
@@ -80,7 +82,9 @@ public class Physics {
         mParticles.remove(theParticle);
     }
 
-    public void remove(Collection<Particle> theParticles) {
+
+    public void remove(Collection<? extends Particle> theParticles) {
+
         mParticles.removeAll(theParticles);
     }
 
