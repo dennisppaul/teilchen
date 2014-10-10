@@ -1,6 +1,5 @@
 package teilchen.force;
 
-
 import mathematik.Intersection;
 import mathematik.Intersection.Result;
 import mathematik.Vector3f;
@@ -8,7 +7,6 @@ import mathematik.WorldAxisAlignedBoundingBox;
 
 import teilchen.Particle;
 import teilchen.Physics;
-
 
 public class TriangleDeflector
         implements IForce {
@@ -21,7 +19,7 @@ public class TriangleDeflector
 
     private final Vector3f _myNormal;
 
-    private float _myCoefficientOfRestitution;
+    private float mCoefficientOfRestitution;
 
     private final Vector3f _myTempReflectionVector;
 
@@ -29,7 +27,7 @@ public class TriangleDeflector
 
     private final Vector3f _myTempTangentComponent;
 
-    private final Result _myTempResult;
+    private final Result mResult;
 
     private final Vector3f myTempPointOfIntersection = new Vector3f();
 
@@ -55,12 +53,12 @@ public class TriangleDeflector
         _myVectorCollection[2] = c;
 
         _myNormal = new Vector3f();
-        _myCoefficientOfRestitution = 1.0f;
+        mCoefficientOfRestitution = 1.0f;
 
         _myTempReflectionVector = new Vector3f();
         _myTempNormalComponent = new Vector3f();
         _myTempTangentComponent = new Vector3f();
-        _myTempResult = new Result();
+        mResult = new Result();
         _myWorldAxisAlignedBoundingBox = new WorldAxisAlignedBoundingBox();
 
         _myActive = true;
@@ -87,6 +85,8 @@ public class TriangleDeflector
         mathematik.Util.updateBoundingBox(_myWorldAxisAlignedBoundingBox, _myVectorCollection);
     }
 
+    private float mPreviousT = -1.0f;
+
     public void apply(final float theDeltaTime, final Physics theParticleSystem) {
 
         /* update triangle properties -- maybe this is better not done automatically */
@@ -110,7 +110,8 @@ public class TriangleDeflector
                 }
 
                 /* only test if in bounding box */
-                if (mathematik.Util.contains(myParticle.position(), _myWorldAxisAlignedBoundingBox)) {
+                final boolean INGNORE_BOUNDING_BOX = true;
+                if (INGNORE_BOUNDING_BOX || mathematik.Util.contains(myParticle.position(), _myWorldAxisAlignedBoundingBox)) {
                     final Vector3f myRay;
                     boolean USE_NORMAL = true;
                     if (USE_NORMAL) {
@@ -118,20 +119,21 @@ public class TriangleDeflector
                     } else {
                         myRay = myParticle.velocity();
                     }
-                    final boolean mySucces = Intersection.intersectRayTriangle(myParticle.position(),
+                    final boolean CULLING_TEST = true;
+                    final boolean mSuccess = Intersection.intersectRayTriangle(myParticle.position(),
                                                                                myRay,
                                                                                a, b, c,
-                                                                               _myTempResult,
-                                                                               true);
+                                                                               mResult,
+                                                                               CULLING_TEST);
                     /* is particle past plane. */
-                    if (mySucces && _myTempResult.t < 0) {
+                    if (mSuccess && mResult.t <= 0 && mPreviousT > 0) {
                         myTempPointOfIntersection.set(myParticle.velocity());
-                        myTempPointOfIntersection.scale(_myTempResult.t);
+                        myTempPointOfIntersection.scale(mResult.t);
                         myTempPointOfIntersection.add(myParticle.position());
                         myParticle.position().set(myTempPointOfIntersection);
 
                         /* change direction */
-                        if (_myCoefficientOfRestitution != 0) {
+                        if (mCoefficientOfRestitution != 0) {
                             seperateComponents(myParticle, _myNormal);
                             myParticle.velocity().set(_myTempReflectionVector);
                         } else {
@@ -142,6 +144,11 @@ public class TriangleDeflector
                         _myGotHit = true;
                         myParticle.tag(true);
                         markParticle(myParticle);
+                    }
+                    if (mSuccess) {
+                        mPreviousT = mResult.t;
+                    } else {
+                        mPreviousT = 0.0f;
                     }
                 }
 
@@ -159,21 +166,21 @@ public class TriangleDeflector
     }
 
     public void coefficientofrestitution(float theCoefficientOfRestitution) {
-        _myCoefficientOfRestitution = theCoefficientOfRestitution;
+        mCoefficientOfRestitution = theCoefficientOfRestitution;
     }
 
     public float coefficientofrestitution() {
-        return _myCoefficientOfRestitution;
+        return mCoefficientOfRestitution;
     }
 
-    private final void seperateComponents(Particle theParticle, Vector3f normal) {
+    private void seperateComponents(Particle theParticle, Vector3f normal) {
         /* normal */
         _myTempNormalComponent.set(normal);
         _myTempNormalComponent.scale(normal.dot(theParticle.velocity()));
         /* tangent */
         _myTempTangentComponent.sub(theParticle.velocity(), _myTempNormalComponent);
         /* negate normal */
-        _myTempNormalComponent.scale(-_myCoefficientOfRestitution);
+        _myTempNormalComponent.scale(-mCoefficientOfRestitution);
         /* set reflection vector */
         _myTempReflectionVector.add(_myTempTangentComponent, _myTempNormalComponent);
     }

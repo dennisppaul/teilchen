@@ -37,7 +37,7 @@ public class Motor
 
     private float mStrength;
 
-    private Vector3f mForce;
+    private final Vector3f mForce;
 
     private float mWeight;
 

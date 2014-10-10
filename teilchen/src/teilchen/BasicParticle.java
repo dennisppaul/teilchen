@@ -38,7 +38,7 @@ public class BasicParticle
 
     private Vector3f mPosition;
 
-    private Vector3f mOldPosition;
+    private final Vector3f mOldPosition;
 
     private final Vector3f mVelocity;
 
