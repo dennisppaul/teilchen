@@ -29,6 +29,7 @@ public class Steering implements IBehavior,
                                  Verhalten {
 
     private final Vector3f mForce;
+    private final Vector3f mUPVector;
 
     private float mWeight;
 
@@ -38,6 +39,7 @@ public class Steering implements IBehavior,
 
     public Steering() {
         mForce = new Vector3f();
+        mUPVector = new Vector3f(0, 0, -1);
         mWeight = 1;
     }
 
@@ -47,7 +49,7 @@ public class Steering implements IBehavior,
             Vector3f mDirection = new Vector3f(pParent.velocity());
             if (mDirection.lengthSquared() > 0) {
                 mDirection.normalize();
-                mDirection = mathematik.Util.cross(mDirection, new Vector3f(0, 0, 1));
+                mDirection = mathematik.Util.cross(mDirection, mUPVector);
                 mDirection.scale(mSteering);
                 mForce.set(mDirection);
             } else {
@@ -68,6 +70,10 @@ public class Steering implements IBehavior,
 
     public Vector3f force() {
         return mForce;
+    }
+
+    public Vector3f upvector() {
+        return mUPVector;
     }
 
     public float weight() {

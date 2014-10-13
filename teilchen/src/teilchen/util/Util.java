@@ -32,6 +32,7 @@ import teilchen.force.TriangleDeflector;
 import teilchen.force.TriangleDeflectorIndexed;
 
 import java.util.Vector;
+import teilchen.constraint.IConstraint;
 
 
 public class Util {
@@ -123,9 +124,9 @@ public class Util {
         theVector.add(TMP_TANGENT, TMP_NORMAL);
     }
 
-    public static final Vector<IForce> createTriangleDeflectors(final float[] theVertices,
+    public static final Vector<IConstraint> createTriangleDeflectors(final float[] theVertices,
                                                                 final float theCoefficientOfRestitution) {
-        final Vector<IForce> myDeflectors = new Vector<IForce>();
+        final Vector<IConstraint> myDeflectors = new Vector<IConstraint>();
         for (int i = 0; i < theVertices.length / 9; i++) {
             final TriangleDeflector myTriangleDeflector = new TriangleDeflector();
             myTriangleDeflector.a().set(theVertices[i * 9 + 0],
@@ -144,9 +145,9 @@ public class Util {
         return myDeflectors;
     }
 
-    public static final Vector<IForce> createTriangleDeflectorsIndexed(final float[] theVertices,
+    public static final Vector<IConstraint> createTriangleDeflectorsIndexed(final float[] theVertices,
                                                                        final float theCoefficientOfRestitution) {
-        final Vector<IForce> myDeflectors = new Vector<IForce>();
+        final Vector<IConstraint> myDeflectors = new Vector<IConstraint>();
         for (int i = 0; i < theVertices.length / 9; i++) {
             final TriangleDeflectorIndexed myTriangleDeflector = new TriangleDeflectorIndexed(
                     theVertices,

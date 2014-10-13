@@ -32,29 +32,29 @@ import teilchen.Physics;
 public class PlaneDeflector
         implements IForce {
 
-    private Plane3f _myPlane;
+    private final Plane3f mPlane;
 
-    private float _myCoefficientOfRestitution;
+    private float mCoefficientOfRestitution;
 
     private final Vector3f _myTempDiff;
 
-    private final Vector3f _myTempReflectionVector;
+    private final Vector3f mTempReflectionVector;
 
-    private final Vector3f _myTempNormalComponent;
+    private final Vector3f mTempNormalComponent;
 
-    private final Vector3f _myTempTangentComponent;
+    private final Vector3f mTempTangentComponent;
 
     private boolean _myActive;
 
     public PlaneDeflector() {
-        _myPlane = new Plane3f();
-        _myPlane.normal = new Vector3f(0, 1, 0);
-        _myCoefficientOfRestitution = 1.0f;
+        mPlane = new Plane3f();
+        mPlane.normal = new Vector3f(0, 1, 0);
+        mCoefficientOfRestitution = 1.0f;
 
         _myTempDiff = new Vector3f();
-        _myTempReflectionVector = new Vector3f();
-        _myTempNormalComponent = new Vector3f();
-        _myTempTangentComponent = new Vector3f();
+        mTempReflectionVector = new Vector3f();
+        mTempNormalComponent = new Vector3f();
+        mTempTangentComponent = new Vector3f();
         _myActive = true;
     }
 
@@ -62,7 +62,7 @@ public class PlaneDeflector
         for (final Particle myParticle : theParticleSystem.particles()) {
             if (!myParticle.fixed()) {
                 /* test if particle passed plane */
-                if (testParticlePosition(myParticle, _myPlane) < 0) {
+                if (testParticlePosition(myParticle, mPlane) < 0) {
 
                     /* find intersection with plane */
                     Vector3f myResult = new Vector3f();
@@ -72,8 +72,8 @@ public class PlaneDeflector
                      * stable.
                      */
                     final float myIntersectionResult = intersectLinePlane(myParticle.position(),
-                                                                          _myPlane.normal,
-                                                                          _myPlane,
+                                                                          mPlane.normal,
+                                                                          mPlane,
                                                                           myResult);
 
                     /* remove particle from collision */
@@ -83,23 +83,23 @@ public class PlaneDeflector
                     }
 
                     /* change direction */
-                    seperateComponents(myParticle, _myPlane);
-                    myParticle.velocity().set(_myTempReflectionVector);
+                    seperateComponents(myParticle, mPlane);
+                    myParticle.velocity().set(mTempReflectionVector);
                 }
             }
         }
     }
 
     public Plane3f plane() {
-        return _myPlane;
+        return mPlane;
     }
 
     public void coefficientofrestitution(float theCoefficientOfRestitution) {
-        _myCoefficientOfRestitution = theCoefficientOfRestitution;
+        mCoefficientOfRestitution = theCoefficientOfRestitution;
     }
 
     public float coefficientofrestitution() {
-        return _myCoefficientOfRestitution;
+        return mCoefficientOfRestitution;
     }
 
     private final float testParticlePosition(Particle theParticle, Plane3f thePlane) {
@@ -111,21 +111,21 @@ public class PlaneDeflector
 
     private final void seperateComponents(Particle theParticle, Plane3f thePlane) {
         /* normal */
-        _myTempNormalComponent.set(thePlane.normal);
-        _myTempNormalComponent.scale(thePlane.normal.dot(theParticle.velocity()));
+        mTempNormalComponent.set(thePlane.normal);
+        mTempNormalComponent.scale(thePlane.normal.dot(theParticle.velocity()));
         /* tangent */
-        _myTempTangentComponent.sub(theParticle.velocity(), _myTempNormalComponent);
+        mTempTangentComponent.sub(theParticle.velocity(), mTempNormalComponent);
         /* negate normal */
-        _myTempNormalComponent.scale(-_myCoefficientOfRestitution);
+        mTempNormalComponent.scale(-mCoefficientOfRestitution);
         /* set reflection vector */
-        _myTempReflectionVector.add(_myTempTangentComponent, _myTempNormalComponent);
+        mTempReflectionVector.add(mTempTangentComponent, mTempNormalComponent);
     }
 
     private final float intersectLinePlane(final Vector3f theRayOrigin,
                                            final Vector3f theRayDirection,
                                            final Plane3f thePlane,
                                            final Vector3f theIntersectionPoint) {
-        float myT = 0;
+        float myT;
         final float myDenominator = thePlane.normal.dot(theRayDirection);
 
         if (myDenominator == 0) {

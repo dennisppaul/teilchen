@@ -47,7 +47,7 @@ public class Box
     public Box(final Vector3f theMin, final Vector3f theMax) {
         _myMin = theMin;
         _myMax = theMax;
-        _myReflectFlag = false;
+        _myReflectFlag = true;
         _myCoefficientOfRestitution = 1.0f;
         _myTeleport = false;
     }

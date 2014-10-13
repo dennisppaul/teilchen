@@ -21,7 +21,6 @@
  */
 package teilchen;
 
-
 import mathematik.Vector3f;
 
 import teilchen.constraint.IConstraint;
@@ -35,7 +34,7 @@ import teilchen.integration.Verlet;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Vector;
-
+import teilchen.integration.RungeKutta;
 
 public class Physics {
 
@@ -57,7 +56,7 @@ public class Physics {
 
     public int contraint_iterations_per_steps = 1;
 
-    public static boolean HINT_UPDATE_OLD_POSITION = false;
+    public static boolean HINT_UPDATE_OLD_POSITION = true;
 
     public Physics() {
         mParticles = new Vector<Particle>();
@@ -211,7 +210,7 @@ public class Physics {
             myForce = theForceClass.newInstance();
             mForces.add(myForce);
         } catch (Exception ex) {
-            System.out.println(ex);
+            System.err.println(ex);
             myForce = null;
         }
         return myForce;
@@ -289,16 +288,10 @@ public class Physics {
     }
 
     public void step(final float theDeltaTime) {
-        /* handle forces */
+        prepareParticles(theDeltaTime);
         handleForces();
-
-        /* integrate */
         integrate(theDeltaTime);
-
-        /* handle particles */
         handleParticles(theDeltaTime);
-
-        /* handle constraints */
         handleContraints();
     }
 
@@ -362,6 +355,18 @@ public class Physics {
                 if (HINT_OPTIMIZE_STILL) {
                     final float mySpeed = myParticle.velocity().lengthSquared();
                     myParticle.still(mySpeed > -EPSILON && mySpeed < EPSILON);
+                }
+            }
+        }
+    }
+
+    protected synchronized void prepareParticles(float theDeltaTime) {
+        synchronized (mParticles) {
+            final Iterator<Particle> iter = mParticles.iterator();
+            while (iter.hasNext()) {
+                final Particle myParticle = iter.next();
+                if (HINT_UPDATE_OLD_POSITION) {
+                    myParticle.old_position().set(myParticle.position());
                 }
             }
         }
