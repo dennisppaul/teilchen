@@ -1,3 +1,5 @@
+import mathematik.*;
+
 import processing.opengl.*;
 
 import teilchen.BehaviorParticle;
@@ -14,7 +16,7 @@ import teilchen.util.CollisionManager;
 
 Physics mPhysics;
 
-Vector<Duckling> mDucklings;
+ArrayList<Duckling> mDucklings;
 
 CollisionManager mCollision;
 
@@ -35,11 +37,11 @@ void setup() {
   mCollision.minimumDistance(25);
 
   /* ducklings */
-  mDucklings = new Vector<Duckling>();
+  mDucklings = new ArrayList<Duckling>();
   for (int i = 0; i < 13; i++) {
     final Duckling mDuckling = new Duckling();
     if (!mDucklings.isEmpty()) {
-      mDuckling.arrival.setPositionRef(mDucklings.lastElement().particle.position());
+      mDuckling.arrival.setPositionRef(mDucklings.get(mDucklings.size()-1).particle.position());
     }
     mCollision.collision().add(mDuckling.particle);
     mDucklings.add(mDuckling);
@@ -59,8 +61,8 @@ void draw() {
   drawCollisionSprings();
   mCollision.removeCollisionResolver();
 
-  mDucklings.firstElement().arrival.oversteer(!mousePressed);
-  mDucklings.firstElement().arrival.position().set(mouseX, mouseY);
+  mDucklings.get(0).arrival.oversteer(!mousePressed);
+  mDucklings.get(0).arrival.position().set(mouseX, mouseY);
 
   /* draw */
   for (int i=0; i < mDucklings.size(); i++) {
@@ -71,8 +73,8 @@ void draw() {
   /* draw arrival */
   stroke(0, 0.25f);
   noFill();
-  ellipse(mDucklings.firstElement().arrival.position().x,
-  mDucklings.firstElement().arrival.position().y,
+  ellipse(mDucklings.get(0).arrival.position().x,
+  mDucklings.get(0).arrival.position().y,
   20, 20);
 }
 

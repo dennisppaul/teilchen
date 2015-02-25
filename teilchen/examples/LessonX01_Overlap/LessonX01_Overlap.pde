@@ -1,9 +1,10 @@
 import processing.opengl.*;
+import mathematik.*;
 
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.force.Spring;
-import teilchen.util.AntiOverlap;
+import teilchen.util.Overlap;
 
 /**
  * this sketch is exactly like Lesson06_Springs, except that it also shows how to remove overlaps.
@@ -37,7 +38,7 @@ void draw() {
   }
 
   /* move overlapping particles away from each other */
-  AntiOverlap.remove(mPhysics.particles());
+  Overlap.resolveOverlap(mPhysics.particles());
 
   /* update the particle system */
   final float mDeltaTime = 1.0 / frameRate;

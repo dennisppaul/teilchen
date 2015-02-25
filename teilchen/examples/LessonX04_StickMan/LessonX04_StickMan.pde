@@ -1,11 +1,36 @@
+import mathematik.*;
+
+import teilchen.test.cubicle.*;
+import teilchen.integration.*;
+import verhalten.*;
+import teilchen.*;
+import verhalten.view.*;
+import teilchen.test.particle.behavior.*;
+import teilchen.behavior.*;
+import teilchen.demo.*;
+import teilchen.test.particle.springs.*;
+import teilchen.gestalt.test.*;
+import teilchen.cubicle.*;
+import verhalten.test.*;
+import teilchen.force.flowfield.*;
+import teilchen.test.particle.*;
+import teilchen.gestalt.util.*;
+import teilchen.constraint.*;
+import teilchen.force.vectorfield.*;
+import teilchen.force.*;
+import teilchen.util.*;
+
+import mathematik.*;
+
 import teilchen.Physics;
 import teilchen.force.Attractor;
 import teilchen.force.Gravity;
 import teilchen.force.Spring;
 import teilchen.force.ViscousDrag;
 import teilchen.integration.RungeKutta;
-import teilchen.util.AntiOverlap;
+import teilchen.util.Overlap;
 import teilchen.util.StickMan;
+
 
 
 /**
@@ -54,7 +79,7 @@ void setup() {
 void draw() {
 
   mPhysics.step(1f / 60f);
-  AntiOverlap.remove(mPhysics.particles());
+  Overlap.resolveOverlap(mPhysics.particles());
 
   /* constraint particles */
   for (int i = 0; i < mPhysics.particles().size(); i++) {

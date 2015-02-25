@@ -1,9 +1,11 @@
 import processing.opengl.*;
 
+import mathematik.*;
+
 import teilchen.Physics;
 import teilchen.force.Gravity;
 import teilchen.force.ViscousDrag;
-import teilchen.util.P5DrawLib;
+import teilchen.util.DrawLib;
 import teilchen.Particle;
 import teilchen.constraint.Box;
 import teilchen.integration.RungeKutta;
@@ -75,7 +77,7 @@ void draw() {
 
   /* draw */
   background(255);
-  P5DrawLib.drawSprings(g, mPhysics, color(255, 0, 127, 64));
-  P5DrawLib.drawParticles(g, mPhysics, 12, color(164), color(245));
+  DrawLib.drawSprings(g, mPhysics, color(255, 0, 127, 64));
+  DrawLib.drawParticles(g, mPhysics, 12, color(164), color(245));
 }
 

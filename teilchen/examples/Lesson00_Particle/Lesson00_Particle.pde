@@ -1,4 +1,8 @@
+import mathematik.*;
+
 import processing.opengl.*;
+
+import mathematik.*;
 
 import teilchen.Particle;
 import teilchen.Physics;

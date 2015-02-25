@@ -1,3 +1,5 @@
+import mathematik.*;
+
 import teilchen.BehaviorParticle;
 import teilchen.Physics;
 import teilchen.behavior.Arrival;
