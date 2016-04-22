@@ -1,7 +1,10 @@
 #!/bin/sh
 
-SRC=$1/../../../netbeans/dist/teilchen.jar
-DST=$1/../processing-library/teilchen/library
+LIB_NAME=$1
+ROOT=$(pwd)
+
+SRC=$ROOT/../lib/$LIB_NAME.jar
+DST=$ROOT/../processing-library/$LIB_NAME/library/
 
 if [ -d "$DST" ]; then
 	rm -rf "$DST"

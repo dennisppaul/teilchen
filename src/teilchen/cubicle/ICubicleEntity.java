@@ -21,8 +21,8 @@
  */
 package teilchen.cubicle;
 
-import mathematik.Vector3f;
-import mathematik.Vector3i;
+import processing.core.PVector;
+import teilchen.util.Vector3i;
 
 public interface ICubicleEntity {
 
@@ -36,13 +36,17 @@ public interface ICubicleEntity {
     /**
      * get reference to position vector
      *
-     * @return Vector3f
+     * @return PVector
      */
-    Vector3f position();
+    PVector position();
 
     /**
      * returns true if the new position don t match the previously stored
      * position
+     *
+     * @param theX
+     * @param theY
+     * @param theZ
      *
      * @return boolean
      */

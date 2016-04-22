@@ -21,33 +21,34 @@
  */
 package teilchen.constraint;
 
-import mathematik.Vector3f;
+import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
+import teilchen.util.Util;
 
 public class Teleporter
         implements IConstraint {
 
     protected boolean mActive = true;
 
-    private final Vector3f mMin;
+    private final PVector mMin;
 
-    private final Vector3f mMax;
+    private final PVector mMax;
 
     public Teleporter() {
-        this(new Vector3f(), new Vector3f());
+        this(new PVector(), new PVector());
     }
 
-    public Teleporter(final Vector3f pMin, final Vector3f pMax) {
-        mMin = new Vector3f(pMin);
-        mMax = new Vector3f(pMax);
+    public Teleporter(final PVector pMin, final PVector pMax) {
+        mMin = Util.clone(pMin);
+        mMax = Util.clone(pMax);
     }
 
-    public Vector3f max() {
+    public PVector max() {
         return mMax;
     }
 
-    public Vector3f min() {
+    public PVector min() {
         return mMin;
     }
 

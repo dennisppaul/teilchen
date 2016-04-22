@@ -22,14 +22,13 @@
 package teilchen.util;
 
 import java.util.Vector;
-
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.ShortLivedParticle;
 
 public class ParticleTrail {
 
-    private Physics _myTrailParticleSystem;
+    private final Physics _myTrailParticleSystem;
 
     private final Particle _myParticle;
 

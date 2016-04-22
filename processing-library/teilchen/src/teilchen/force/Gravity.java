@@ -21,8 +21,7 @@
  */
 package teilchen.force;
 
-import mathematik.Vector3f;
-
+import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
 
@@ -31,22 +30,22 @@ public class Gravity
 
     private boolean _myActive;
 
-    private Vector3f _myForce;
+    private PVector _myForce;
 
-    public Gravity(final Vector3f theForce) {
+    public Gravity(final PVector theForce) {
         _myActive = true;
         _myForce = theForce;
     }
 
     public Gravity() {
-        this(new Vector3f(0, 9.81f, 0));
+        this(new PVector(0, 9.81f, 0));
     }
 
     public Gravity(float theX, float theY, float theZ) {
-        this(new Vector3f(theX, theY, theZ));
+        this(new PVector(theX, theY, theZ));
     }
 
-    public Vector3f force() {
+    public PVector force() {
         return _myForce;
     }
 

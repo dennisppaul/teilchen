@@ -21,8 +21,7 @@
  */
 package teilchen;
 
-import mathematik.Vector3f;
-
+import processing.core.PVector;
 import teilchen.util.SpatialEntity;
 
 public interface Particle
@@ -40,15 +39,15 @@ public interface Particle
 
     void mass(float theMass);
 
-    Vector3f position();
+    PVector position();
 
-    Vector3f old_position();
+    PVector old_position();
 
-    void setPositionRef(Vector3f thePosition);
+    void setPositionRef(PVector thePosition);
 
-    Vector3f velocity();
+    PVector velocity();
 
-    Vector3f force();
+    PVector force();
 
     boolean dead();
 

@@ -21,17 +21,19 @@
  */
 package teilchen.behavior;
 
-import mathematik.Vector3f;
+import processing.core.PVector;
+import static processing.core.PVector.*;
 import teilchen.IBehaviorParticle;
+import teilchen.util.Util;
 
 public class Arrival
         implements IBehavior, Verhalten {
 
     static final long serialVersionUID = 6897889750581191781L;
 
-    private Vector3f mSeekPosition;
+    private PVector mSeekPosition;
 
-    private final Vector3f mForce;
+    private final PVector mForce;
 
     private float mWeight;
 
@@ -48,8 +50,8 @@ public class Arrival
     public Arrival() {
         mBreakRadius = 50.0f;
         mBreakForce = 50.0f;
-        mForce = new Vector3f();
-        mSeekPosition = new Vector3f();
+        mForce = new PVector();
+        mSeekPosition = new PVector();
         mWeight = 1;
         mIsArriving = false;
         mHasArrived = false;
@@ -72,11 +74,11 @@ public class Arrival
         mOverSteer = pOverSteer;
     }
 
-    public Vector3f position() {
+    public PVector position() {
         return mSeekPosition;
     }
 
-    public void setPositionRef(final Vector3f pPoint) {
+    public void setPositionRef(final PVector pPoint) {
         mSeekPosition = pPoint;
     }
 
@@ -97,13 +99,13 @@ public class Arrival
     }
 
     public void update(float theDeltaTime, IBehaviorParticle pParent) {
-        mForce.sub(mSeekPosition, pParent.position());
-        final float myDistanceToArrivalPoint = mForce.length();
+        sub(mSeekPosition, pParent.position(), mForce);
+        final float myDistanceToArrivalPoint = mForce.mag();
 
         /* get direction */
         if (myDistanceToArrivalPoint < mBreakRadius) {
             mIsArriving = true;
-            final float mSpeed = pParent.velocity().length();
+            final float mSpeed = pParent.velocity().mag();
             final float MIN_ACCEPTABLE_SPEED = 10.0f;
             if (mSpeed < MIN_ACCEPTABLE_SPEED) {
                 /* sleep */
@@ -115,15 +117,15 @@ public class Arrival
                 if (USE_WEIGHTED_BREAK_FORCE) {
                     final float mRatio = myDistanceToArrivalPoint / mBreakRadius;
 
-                    final Vector3f mBreakForceVector = new Vector3f(pParent.velocity());
-                    mBreakForceVector.scale(-mBreakForce);
-                    mBreakForceVector.scale(1.0f - mRatio);
+                    final PVector mBreakForceVector = Util.clone(pParent.velocity());
+                    mBreakForceVector.mult(-mBreakForce);
+                    mBreakForceVector.mult(1.0f - mRatio);
 
-                    final Vector3f mSteerForce = new Vector3f(mForce);
-                    mSteerForce.scale(pParent.maximumInnerForce() / myDistanceToArrivalPoint);
-                    mSteerForce.scale(mRatio);
+                    final PVector mSteerForce = Util.clone(mForce);
+                    mSteerForce.mult(pParent.maximumInnerForce() / myDistanceToArrivalPoint);
+                    mSteerForce.mult(mRatio);
 
-                    mForce.add(mBreakForceVector, mSteerForce);
+                    add(mBreakForceVector, mSteerForce, mForce);
                 } else {
                     mForce.set(pParent.velocity().x * -mBreakForce,
                                pParent.velocity().y * -mBreakForce,
@@ -133,17 +135,17 @@ public class Arrival
             }
         } else {
             /* outside of the outter radius continue 'seeking' */
-            mForce.scale(pParent.maximumInnerForce() / myDistanceToArrivalPoint);
+            mForce.mult(pParent.maximumInnerForce() / myDistanceToArrivalPoint);
             if (mOverSteer) {
-                mForce.sub(mForce, pParent.velocity());
+                sub(mForce, pParent.velocity(), mForce);
             }
             mIsArriving = false;
             mHasArrived = false;
         }
-        mForce.scale(weight());
+        mForce.mult(weight());
     }
 
-    public Vector3f force() {
+    public PVector force() {
         return mForce;
     }
 

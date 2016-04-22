@@ -21,36 +21,37 @@
  */
 package teilchen.force;
 
-import mathematik.Vector3f;
-
+import processing.core.PVector;
+import static processing.core.PVector.sub;
 import teilchen.Particle;
 import teilchen.Physics;
+import static teilchen.util.Util.lengthSquared;
 
 public class Attractor
         implements IForce {
 
-    protected Vector3f _myPosition;
+    protected PVector _myPosition;
 
     protected float _myStrength;
 
     protected float _myRadius;
 
-    protected final Vector3f myTemp = new Vector3f();
+    protected final PVector myTemp = new PVector();
 
     private boolean _myActive;
 
     public Attractor() {
-        _myPosition = new Vector3f();
+        _myPosition = new PVector();
         _myRadius = 100;
         _myStrength = 1;
         _myActive = true;
     }
 
-    public Vector3f position() {
+    public PVector position() {
         return _myPosition;
     }
 
-    public void setPositionRef(Vector3f thePosition) {
+    public void setPositionRef(PVector thePosition) {
         _myPosition = thePosition;
     }
 
@@ -75,12 +76,12 @@ public class Attractor
             for (final Particle myParticle : theParticleSystem.particles()) {
                 /* each particle */
                 if (!myParticle.fixed()) {
-                    myTemp.sub(_myPosition, myParticle.position());
-                    final float myDistance = fastInverseSqrt(1 / myTemp.lengthSquared());
+                    sub(_myPosition, myParticle.position(), myTemp);
+                    final float myDistance = fastInverseSqrt(1 / lengthSquared(myTemp));
                     if (myDistance < _myRadius) {
                         float myFallOff = 1f - myDistance / _myRadius;
                         final float myForce = myFallOff * myFallOff * _myStrength;
-                        myTemp.scale(myForce / myDistance);
+                        myTemp.mult(myForce / myDistance);
                         if (!myParticle.fixed()) {
                             myParticle.force().add(myTemp);
                         }

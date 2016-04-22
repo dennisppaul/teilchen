@@ -24,6 +24,7 @@ package teilchen.force;
 import teilchen.IConnection;
 import teilchen.Particle;
 import teilchen.Physics;
+import static teilchen.util.Util.*;
 
 public class Spring
         implements IForce,
@@ -47,7 +48,7 @@ public class Spring
         this(theA,
              theB,
              2.0f, 0.1f,
-             theA.position().distance(theB.position()));
+             distance(theA.position(), theB.position()));
     }
 
     public Spring(Particle theA, Particle theB, float theRestLength) {
@@ -65,7 +66,7 @@ public class Spring
              theB,
              theSpringConstant,
              theSpringDamping,
-             theA.position().distance(theB.position()));
+             distance(theA.position(), theB.position()));
     }
 
     public Spring(final Particle theA,
@@ -83,7 +84,7 @@ public class Spring
     }
 
     public void setRestLengthByPosition() {
-        mRestLength = mA.position().distance(mB.position());
+        mRestLength = distance(mA.position(), mB.position());
     }
 
     public float restlength() {
@@ -111,7 +112,7 @@ public class Spring
     }
 
     public final float currentLength() {
-        return mA.position().distance(mB.position());
+        return distance(mA.position(), mB.position());
     }
 
     /**

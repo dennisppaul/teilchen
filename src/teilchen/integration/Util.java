@@ -22,14 +22,13 @@
 package teilchen.integration;
 
 import java.util.List;
-
 import teilchen.Particle;
 
 public final class Util {
 
-    public static final <T> void checkContainerSize(final int theSize,
-                                                    final List<T> theContainer,
-                                                    Class<T> theClass) {
+    public static <T> void checkContainerSize(final int theSize,
+                                              final List<T> theContainer,
+                                              Class<T> theClass) {
         final int myDiff = theSize - theContainer.size();
         if (myDiff > 0) {
             for (int i = 0; i < myDiff; i++) {
@@ -46,8 +45,8 @@ public final class Util {
         }
     }
 
-    public static final void calculateDerivatives(final List<Particle> theParticles,
-                                                  final List<Derivate3f> theDerivates) {
+    public static void calculateDerivatives(final List<Particle> theParticles,
+                                            final List<Derivate3f> theDerivates) {
         for (int i = 0; i < theParticles.size(); i++) {
             theDerivates.get(i).px = theParticles.get(i).velocity().x;
             theDerivates.get(i).py = theParticles.get(i).velocity().y;

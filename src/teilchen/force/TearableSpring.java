@@ -23,6 +23,7 @@ package teilchen.force;
 
 import teilchen.Particle;
 import teilchen.Physics;
+import static teilchen.util.Util.*;
 
 public class TearableSpring
         extends Spring {
@@ -35,7 +36,7 @@ public class TearableSpring
         super(theA,
               theB,
               2.0f, 0.1f,
-              theA.position().distance(theB.position()));
+              distance(theA.position(), theB.position()));
     }
 
     public TearableSpring(final Particle theA,
@@ -63,7 +64,7 @@ public class TearableSpring
     public void apply(final float theDeltaTime, final Physics theParticleSystem) {
         /* check if spring will tear */
         if (_myTearDistance > 0) {
-            final float myActualDistance = a().position().distance(b().position());
+            final float myActualDistance = distance(a().position(), b().position());
             if (myActualDistance > restlength() + _myTearDistance) {
                 _myTornApart = true;
             }

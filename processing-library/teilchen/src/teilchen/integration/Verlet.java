@@ -22,18 +22,17 @@
 package teilchen.integration;
 
 import java.util.Iterator;
-
-import mathematik.Vector3f;
-
+import processing.core.PVector;
+import static processing.core.PVector.sub;
 import teilchen.Particle;
 import teilchen.Physics;
 
 public class Verlet
         implements IIntegrator {
 
-    private final Vector3f temp1;
+    private final PVector temp1;
 
-    private final Vector3f temp2;
+    private final PVector temp2;
 
     private float _myDamping;
 
@@ -43,8 +42,8 @@ public class Verlet
 
     public Verlet(final float theDamping) {
         _myDamping = theDamping;
-        temp1 = new Vector3f();
-        temp2 = new Vector3f();
+        temp1 = new PVector();
+        temp2 = new PVector();
     }
 
     public float damping() {
@@ -70,8 +69,9 @@ public class Verlet
         }
     }
 
-    private final void integrate(float theDeltaTime, Particle theParticle) {
-        final Vector3f myOldPosition = new Vector3f(theParticle.position());
+    private void integrate(float theDeltaTime, Particle theParticle) {
+        final PVector myOldPosition = new PVector();
+        myOldPosition.set(theParticle.position());
 
         /*
          Physics simulation using Verlet integration
@@ -92,17 +92,17 @@ public class Verlet
          x' = x + (x - ox) + a*dt^2
          */
 
-        /* v ~= (x - ox) / dt */
-        theParticle.velocity().sub(theParticle.position(), theParticle.old_position());
-        theParticle.velocity().scale(1.0f / theDeltaTime);
+ /* v ~= (x - ox) / dt */
+        sub(theParticle.position(), theParticle.old_position(), theParticle.velocity());
+        theParticle.velocity().mult(1.0f / theDeltaTime);
 
         /* x' = x + (x - ox) + a*dt^2 */
         temp1.set(theParticle.force());
-        temp1.scale(1.0f / theParticle.mass());
-        temp1.scale(theDeltaTime * theDeltaTime);
-        temp2.sub(theParticle.position(), theParticle.old_position());
+        temp1.mult(1.0f / theParticle.mass());
+        temp1.mult(theDeltaTime * theDeltaTime);
+        sub(theParticle.position(), theParticle.old_position(), temp2);
 
-        temp2.scale(_myDamping);
+        temp2.mult(_myDamping);
 
         theParticle.position().add(temp1);
         theParticle.position().add(temp2);

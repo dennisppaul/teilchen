@@ -21,8 +21,8 @@
  */
 package teilchen.behavior;
 
-import mathematik.Vector3f;
-
+import processing.core.PVector;
+import static processing.core.PVector.sub;
 import teilchen.IBehaviorParticle;
 
 public class Flee
@@ -30,38 +30,38 @@ public class Flee
 
     static final long serialVersionUID = -6530887943347815188L;
 
-    private Vector3f mFleePosition;
+    private PVector mFleePosition;
 
-    private Vector3f mForce;
+    private final PVector mForce;
 
     private float mWeight = 1;
 
     public Flee() {
-        mFleePosition = new Vector3f();
-        mForce = new Vector3f();
+        mFleePosition = new PVector();
+        mForce = new PVector();
     }
 
-    public Vector3f position() {
+    public PVector position() {
         return mFleePosition;
     }
 
-    public void setPositionRef(final Vector3f thePoint) {
+    public void setPositionRef(final PVector thePoint) {
         mFleePosition = thePoint;
     }
 
     public void update(float theDeltaTime, IBehaviorParticle theParent) {
-        mForce.sub(theParent.position(), mFleePosition);
-        final float myDistanceToPoint = mForce.length();
+        sub(theParent.position(), mFleePosition, mForce);
+        final float myDistanceToPoint = mForce.mag();
         if (myDistanceToPoint > SMALLEST_ACCEPTABLE_DISTANCE) {
-            mForce.scale(theParent.maximumInnerForce() / myDistanceToPoint);
-            mForce.sub(mForce, theParent.velocity());
-            mForce.scale(weight());
+            mForce.mult(theParent.maximumInnerForce() / myDistanceToPoint);
+            sub(mForce, theParent.velocity(), mForce);
+            mForce.mult(weight());
         } else {
             mForce.set(0, 0, 0);
         }
     }
 
-    public Vector3f force() {
+    public PVector force() {
         return mForce;
     }
 

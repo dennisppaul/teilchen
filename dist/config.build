@@ -1,0 +1,2 @@
+LIB_NAME=teilchen
+IO_EXAMPLE_PATHS=( examples )

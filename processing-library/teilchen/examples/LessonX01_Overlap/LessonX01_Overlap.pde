@@ -1,44 +1,33 @@
-import mathematik.*;
-import mathematik.Vector3f;
-import teilchen.Particle;
-import teilchen.Physics;
-import teilchen.force.Gravity;
-import teilchen.force.Spring;
-import teilchen.force.ViscousDrag;
-import teilchen.util.Overlap;
+import teilchen.*;
+import teilchen.behavior.*;
+import teilchen.constraint.*;
+import teilchen.cubicle.*;
+import teilchen.force.*;
+import teilchen.integration.*;
+import teilchen.util.*;
 
-/**
- * this sketch is exactly like Lesson06_Springs, except that it also shows how
- * to resolveOverlap overlaps.
- */
 Physics mPhysics;
-
 Particle mRoot;
-
 static final float PARTICLE_RADIUS = 13;
-
+void settings() {
+    size(640, 480, P3D);
+}
 void setup() {
-    size(640, 480, OPENGL);
     smooth();
     frameRate(30);
-
     mPhysics = new Physics();
-
     /* create drag */
     mPhysics.add(new ViscousDrag());
-    mPhysics.add(new Gravity(new Vector3f(0, 100f, 0)));
-
+    mPhysics.add(new Gravity(new PVector(0, 100f, 0)));
     mRoot = mPhysics.makeParticle(width / 2, height / 2, 0.0f);
     mRoot.mass(30);
     mRoot.fixed(true);
     mRoot.radius(PARTICLE_RADIUS);
 }
-
 void draw() {
     if (mousePressed) {
         Particle mParticle = mPhysics.makeParticle(mouseX, mouseY, 0);
         mPhysics.makeSpring(mRoot, mParticle);
-
         /*
          * we define a radius for the particle so the particle has
          * dimensions
@@ -50,14 +39,11 @@ void draw() {
         mRoot.position().set(width / 2, height / 2, 0.0f); // a bit of a 'hack'
         Overlap.resolveOverlap(mPhysics.particles());
     }
-
     /* update the particle system */
     final float mDeltaTime = 1.0f / frameRate;
     mPhysics.step(mDeltaTime);
-
     /* draw particles and connecting line */
     background(255);
-
     /* draw springs */
     noFill();
     stroke(255, 0, 127, 64);

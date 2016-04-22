@@ -23,6 +23,7 @@ package teilchen.force;
 
 import teilchen.Particle;
 import teilchen.Physics;
+import static teilchen.util.Util.*;
 
 public class MuscleSpring
         extends Spring {
@@ -37,7 +38,7 @@ public class MuscleSpring
 
     private float mCurrentTime;
 
-    private boolean mAutomaticContraction = true;
+    private final boolean mAutomaticContraction = true;
 
     public MuscleSpring(Particle theA, Particle theB) {
         super(theA, theB);
@@ -58,7 +59,7 @@ public class MuscleSpring
     }
 
     public void setRestLengthByPosition() {
-        mInitialRestLength = mA.position().distance(mB.position());
+        mInitialRestLength = distance(mA.position(), mB.position());
     }
 
     public float restlength() {

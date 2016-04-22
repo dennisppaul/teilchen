@@ -21,17 +21,17 @@
  */
 package teilchen.force.flowfield;
 
-import mathematik.Vector3f;
+import processing.core.PVector;
 
 public class FlowFieldForceMOUSE extends FlowFieldForce {
 
-    private Vector3f _myOldPosition;
+    private final PVector _myOldPosition;
 
     public FlowFieldForceMOUSE() {
-        _myOldPosition = new Vector3f();
+        _myOldPosition = new PVector();
     }
 
-    public void setPosition(Vector3f thePosition) {
+    public void setPosition(PVector thePosition) {
         position.set(thePosition);
         strength.set(thePosition);
         strength.sub(_myOldPosition);

@@ -21,11 +21,11 @@
  */
 package teilchen.util;
 
-import mathematik.Vector3f;
+import processing.core.PVector;
 
 public interface SpatialEntity {
 
     float radius();
 
-    Vector3f position();
+    PVector position();
 }

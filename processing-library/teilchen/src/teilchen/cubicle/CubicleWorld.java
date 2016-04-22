@@ -21,12 +21,12 @@
  */
 package teilchen.cubicle;
 
-import mathematik.TransformMatrix4f;
-import mathematik.Vector3f;
-import mathematik.Vector3i;
-
 import java.util.Iterator;
 import java.util.Vector;
+import processing.core.PVector;
+import teilchen.util.TransformMatrix4f;
+import teilchen.util.Util;
+import teilchen.util.Vector3i;
 
 
 /*
@@ -42,7 +42,7 @@ public class CubicleWorld {
 
     private TransformMatrix4f mTransform;
 
-    private Vector3f mScale;
+    private PVector mScale;
 
     private Vector<ICubicleEntity> mEntites;
 
@@ -55,7 +55,7 @@ public class CubicleWorld {
                         int theNumberOfZAtoms) {
         initializeAtoms(theNumberOfXAtoms, theNumberOfYAtoms, theNumberOfZAtoms);
         mTransform = new TransformMatrix4f(TransformMatrix4f.IDENTITY);
-        mScale = new Vector3f(1, 1, 1);
+        mScale = new PVector(1, 1, 1);
         mEntites = new Vector<ICubicleEntity>();
     }
 
@@ -108,23 +108,21 @@ public class CubicleWorld {
                     /* store cubicle */
                     theEntity.cubicle().set(myIndex.x, myIndex.y, myIndex.z);
                 }
-            } else {
-                if (theEntity.leaving(OFF_WORLD, OFF_WORLD, OFF_WORLD)) {
-                    /* remove from cubicles */
-                    if (!removeFromCubicle(theEntity)) {
-                        System.err.println("### ERROR @ CubicleWorld / removing entity / offworld");
-                    }
-                    /* add to off world */
-                    mOffWorld.add(theEntity);
-
-                    /* store cubicle */
-                    theEntity.cubicle().set(OFF_WORLD, OFF_WORLD, OFF_WORLD);
+            } else if (theEntity.leaving(OFF_WORLD, OFF_WORLD, OFF_WORLD)) {
+                /* remove from cubicles */
+                if (!removeFromCubicle(theEntity)) {
+                    System.err.println("### ERROR @ CubicleWorld / removing entity / offworld");
                 }
+                /* add to off world */
+                mOffWorld.add(theEntity);
+
+                /* store cubicle */
+                theEntity.cubicle().set(OFF_WORLD, OFF_WORLD, OFF_WORLD);
             }
         }
     }
 
-    public Vector<ICubicleEntity> getLocalEntities(Vector3f thePosition) {
+    public Vector<ICubicleEntity> getLocalEntities(PVector thePosition) {
         final Vector3i myIndex = worldposition2index(thePosition);
         if (checkBounds(myIndex.x, myIndex.y, myIndex.z)) {
             final CubicleAtom myCubicleAtom = getAtom(myIndex.x, myIndex.y, myIndex.z);
@@ -138,11 +136,11 @@ public class CubicleWorld {
         return getAtom(myIndex.x, myIndex.y, myIndex.z).data();
     }
 
-    public Vector<ICubicleEntity> getLocalEntities(Vector3f thePosition, int pExtraRadius) {
+    public Vector<ICubicleEntity> getLocalEntities(PVector thePosition, int pExtraRadius) {
         return getLocalEntities(thePosition, pExtraRadius, pExtraRadius, pExtraRadius);
     }
 
-    public Vector<ICubicleEntity> getLocalEntities(Vector3f thePosition,
+    public Vector<ICubicleEntity> getLocalEntities(PVector thePosition,
                                                    int theXRadius,
                                                    int theYRadius,
                                                    int theZRadius) {
@@ -186,9 +184,9 @@ public class CubicleWorld {
         return mEntites;
     }
 
-    public Vector3i worldposition2index(Vector3f thePosition) {
+    public Vector3i worldposition2index(PVector thePosition) {
         /* get position */
-        final Vector3f myPosition = new Vector3f(thePosition);
+        final PVector myPosition = Util.clone(thePosition);
 
         /* translation */
         myPosition.sub(mTransform.translation);
@@ -197,7 +195,7 @@ public class CubicleWorld {
         mTransform.rotation.transform(myPosition);
 
         /* scale */
-        myPosition.divide(mScale);
+        Util.divide(myPosition, mScale);
 
         /* round off */
         final Vector3i myIndex = new Vector3i((int) Math.floor(myPosition.x),
@@ -212,15 +210,13 @@ public class CubicleWorld {
             && theEntity.cubicle().z == OFF_WORLD) {
             /* was stored in the offworld cubicle */
             return mOffWorld.remove(theEntity);
+        } else if (checkBounds(theEntity.cubicle().x, theEntity.cubicle().y, theEntity.cubicle().z)) {
+            /* was stored in a cubicle */
+            return mWorld[theEntity.cubicle().x][theEntity.cubicle().y][theEntity.cubicle().z].remove(theEntity);
         } else {
-            if (checkBounds(theEntity.cubicle().x, theEntity.cubicle().y, theEntity.cubicle().z)) {
-                /* was stored in a cubicle */
-                return mWorld[theEntity.cubicle().x][theEntity.cubicle().y][theEntity.cubicle().z].remove(theEntity);
-            } else {
-                /* values were invalid */
-                System.out.println("### WARNING @ CubicleWorld / couldn t remove entity");
-                return false;
-            }
+            /* values were invalid */
+            System.out.println("### WARNING @ CubicleWorld / couldn t remove entity");
+            return false;
         }
     }
 
@@ -269,7 +265,7 @@ public class CubicleWorld {
         return myAtoms;
     }
 
-    public Vector3f cellscale() {
+    public PVector cellscale() {
         return mScale;
     }
 

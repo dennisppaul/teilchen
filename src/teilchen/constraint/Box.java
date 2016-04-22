@@ -21,20 +21,21 @@
  */
 package teilchen.constraint;
 
-import mathematik.Vector3f;
-
+import processing.core.PVector;
+import static processing.core.PVector.sub;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.integration.Verlet;
+import teilchen.util.Util;
 
 public class Box
         implements IConstraint {
 
     protected boolean mActive = true;
 
-    private final Vector3f _myMin;
+    private final PVector _myMin;
 
-    private final Vector3f _myMax;
+    private final PVector _myMax;
 
     private boolean _myReflectFlag;
 
@@ -42,7 +43,7 @@ public class Box
 
     private boolean _myTeleport;
 
-    public Box(final Vector3f theMin, final Vector3f theMax) {
+    public Box(final PVector theMin, final PVector theMax) {
         _myMin = theMin;
         _myMax = theMax;
         _myReflectFlag = true;
@@ -51,7 +52,7 @@ public class Box
     }
 
     public Box() {
-        this(new Vector3f(), new Vector3f());
+        this(new PVector(), new PVector());
     }
 
     public void telelport(boolean theTeleportState) {
@@ -62,23 +63,23 @@ public class Box
         _myReflectFlag = theReflectState;
     }
 
-    public Vector3f min() {
+    public PVector min() {
         return _myMin;
     }
 
-    public Vector3f max() {
+    public PVector max() {
         return _myMax;
     }
-    private static final Vector3f[] _myNormals;
+    private static final PVector[] NORMALS;
 
     static {
-        _myNormals = new Vector3f[6];
-        _myNormals[0] = new Vector3f(-1, 0, 0);
-        _myNormals[1] = new Vector3f(0, -1, 0);
-        _myNormals[2] = new Vector3f(0, 0, -1);
-        _myNormals[3] = new Vector3f(1, 0, 0);
-        _myNormals[4] = new Vector3f(0, 1, 0);
-        _myNormals[5] = new Vector3f(0, 0, 1);
+        NORMALS = new PVector[6];
+        NORMALS[0] = new PVector(-1, 0, 0);
+        NORMALS[1] = new PVector(0, -1, 0);
+        NORMALS[2] = new PVector(0, 0, -1);
+        NORMALS[3] = new PVector(1, 0, 0);
+        NORMALS[4] = new PVector(0, 1, 0);
+        NORMALS[5] = new PVector(0, 0, 1);
     }
 
     public void coefficientofrestitution(float theCoefficientOfRestitution) {
@@ -121,7 +122,7 @@ public class Box
                  * and normalize them. maybe later.
                  */
                 int myTag = -1;
-                final Vector3f myPosition = new Vector3f(myParticle.position());
+                final PVector myPosition = Util.clone(myParticle.position());
                 if (myParticle.position().x > _myMax.x) {
                     myParticle.position().x = _myMax.x;
                     myTag = 0;
@@ -149,14 +150,14 @@ public class Box
                 if (myTag >= 0) {
                     if (_myReflectFlag) {
                         if (theParticleSystem.getIntegrator() instanceof Verlet) {
-                            final Vector3f myDiff = mathematik.Util.sub(myPosition, myParticle.position());
-                            teilchen.util.Util.reflect(myDiff, _myNormals[myTag], _myCoefficientOfRestitution);
+                            final PVector myDiff = sub(myPosition, myParticle.position());
+                            teilchen.util.Util.reflect(myDiff, NORMALS[myTag], _myCoefficientOfRestitution);
 //                            System.out.println("### reflect " + _myNormals[myTag]);
 //                            System.out.println("myDiff " + myDiff);
                             myParticle.old_position().sub(myDiff);
                         } else {
                             teilchen.util.Util.reflectVelocity(myParticle,
-                                                               _myNormals[myTag],
+                                                               NORMALS[myTag],
                                                                _myCoefficientOfRestitution);
                         }
                     } else {

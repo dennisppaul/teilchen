@@ -21,15 +21,15 @@
  */
 package teilchen.force.flowfield;
 
-import mathematik.Vector3f;
+import processing.core.PVector;
 
 public abstract class FlowFieldForce {
 
-    public Vector3f strength = new Vector3f();
+    public PVector strength = new PVector();
 
     public float range;
 
-    public Vector3f position = new Vector3f();
+    public PVector position = new PVector();
 
     public abstract void applyForce(FlowField theField);
 }

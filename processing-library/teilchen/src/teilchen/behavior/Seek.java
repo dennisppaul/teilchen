@@ -21,8 +21,8 @@
  */
 package teilchen.behavior;
 
-import mathematik.Vector3f;
-
+import processing.core.PVector;
+import static processing.core.PVector.sub;
 import teilchen.IBehaviorParticle;
 
 public class Seek
@@ -30,9 +30,9 @@ public class Seek
 
     static final long serialVersionUID = -3781170603537691477L;
 
-    private Vector3f mSeekPosition;
+    private PVector mSeekPosition;
 
-    private Vector3f mForce;
+    private final PVector mForce;
 
     private float mWeight = 1;
 
@@ -41,8 +41,8 @@ public class Seek
     private boolean mOverSteer;
 
     public Seek() {
-        mSeekPosition = new Vector3f();
-        mForce = new Vector3f();
+        mSeekPosition = new PVector();
+        mForce = new PVector();
         mOverSteer = false;
     }
 
@@ -54,11 +54,11 @@ public class Seek
         mOverSteer = pOverSteer;
     }
 
-    public Vector3f position() {
+    public PVector position() {
         return mSeekPosition;
     }
 
-    public void setPositionRef(final Vector3f thePoint) {
+    public void setPositionRef(final PVector thePoint) {
         mSeekPosition = thePoint;
     }
 
@@ -67,20 +67,20 @@ public class Seek
     }
 
     public void update(float theDeltaTime, IBehaviorParticle theParent) {
-        mForce.sub(mSeekPosition, theParent.position());
-        mDistanceToPoint = mForce.length();
+        sub(mSeekPosition, theParent.position(), mForce);
+        mDistanceToPoint = mForce.mag();
         if (mDistanceToPoint > SMALLEST_ACCEPTABLE_DISTANCE) {
-            mForce.scale(theParent.maximumInnerForce() / mDistanceToPoint);
+            mForce.mult(theParent.maximumInnerForce() / mDistanceToPoint);
             if (mOverSteer) {
-                mForce.sub(mForce, theParent.velocity());
+                sub(mForce, theParent.velocity(), mForce);
             }
-            mForce.scale(weight());
+            mForce.mult(weight());
         } else {
             mForce.set(0, 0, 0);
         }
     }
 
-    public Vector3f force() {
+    public PVector force() {
         return mForce;
     }
 

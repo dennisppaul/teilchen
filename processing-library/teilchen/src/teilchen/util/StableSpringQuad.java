@@ -21,8 +21,7 @@
  */
 package teilchen.util;
 
-import mathematik.Vector3f;
-
+import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.force.Spring;
@@ -52,43 +51,45 @@ public class StableSpringQuad {
     /**
      * this utility method creates a 'stable' shape from 4 positions. in this
      * case a stable shape is created by connecting the four positions' edge
-     * plus two diagonals to create a stable quad.<br/>
-     * the positions should be in counter clockwise order.<br/>
+     * plus two diagonals to create a stable quad.
+     *
+     * the positions should be in counter clockwise order.
+     *
      * the positions are stored as reference which means that if you change
      * either of the vectors afterwards it will also change the position of the
      * connected particles.
      *
-     * @param theParticleSystem ParticleSystem
-     * @param a Vector3f
-     * @param b Vector3f
-     * @param c Vector3f
-     * @param d Vector3f
+     * @param pParticleSystem ParticleSystem
+     * @param pA
+     * @param pB
+     * @param pC
+     * @param pD
      */
-    public StableSpringQuad(final Physics theParticleSystem,
-                            final Vector3f theA,
-                            final Vector3f theB,
-                            final Vector3f theC,
-                            final Vector3f theD) {
-        a = theParticleSystem.makeParticle();
-        b = theParticleSystem.makeParticle();
-        c = theParticleSystem.makeParticle();
-        d = theParticleSystem.makeParticle();
+    public StableSpringQuad(final Physics pParticleSystem,
+                            final PVector pA,
+                            final PVector pB,
+                            final PVector pC,
+                            final PVector pD) {
+        a = pParticleSystem.makeParticle();
+        b = pParticleSystem.makeParticle();
+        c = pParticleSystem.makeParticle();
+        d = pParticleSystem.makeParticle();
 
-        a.setPositionRef(theA);
-        b.setPositionRef(theB);
-        c.setPositionRef(theC);
-        d.setPositionRef(theD);
+        a.setPositionRef(pA);
+        b.setPositionRef(pB);
+        c.setPositionRef(pC);
+        d.setPositionRef(pD);
 
         /* edges */
         final float mySpringConstant = 100;
         final float mySpringDamping = 5;
-        ab = theParticleSystem.makeSpring(a, b, mySpringConstant, mySpringDamping);
-        bc = theParticleSystem.makeSpring(b, c, mySpringConstant, mySpringDamping);
-        cd = theParticleSystem.makeSpring(c, d, mySpringConstant, mySpringDamping);
-        da = theParticleSystem.makeSpring(d, a, mySpringConstant, mySpringDamping);
+        ab = pParticleSystem.makeSpring(a, b, mySpringConstant, mySpringDamping);
+        bc = pParticleSystem.makeSpring(b, c, mySpringConstant, mySpringDamping);
+        cd = pParticleSystem.makeSpring(c, d, mySpringConstant, mySpringDamping);
+        da = pParticleSystem.makeSpring(d, a, mySpringConstant, mySpringDamping);
         /* diagonals */
-        ac = theParticleSystem.makeSpring(a, c, mySpringConstant, mySpringDamping);
-        bd = theParticleSystem.makeSpring(b, d, mySpringConstant, mySpringDamping);
+        ac = pParticleSystem.makeSpring(a, c, mySpringConstant, mySpringDamping);
+        bd = pParticleSystem.makeSpring(b, d, mySpringConstant, mySpringDamping);
     }
 
     public StableSpringQuad(final Physics theParticleSystem,

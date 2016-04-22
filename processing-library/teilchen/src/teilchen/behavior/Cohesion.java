@@ -22,12 +22,12 @@
  */
 package teilchen.behavior;
 
-import mathematik.Vector3f;
-
-import teilchen.IBehaviorParticle;
-import teilchen.behavior.Util.ProximityStructure;
 import java.io.Serializable;
 import java.util.Vector;
+import processing.core.PVector;
+import teilchen.IBehaviorParticle;
+import teilchen.behavior.Util.ProximityStructure;
+import static teilchen.util.Util.isNaN;
 
 public class Cohesion
         implements IBehavior,
@@ -39,14 +39,14 @@ public class Cohesion
 
     private float mWeight;
 
-    private final Vector3f mForce;
+    private final PVector mForce;
 
     private Vector<IBehaviorParticle> mNeighbors;
 
     public Cohesion() {
         mProximity = 100.0f;
         mWeight = 1.0f;
-        mForce = new Vector3f();
+        mForce = new PVector();
     }
 
     public void update(float theDeltaTime, IBehaviorParticle pParent) {
@@ -54,11 +54,11 @@ public class Cohesion
         if (mNeighbors != null) {
             Vector<ProximityStructure> mCloseNeighbors = ProximityStructure.findProximityEntities(pParent, mNeighbors, mProximity);
             findTowardsVector(mCloseNeighbors, mForce);
-            mForce.scale(weight());
+            mForce.mult(weight());
         }
     }
 
-    private static void findTowardsVector(Vector<ProximityStructure> mCloseNeighbors, final Vector3f pForce) {
+    private static void findTowardsVector(Vector<ProximityStructure> mCloseNeighbors, final PVector pForce) {
         /* find away vector */
         if (!mCloseNeighbors.isEmpty()) {
             pForce.set(0, 0, 0);
@@ -67,12 +67,12 @@ public class Cohesion
              * distance ( for example )
              */
             for (ProximityStructure p : mCloseNeighbors) {
-                final Vector3f mTowardsVector = mathematik.Util.scale(p.distanceVec, -1.0f);
+                final PVector mTowardsVector = PVector.mult(p.distanceVec, -1.0f);
                 pForce.add(mTowardsVector);
             }
-            pForce.scale(1.0f / mCloseNeighbors.size());
+            pForce.mult(1.0f / mCloseNeighbors.size());
             pForce.normalize();
-            if (pForce.isNaN()) {
+            if (isNaN(pForce)) {
                 pForce.set(0, 0, 0);
             }
         } else {
@@ -87,7 +87,7 @@ public class Cohesion
         mNeighbors = (Vector<IBehaviorParticle>) pNeighbors;
     }
 
-    public Vector3f force() {
+    public PVector force() {
         return mForce;
     }
 

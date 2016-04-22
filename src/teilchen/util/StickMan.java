@@ -1,27 +1,26 @@
 package teilchen.util;
 
-import mathematik.Vector3f;
-
+import processing.core.PApplet;
+import processing.core.PGraphics;
+import processing.core.PVector;
 import teilchen.BasicParticle;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.force.MuscleSpring;
-import processing.core.PApplet;
-import processing.core.PGraphics;
 
 public class StickMan {
 
-    private StableSpringQuad _myQuad;
+    private final StableSpringQuad _myQuad;
 
-    private float _myScale;
+    private final float _myScale;
 
-    private BasicParticle myLeftFoot;
+    private final BasicParticle myLeftFoot;
 
-    private BasicParticle myRightFoot;
+    private final BasicParticle myRightFoot;
 
-    private BasicParticle myLeftHand;
+    private final BasicParticle myLeftHand;
 
-    private BasicParticle myRightHand;
+    private final BasicParticle myRightHand;
 
     public StickMan(Physics theParticleSystem, float theOffset, float theScale) {
 
@@ -29,27 +28,27 @@ public class StickMan {
 
         /* body */
         _myQuad = new StableSpringQuad(theParticleSystem,
-                                       new Vector3f(10 * theScale + theOffset, 50 * theScale),
-                                       new Vector3f(40 * theScale + theOffset, 50 * theScale),
-                                       new Vector3f(50 * theScale + theOffset, 0),
-                                       new Vector3f(0 + theOffset, 0));
+                                       new PVector(10 * theScale + theOffset, 50 * theScale),
+                                       new PVector(40 * theScale + theOffset, 50 * theScale),
+                                       new PVector(50 * theScale + theOffset, 0),
+                                       new PVector(0 + theOffset, 0));
         /* legs */
-        myLeftFoot = theParticleSystem.makeParticle(new Vector3f(10 * theScale + theOffset, 100 * theScale), 0.5f);
+        myLeftFoot = theParticleSystem.makeParticle(new PVector(10 * theScale + theOffset, 100 * theScale), 0.5f);
         theParticleSystem.makeSpring(_myQuad.a, myLeftFoot, 100, 0.1f);
         theParticleSystem.makeSpring(_myQuad.b, myLeftFoot, 100, 0.1f);
         theParticleSystem.makeSpring(_myQuad.d, myLeftFoot, 2, 1f);
 
-        myRightFoot = theParticleSystem.makeParticle(new Vector3f(40 * theScale + theOffset, 100 * theScale), 0.5f);
+        myRightFoot = theParticleSystem.makeParticle(new PVector(40 * theScale + theOffset, 100 * theScale), 0.5f);
         theParticleSystem.makeSpring(_myQuad.a, myRightFoot, 100, 0.1f);
         theParticleSystem.makeSpring(_myQuad.b, myRightFoot, 100, 0.1f);
         theParticleSystem.makeSpring(_myQuad.c, myRightFoot, 2, 1f);
 
         /* arms */
-        myRightHand = theParticleSystem.makeParticle(new Vector3f(70 * theScale + theOffset, 0), 0.1f);
+        myRightHand = theParticleSystem.makeParticle(new PVector(70 * theScale + theOffset, 0), 0.1f);
         theParticleSystem.makeSpring(_myQuad.c, myRightHand, 100, 0.1f);
         theParticleSystem.makeSpring(_myQuad.b, myRightHand, 10, 0.1f);
 
-        myLeftHand = theParticleSystem.makeParticle(new Vector3f(-20 * theScale + theOffset, 0), 0.1f);
+        myLeftHand = theParticleSystem.makeParticle(new PVector(-20 * theScale + theOffset, 0), 0.1f);
         theParticleSystem.makeSpring(_myQuad.d, myLeftHand, 100, 0.1f);
         theParticleSystem.makeSpring(_myQuad.a, myLeftHand, 10, 0.1f);
 

@@ -1,67 +1,54 @@
-import mathematik.*;
-import mathematik.Vector3f;
-
-import teilchen.Particle;
-import teilchen.Physics;
-import teilchen.constraint.Box;
-import teilchen.force.Gravity;
-import teilchen.force.Spring;
-import teilchen.force.ViscousDrag;
-import teilchen.util.CollisionManager;
+import teilchen.*;
+import teilchen.behavior.*;
+import teilchen.constraint.*;
+import teilchen.cubicle.*;
+import teilchen.force.*;
+import teilchen.integration.*;
+import teilchen.util.*;
 
 static final float PARTICLE_SIZE = 12;
-
 CollisionManager mCollision;
-
 Physics mPhysics;
-
+void settings() {
+    size(640, 480, P3D);
+}
 void setup() {
-    size(640, 480, OPENGL);
     smooth();
     frameRate(30);
     noFill();
     ellipseMode(CENTER);
-
     mCollision = new CollisionManager();
     mCollision.distancemode(CollisionManager.DISTANCE_MODE_FIXED);
     mCollision.minimumDistance(50);
-
     mPhysics = new Physics();
     mPhysics.add(new ViscousDrag(0.85f));
     mPhysics.add(new Gravity());
-
     Box myBox = new Box();
     myBox.min().set(50, 50, 0);
     myBox.max().set(width - 50, height - 50, 0);
     myBox.coefficientofrestitution(0.7f);
     myBox.reflect(true);
     mPhysics.add(myBox);
-
     /* create a first particle */
-    final Particle myParticle = mPhysics.makeParticle(new Vector3f(mouseX, mouseY, 0), 10);
+    final Particle myParticle = mPhysics.makeParticle(new PVector(mouseX, mouseY, 0), 10);
     mCollision.collision().add(myParticle);
 }
-
 void draw() {
     /* create particles */
     if (mousePressed) {
-        final Particle myParticle = mPhysics.makeParticle(new Vector3f(mouseX, mouseY, 0), 10);
+        final Particle myParticle = mPhysics.makeParticle(new PVector(mouseX, mouseY, 0), 10);
         mCollision.collision().add(myParticle);
     }
-
     /* collision handler */
     final float mDeltaTime = 1.0f / frameRate;
     mCollision.createCollisionResolvers();
     mCollision.loop(mDeltaTime);
     mPhysics.step(mDeltaTime);
-
     /* draw */
     background(255);
     drawThings();
-
     mCollision.removeCollisionResolver();
 }
-
 void drawThings() {
     /* collision springs */
     noFill();
@@ -73,7 +60,6 @@ void drawThings() {
                  mySpring.b().position().x, mySpring.b().position().y, mySpring.b().position().z);
         }
     }
-
     /* particles */
     fill(245);
     stroke(164);

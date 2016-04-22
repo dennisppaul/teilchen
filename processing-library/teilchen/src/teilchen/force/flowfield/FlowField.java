@@ -1,11 +1,12 @@
 package teilchen.force.flowfield;
 
 import java.util.Vector;
-import mathematik.TransformMatrix4f;
-import mathematik.Vector3f;
+import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.force.IForce;
+import teilchen.util.TransformMatrix4f;
+import teilchen.util.Util;
 
 
 /*
@@ -19,7 +20,7 @@ public class FlowField implements IForce {
 
     private int _myGridSize = n + 2; // Extra grid space for boundary
 
-    private int _myPixelSize = 10; // The size of each grid square on the screen
+    private final int _myPixelSize = 10; // The size of each grid square on the screen
 
     // I unravelled the 1D arrays from Jos Stam's paper back to 2D arrays, as we don't have compile time macros in Java...
     private float[][] u = new float[_myGridSize][_myGridSize];
@@ -34,17 +35,17 @@ public class FlowField implements IForce {
 
     private float[][] densPrev = new float[_myGridSize][_myGridSize];
 
-    private float viscosity = 0.0001f; // Viscosity of fluid
+    private final float viscosity = 0.0001f; // Viscosity of fluid
 
     public float deltatime = 0.2f; // Rate of change
 
-    private float diff = 0.0001f; // Degree of diffusion of density over time
+    private final float diff = 0.0001f; // Degree of diffusion of density over time
 
-    private int densityBrushSize = n / 10; // Size of the density area applied with the mouse
+    private final int densityBrushSize = n / 10; // Size of the density area applied with the mouse
 
     public int velocityBrushSize = n / 20; // Ditto velocity
 
-    private int lineSpacing = n / n; // Spacing between velocity and normal lines
+    private final int lineSpacing = n / n; // Spacing between velocity and normal lines
 
     public boolean showHair = true;
 
@@ -54,7 +55,7 @@ public class FlowField implements IForce {
 
     public boolean calculateVelocity = true;
 
-    private Vector3f _myScale;
+    private PVector _myScale;
 
     private TransformMatrix4f _myTransform;
 
@@ -67,14 +68,14 @@ public class FlowField implements IForce {
         init();
     }
 
-    public FlowField(int theResolutionX, int theResolutionY, Vector3f theScale) {
+    public FlowField(int theResolutionX, int theResolutionY, PVector theScale) {
         n = theResolutionX;
         init();
         _myScale.set(theScale);
     }
 
     private void init() {
-        _myScale = new Vector3f();
+        _myScale = new PVector();
         _myTransform = new TransformMatrix4f();
         _myForces = new Vector<FlowFieldForce>();
         _myGridSize = n + 2;
@@ -131,7 +132,7 @@ public class FlowField implements IForce {
         }
     }
 
-    public void setForce(float theX, float theY, Vector3f theStrength, float theRadius) {
+    public void setForce(float theX, float theY, PVector theStrength, float theRadius) {
         int x = (int) (theX / _myScale.x * n);
         int y = (int) (theY / _myScale.y * n);
         for (int i = (int) (clamp(x - theRadius, 1, n)); i <= (int) (clamp(x + theRadius, 1, n)); i++) {
@@ -288,7 +289,7 @@ public class FlowField implements IForce {
 //        gl.glPopMatrix();
 //        material.end(theRenderContext);
 //    }
-    public Vector3f scale() {
+    public PVector scale() {
         return _myScale;
     }
 
@@ -296,7 +297,7 @@ public class FlowField implements IForce {
         return _myTransform;
     }
 
-    public Vector3f position() {
+    public PVector position() {
         return _myTransform.translation;
     }
 
@@ -324,8 +325,8 @@ public class FlowField implements IForce {
         initField(densPrev);
     }
 
-    public Vector3f getForce(Vector3f thePosition) {
-        Vector3f myDeltaPos = new Vector3f(thePosition);
+    public PVector getForce(PVector thePosition) {
+        PVector myDeltaPos = Util.clone(thePosition);
         myDeltaPos.sub(position());
         float myRatioX = myDeltaPos.x / _myScale.x;
         float myRatioY = myDeltaPos.y / _myScale.y;
@@ -335,10 +336,10 @@ public class FlowField implements IForce {
             if (u[myIndexX] == null || v[myIndexY] == null) {
                 System.out.println(myIndexX + " " + myIndexY);
             }
-            Vector3f myForce = new Vector3f(u()[myIndexX][myIndexY], v()[myIndexX][myIndexY], 0);
+            PVector myForce = new PVector(u()[myIndexX][myIndexY], v()[myIndexX][myIndexY], 0);
             return myForce;
         }
-        return new Vector3f();
+        return new PVector();
     }
 
     private void addSource(float[][] x, float[][] s, float dt) {
@@ -482,8 +483,8 @@ public class FlowField implements IForce {
     public void apply(float theDeltaTime, Physics theParticleSystem) {
         for (Particle myParticle : theParticleSystem.particles()) {
             if (!myParticle.fixed()) {
-                Vector3f myForce = getForce(myParticle.position());
-                myForce.scale(forceScale);
+                PVector myForce = getForce(myParticle.position());
+                myForce.mult(forceScale);
                 myParticle.force().add(myForce);
             }
         }

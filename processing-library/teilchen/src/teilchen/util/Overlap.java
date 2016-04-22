@@ -21,13 +21,12 @@
  */
 package teilchen.util;
 
-import mathematik.Vector3f;
-
 import java.util.List;
+import processing.core.PVector;
 
 public class Overlap {
 
-    public static Vector3f RESOLVE_SAME_PLACE = new Vector3f(1, 0, 0);
+    public static PVector RESOLVE_SAME_PLACE = new PVector(1, 0, 0);
 
     public static <E extends SpatialEntity> void resolveOverlap(E theEntityA,
                                                                 E theEntityB) {
@@ -39,25 +38,23 @@ public class Overlap {
             return;
         }
 
-        final Vector3f mAB = mathematik.Util.sub(theEntityA.position(), theEntityB.position());
-        final float myDistance = mAB.length();
+        final PVector mAB = PVector.sub(theEntityA.position(), theEntityB.position());
+        final float myDistance = mAB.mag();
 
         if (myDistance > 0) {
             float myOverlap = theEntityB.radius() + theEntityA.radius() - myDistance;
 
             if (myOverlap > 0) {
-                mAB.scale(0.5f * myOverlap / myDistance);
+                mAB.mult(0.5f * myOverlap / myDistance);
                 theEntityA.position().add(mAB);
                 theEntityB.position().sub(mAB);
             }
-        } else {
-            if (RESOLVE_SAME_PLACE != null) {
-                final Vector3f myOffset = new Vector3f(RESOLVE_SAME_PLACE);
-                myOffset.scale(theEntityB.radius() + theEntityA.radius());
-                myOffset.scale(0.5f);
-                theEntityA.position().add(myOffset);
-                theEntityB.position().sub(myOffset);
-            }
+        } else if (RESOLVE_SAME_PLACE != null) {
+            final PVector myOffset = Util.clone(RESOLVE_SAME_PLACE);
+            myOffset.mult(theEntityB.radius() + theEntityA.radius());
+            myOffset.mult(0.5f);
+            theEntityA.position().add(myOffset);
+            theEntityB.position().sub(myOffset);
         }
     }
 
@@ -67,8 +64,8 @@ public class Overlap {
             return;
         }
 
-        for (int i = 0; i < theEntities.length; i++) {
-            resolveOverlap(theEntities[i], theEntity);
+        for (E theEntitie : theEntities) {
+            resolveOverlap(theEntitie, theEntity);
         }
     }
 

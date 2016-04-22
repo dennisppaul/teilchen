@@ -21,7 +21,7 @@
  */
 package teilchen;
 
-import mathematik.Vector3i;
+import teilchen.util.Vector3i;
 
 public class VectorfieldParticle
         extends BasicParticle {

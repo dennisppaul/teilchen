@@ -22,9 +22,7 @@
 package teilchen.behavior;
 
 import java.io.Serializable;
-
-import mathematik.Vector3f;
-
+import processing.core.PVector;
 import teilchen.IBehaviorParticle;
 
 public interface IBehavior
@@ -32,7 +30,7 @@ public interface IBehavior
 
     void update(float theDeltaTime, final IBehaviorParticle pParent);
 
-    Vector3f force();
+    PVector force();
 
     float weight();
 

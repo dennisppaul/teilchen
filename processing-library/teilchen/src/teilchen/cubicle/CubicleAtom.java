@@ -22,8 +22,7 @@
 package teilchen.cubicle;
 
 import java.util.Vector;
-
-import mathematik.Vector3i;
+import teilchen.util.Vector3i;
 
 
 /*
@@ -31,7 +30,7 @@ import mathematik.Vector3i;
  */
 public class CubicleAtom {
 
-    private Vector<ICubicleEntity> mContainer;
+    private final Vector<ICubicleEntity> mContainer;
 
     private final Vector3i mPosition;
 

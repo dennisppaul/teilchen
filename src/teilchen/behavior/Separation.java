@@ -22,12 +22,12 @@
  */
 package teilchen.behavior;
 
-import mathematik.Vector3f;
-
-import teilchen.IBehaviorParticle;
-import teilchen.behavior.Util.ProximityStructure;
 import java.io.Serializable;
 import java.util.Vector;
+import processing.core.PVector;
+import teilchen.IBehaviorParticle;
+import teilchen.behavior.Util.ProximityStructure;
+import static teilchen.util.Util.isNaN;
 
 public class Separation
         implements IBehavior,
@@ -39,14 +39,14 @@ public class Separation
 
     private float mWeight;
 
-    private final Vector3f mForce;
+    private final PVector mForce;
 
     private Vector<IBehaviorParticle> mNeighbors;
 
     public Separation() {
         mProximity = 100.0f;
         mWeight = 1.0f;
-        mForce = new Vector3f();
+        mForce = new PVector();
     }
 
     public void update(float theDeltaTime, IBehaviorParticle pParent) {
@@ -54,11 +54,11 @@ public class Separation
         if (mNeighbors != null) {
             Vector<ProximityStructure> mCloseNeighbors = ProximityStructure.findProximityEntities(pParent, mNeighbors, mProximity);
             findAwayVector(mCloseNeighbors, mForce);
-            mForce.scale(weight());
+            mForce.mult(weight());
         }
     }
 
-    private static void findAwayVector(Vector<ProximityStructure> mCloseNeighbors, final Vector3f pForce) {
+    private static void findAwayVector(Vector<ProximityStructure> mCloseNeighbors, final PVector pForce) {
         /* find away vector */
         if (!mCloseNeighbors.isEmpty()) {
             pForce.set(0, 0, 0);
@@ -69,9 +69,9 @@ public class Separation
             for (ProximityStructure p : mCloseNeighbors) {
                 pForce.add(p.distanceVec);
             }
-            pForce.scale(1.0f / mCloseNeighbors.size());
+            pForce.mult(1.0f / mCloseNeighbors.size());
             pForce.normalize();
-            if (pForce.isNaN()) {
+            if (isNaN(pForce)) {
                 pForce.set(0, 0, 0);
             }
         } else {
@@ -86,7 +86,7 @@ public class Separation
         mNeighbors = (Vector<IBehaviorParticle>) pNeighbors;
     }
 
-    public Vector3f force() {
+    public PVector force() {
         return mForce;
     }
 

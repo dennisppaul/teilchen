@@ -22,17 +22,14 @@
 package teilchen.util;
 
 import java.util.List;
-
-import mathematik.Vector3f;
-import mathematik.WorldAxisAlignedBoundingBox;
-
+import processing.core.PGraphics;
+import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.force.Attractor;
 import teilchen.force.IForce;
 import teilchen.force.Spring;
 import teilchen.force.TriangleDeflector;
-import processing.core.PGraphics;
 
 public class DrawLib {
 
@@ -49,9 +46,9 @@ public class DrawLib {
     /**
      * draw attractors.
      *
-     * @param g PGraphics
+     * @param g           PGraphics
      * @param myAttractor Attractor
-     * @param theColor int
+     * @param theColor    int
      */
     public static void draw(final PGraphics g, final Attractor myAttractor, int theColor) {
         g.sphereDetail(6);
@@ -107,10 +104,10 @@ public class DrawLib {
     /**
      * draw particles.
      *
-     * @param g PGraphics
+     * @param g            PGraphics
      * @param theParticles Vector
-     * @param theSize float
-     * @param theColor int
+     * @param theSize      float
+     * @param theColor     int
      */
     public static void draw(final PGraphics g,
                             final List<Particle> theParticles,
@@ -131,10 +128,11 @@ public class DrawLib {
     /**
      * draw particles.
      *
-     * @param g PGraphics
-     * @param theParticles Vector
-     * @param theSize float
+     * @param g              PGraphics
+     * @param theParticles   Vector
+     * @param theSize        float
      * @param theStrokeColor int
+     * @param theFillColor
      */
     public static void draw(final PGraphics g,
                             final List<Particle> theParticles,
@@ -156,11 +154,11 @@ public class DrawLib {
     /**
      * draw triangle deflector with bounding box.
      *
-     * @param g PGraphics
+     * @param g                    PGraphics
      * @param theTriangleDeflector TriangleDeflector
-     * @param theTriangleColor int
-     * @param theBBColor int
-     * @param theNormalColor int
+     * @param theTriangleColor     int
+     * @param theBBColor           int
+     * @param theNormalColor       int
      */
     public static void draw(final PGraphics g,
                             final TriangleDeflector theTriangleDeflector,
@@ -186,9 +184,9 @@ public class DrawLib {
     /**
      * draw buunding box.
      *
-     * @param g PGraphics
+     * @param g                              PGraphics
      * @param theWorldAxisAlignedBoundingBox WorldAxisAlignedBoundingBox
-     * @param theColor int
+     * @param theColor                       int
      */
     public static void draw(final PGraphics g,
                             final WorldAxisAlignedBoundingBox theWorldAxisAlignedBoundingBox,
@@ -207,15 +205,15 @@ public class DrawLib {
     /**
      * draw a triangle with a normal
      *
-     * @param g PGraphics
-     * @param a Vector3f
-     * @param b Vector3f
-     * @param c Vector3f
+     * @param g                PGraphics
+     * @param a                PVector
+     * @param b                PVector
+     * @param c                PVector
      * @param theTriangleColor int
-     * @param theNormalColor int
+     * @param theNormalColor   int
      */
     public static void draw(final PGraphics g,
-                            final Vector3f a, final Vector3f b, final Vector3f c,
+                            final PVector a, final PVector b, final PVector c,
                             int theTriangleColor, int theNormalColor) {
         g.stroke(theTriangleColor);
         g.beginShape(PGraphics.TRIANGLES);
@@ -225,15 +223,15 @@ public class DrawLib {
         g.endShape();
         g.noFill();
 
-        Vector3f myNormal = new Vector3f();
-        mathematik.Util.calculateNormal(a, b, c, myNormal);
-        myNormal.scale(50);
+        PVector myNormal = new PVector();
+        Util.calculateNormal(a, b, c, myNormal);
+        myNormal.mult(50);
 
-        Vector3f myCenterOfMass = new Vector3f();
+        PVector myCenterOfMass = new PVector();
         myCenterOfMass.add(a);
         myCenterOfMass.add(b);
         myCenterOfMass.add(c);
-        myCenterOfMass.scale(1f / 3f);
+        myCenterOfMass.mult(1f / 3f);
 
         g.stroke(theNormalColor);
         g.line(myCenterOfMass.x,
@@ -245,7 +243,7 @@ public class DrawLib {
     }
 
     public static void cross2(final PGraphics g,
-                              final Vector3f pPosition,
+                              final PVector pPosition,
                               float pSize) {
         g.line(
                 pPosition.x + pSize,
@@ -264,7 +262,7 @@ public class DrawLib {
     }
 
     public static void cross3(final PGraphics g,
-                              final Vector3f pPosition,
+                              final PVector pPosition,
                               float pSize) {
         g.line(pPosition.x - pSize,
                pPosition.y,

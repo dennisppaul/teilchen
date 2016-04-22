@@ -22,7 +22,6 @@
 package teilchen.integration;
 
 import java.util.Vector;
-
 import teilchen.Particle;
 import teilchen.Physics;
 

@@ -22,7 +22,6 @@
 package teilchen;
 
 import java.util.Vector;
-
 import teilchen.behavior.IBehavior;
 
 public class BehaviorParticle
@@ -49,9 +48,9 @@ public class BehaviorParticle
         }
         /* clamp to maximum force */
         if (maximumInnerForce() > 0) {
-            final float mForceLength = force().length();
+            final float mForceLength = force().mag();
             if (mForceLength > maximumInnerForce()) {
-                force().scale(maximumInnerForce() / mForceLength);
+                force().mult(maximumInnerForce() / mForceLength);
             }
         }
     }

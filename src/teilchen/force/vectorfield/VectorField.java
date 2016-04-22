@@ -21,32 +21,32 @@
  */
 package teilchen.force.vectorfield;
 
-import mathematik.Vector3f;
-import mathematik.Vector3i;
-
+import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.VectorfieldParticle;
 import teilchen.force.IForce;
+import teilchen.util.Util;
+import teilchen.util.Vector3i;
 
 public class VectorField
         implements IForce {
 
-    private VectorFieldUnit[][][] _myField;
+    private final VectorFieldUnit[][][] _myField;
 
     public float strength;
 
-    private Vector3f _myPosition;
+    private final PVector _myPosition;
 
-    private Vector3f _myScale;
+    private final PVector _myScale;
 
     private boolean _myActive;
 
     public VectorField(VectorFieldGenerator theGenerator) {
         /* init fields */
         strength = 1;
-        _myPosition = new Vector3f();
-        _myScale = new Vector3f(1f, 1f, 1f);
+        _myPosition = new PVector();
+        _myScale = new PVector(1f, 1f, 1f);
         _myField = theGenerator.data();
         _myActive = true;
     }
@@ -55,19 +55,19 @@ public class VectorField
         return _myField;
     }
 
-    public Vector3f getPosition() {
+    public PVector getPosition() {
         return _myPosition;
     }
 
-    public void setPosition(final Vector3f thePosition) {
+    public void setPosition(final PVector thePosition) {
         _myPosition.set(thePosition);
         for (int x = 0; x < _myField.length; x++) {
             for (int y = 0; y < _myField[x].length; y++) {
                 for (int z = 0; z < _myField[x][y].length; z++) {
-                    Vector3f myPosition = new Vector3f(x
-                                                       * (_myScale.x / (float) _myField.length),
-                                                       y * (_myScale.y / (float) _myField[x].length),
-                                                       z * (_myScale.z / (float) _myField[x][y].length));
+                    PVector myPosition = new PVector(x
+                                                     * (_myScale.x / (float) _myField.length),
+                                                     y * (_myScale.y / (float) _myField[x].length),
+                                                     z * (_myScale.z / (float) _myField[x][y].length));
                     _myField[x][y][z].getPosition().set(myPosition);
                     _myField[x][y][z].getPosition().add(thePosition);
                 }
@@ -75,24 +75,24 @@ public class VectorField
         }
     }
 
-    public final Vector3f getScale() {
+    public final PVector getScale() {
         return _myScale;
     }
 
-    public void setScale(final Vector3f theScale) {
+    public void setScale(final PVector theScale) {
         _myScale.set(theScale);
         for (int x = 0; x < _myField.length; x++) {
             for (int y = 0; y < _myField[x].length; y++) {
                 for (int z = 0; z < _myField[x][y].length; z++) {
-                    Vector3f myUnitScale = new Vector3f(_myScale.x
-                                                        / (float) _myField.length,
-                                                        _myScale.y / (float) _myField[x].length,
-                                                        _myScale.z / (float) _myField[x][y].length);
+                    PVector myUnitScale = new PVector(_myScale.x
+                                                      / (float) _myField.length,
+                                                      _myScale.y / (float) _myField[x].length,
+                                                      _myScale.z / (float) _myField[x][y].length);
                     _myField[x][y][z].setScale(myUnitScale);
-                    Vector3f myPosition = new Vector3f(x
-                                                       * (_myScale.x / (float) _myField.length),
-                                                       y * (_myScale.y / (float) _myField[x].length),
-                                                       z * (_myScale.z / (float) _myField[x][y].length));
+                    PVector myPosition = new PVector(x
+                                                     * (_myScale.x / (float) _myField.length),
+                                                     y * (_myScale.y / (float) _myField[x].length),
+                                                     z * (_myScale.z / (float) _myField[x][y].length));
                     myPosition.add(_myPosition);
                     _myField[x][y][z].setPosition(myPosition);
                 }
@@ -100,16 +100,16 @@ public class VectorField
         }
     }
 
-//    public void setScale(final Vector3f theScale) {
+//    public void setScale(final PVector theScale) {
 //    _myScale.set(theScale);
 //    for (int x = 0; x < _myField.length; x++) {
 //        for (int y = 0; y < _myField[x].length; y++) {
 //            for (int z = 0; z < _myField[x][y].length; z++) {
-//                Vector3f myUnitScale = new Vector3f(_myScale.x,
+//                PVector myUnitScale = new PVector(_myScale.x,
 //                        _myScale.y,
 //                        _myScale.z);
 //                _myField[x][y][z].setScale(myUnitScale);
-//                Vector3f myPosition = new Vector3f(x *
+//                PVector myPosition = new PVector(x *
 //                        (_myScale.x),
 //                        y * (_myScale.y),
 //                        z * (_myScale.z));
@@ -120,13 +120,12 @@ public class VectorField
 //    }
 //}
     /* IForce */
-    private Vector3f force(float theDeltaTime, VectorfieldParticle theParticle) {
+    private PVector force(float theDeltaTime, VectorfieldParticle theParticle) {
         if (isInBoundingBox(theParticle)) {
             Vector3i myUnit = checkIfIsInside(theParticle, 1);
             if (myUnit != null) {
-                Vector3f myAcceleration = new Vector3f(_myField[myUnit.x][myUnit.y][myUnit.z].
-                        getAcceleration());
-                myAcceleration.scale(strength);
+                PVector myAcceleration = Util.clone(_myField[myUnit.x][myUnit.y][myUnit.z].getAcceleration());
+                myAcceleration.mult(strength);
                 theParticle.setLastUnit(myUnit);
                 return myAcceleration;
             }
@@ -134,9 +133,8 @@ public class VectorField
                 for (int y = 0; y < _myField[x].length; y++) {
                     for (int z = 0; z < _myField[x][y].length; z++) {
                         if (_myField[x][y][z].isInside(theParticle.position())) {
-                            Vector3f myAcceleration = new Vector3f(_myField[x][y][z].
-                                    getAcceleration());
-                            myAcceleration.scale(strength);
+                            PVector myAcceleration = Util.clone(_myField[x][y][z].getAcceleration());
+                            myAcceleration.mult(strength);
                             theParticle.setLastUnit(new Vector3i(x, y, z));
                             return myAcceleration;
                         }
@@ -144,19 +142,16 @@ public class VectorField
                 }
             }
         }
-        return new Vector3f();
+        return new PVector();
     }
 
     private boolean isInBoundingBox(VectorfieldParticle theParticle) {
-        if (theParticle.position().x >= _myPosition.x
-            && theParticle.position().x <= _myPosition.x + _myScale.x
-            && theParticle.position().y >= _myPosition.y
-            && theParticle.position().y <= _myPosition.y + _myScale.y
-            && theParticle.position().z >= _myPosition.z
-            && theParticle.position().z <= _myPosition.z + _myScale.z) {
-            return true;
-        }
-        return false;
+        return theParticle.position().x >= _myPosition.x
+               && theParticle.position().x <= _myPosition.x + _myScale.x
+               && theParticle.position().y >= _myPosition.y
+               && theParticle.position().y <= _myPosition.y + _myScale.y
+               && theParticle.position().z >= _myPosition.z
+               && theParticle.position().z <= _myPosition.z + _myScale.z;
     }
 
     private Vector3i checkIfIsInside(VectorfieldParticle theParticle,

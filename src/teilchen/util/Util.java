@@ -21,19 +21,237 @@
  */
 package teilchen.util;
 
-import mathematik.Vector3f;
-
+import java.util.Vector;
 import processing.core.PMatrix3D;
+import processing.core.PVector;
+import static processing.core.PVector.*;
 import teilchen.Particle;
 import teilchen.Physics;
-import teilchen.force.IForce;
+import teilchen.constraint.IConstraint;
 import teilchen.force.TriangleDeflector;
 import teilchen.force.TriangleDeflectorIndexed;
 
-import java.util.Vector;
-import teilchen.constraint.IConstraint;
-
 public class Util {
+
+
+    /* contain */
+    public static final boolean contains(final PVector thePosition,
+                                         final WorldAxisAlignedBoundingBox theWorldAlignedBox) {
+        return (contains(thePosition.x, theWorldAlignedBox.position.x, theWorldAlignedBox.scale.x)
+                && contains(thePosition.y, theWorldAlignedBox.position.y, theWorldAlignedBox.scale.y)
+                && contains(thePosition.z, theWorldAlignedBox.position.z, theWorldAlignedBox.scale.z));
+    }
+
+    public static final boolean contains(final float theTestValue,
+                                         final float theContainerValue,
+                                         final float theRange) {
+        return (theTestValue > theContainerValue - theRange * 0.5f
+                && theTestValue < theContainerValue + theRange * 0.5f);
+    }
+
+    public static boolean insidePolygon(PVector thePoint, PVector[] thePolygon) {
+        float x = thePoint.x;
+        float y = thePoint.y;
+
+        int c = 0;
+        for (int i = 0, j = thePolygon.length - 1; i < thePolygon.length; j = i++) {
+            if ((((thePolygon[i].y <= y) && (y < thePolygon[j].y))
+                 || ((thePolygon[j].y <= y) && (y < thePolygon[i].y)))
+                && (x < (thePolygon[j].x - thePolygon[i].x) * (y - thePolygon[i].y)
+                        / (thePolygon[j].y - thePolygon[i].y) + thePolygon[i].x)) {
+                c = (c + 1) % 2;
+            }
+        }
+        return c == 1;
+    }
+
+    public static final boolean insidePolygon(final PVector thePoint, final Vector<PVector> thePolygon) {
+        float x = thePoint.x;
+        float y = thePoint.y;
+
+        int c = 0;
+        for (int i = 0, j = thePolygon.size() - 1; i < thePolygon.size(); j = i++) {
+            if ((((thePolygon.get(i).y <= y) && (y < thePolygon.get(j).y))
+                 || ((thePolygon.get(j).y <= y) && (y < thePolygon.get(i).y)))
+                && (x < (thePolygon.get(j).x - thePolygon.get(i).x) * (y - thePolygon.get(i).y)
+                        / (thePolygon.get(j).y - thePolygon.get(i).y) + thePolygon.get(i).x)) {
+                c = (c + 1) % 2;
+            }
+        }
+        return c == 1;
+    }
+
+    public static final boolean inside2DPolygon(final PVector thePoint, final Vector<PVector> thePolygon) {
+        float x = thePoint.x;
+        float y = thePoint.y;
+
+        int c = 0;
+        for (int i = 0, j = thePolygon.size() - 1; i < thePolygon.size(); j = i++) {
+            if ((((thePolygon.get(i).y <= y) && (y < thePolygon.get(j).y))
+                 || ((thePolygon.get(j).y <= y) && (y < thePolygon.get(i).y)))
+                && (x < (thePolygon.get(j).x - thePolygon.get(i).x) * (y - thePolygon.get(i).y)
+                        / (thePolygon.get(j).y - thePolygon.get(i).y) + thePolygon.get(i).x)) {
+                c = (c + 1) % 2;
+            }
+        }
+        return c == 1;
+    }
+
+    private static final PVector TMP_MIN = new PVector();
+
+    private static final PVector TMP_MAX = new PVector();
+
+    public static void updateBoundingBox(final WorldAxisAlignedBoundingBox theWorldAxisAlignedBoundingBox,
+                                         final PVector[] myVectors) {
+
+        if (myVectors == null || myVectors.length == 0) {
+            return;
+        }
+
+        /* get minimum and maximum */
+        TMP_MIN.set(myVectors[0]);
+        TMP_MAX.set(myVectors[0]);
+
+        for (int i = 1; i < myVectors.length; i++) {
+            /* minimum */
+            if (TMP_MIN.x > myVectors[i].x) {
+                TMP_MIN.x = myVectors[i].x;
+            }
+            if (TMP_MIN.y > myVectors[i].y) {
+                TMP_MIN.y = myVectors[i].y;
+            }
+            if (TMP_MIN.z > myVectors[i].z) {
+                TMP_MIN.z = myVectors[i].z;
+            }
+            /* maximum */
+            if (TMP_MAX.x < myVectors[i].x) {
+                TMP_MAX.x = myVectors[i].x;
+            }
+            if (TMP_MAX.y < myVectors[i].y) {
+                TMP_MAX.y = myVectors[i].y;
+            }
+            if (TMP_MAX.z < myVectors[i].z) {
+                TMP_MAX.z = myVectors[i].z;
+            }
+        }
+
+        /* create world aligned boundingbox */
+ /* bb position */
+        sub(TMP_MAX, TMP_MIN, theWorldAxisAlignedBoundingBox.position);
+        theWorldAxisAlignedBoundingBox.position.mult(0.5f);
+        theWorldAxisAlignedBoundingBox.position.add(TMP_MIN);
+        /* bb scale */
+        sub(TMP_MAX, TMP_MIN, theWorldAxisAlignedBoundingBox.scale);
+        theWorldAxisAlignedBoundingBox.scale.x = Math.abs(theWorldAxisAlignedBoundingBox.scale.x);
+        theWorldAxisAlignedBoundingBox.scale.y = Math.abs(theWorldAxisAlignedBoundingBox.scale.y);
+        theWorldAxisAlignedBoundingBox.scale.z = Math.abs(theWorldAxisAlignedBoundingBox.scale.z);
+    }
+
+    /* normal */
+    private static final PVector TMP_BA = new PVector();
+
+    private static final PVector TMP_BC = new PVector();
+
+    /**
+     * calculate a normal from a set of three vectors.
+     *
+     * @param pointA
+     * @param pointB
+     * @param pointC
+     * @param theResultNormal
+     */
+    public static final void calculateNormal(final PVector pointA,
+                                             final PVector pointB,
+                                             final PVector pointC,
+                                             final PVector theResultNormal) {
+        sub(pointB, pointA, TMP_BA);
+        sub(pointC, pointB, TMP_BC);
+        theResultNormal.cross(TMP_BA, TMP_BC);
+        theResultNormal.normalize();
+    }
+
+    /**
+     *
+     * @param theVectorAB     PVector
+     * @param theVectorBC     PVector
+     * @param theResultNormal PVector
+     */
+    public static void calculateNormal(final PVector theVectorAB,
+                                       final PVector theVectorBC,
+                                       final PVector theResultNormal) {
+        theResultNormal.cross(theVectorAB, theVectorBC);
+        theResultNormal.normalize();
+    }
+
+    /**
+     * Sets a position randomly distributed inside a sphere of unit radius
+     * centered at the origin. Orientation will be random and length will range
+     * between 0 and 1
+     *
+     * @param p
+     */
+    public static void randomize(PVector p) {
+        p.x = RND_GENERATOR.nextFloat() * 2.0F - 1.0F;
+        p.y = RND_GENERATOR.nextFloat() * 2.0F - 1.0F;
+        p.z = RND_GENERATOR.nextFloat() * 2.0F - 1.0F;
+        p.normalize();
+    }
+
+    private static final java.util.Random RND_GENERATOR = new java.util.Random();
+
+    /*
+     * Rotate a point p by angle theta around an arbitrary line segment p1-p2
+     * Return the rotated point.
+     * Positive angles are anticlockwise looking down the axis towards the origin.
+     * Assume right hand coordinate system.
+     */
+    public static PVector rotatePoint(PVector p,
+                                      double theta,
+                                      PVector p1,
+                                      PVector p2) {
+        PVector r = new PVector();
+        PVector q = new PVector();
+        PVector myP = new PVector();
+        double costheta, sintheta;
+
+        myP.set(p);
+
+        r.x = p2.x - p1.x;
+        r.y = p2.y - p1.y;
+        r.z = p2.z - p1.z;
+        myP.x -= p1.x;
+        myP.y -= p1.y;
+        myP.z -= p1.z;
+
+        r.normalize();
+
+        costheta = Math.cos(theta);
+        sintheta = Math.sin(theta);
+
+        q.x += (costheta + (1 - costheta) * r.x * r.x) * myP.x;
+        q.x += ((1 - costheta) * r.x * r.y - r.z * sintheta) * myP.y;
+        q.x += ((1 - costheta) * r.x * r.z + r.y * sintheta) * myP.z;
+
+        q.y += ((1 - costheta) * r.x * r.y + r.z * sintheta) * myP.x;
+        q.y += (costheta + (1 - costheta) * r.y * r.y) * myP.y;
+        q.y += ((1 - costheta) * r.y * r.z - r.x * sintheta) * myP.z;
+
+        q.z += ((1 - costheta) * r.x * r.z - r.y * sintheta) * myP.x;
+        q.z += ((1 - costheta) * r.y * r.z + r.x * sintheta) * myP.y;
+        q.z += (costheta + (1 - costheta) * r.z * r.z) * myP.z;
+
+        q.x += p1.x;
+        q.y += p1.y;
+        q.z += p1.z;
+
+        return q;
+    }
+
+    public static void divide(final PVector p, final PVector theVector) {
+        p.x /= theVector.x;
+        p.y /= theVector.y;
+        p.z /= theVector.z;
+    }
 
     public final static void satisfyNeighborConstraints(final Vector<Particle> theParticles, final float theRelaxedness) {
         for (int i = 0; i < theParticles.size(); i++) {
@@ -41,53 +259,96 @@ public class Util {
             for (int j = i + 1; j < theParticles.size(); j++) {
                 final Particle p2 = theParticles.get(j);
                 /* satisfy overlap */
-                if (p1.position().almost(p2.position())) {
+                if (almost(p1.position(), p2.position())) {
                     p1.position().x += 0.01f;
                     p2.position().x -= 0.01f;
                     continue;
                 }
                 /* recover bad positions */
-                if (p1.position().isNaN()) {
+                if (isNaN(p1.position())) {
                     p1.position().set(p1.old_position());
                 }
-                if (p2.position().isNaN()) {
+                if (isNaN(p2.position())) {
                     p2.position().set(p2.old_position());
                 }
-                final float myDistance = p1.position().distance(p2.position());
+                final float myDistance = distance(p1.position(), p2.position());
                 /* skip bad values */
                 if (myDistance == 0.0f || Float.isNaN(myDistance)) {
                     continue;
                 }
                 final float myDesiredDistance = p1.radius() + p2.radius();
                 if (myDistance < myDesiredDistance) {
-                    final Vector3f myDiff = mathematik.Util.sub(p1.position(), p2.position());
-                    myDiff.scale(1.0f / myDistance);
-                    myDiff.scale(myDesiredDistance - myDistance);
-                    myDiff.scale(0.5f);
-                    myDiff.scale(theRelaxedness);
+                    final PVector myDiff = PVector.sub(p1.position(), p2.position());
+                    myDiff.mult(1.0f / myDistance);
+                    myDiff.mult(myDesiredDistance - myDistance);
+                    myDiff.mult(0.5f);
+                    myDiff.mult(theRelaxedness);
                     p1.position().add(myDiff);
                     p2.position().sub(myDiff);
                 }
             }
         }
     }
-    private static final Vector3f TMP_NORMAL = new Vector3f();
 
-    private static final Vector3f TMP_TANGENT = new Vector3f();
+    public static PVector clone(PVector p) {
+        PVector v = new PVector();
+        v.set(p);
+        return v;
+    }
+
+    public static float angle(PVector p, PVector theVector) {
+        float d = p.dot(theVector) / (p.mag() * theVector.mag());
+        /**
+         * @todo check these lines.
+         */
+        if (d < -1.0f) {
+            d = -1.0f;
+        }
+        if (d > 1.0f) {
+            d = 1.0f;
+        }
+        return (float) Math.acos(d);
+    }
+
+    public static float distance(PVector p1, PVector p2) {
+        float dx = p1.x - p2.x;
+        float dy = p1.y - p2.y;
+        float dz = p1.z - p2.z;
+        return (float) Math.sqrt(dx * dx + dy * dy + dz * dz);
+    }
+
+    public static float distanceSquared(PVector p1, PVector p2) {
+        float dx = p1.x - p2.x;
+        float dy = p1.y - p2.y;
+        float dz = p1.z - p2.z;
+        return (dx * dx + dy * dy + dz * dz);
+    }
+
+    private static final float ALMOST_THRESHOLD = 0.001f;
+
+    public static boolean almost(PVector p1, PVector p2) {
+        return Math.abs(p2.x - p1.x) < ALMOST_THRESHOLD
+               && Math.abs(p2.y - p1.y) < ALMOST_THRESHOLD
+               && Math.abs(p2.z - p1.z) < ALMOST_THRESHOLD;
+    }
+
+    private static final PVector TMP_NORMAL = new PVector();
+
+    private static final PVector TMP_TANGENT = new PVector();
 
     public final static void reflectVelocity(final Particle theParticle,
-                                             final Vector3f theNormal,
+                                             final PVector theNormal,
                                              float theCoefficientOfRestitution) {
-        final Vector3f myVelocity = theParticle.velocity();
+        final PVector myVelocity = theParticle.velocity();
         /* normal */
         TMP_NORMAL.set(theNormal);
-        TMP_NORMAL.scale(theNormal.dot(myVelocity));
+        TMP_NORMAL.mult(theNormal.dot(myVelocity));
         /* tangent */
-        TMP_TANGENT.sub(myVelocity, TMP_NORMAL);
+        sub(myVelocity, TMP_NORMAL, TMP_TANGENT);
         /* negate normal */
-        TMP_NORMAL.scale(-theCoefficientOfRestitution);
+        TMP_NORMAL.mult(-theCoefficientOfRestitution);
         /* set reflection vector */
-        myVelocity.add(TMP_TANGENT, TMP_NORMAL);
+        add(TMP_TANGENT, TMP_NORMAL, myVelocity);
 
         /* also set old position */
         if (Physics.HINT_UPDATE_OLD_POSITION) {
@@ -95,31 +356,31 @@ public class Util {
         }
     }
 
-    public final static void reflect(final Vector3f theVector, final Vector3f theNormal, final float theCoefficientOfRestitution) {
-        final Vector3f myNormalComponent = new Vector3f();
-        final Vector3f myTangentComponent = new Vector3f();
+    public final static void reflect(final PVector theVector, final PVector theNormal, final float theCoefficientOfRestitution) {
+        final PVector myNormalComponent = new PVector();
+        final PVector myTangentComponent = new PVector();
 
         /* normal */
         myNormalComponent.set(theNormal);
-        myNormalComponent.scale(theNormal.dot(theVector));
+        myNormalComponent.mult(theNormal.dot(theVector));
         /* tangent */
-        myTangentComponent.sub(theVector, myNormalComponent);
+        sub(theVector, myNormalComponent, myTangentComponent);
         /* negate normal */
-        myNormalComponent.scale(-theCoefficientOfRestitution);
+        myNormalComponent.mult(-theCoefficientOfRestitution);
         /* set reflection vector */
-        theVector.add(myTangentComponent, myNormalComponent);
+        add(myTangentComponent, myNormalComponent, theVector);
     }
 
-    public final static void reflect(final Vector3f theVector, final Vector3f theNormal) {
+    public final static void reflect(final PVector theVector, final PVector theNormal) {
         /* normal */
         TMP_NORMAL.set(theNormal);
-        TMP_NORMAL.scale(theNormal.dot(theVector));
+        TMP_NORMAL.mult(theNormal.dot(theVector));
         /* tangent */
-        TMP_TANGENT.sub(theVector, TMP_NORMAL);
+        sub(theVector, TMP_NORMAL, TMP_TANGENT);
         /* negate normal */
-        TMP_NORMAL.scale(-1.0f);
+        TMP_NORMAL.mult(-1.0f);
         /* set reflection vector */
-        theVector.add(TMP_TANGENT, TMP_NORMAL);
+        add(TMP_TANGENT, TMP_NORMAL, theVector);
     }
 
     public static final Vector<IConstraint> createTriangleDeflectors(final float[] theVertices,
@@ -159,26 +420,31 @@ public class Util {
         return myDeflectors;
     }
 
+    public static PVector cross(PVector p1, PVector p2) {
+        final PVector v = new PVector();
+        return PVector.cross(p1, p2, v);
+    }
+
     public static void pointAt(final PMatrix3D pResult,
-                               final Vector3f pPosition,
-                               final Vector3f pUpVector, /* should be normalized */
-                               final Vector3f pPointAtPosition) {
+                               final PVector pPosition,
+                               final PVector pUpVector, /* should be normalized */
+                               final PVector pPointAtPosition) {
 
         /* forward */
-        final Vector3f mForwardVector = mathematik.Util.sub(pPosition, pPointAtPosition);
+        final PVector mForwardVector = PVector.sub(pPosition, pPointAtPosition);
         mForwardVector.normalize();
 
         /* side */
-        final Vector3f mSideVector = mathematik.Util.cross(pUpVector, mForwardVector);
+        final PVector mSideVector = cross(pUpVector, mForwardVector);
         mSideVector.normalize();
 
         /* up */
-        final Vector3f mUpVector = mathematik.Util.cross(mForwardVector, mSideVector);
+        final PVector mUpVector = cross(mForwardVector, mSideVector);
         mUpVector.normalize();
 
-        if (!mSideVector.isNaN()
-            && !mUpVector.isNaN()
-            && !mForwardVector.isNaN()) {
+        if (!isNaN(mSideVector)
+            && !isNaN(mUpVector)
+            && !isNaN(mForwardVector)) {
             /* x */
             pResult.m00 = mSideVector.x;
             pResult.m10 = mSideVector.y;
@@ -192,5 +458,13 @@ public class Util {
             pResult.m12 = mForwardVector.y;
             pResult.m22 = mForwardVector.z;
         }
+    }
+
+    public static boolean isNaN(PVector p) {
+        return Float.isNaN(p.x) || Float.isNaN(p.y) || Float.isNaN(p.z);
+    }
+
+    public static float lengthSquared(PVector p) {
+        return p.x * p.x + p.y * p.y + p.z * p.z;
     }
 }

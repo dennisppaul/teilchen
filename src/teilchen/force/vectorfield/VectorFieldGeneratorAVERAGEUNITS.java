@@ -21,32 +21,32 @@
  */
 package teilchen.force.vectorfield;
 
-import mathematik.Vector3f;
+import processing.core.PVector;
 
 public class VectorFieldGeneratorAVERAGEUNITS
         implements VectorFieldGenerator {
 
-    private VectorFieldUnit[][][] _myField;
+    private final VectorFieldUnit[][][] _myField;
 
     public VectorFieldGeneratorAVERAGEUNITS(int theSizeX,
                                             int theSizeY,
                                             int theSizeZ,
-                                            Vector3f[] theCoordinats,
-                                            Vector3f[] theAccelerations) {
+                                            PVector[] theCoordinats,
+                                            PVector[] theAccelerations) {
         /* populate field */
         _myField = new VectorFieldUnit[theSizeX][theSizeY][theSizeZ];
         for (int x = 0; x < theSizeX; x++) {
             for (int y = 0; y < theSizeY; y++) {
                 for (int z = 0; z < theSizeZ; z++) {
-                    Vector3f myPosition = new Vector3f(x
-                                                       * (1f / (float) theSizeX),
-                                                       y * (1f / (float) theSizeY),
-                                                       z * (1f / (float) theSizeZ));
-                    Vector3f myScale = new Vector3f(1f
-                                                    / (float) theSizeX,
-                                                    1f / (float) theSizeY,
-                                                    1f / (float) theSizeZ);
-                    Vector3f myAcceleration = new Vector3f(1f, 1f, 1f);
+                    PVector myPosition = new PVector(x
+                                                     * (1f / (float) theSizeX),
+                                                     y * (1f / (float) theSizeY),
+                                                     z * (1f / (float) theSizeZ));
+                    PVector myScale = new PVector(1f
+                                                  / (float) theSizeX,
+                                                  1f / (float) theSizeY,
+                                                  1f / (float) theSizeZ);
+                    PVector myAcceleration = new PVector(1f, 1f, 1f);
                     VectorFieldUnit myUnit = new VectorFieldUnit(myPosition,
                                                                  myScale,
                                                                  myAcceleration);
@@ -59,20 +59,20 @@ public class VectorFieldGeneratorAVERAGEUNITS
         for (int x = 0; x < theSizeX; x++) {
             for (int y = 0; y < theSizeY; y++) {
                 for (int z = 0; z < theSizeZ; z++) {
-                    Vector3f myAcceleration = new Vector3f();
+                    PVector myAcceleration = new PVector();
                     VectorFieldUnit myUnit = _myField[x][y][z];
                     for (int i = 0; i < theCoordinats.length; i++) {
-                        Vector3f myDistance = new Vector3f();
+                        PVector myDistance = new PVector();
                         VectorFieldUnit myOtherUnit = _myField[(int) theCoordinats[i].x][(int) theCoordinats[i].y][(int) theCoordinats[i].z];
                         myDistance.set(myOtherUnit.getPosition());
                         myDistance.sub(myUnit.getPosition());
-                        float myRatio = myMaxDistance - myDistance.length();
-                        Vector3f myTempAcceleration = new Vector3f();
+                        float myRatio = myMaxDistance - myDistance.mag();
+                        PVector myTempAcceleration = new PVector();
                         myTempAcceleration.set(theAccelerations[i]);
-                        myTempAcceleration.scale(myRatio);
+                        myTempAcceleration.mult(myRatio);
                         myAcceleration.add(myTempAcceleration);
                     }
-                    myAcceleration.scale(1f / myMaxDistance);
+                    myAcceleration.mult(1f / myMaxDistance);
                     myUnit.setAcceleration(myAcceleration);
                 }
             }

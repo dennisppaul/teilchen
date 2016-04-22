@@ -22,8 +22,7 @@
 package teilchen;
 
 import java.io.Serializable;
-
-import mathematik.Vector3f;
+import processing.core.PVector;
 
 public class BasicParticle
         implements Particle, Serializable {
@@ -34,13 +33,13 @@ public class BasicParticle
 
     private float mMass;
 
-    private Vector3f mPosition;
+    private PVector mPosition;
 
-    private final Vector3f mOldPosition;
+    private final PVector mOldPosition;
 
-    private final Vector3f mVelocity;
+    private final PVector mVelocity;
 
-    private final Vector3f mForce;
+    private final PVector mForce;
 
     private boolean mTagged;
 
@@ -51,10 +50,10 @@ public class BasicParticle
     private static final long serialVersionUID = 3737917975116369338L;
 
     public BasicParticle() {
-        mPosition = new Vector3f();
-        mOldPosition = new Vector3f();
-        mVelocity = new Vector3f();
-        mForce = new Vector3f();
+        mPosition = new PVector();
+        mOldPosition = new PVector();
+        mVelocity = new PVector();
+        mForce = new PVector();
         mMass = 1;
         mFixed = false;
         mAge = 0;
@@ -87,23 +86,23 @@ public class BasicParticle
         mMass = theMass;
     }
 
-    public Vector3f position() {
+    public PVector position() {
         return mPosition;
     }
 
-    public Vector3f old_position() {
+    public PVector old_position() {
         return mOldPosition;
     }
 
-    public void setPositionRef(Vector3f thePosition) {
+    public void setPositionRef(PVector thePosition) {
         mPosition = thePosition;
     }
 
-    public Vector3f velocity() {
+    public PVector velocity() {
         return mVelocity;
     }
 
-    public Vector3f force() {
+    public PVector force() {
         return mForce;
     }
 

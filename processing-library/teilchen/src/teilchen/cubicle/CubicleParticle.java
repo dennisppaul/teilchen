@@ -21,38 +21,34 @@
  */
 package teilchen.cubicle;
 
-import mathematik.Vector3f;
-import mathematik.Vector3i;
-
+import processing.core.PVector;
 import teilchen.BasicParticle;
+import teilchen.util.Vector3i;
 
 public class CubicleParticle
         extends BasicParticle implements ICubicleEntity {
 
     private final Vector3i _myCubiclePosition;
 
-    private final Vector3f _myPosition;
+    private final PVector _myPosition;
 
     public CubicleParticle() {
         _myCubiclePosition = new Vector3i();
-        _myPosition = new Vector3f();
+        _myPosition = new PVector();
     }
 
     public Vector3i cubicle() {
         return _myCubiclePosition;
     }
 
-    public Vector3f position() {
+    public PVector position() {
         return _myPosition;
     }
 
     public boolean leaving(int theX, int theY, int theZ) {
-        if (theX == cubicle().x
-            && theY == cubicle().y
-            && theZ == cubicle().z) {
-            return false;
-        }
-        return true;
+        return !(theX == cubicle().x
+                 && theY == cubicle().y
+                 && theZ == cubicle().z);
     }
 
     public boolean isActive() {

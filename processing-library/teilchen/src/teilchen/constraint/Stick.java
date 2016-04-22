@@ -21,11 +21,12 @@
  */
 package teilchen.constraint;
 
-import mathematik.Vector3f;
-
+import processing.core.PVector;
 import teilchen.IConnection;
 import teilchen.Particle;
 import teilchen.Physics;
+import static teilchen.Physics.EPSILON;
+import static teilchen.util.Util.*;
 
 public class Stick
         implements IConstraint,
@@ -37,9 +38,9 @@ public class Stick
 
     protected float mRestLength;
 
-    protected final Vector3f mTempDistanceVector;
+    protected final PVector mTempDistanceVector;
 
-    protected final Vector3f mTempVector;
+    protected final PVector mTempVector;
 
     protected boolean mOneWay;
 
@@ -47,12 +48,10 @@ public class Stick
 
     protected boolean mActive = true;
 
-    protected static final float EPSILON = 0.0001f;
-
     public Stick(Particle theA, Particle theB) {
         this(theA,
              theB,
-             theA.position().distance(theB.position()));
+             distance(theA.position(), theB.position()));
     }
 
     public Stick(final Particle theA,
@@ -61,14 +60,14 @@ public class Stick
         mRestLength = theRestLength;
         mA = theA;
         mB = theB;
-        mTempDistanceVector = new Vector3f();
-        mTempVector = new Vector3f();
+        mTempDistanceVector = new PVector();
+        mTempVector = new PVector();
         mOneWay = false;
         mDamping = 1f;
     }
 
     public void setRestLengthByPosition() {
-        mRestLength = mA.position().distance(mB.position());
+        mRestLength = distance(mA.position(), mB.position());
     }
 
     public float damping() {
@@ -106,15 +105,16 @@ public class Stick
         if (mA.fixed() && mB.fixed()) {
             return;
         }
-        mTempDistanceVector.sub(mA.position(), mB.position());
-        final float myDistanceSquared = mTempDistanceVector.lengthSquared();
+        PVector.sub(mA.position(), mB.position(), mTempDistanceVector);
+        final float myDistanceSquared = lengthSquared(mTempDistanceVector);
         if (myDistanceSquared > 0) {
             final float myDistance = (float) Math.sqrt(myDistanceSquared);
             final float myDifference = mRestLength - myDistance;
             if (myDifference > EPSILON || myDifference < -EPSILON) {
                 if (!mOneWay) {
                     final float myDifferenceScale = mDamping * 0.5f * myDifference / myDistance;
-                    mTempVector.scale(myDifferenceScale, mTempDistanceVector);
+                    PVector.mult(mTempDistanceVector, myDifferenceScale, mTempVector);
+
                     if (mA.fixed()) {
                         mB.position().sub(mTempVector);
                         mB.position().sub(mTempVector);
@@ -127,22 +127,20 @@ public class Stick
                     }
                 } else {
                     final float myDifferenceScale = myDifference / myDistance;
-                    mTempVector.scale(myDifferenceScale, mTempDistanceVector);
+                    PVector.mult(mTempDistanceVector, myDifferenceScale, mTempVector);
                     mB.position().sub(mTempVector);
                 }
             }
+        } else if (mA.fixed()) {
+            mB.position().set(mA.position());
+            mB.position().x += mRestLength;
+        } else if (mB.fixed()) {
+            mA.position().set(mB.position());
+            mA.position().x += mRestLength;
         } else {
-            if (mA.fixed()) {
-                mB.position().set(mA.position());
-                mB.position().x += mRestLength;
-            } else if (mB.fixed()) {
-                mA.position().set(mB.position());
-                mA.position().x += mRestLength;
-            } else {
-                mB.position().set(mA.position());
-                mA.position().x -= mRestLength / 2;
-                mB.position().x += mRestLength / 2;
-            }
+            mB.position().set(mA.position());
+            mA.position().x -= mRestLength / 2;
+            mB.position().x += mRestLength / 2;
         }
     }
 

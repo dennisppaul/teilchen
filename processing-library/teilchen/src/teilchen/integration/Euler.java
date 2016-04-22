@@ -22,22 +22,20 @@
 package teilchen.integration;
 
 import java.util.Iterator;
-
-import mathematik.Vector3f;
-
+import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
 
 public class Euler
         implements IIntegrator {
 
-    private final Vector3f mTemp1;
+    private final PVector mTemp1;
 
-    private final Vector3f mTemp2;
+    private final PVector mTemp2;
 
     public Euler() {
-        mTemp1 = new Vector3f();
-        mTemp2 = new Vector3f();
+        mTemp1 = new PVector();
+        mTemp2 = new PVector();
     }
 
     public void step(final float theDeltaTime, final Physics theParticleSystem) {
@@ -57,10 +55,10 @@ public class Euler
 
     private void integrate(final float theDeltaTime, final Particle theParticle) {
         mTemp1.set(theParticle.force());
-        mTemp1.scale(theDeltaTime / theParticle.mass());
+        mTemp1.mult(theDeltaTime / theParticle.mass());
 
         mTemp2.set(theParticle.velocity());
-        mTemp2.scale(theDeltaTime);
+        mTemp2.mult(theDeltaTime);
 
         theParticle.velocity().add(mTemp1);
         theParticle.position().add(mTemp2);

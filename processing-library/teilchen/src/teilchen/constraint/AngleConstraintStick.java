@@ -21,9 +21,10 @@
  */
 package teilchen.constraint;
 
-import mathematik.Vector3f;
-
+import processing.core.PVector;
+import static processing.core.PVector.sub;
 import teilchen.Particle;
+import static teilchen.util.Util.angle;
 
 public class AngleConstraintStick
         extends Stick {
@@ -57,13 +58,13 @@ public class AngleConstraintStick
     }
 
     public void pre_step() {
-        Vector3f ab = mathematik.Util.sub(mParticleA.position(), mParticleB.position());
-        Vector3f cb = mathematik.Util.sub(mParticleC.position(), mParticleB.position());
-        final float mCurrentAngle = ab.angle(cb);
+        PVector ab = sub(mParticleA.position(), mParticleB.position());
+        PVector cb = sub(mParticleC.position(), mParticleB.position());
+        final float mCurrentAngle = angle(ab, cb);
 
         if (mCurrentAngle < mMinAngle) {
-            final float b = ab.length();
-            final float c = cb.length();
+            final float b = ab.mag();
+            final float c = cb.mag();
             // a = sqrt ( b*b + c*c - 2bc*cosA )
             final float mDistance = (float) Math.sqrt(b * b + c * c - 2 * b * c * (float) Math.cos(mMinAngle));
             restlength(mDistance);

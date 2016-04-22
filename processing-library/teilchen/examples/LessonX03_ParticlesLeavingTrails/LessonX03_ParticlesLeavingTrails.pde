@@ -1,46 +1,34 @@
-import mathematik.*;
-import mathematik.Vector3f;
-
-import teilchen.Particle;
-import teilchen.Physics;
-import teilchen.ShortLivedParticle;
-import teilchen.constraint.Box;
-import teilchen.force.Attractor;
-import teilchen.force.Gravity;
-import teilchen.force.ViscousDrag;
-import teilchen.util.ParticleTrail;
-
-import java.util.Vector;
+import teilchen.*;
+import teilchen.behavior.*;
+import teilchen.constraint.*;
+import teilchen.cubicle.*;
+import teilchen.force.*;
+import teilchen.integration.*;
+import teilchen.util.*;
 
 Physics mPhysics;
-
 Vector<ParticleTrail> mTrails;
-
 Attractor mAttractor;
-
+void settings() {
+    size(640, 480, P3D);
+}
 void setup() {
-    size(640, 480, OPENGL);
     smooth();
     frameRate(60);
-
     /* create a particle system */
     mPhysics = new Physics();
-
     /* create a gravitational force */
     Gravity myGravity = new Gravity();
     mPhysics.add(myGravity);
     myGravity.force().y = 20;
-
     /* create drag */
     ViscousDrag myViscousDrag = new ViscousDrag();
     myViscousDrag.coefficient = 0.1f;
     mPhysics.add(myViscousDrag);
-
     final float mBorder = 40;
-    Box mBox = new Box(new Vector3f(mBorder, mBorder, mBorder), new Vector3f(width - mBorder, height - mBorder, 100 - mBorder));
+    Box mBox = new Box(new PVector(mBorder, mBorder, mBorder), new PVector(width - mBorder, height - mBorder, 100 - mBorder));
     mBox.reflect(true);
     mPhysics.add(mBox);
-
     /* create an attractor */
     mAttractor = new Attractor();
     mAttractor.radius(200);
@@ -60,7 +48,6 @@ void setup() {
     }
     resetParticles(width / 2, height / 2);
 }
-
 void resetParticles(float x, float y) {
     for (ParticleTrail myTrails : mTrails) {
         myTrails.particle().position().set(x + random(-10, 10), y + random(-10, 10), 0);
@@ -68,28 +55,21 @@ void resetParticles(float x, float y) {
         myTrails.fragments().clear();
     }
 }
-
 void draw() {
     /* set attractor to mouse position */
     mAttractor.position().set(mouseX, mouseY);
-
     for (ParticleTrail myTrails : mTrails) {
         myTrails.loop(1f / frameRate);
     }
-
     mPhysics.step(1f / frameRate);
-
     background(255);
     for (ParticleTrail myTrail : mTrails) {
         drawTrail(myTrail);
     }
 }
-
 void drawTrail(ParticleTrail theTrail) {
-
     final Vector<Particle> mFragments = theTrail.fragments();
     final Particle mParticle = theTrail.particle();
-
     /* draw head */
     if (mFragments.size() > 1) {
         fill(255, 0, 127);
@@ -102,7 +82,6 @@ void drawTrail(ParticleTrail theTrail) {
         sphere(3);
         popMatrix();
     }
-
     /* draw trail */
     for (int i = 0; i < mFragments.size() - 1; i++) {
         if (mFragments.get(i) instanceof ShortLivedParticle) {
@@ -127,7 +106,6 @@ void drawTrail(ParticleTrail theTrail) {
              mParticle.position().z);
     }
 }
-
 void mousePressed() {
     resetParticles(mouseX, mouseY);
 }

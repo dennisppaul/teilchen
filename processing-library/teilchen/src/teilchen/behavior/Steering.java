@@ -22,14 +22,14 @@
  */
 package teilchen.behavior;
 
-import mathematik.Vector3f;
+import processing.core.PVector;
 import teilchen.IBehaviorParticle;
 
 public class Steering implements IBehavior,
                                  Verhalten {
 
-    private final Vector3f mForce;
-    private final Vector3f mUPVector;
+    private final PVector mForce;
+    private final PVector mUPVector;
 
     private float mWeight;
 
@@ -38,19 +38,21 @@ public class Steering implements IBehavior,
     private boolean mActive = true;
 
     public Steering() {
-        mForce = new Vector3f();
-        mUPVector = new Vector3f(0, 0, -1);
+        mForce = new PVector();
+        mUPVector = new PVector(0, 0, -1);
         mWeight = 1;
     }
 
     public void update(float theDeltaTime, IBehaviorParticle pParent) {
         if (mActive) {
             /* 2D warning -- ignoring z-axis for now */
-            Vector3f mDirection = new Vector3f(pParent.velocity());
-            if (mDirection.lengthSquared() > 0) {
+            PVector mDirection = teilchen.util.Util.clone(pParent.velocity());
+            if (teilchen.util.Util.lengthSquared(mDirection) > 0) {
                 mDirection.normalize();
-                mDirection = mathematik.Util.cross(mDirection, mUPVector);
-                mDirection.scale(mSteering);
+                PVector r = new PVector();
+                PVector.cross(mDirection, mUPVector, r);
+                mDirection.set(r);
+                mDirection.mult(mSteering);
                 mForce.set(mDirection);
             } else {
                 mForce.set(0, 0, 0);
@@ -68,11 +70,11 @@ public class Steering implements IBehavior,
         mSteering = pSteering;
     }
 
-    public Vector3f force() {
+    public PVector force() {
         return mForce;
     }
 
-    public Vector3f upvector() {
+    public PVector upvector() {
         return mUPVector;
     }
 

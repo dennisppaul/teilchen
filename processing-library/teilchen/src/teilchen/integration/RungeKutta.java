@@ -22,62 +22,60 @@
 package teilchen.integration;
 
 import java.util.Vector;
-
-import mathematik.Vector3f;
-
+import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
 
 public class RungeKutta
         implements IIntegrator {
 
-    private final Vector<Vector3f> mOriginalPositions;
+    private final Vector<PVector> mOriginalPositions;
 
-    private final Vector<Vector3f> mOriginalVelocities;
+    private final Vector<PVector> mOriginalVelocities;
 
-    private final Vector<Vector3f> mK1Forces;
+    private final Vector<PVector> mK1Forces;
 
-    private final Vector<Vector3f> mK1Velocities;
+    private final Vector<PVector> mK1Velocities;
 
-    private final Vector<Vector3f> mK2Forces;
+    private final Vector<PVector> mK2Forces;
 
-    private final Vector<Vector3f> mK2Velocities;
+    private final Vector<PVector> mK2Velocities;
 
-    private final Vector<Vector3f> mK3Forces;
+    private final Vector<PVector> mK3Forces;
 
-    private final Vector<Vector3f> mK3Velocities;
+    private final Vector<PVector> mK3Velocities;
 
-    private final Vector<Vector3f> mK4Forces;
+    private final Vector<PVector> mK4Forces;
 
-    private final Vector<Vector3f> mK4Velocities;
+    private final Vector<PVector> mK4Velocities;
 
     public RungeKutta() {
-        mOriginalPositions = new Vector<Vector3f>();
-        mOriginalVelocities = new Vector<Vector3f>();
-        mK1Forces = new Vector<Vector3f>();
-        mK1Velocities = new Vector<Vector3f>();
-        mK2Forces = new Vector<Vector3f>();
-        mK2Velocities = new Vector<Vector3f>();
-        mK3Forces = new Vector<Vector3f>();
-        mK3Velocities = new Vector<Vector3f>();
-        mK4Forces = new Vector<Vector3f>();
-        mK4Velocities = new Vector<Vector3f>();
+        mOriginalPositions = new Vector<PVector>();
+        mOriginalVelocities = new Vector<PVector>();
+        mK1Forces = new Vector<PVector>();
+        mK1Velocities = new Vector<PVector>();
+        mK2Forces = new Vector<PVector>();
+        mK2Velocities = new Vector<PVector>();
+        mK3Forces = new Vector<PVector>();
+        mK3Velocities = new Vector<PVector>();
+        mK4Forces = new Vector<PVector>();
+        mK4Velocities = new Vector<PVector>();
     }
 
     public void step(final float theDeltaTime,
                      final Physics theParticleSystem) {
 
         final int mySize = theParticleSystem.particles().size();
-        Util.checkContainerSize(mySize, mOriginalPositions, Vector3f.class);
-        Util.checkContainerSize(mySize, mOriginalVelocities, Vector3f.class);
-        Util.checkContainerSize(mySize, mK1Forces, Vector3f.class);
-        Util.checkContainerSize(mySize, mK1Velocities, Vector3f.class);
-        Util.checkContainerSize(mySize, mK2Forces, Vector3f.class);
-        Util.checkContainerSize(mySize, mK2Velocities, Vector3f.class);
-        Util.checkContainerSize(mySize, mK3Forces, Vector3f.class);
-        Util.checkContainerSize(mySize, mK3Velocities, Vector3f.class);
-        Util.checkContainerSize(mySize, mK4Forces, Vector3f.class);
-        Util.checkContainerSize(mySize, mK4Velocities, Vector3f.class);
+        Util.checkContainerSize(mySize, mOriginalPositions, PVector.class);
+        Util.checkContainerSize(mySize, mOriginalVelocities, PVector.class);
+        Util.checkContainerSize(mySize, mK1Forces, PVector.class);
+        Util.checkContainerSize(mySize, mK1Velocities, PVector.class);
+        Util.checkContainerSize(mySize, mK2Forces, PVector.class);
+        Util.checkContainerSize(mySize, mK2Velocities, PVector.class);
+        Util.checkContainerSize(mySize, mK3Forces, PVector.class);
+        Util.checkContainerSize(mySize, mK3Velocities, PVector.class);
+        Util.checkContainerSize(mySize, mK4Forces, PVector.class);
+        Util.checkContainerSize(mySize, mK4Velocities, PVector.class);
 
         /* save original position and velocities */
         for (int i = 0; i < theParticleSystem.particles().size(); ++i) {
@@ -104,15 +102,15 @@ public class RungeKutta
         for (int i = 0; i < theParticleSystem.particles().size(); ++i) {
             final Particle myParticle = theParticleSystem.particles().get(i);
             if (!myParticle.fixed()) {
-                final Vector3f originalPosition = mOriginalPositions.get(i);
-                final Vector3f k1Velocity = mK1Velocities.get(i);
+                final PVector originalPosition = mOriginalPositions.get(i);
+                final PVector k1Velocity = mK1Velocities.get(i);
 
                 myParticle.position().x = originalPosition.x + k1Velocity.x * 0.5f * theDeltaTime;
                 myParticle.position().y = originalPosition.y + k1Velocity.y * 0.5f * theDeltaTime;
                 myParticle.position().z = originalPosition.z + k1Velocity.z * 0.5f * theDeltaTime;
 
-                final Vector3f originalVelocity = mOriginalVelocities.get(i);
-                final Vector3f k1Force = mK1Forces.get(i);
+                final PVector originalVelocity = mOriginalVelocities.get(i);
+                final PVector k1Force = mK1Forces.get(i);
 
                 myParticle.velocity().x = originalVelocity.x + k1Force.x * 0.5f * theDeltaTime / myParticle.mass();
                 myParticle.velocity().y = originalVelocity.y + k1Force.y * 0.5f * theDeltaTime / myParticle.mass();
@@ -135,15 +133,15 @@ public class RungeKutta
         for (int i = 0; i < theParticleSystem.particles().size(); ++i) {
             final Particle myParticle = theParticleSystem.particles().get(i);
             if (!myParticle.fixed()) {
-                final Vector3f originalPosition = mOriginalPositions.get(i);
-                final Vector3f k2Velocity = mK2Velocities.get(i);
+                final PVector originalPosition = mOriginalPositions.get(i);
+                final PVector k2Velocity = mK2Velocities.get(i);
 
                 myParticle.position().x = originalPosition.x + k2Velocity.x * 0.5f * theDeltaTime;
                 myParticle.position().y = originalPosition.y + k2Velocity.y * 0.5f * theDeltaTime;
                 myParticle.position().z = originalPosition.z + k2Velocity.z * 0.5f * theDeltaTime;
 
-                final Vector3f originalVelocity = mOriginalVelocities.get(i);
-                final Vector3f k2Force = mK2Forces.get(i);
+                final PVector originalVelocity = mOriginalVelocities.get(i);
+                final PVector k2Force = mK2Forces.get(i);
 
                 myParticle.velocity().x = originalVelocity.x + k2Force.x * 0.5f * theDeltaTime / myParticle.mass();
                 myParticle.velocity().y = originalVelocity.y + k2Force.y * 0.5f * theDeltaTime / myParticle.mass();
@@ -166,15 +164,15 @@ public class RungeKutta
         for (int i = 0; i < theParticleSystem.particles().size(); ++i) {
             final Particle myParticle = theParticleSystem.particles().get(i);
             if (!myParticle.fixed()) {
-                final Vector3f originalPosition = mOriginalPositions.get(i);
-                final Vector3f k3Velocity = mK3Velocities.get(i);
+                final PVector originalPosition = mOriginalPositions.get(i);
+                final PVector k3Velocity = mK3Velocities.get(i);
 
                 myParticle.position().x = originalPosition.x + k3Velocity.x * theDeltaTime;
                 myParticle.position().y = originalPosition.y + k3Velocity.y * theDeltaTime;
                 myParticle.position().z = originalPosition.z + k3Velocity.z * theDeltaTime;
 
-                final Vector3f originalVelocity = mOriginalVelocities.get(i);
-                final Vector3f k3Force = mK3Forces.get(i);
+                final PVector originalVelocity = mOriginalVelocities.get(i);
+                final PVector k3Force = mK3Forces.get(i);
 
                 myParticle.velocity().x = originalVelocity.x + k3Force.x * theDeltaTime / myParticle.mass();
                 myParticle.velocity().y = originalVelocity.y + k3Force.y * theDeltaTime / myParticle.mass();
@@ -198,11 +196,11 @@ public class RungeKutta
             final Particle myParticle = theParticleSystem.particles().get(i);
             if (!myParticle.fixed()) {
                 /* update position */
-                final Vector3f originalPosition = mOriginalPositions.get(i);
-                final Vector3f k1Velocity = mK1Velocities.get(i);
-                final Vector3f k2Velocity = mK2Velocities.get(i);
-                final Vector3f k3Velocity = mK3Velocities.get(i);
-                final Vector3f k4Velocity = mK4Velocities.get(i);
+                final PVector originalPosition = mOriginalPositions.get(i);
+                final PVector k1Velocity = mK1Velocities.get(i);
+                final PVector k2Velocity = mK2Velocities.get(i);
+                final PVector k3Velocity = mK3Velocities.get(i);
+                final PVector k4Velocity = mK4Velocities.get(i);
 
                 myParticle.position().x = originalPosition.x
                                           + theDeltaTime / 6.0f
@@ -215,11 +213,11 @@ public class RungeKutta
                                             * (k1Velocity.z + 2.0f * k2Velocity.z + 2.0f * k3Velocity.z + k4Velocity.z);
 
                 /* update velocity */
-                final Vector3f originalVelocity = mOriginalVelocities.get(i);
-                final Vector3f k1Force = mK1Forces.get(i);
-                final Vector3f k2Force = mK2Forces.get(i);
-                final Vector3f k3Force = mK3Forces.get(i);
-                final Vector3f k4Force = mK4Forces.get(i);
+                final PVector originalVelocity = mOriginalVelocities.get(i);
+                final PVector k1Force = mK1Forces.get(i);
+                final PVector k2Force = mK2Forces.get(i);
+                final PVector k3Force = mK3Forces.get(i);
+                final PVector k4Force = mK4Forces.get(i);
 
                 myParticle.velocity().x = originalVelocity.x
                                           + theDeltaTime / (6.0f * myParticle.mass())

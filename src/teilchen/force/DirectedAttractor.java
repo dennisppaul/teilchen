@@ -21,17 +21,17 @@
  */
 package teilchen.force;
 
-import mathematik.Vector3f;
-
+import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
+import static teilchen.util.Util.lengthSquared;
 
 public class DirectedAttractor
         extends Attractor {
 
-    private final Vector3f myVectorA = new Vector3f();
+    private final PVector myVectorA = new PVector();
 
-    private final Vector3f myVectorB = new Vector3f();
+    private final PVector myVectorB = new PVector();
 
     public DirectedAttractor() {
         super();
@@ -41,18 +41,19 @@ public class DirectedAttractor
         for (final Particle myParticle : theParticleSystem.particles()) {
             /* each particle */
             if (!myParticle.fixed()) {
-                myTemp.sub(_myPosition, myParticle.position());
+                PVector.sub(_myPosition, myParticle.position(), myTemp);
 
-                final float myDistance = fastInverseSqrt(1 / myTemp.lengthSquared());
+                final float myDistance = fastInverseSqrt(1 / lengthSquared(myTemp));
                 if (myDistance < _myRadius) {
 
-                    myVectorA.scale(1 / myDistance, myTemp);
+                    myVectorA.set(myTemp);
+                    myVectorA.mult(1.0f / myDistance);
                     myVectorB.normalize(myParticle.velocity());
                     float myAngle = myVectorA.dot(myVectorB);
 
                     float myFallOff = 1f - myDistance / _myRadius;
                     final float myForce = myAngle * myFallOff * myFallOff * _myStrength;
-                    myTemp.scale(myForce / myDistance);
+                    myTemp.mult(myForce / myDistance);
                     myParticle.force().add(myTemp);
                 }
             }

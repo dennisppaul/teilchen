@@ -21,58 +21,55 @@
  */
 package teilchen.force.vectorfield;
 
-import mathematik.Vector3f;
+import processing.core.PVector;
+import teilchen.util.Util;
 
 public class VectorFieldUnit {
 
-    private Vector3f _myPosition;
+    private final PVector _myPosition;
 
-    private Vector3f _myScale;
+    private final PVector _myScale;
 
-    private Vector3f _myAcceleration;
+    private final PVector _myAcceleration;
 
-    public VectorFieldUnit(final Vector3f thePosition,
-                           final Vector3f theScale,
-                           final Vector3f theAcceleration) {
-        _myPosition = new Vector3f(thePosition);
-        _myScale = new Vector3f(theScale);
-        _myAcceleration = new Vector3f(theAcceleration);
+    public VectorFieldUnit(final PVector thePosition,
+                           final PVector theScale,
+                           final PVector theAcceleration) {
+        _myPosition = Util.clone(thePosition);
+        _myScale = Util.clone(theScale);
+        _myAcceleration = Util.clone(theAcceleration);
     }
 
-    public void setAcceleration(final Vector3f theAcceleration) {
+    public void setAcceleration(final PVector theAcceleration) {
         _myAcceleration.set(theAcceleration);
     }
 
-    public Vector3f getAcceleration() {
+    public PVector getAcceleration() {
         return _myAcceleration;
     }
 
-    public Vector3f getPosition() {
+    public PVector getPosition() {
         return _myPosition;
     }
 
-    public void setPosition(final Vector3f thePosition) {
+    public void setPosition(final PVector thePosition) {
         _myPosition.set(thePosition);
     }
 
-    public Vector3f getScale() {
+    public PVector getScale() {
         return _myScale;
     }
 
-    public void setScale(final Vector3f theScale) {
+    public void setScale(final PVector theScale) {
         _myScale.set(theScale);
     }
 
-    public boolean isInside(final Vector3f thePosition) {
-        if (thePosition.x >= _myPosition.x
-            && thePosition.x < _myPosition.x + _myScale.x
-            && thePosition.y >= _myPosition.y
-            && thePosition.y < _myPosition.y + _myScale.y
-            && thePosition.z >= _myPosition.z
-            && thePosition.z < _myPosition.z + _myScale.z) {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean isInside(final PVector thePosition) {
+        return thePosition.x >= _myPosition.x
+               && thePosition.x < _myPosition.x + _myScale.x
+               && thePosition.y >= _myPosition.y
+               && thePosition.y < _myPosition.y + _myScale.y
+               && thePosition.z >= _myPosition.z
+               && thePosition.z < _myPosition.z + _myScale.z;
     }
 }

@@ -1,29 +1,26 @@
-import mathematik.*;
-import teilchen.Particle;
-import teilchen.Physics;
-import teilchen.force.Spring;
-/**
- * this sketch shows 1 how to create a viscous drag to slow motion eventually
- * down. 2 how to create a spring that connects two particles.
- */
+import teilchen.*;
+import teilchen.behavior.*;
+import teilchen.constraint.*;
+import teilchen.cubicle.*;
+import teilchen.force.*;
+import teilchen.integration.*;
+import teilchen.util.*;
+
 Physics mPhysics;
-
 Particle mRoot;
-
+void settings() {
+    size(640, 480, P3D);
+}
 void setup() {
-    size(640, 480, OPENGL);
     smooth();
     frameRate(30);
-
     /* create a particle system */
     mPhysics = new Physics();
-
     /* create a particle to which we will connect springs */
     mRoot = mPhysics.makeParticle(width / 2, height / 2, 0.0f);
     /* we give the root particle a higher mass so it doesn t move as easily */
     mRoot.mass(30);
 }
-
 void draw() {
     /* create a particle at mouse position and connect it to the root particle through a spring */
     if (mousePressed) {
@@ -34,14 +31,11 @@ void draw() {
         /* we modify the restlength to add a bit of energy into the system */
         mSpring.restlength(mRestlength * 1.5f);
     }
-
     /* update the particle system */
     final float mDeltaTime = 1.0f / frameRate;
     mPhysics.step(mDeltaTime);
-
     /* draw particles and connecting line */
     background(255);
-
     /* draw springs */
     noFill();
     stroke(255, 0, 127, 64);

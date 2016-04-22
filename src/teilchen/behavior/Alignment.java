@@ -21,12 +21,12 @@
  */
 package teilchen.behavior;
 
-import mathematik.Vector3f;
-
-import teilchen.IBehaviorParticle;
-import teilchen.behavior.Util.ProximityStructure;
 import java.io.Serializable;
 import java.util.Vector;
+import processing.core.PVector;
+import teilchen.IBehaviorParticle;
+import teilchen.behavior.Util.ProximityStructure;
+import static teilchen.util.Util.isNaN;
 
 public class Alignment
         implements IBehavior,
@@ -38,14 +38,14 @@ public class Alignment
 
     private float mWeight;
 
-    private final Vector3f mForce;
+    private final PVector mForce;
 
     private Vector<IBehaviorParticle> mNeighbors;
 
     public Alignment() {
         mProximity = 100.0f;
         mWeight = 1.0f;
-        mForce = new Vector3f();
+        mForce = new PVector();
     }
 
     public void update(float theDeltaTime, IBehaviorParticle pParent) {
@@ -53,11 +53,11 @@ public class Alignment
         if (mNeighbors != null) {
             Vector<ProximityStructure> mCloseNeighbors = ProximityStructure.findProximityEntities(pParent, mNeighbors, mProximity);
             findCommonVelocity(mCloseNeighbors, mForce);
-            mForce.scale(weight());
+            mForce.mult(weight());
         }
     }
 
-    private static void findCommonVelocity(Vector<ProximityStructure> mCloseNeighbors, final Vector3f pForce) {
+    private static void findCommonVelocity(Vector<ProximityStructure> mCloseNeighbors, final PVector pForce) {
         /* find away vector */
         pForce.set(0, 0, 0);
         if (!mCloseNeighbors.isEmpty()) {
@@ -68,9 +68,9 @@ public class Alignment
             for (ProximityStructure p : mCloseNeighbors) {
                 pForce.add(p.particle.velocity());
             }
-            pForce.scale(1.0f / mCloseNeighbors.size());
+            pForce.mult(1.0f / mCloseNeighbors.size());
             pForce.normalize();
-            if (pForce.isNaN()) {
+            if (isNaN(pForce)) {
                 pForce.set(0, 0, 0);
             }
         }
@@ -83,7 +83,7 @@ public class Alignment
         mNeighbors = (Vector<IBehaviorParticle>) pNeighbors;
     }
 
-    public Vector3f force() {
+    public PVector force() {
         return mForce;
     }
 

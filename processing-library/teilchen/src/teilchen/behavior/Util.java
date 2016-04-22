@@ -21,12 +21,11 @@
  */
 package teilchen.behavior;
 
-import mathematik.Vector3f;
-
+import java.util.Vector;
+import processing.core.PVector;
+import static processing.core.PVector.sub;
 import teilchen.IBehaviorParticle;
 import teilchen.Particle;
-
-import java.util.Vector;
 
 public class Util {
 
@@ -34,11 +33,11 @@ public class Util {
 
         public final Particle particle;
 
-        public final Vector3f distanceVec;
+        public final PVector distanceVec;
 
         public final float distance;
 
-        public ProximityStructure(Particle pP, Vector3f pDistanceVec, float pDistance) {
+        public ProximityStructure(Particle pP, PVector pDistanceVec, float pDistance) {
             particle = pP;
             distanceVec = pDistanceVec;
             distance = pDistance;
@@ -50,10 +49,11 @@ public class Util {
             /* find neighbors in proximity */
             Vector<ProximityStructure> mCloseNeighbors = new Vector<ProximityStructure>();
             for (IBehaviorParticle p : pNeighborsEntity) {
-                if (!p.equals(pParentEntity)) { /* exclude self */
+                if (!p.equals(pParentEntity)) {
+                    /* exclude self */
 
-                    final Vector3f mDistanceVec = mathematik.Util.sub(pParentEntity.position(), p.position());
-                    final float mDistance = mDistanceVec.length();
+                    final PVector mDistanceVec = sub(pParentEntity.position(), p.position());
+                    final float mDistance = mDistanceVec.mag();
                     if (mDistance <= pProximity) {
                         mCloseNeighbors.add(new ProximityStructure(p, mDistanceVec, mDistance));
                     }

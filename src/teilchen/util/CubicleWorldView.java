@@ -21,10 +21,8 @@
  */
 package teilchen.util;
 
-import mathematik.TransformMatrix4f;
-import mathematik.Vector3f;
-
 import processing.core.PGraphics;
+import processing.core.PVector;
 import teilchen.cubicle.CubicleAtom;
 import teilchen.cubicle.CubicleWorld;
 
@@ -45,7 +43,7 @@ public class CubicleWorldView {
         /* collect data */
         final CubicleAtom[][][] myData = mCubicleWorld.getDataRef();
         final TransformMatrix4f myTransform = mCubicleWorld.transform();
-        final Vector3f myScale = mCubicleWorld.cellscale();
+        final PVector myScale = mCubicleWorld.cellscale();
 
         /* draw world */
         theParent.pushMatrix();

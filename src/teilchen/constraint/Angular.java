@@ -21,11 +21,14 @@
  */
 package teilchen.constraint;
 
-import mathematik.Util;
-import mathematik.Vector3f;
-
+import processing.core.PVector;
+import static processing.core.PVector.add;
+import static processing.core.PVector.sub;
 import teilchen.Particle;
 import teilchen.Physics;
+import static teilchen.Physics.EPSILON;
+import static teilchen.util.Util.isNaN;
+import static teilchen.util.Util.rotatePoint;
 
 /**
  * @todo it probably pays of two check if we deal with a 2D or 3D constraint. it
@@ -42,28 +45,26 @@ public class Angular
 
     private final Particle _myC;
 
-    private final Vector3f _myTempA = new Vector3f();
+    private final PVector _myTempA = new PVector();
 
-    private final Vector3f _myTempB = new Vector3f();
+    private final PVector _myTempB = new PVector();
 
     private float _myMinimumAngle;
 
     private float _myMaximumAngle;
 
-    private final Vector3f _myTempNormal;
+    private final PVector _myTempNormal;
 
     public boolean OK;
 
-    private static final double EPSILON = 0.001;
-
-    private static final double _myStrength = 1;
+    private static final double STRENGTH = 1;
 
     public Angular(Particle theA, Particle theB, Particle theC,
                    float theMinimumAngle, float theMaximumAngle) {
         _myA = theA;
         _myB = theB;
         _myC = theC;
-        _myTempNormal = new Vector3f();
+        _myTempNormal = new PVector();
         range(theMinimumAngle, theMaximumAngle);
     }
 
@@ -104,8 +105,8 @@ public class Angular
         /**
          * @todo test for special case: a and c are in the same place.
          */
-        _myTempA.sub(_myB.position(), _myA.position());
-        _myTempB.sub(_myB.position(), _myC.position());
+        sub(_myB.position(), _myA.position(), _myTempA);
+        sub(_myB.position(), _myC.position(), _myTempB);
 
         _myTempA.normalize();
         _myTempB.normalize();
@@ -167,10 +168,10 @@ public class Angular
         }
     }
 
-    private void calculateNormal(Vector3f myVectorA, Vector3f myVectorB) {
+    private void calculateNormal(PVector myVectorA, PVector myVectorB) {
         _myTempNormal.cross(myVectorA, myVectorB);
         _myTempNormal.normalize();
-        if (_myTempNormal.isNaN()) {
+        if (isNaN(_myTempNormal)) {
             _myTempNormal.set(0, 0, 1);
             System.out.println("### WARNING can t find normal.");
         }
@@ -179,23 +180,23 @@ public class Angular
     private void correctAngle(double theTheta) {
         if (theTheta < -EPSILON || theTheta > EPSILON) {
 
-            Vector3f myOtherPointOnAxis = Util.add(_myB.position(), _myTempNormal);
+            PVector myOtherPointOnAxis = add(_myB.position(), _myTempNormal);
 
-            Vector3f myRotatedPointA = Util.rotatePoint(_myA.position(), theTheta * -0.5 * _myStrength,
-                                                        _myB.position(),
-                                                        myOtherPointOnAxis);
+            PVector myRotatedPointA = rotatePoint(_myA.position(), theTheta * -0.5 * STRENGTH,
+                                                       _myB.position(),
+                                                       myOtherPointOnAxis);
             _myA.position().set(myRotatedPointA);
 
-            Vector3f myRotatedPointB = Util.rotatePoint(_myC.position(), theTheta * 0.5 * _myStrength,
-                                                        _myB.position(),
-                                                        myOtherPointOnAxis);
+            PVector myRotatedPointB = rotatePoint(_myC.position(), theTheta * 0.5 * STRENGTH,
+                                                       _myB.position(),
+                                                       myOtherPointOnAxis);
             _myC.position().set(myRotatedPointB);
 
             System.out.println("correct " + Math.toDegrees(theTheta) + " / " + _myTempNormal);
         }
     }
 
-    private boolean checkForHemisphere(Vector3f myVectorA, Vector3f myVectorB) {
+    private boolean checkForHemisphere(PVector myVectorA, PVector myVectorB) {
         /* special case thus easy to find the direction */
         if (myVectorA.z == 0 && myVectorB.z == 0) {
             return _myTempNormal.z > 0;

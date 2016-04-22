@@ -1,26 +1,24 @@
-import mathematik.*;
-import teilchen.Particle;
-import teilchen.Physics;
-import teilchen.force.Gravity;
-/**
- * this sketch shows how to create and handle multiple particles and remove
- * individual particles.
- */
-Physics mPhysics;
+import teilchen.*;
+import teilchen.behavior.*;
+import teilchen.constraint.*;
+import teilchen.cubicle.*;
+import teilchen.force.*;
+import teilchen.integration.*;
+import teilchen.util.*;
 
+Physics mPhysics;
+void settings() {
+    size(640, 480, P3D);
+}
 void setup() {
-    size(640, 480, OPENGL);
     smooth();
     frameRate(30);
-
     /* create a particle system */
     mPhysics = new Physics();
-
     /* create a gravitational force and add it to the particle system */
     Gravity myGravity = new Gravity(0, 30, 0);
     mPhysics.add(myGravity);
 }
-
 void draw() {
     if (mousePressed) {
         /* create and add a particle to the system */
@@ -29,11 +27,9 @@ void draw() {
         mParticle.position().set(mouseX, mouseY);
         mParticle.velocity().set(random(-20, 20), random(-50));
     }
-
     /* update the particle system */
     final float mDeltaTime = 1.0f / frameRate;
     mPhysics.step(mDeltaTime);
-
     /* remove particles right before they hit the edge of the screen */
     for (int i = 0; i < mPhysics.particles().size(); i++) {
         Particle mParticle = mPhysics.particles(i);
@@ -41,7 +37,6 @@ void draw() {
             mPhysics.particles().remove(i);
         }
     }
-
     /* draw all the particles in the system */
     background(255);
     stroke(0, 127);

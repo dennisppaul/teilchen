@@ -21,12 +21,12 @@
  */
 package teilchen.force.vectorfield;
 
-import mathematik.Vector3f;
+import processing.core.PVector;
 
 public class VectorFieldGeneratorRANDOM
         implements VectorFieldGenerator {
 
-    private VectorFieldUnit[][][] _myField;
+    private final VectorFieldUnit[][][] _myField;
 
     public VectorFieldGeneratorRANDOM(int theSizeX,
                                       int theSizeY,
@@ -35,18 +35,18 @@ public class VectorFieldGeneratorRANDOM
         for (int x = 0; x < theSizeX; x++) {
             for (int y = 0; y < theSizeY; y++) {
                 for (int z = 0; z < theSizeZ; z++) {
-                    Vector3f myPosition = new Vector3f(x
-                                                       * (1f / (float) theSizeX),
-                                                       y * (1f / (float) theSizeY),
-                                                       z * (1f / (float) theSizeZ));
-                    Vector3f myScale = new Vector3f(1f
-                                                    / (float) theSizeX,
-                                                    1f / (float) theSizeY,
-                                                    1f / (float) theSizeZ);
-                    Vector3f myAcceleration = new Vector3f((float) Math.
+                    PVector myPosition = new PVector(x
+                                                     * (1f / (float) theSizeX),
+                                                     y * (1f / (float) theSizeY),
+                                                     z * (1f / (float) theSizeZ));
+                    PVector myScale = new PVector(1f
+                                                  / (float) theSizeX,
+                                                  1f / (float) theSizeY,
+                                                  1f / (float) theSizeZ);
+                    PVector myAcceleration = new PVector((float) Math.
                             random() - 0.5f,
-                                                           (float) Math.random() - 0.5f,
-                                                           (float) Math.random() - 0.5f);
+                                                         (float) Math.random() - 0.5f,
+                                                         (float) Math.random() - 0.5f);
                     myAcceleration.normalize();
                     VectorFieldUnit myUnit = new VectorFieldUnit(myPosition,
                                                                  myScale,

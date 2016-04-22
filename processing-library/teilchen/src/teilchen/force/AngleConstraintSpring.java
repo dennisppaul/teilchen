@@ -21,9 +21,9 @@
  */
 package teilchen.force;
 
-import mathematik.Vector3f;
-
+import processing.core.PVector;
 import teilchen.Particle;
+import static teilchen.util.Util.*;
 
 public class AngleConstraintSpring
         extends Spring {
@@ -57,9 +57,9 @@ public class AngleConstraintSpring
     }
 
     public void pre_step() {
-        Vector3f ab = mathematik.Util.sub(mParticleA.position(), mParticleB.position());
-        Vector3f cb = mathematik.Util.sub(mParticleC.position(), mParticleB.position());
-        final float mCurrentAngle = ab.angle(cb);
+        PVector ab = PVector.sub(mParticleA.position(), mParticleB.position());
+        PVector cb = PVector.sub(mParticleC.position(), mParticleB.position());
+        final float mCurrentAngle = angle(ab, cb);
 
         if (mCurrentAngle < mMinAngle) {
             final int TINY_FACTOR_MODELL = 0;
@@ -71,20 +71,20 @@ public class AngleConstraintSpring
             switch (mModell) {
                 case TINY_FACTOR_MODELL: {
                     final float TINY_FACTOR = 1.1f;
-                    final float mDistance = mParticleA.position().distance(mParticleC.position()) * TINY_FACTOR;
+                    final float mDistance = distance(mParticleA.position(), mParticleC.position()) * TINY_FACTOR;
                     restlength(mDistance);
                 }
                 break;
                 case TRIG_MODELL: {
                     // a = sqrt ( b*b + c*c - 2bc*cosA )
-                    final float b = ab.length();
-                    final float c = cb.length();
+                    final float b = ab.mag();
+                    final float c = cb.mag();
                     final float mDistance = (float) Math.sqrt(b * b + c * c - 2 * b * c * (float) Math.cos(mMinAngle));
                     restlength(mDistance);
                 }
                 break;
                 case MAX_DISTANCE_MODELL: {
-                    final float mDistance = mParticleA.position().distance(mParticleB.position()) + mParticleC.position().distance(mParticleB.position());
+                    final float mDistance = distance(mParticleA.position(), mParticleB.position()) + distance(mParticleC.position(), mParticleB.position());
                     restlength(mDistance);
                 }
                 break;

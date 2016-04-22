@@ -21,8 +21,7 @@
  */
 package teilchen.util;
 
-import mathematik.Vector3f;
-
+import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.constraint.Stick;
@@ -50,10 +49,10 @@ public class StableStickQuad {
     public Stick bd;
 
     public StableStickQuad(final Physics theParticleSystem,
-                           final Vector3f theA,
-                           final Vector3f theB,
-                           final Vector3f theC,
-                           final Vector3f theD) {
+                           final PVector theA,
+                           final PVector theB,
+                           final PVector theC,
+                           final PVector theD) {
         a = theParticleSystem.makeParticle();
         b = theParticleSystem.makeParticle();
         c = theParticleSystem.makeParticle();

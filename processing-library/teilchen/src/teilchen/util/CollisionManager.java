@@ -22,18 +22,18 @@
 package teilchen.util;
 
 import java.util.Vector;
-
-import mathematik.Random;
-import mathematik.Vector3f;
-
+import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
+import static teilchen.Physics.EPSILON;
 import teilchen.constraint.Stick;
 import teilchen.cubicle.CubicleParticle;
 import teilchen.cubicle.CubicleWorld;
 import teilchen.cubicle.ICubicleEntity;
 import teilchen.force.IForce;
 import teilchen.force.Spring;
+import static teilchen.util.Util.distance;
+import static teilchen.util.Util.lengthSquared;
 
 /**
  * this manager uses it s own particle system. we could make it more integrated
@@ -52,7 +52,7 @@ public class CollisionManager {
 
     private float mMinimumDistance;
 
-    private Vector3f mResolveSamePosition;
+    private PVector mResolveSamePosition;
 
     public enum ResolverType {
 //        COLLISION_STICK, COLLISION_SPRING,
@@ -80,7 +80,7 @@ public class CollisionManager {
 
     public CollisionManager(final Physics thePhysics) {
         mCollisionPhysics = thePhysics;
-        mResolveSamePosition = new Vector3f(1, 1, 1);
+        mResolveSamePosition = new PVector(1, 1, 1);
         mCollisionSpringConstant = 20.0f;
         mCollisionSpringDamping = 1.0f;
         mMinimumDistance = 20;
@@ -96,7 +96,7 @@ public class CollisionManager {
         mResolverType = theResolverType;
     }
 
-    public Vector3f resolveSamePosition() {
+    public PVector resolveSamePosition() {
         return mResolveSamePosition;
     }
 
@@ -187,7 +187,7 @@ public class CollisionManager {
         for (int j = theStart; j < mCollisionPhysics.particles().size(); j++) {
             Particle myOtherParticle = mCollisionPhysics.particles().get(j);
             if (theParticle != myOtherParticle) { // && !myOtherParticle.fixed()) {
-                final float myDistance = theParticle.position().distance(myOtherParticle.position());
+                final float myDistance = Util.distance(theParticle.position(), myOtherParticle.position());
                 final float myMinimumDistance = getMinimumDistance(theParticle, myOtherParticle);
                 if (myDistance < myMinimumDistance) {
                     if (theParticle.fixed() && myOtherParticle.fixed()) {
@@ -215,7 +215,7 @@ public class CollisionManager {
                     }
 
                     /* hack to prevent particles from being in the same place */
-                    if (myDistance < mathematik.Mathematik.EPSILON && myDistance > -mathematik.Mathematik.EPSILON) {
+                    if (myDistance < EPSILON && myDistance > -EPSILON) {
                         myOtherParticle.position().x += mRandom.getFloat(mResolveSamePosition.x * -0.5f,
                                                                          mResolveSamePosition.x * 0.5f);
                         myOtherParticle.position().y += mRandom.getFloat(mResolveSamePosition.y * -0.5f,
@@ -251,7 +251,7 @@ public class CollisionManager {
                 if (myEntity instanceof Particle) {
                     final Particle myOtherParticle = (Particle) myEntity;
                     if (theParticle != myOtherParticle) {
-                        final float myDistance = theParticle.position().distance(myOtherParticle.position());
+                        final float myDistance = Util.distance(theParticle.position(), myOtherParticle.position());
                         final float myMinimumDistance = getMinimumDistance(theParticle, myOtherParticle);
                         if (myDistance < myMinimumDistance) {
                             if (theParticle.fixed() && myOtherParticle.fixed()) {
@@ -279,8 +279,7 @@ public class CollisionManager {
                             }
 
                             /* hack to prevent particles from being in the same place */
-                            if (myDistance < mathematik.Mathematik.EPSILON
-                                && myDistance > -mathematik.Mathematik.EPSILON) {
+                            if (myDistance < EPSILON && myDistance > -EPSILON) {
                                 myOtherParticle.position().x += mRandom.getFloat(mResolveSamePosition.x * -0.5f,
                                                                                  mResolveSamePosition.x * 0.5f);
                                 myOtherParticle.position().y += mRandom.getFloat(mResolveSamePosition.y * -0.5f,
@@ -313,7 +312,7 @@ public class CollisionManager {
             super(theA,
                   theB,
                   2.0f, 0.1f,
-                  theA.position().distance(theB.position()));
+                  distance(theA.position(), theB.position()));
         }
 
         public CollisionSpring(Particle theA,
@@ -324,7 +323,7 @@ public class CollisionManager {
                   theB,
                   theSpringConstant,
                   theSpringDamping,
-                  theA.position().distance(theB.position()));
+                  distance(theA.position(), theB.position()));
         }
 
         public CollisionSpring(final Particle theA,
@@ -394,8 +393,8 @@ public class CollisionManager {
 
         public void apply(Physics theParticleSystem) {
             if (!mA.fixed() || !mB.fixed()) {
-                mTempDistanceVector.sub(mA.position(), mB.position());
-                final float myDistanceSquared = mTempDistanceVector.lengthSquared();
+                PVector.sub(mA.position(), mB.position(), mTempDistanceVector);
+                final float myDistanceSquared = lengthSquared(mTempDistanceVector);
                 if (myDistanceSquared > 0) {
                     if (myDistanceSquared < mRestLength * mRestLength) {
                         final float myDistance = (float) Math.sqrt(myDistanceSquared);
@@ -403,12 +402,12 @@ public class CollisionManager {
                         if (myDifference > EPSILON || myDifference < -EPSILON) {
                             if (!mOneWay) {
                                 final float myDifferenceScale = 0.5f * myDifference / myDistance;
-                                mTempVector.scale(myDifferenceScale, mTempDistanceVector);
+                                PVector.mult(mTempDistanceVector, myDifferenceScale, mTempVector);
                                 mA.position().add(mTempVector);
                                 mB.position().sub(mTempVector);
                             } else {
                                 final float myDifferenceScale = myDifference / myDistance;
-                                mTempVector.scale(myDifferenceScale, mTempDistanceVector);
+                                PVector.mult(mTempDistanceVector, myDifferenceScale, mTempVector);
                                 mB.position().sub(mTempVector);
                             }
                         }

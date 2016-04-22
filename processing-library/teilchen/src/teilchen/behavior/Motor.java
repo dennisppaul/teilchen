@@ -21,8 +21,7 @@
  */
 package teilchen.behavior;
 
-import mathematik.Vector3f;
-
+import processing.core.PVector;
 import teilchen.IBehaviorParticle;
 
 public class Motor
@@ -31,11 +30,11 @@ public class Motor
 
     static final long serialVersionUID = -3781170603537691466L;
 
-    private Vector3f mDirection;
+    private PVector mDirection;
 
     private float mStrength;
 
-    private final Vector3f mForce;
+    private final PVector mForce;
 
     private float mWeight;
 
@@ -45,18 +44,18 @@ public class Motor
 
     private boolean mAutoUpdateDirection;
 
-    public final Vector3f AUTO_RECOVER_DIRECTION;
+    public final PVector AUTO_RECOVER_DIRECTION;
 
     public Motor() {
-        mDirection = new Vector3f(1, 0, 0);
-        mForce = new Vector3f();
+        mDirection = new PVector(1, 0, 0);
+        mForce = new PVector();
         mActive = true;
         mStrength = 1;
         mWeight = 1;
         mAutoUpdateDirection = false;
         mAutoNormalizeDirection = true;
-        AUTO_RECOVER_DIRECTION = new Vector3f();
-        AUTO_RECOVER_DIRECTION.randomize();
+        AUTO_RECOVER_DIRECTION = new PVector();
+        teilchen.util.Util.randomize(AUTO_RECOVER_DIRECTION);
         AUTO_RECOVER_DIRECTION.z = 0;
     }
 
@@ -76,11 +75,11 @@ public class Motor
         mStrength = theStrength;
     }
 
-    public Vector3f direction() {
+    public PVector direction() {
         return mDirection;
     }
 
-    public void setDirectionRef(final Vector3f theDirection) {
+    public void setDirectionRef(final PVector theDirection) {
         mDirection = theDirection;
     }
 
@@ -95,7 +94,7 @@ public class Motor
     public void update(float theDeltaTime, IBehaviorParticle pParent) {
         if (mActive) {
             if (mAutoUpdateDirection) {
-                if (pParent.velocity().length() > 0.0f) {
+                if (pParent.velocity().mag() > 0.0f) {
                     mDirection.set(pParent.velocity());
                 } else {
                     mDirection.set(AUTO_RECOVER_DIRECTION);
@@ -104,14 +103,14 @@ public class Motor
             if (mAutoNormalizeDirection) {
                 mDirection.normalize();
             }
-            mForce.scale(mStrength, mDirection);
-            mForce.scale(mWeight, mForce);
+            PVector.mult(mDirection, mStrength, mForce);
+            PVector.mult(mForce, mWeight, mForce);
         } else {
             mForce.set(0, 0, 0);
         }
     }
 
-    public Vector3f force() {
+    public PVector force() {
         return mForce;
     }
 

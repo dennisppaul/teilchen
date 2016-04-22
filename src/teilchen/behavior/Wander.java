@@ -21,17 +21,18 @@
  */
 package teilchen.behavior;
 
-import mathematik.Random;
-import mathematik.Vector3f;
-
+import processing.core.PVector;
+import static processing.core.PVector.*;
 import teilchen.IBehaviorParticle;
+import teilchen.util.Random;
+import static teilchen.util.Util.isNaN;
 
 public class Wander
         implements IBehavior {
 
     static final long serialVersionUID = 4957162698340669663L;
 
-    private Vector3f mForce;
+    private final PVector mForce;
 
     private float mSteeringStrength;
 
@@ -39,7 +40,7 @@ public class Wander
 
     private float mCurrentSteeringStrength;
 
-    private Vector3f mUpVector;
+    private final PVector mUpVector;
 
     private float mWeight;
 
@@ -50,11 +51,11 @@ public class Wander
     public Wander() {
         mRandom = new Random();
 
-        mForce = new Vector3f();
+        mForce = new PVector();
         mSteeringStrength = 10f;
         mSteeringOffset = 5f;
 
-        mUpVector = new Vector3f(0, 0, 1);
+        mUpVector = new PVector(0, 0, 1);
 
         mWeight = 1;
         mActive = true;
@@ -68,7 +69,7 @@ public class Wander
         mActive = pActive;
     }
 
-    public Vector3f force() {
+    public PVector force() {
         return mForce;
     }
 
@@ -81,24 +82,25 @@ public class Wander
     }
 
     public void update(float pDeltaTime, IBehaviorParticle pParent) {
-        if (mActive && pParent.velocity().length() > 0) {
+        if (mActive && pParent.velocity().mag() > 0) {
             mCurrentSteeringStrength += mRandom.getFloat(-0.5f, 0.5f) * mSteeringOffset;
             mCurrentSteeringStrength = Math.max(Math.min(mCurrentSteeringStrength, mSteeringStrength), -mSteeringStrength);
 
-            final Vector3f mWanderTarget = mathematik.Util.cross(mUpVector, pParent.velocity());
+            final PVector mWanderTarget = new PVector();
+            cross(mUpVector, pParent.velocity(), mWanderTarget);
             mWanderTarget.normalize();
-            mWanderTarget.scale(mCurrentSteeringStrength);
-            if (mWanderTarget.isNaN()) {
+            mWanderTarget.mult(mCurrentSteeringStrength);
+            if (isNaN(mWanderTarget)) {
                 mForce.set(0, 0, 0);
             } else {
-                mForce.scale(mWeight, mWanderTarget);
+                mult(mWanderTarget, mWeight, mForce);
             }
         } else {
             mForce.set(0, 0, 0);
         }
     }
 
-    public Vector3f upvector() {
+    public PVector upvector() {
         return mUpVector;
     }
 

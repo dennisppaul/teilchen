@@ -21,8 +21,10 @@
  */
 package teilchen;
 
-import mathematik.Vector3f;
-
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Vector;
+import processing.core.PVector;
 import teilchen.constraint.IConstraint;
 import teilchen.force.IForce;
 import teilchen.force.Spring;
@@ -30,11 +32,7 @@ import teilchen.force.ViscousDrag;
 import teilchen.integration.IIntegrator;
 import teilchen.integration.Midpoint;
 import teilchen.integration.Verlet;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Vector;
-import teilchen.integration.RungeKutta;
+import teilchen.util.Util;
 
 public class Physics {
 
@@ -46,7 +44,7 @@ public class Physics {
 
     private IIntegrator mIntegrator;
 
-    private static final float EPSILON = 0.001f;
+    public static final float EPSILON = 0.001f;
 
     public boolean HINT_OPTIMIZE_STILL = true;
 
@@ -98,7 +96,7 @@ public class Physics {
         return myParticle;
     }
 
-    public BasicParticle makeParticle(final Vector3f thePosition) {
+    public BasicParticle makeParticle(final PVector thePosition) {
         BasicParticle myParticle = makeParticle();
         myParticle.setPositionRef(thePosition);
         myParticle.old_position().set(myParticle.position());
@@ -127,7 +125,7 @@ public class Physics {
         return myParticle;
     }
 
-    public BasicParticle makeParticle(final Vector3f thePosition, final float pMass) {
+    public BasicParticle makeParticle(final PVector thePosition, final float pMass) {
         BasicParticle myParticle = makeParticle();
         myParticle.setPositionRef(thePosition);
         myParticle.old_position().set(myParticle.position());
@@ -340,20 +338,20 @@ public class Physics {
                 }
                 /* recover NAN */
                 if (HINT_RECOVER_NAN) {
-                    if (myParticle.position().isNaN()) {
-                        if (myParticle.old_position().isNaN()) {
+                    if (Util.isNaN(myParticle.position())) {
+                        if (Util.isNaN(myParticle.old_position())) {
                             myParticle.position().set(0, 0, 0);
                         } else {
                             myParticle.position().set(myParticle.old_position());
                         }
                     }
-                    if (myParticle.velocity().isNaN()) {
+                    if (Util.isNaN(myParticle.velocity())) {
                         myParticle.velocity().set(0, 0, 0);
                     }
                 }
                 /* still */
                 if (HINT_OPTIMIZE_STILL) {
-                    final float mySpeed = myParticle.velocity().lengthSquared();
+                    final float mySpeed = Util.lengthSquared(myParticle.velocity());
                     myParticle.still(mySpeed > -EPSILON && mySpeed < EPSILON);
                 }
             }

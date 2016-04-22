@@ -22,21 +22,20 @@
 package teilchen.constraint;
 
 import java.util.Vector;
-
-import mathematik.Vector3f;
-
+import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.integration.Verlet;
+import teilchen.util.Util;
 
 public class ReflectBox
         implements IConstraint {
 
     protected boolean mActive = true;
 
-    private final Vector3f _myMin;
+    private final PVector _myMin;
 
-    private final Vector3f _myMax;
+    private final PVector _myMax;
 
     private float _myCoefficientOfRestitution;
 
@@ -54,7 +53,7 @@ public class ReflectBox
 
     public boolean POSITIV_Z = true;
 
-    public ReflectBox(final Vector3f theMin, final Vector3f theMax) {
+    public ReflectBox(final PVector theMin, final PVector theMax) {
         _myMin = theMin;
         _myMax = theMax;
         _myCoefficientOfRestitution = 1.0f;
@@ -62,30 +61,30 @@ public class ReflectBox
     }
 
     public ReflectBox() {
-        this(new Vector3f(), new Vector3f());
+        this(new PVector(), new PVector());
     }
 
     public void epsilon(final float theEpsilon) {
         _myEpsilon = theEpsilon;
     }
 
-    public Vector3f min() {
+    public PVector min() {
         return _myMin;
     }
 
-    public Vector3f max() {
+    public PVector max() {
         return _myMax;
     }
-    private static final Vector3f[] _myNormals;
+    private static final PVector[] _myNormals;
 
     static {
-        _myNormals = new Vector3f[6];
-        _myNormals[0] = new Vector3f(-1, 0, 0);
-        _myNormals[1] = new Vector3f(0, -1, 0);
-        _myNormals[2] = new Vector3f(0, 0, -1);
-        _myNormals[3] = new Vector3f(1, 0, 0);
-        _myNormals[4] = new Vector3f(0, 1, 0);
-        _myNormals[5] = new Vector3f(0, 0, 1);
+        _myNormals = new PVector[6];
+        _myNormals[0] = new PVector(-1, 0, 0);
+        _myNormals[1] = new PVector(0, -1, 0);
+        _myNormals[2] = new PVector(0, 0, -1);
+        _myNormals[3] = new PVector(1, 0, 0);
+        _myNormals[4] = new PVector(0, 1, 0);
+        _myNormals[5] = new PVector(0, 0, 1);
     }
 
     public void coefficientofrestitution(float theCoefficientOfRestitution) {
@@ -113,9 +112,9 @@ public class ReflectBox
         }
 
         for (final Particle myParticle : theParticles) {
-            final Vector3f myPositionBeforeCollision = new Vector3f(myParticle.position());
-            final Vector3f p = myParticle.position();
-            final Vector3f p_old = myParticle.old_position();
+            final PVector myPositionBeforeCollision = Util.clone(myParticle.position());
+            final PVector p = myParticle.position();
+            final PVector p_old = myParticle.old_position();
             final float r = myParticle.radius();
             /**
              * @todo we should weight the deflection normal
@@ -127,7 +126,7 @@ public class ReflectBox
                 || p.y - r < _myMin.y
                 || p.z - r < _myMin.z) {
                 int myNumberOfCollisions = 0;
-                final Vector3f myDeflectionNormal = new Vector3f();
+                final PVector myDeflectionNormal = new PVector();
                 if (POSITIV_X) {
                     if (p.x + r > _myMax.x) {
                         final float myBorderDiff = _myMax.x - p_old.x - r;
@@ -188,19 +187,19 @@ public class ReflectBox
                         theCollisionParticles.add(myParticle);
                     }
                     /* room for optimization / we don t need to reflect twice. */
-                    final float mySpeed = myPositionBeforeCollision.distanceSquared(myParticle.old_position());
+                    final float mySpeed = Util.distanceSquared(myPositionBeforeCollision, myParticle.old_position());
                     if (mySpeed > _myEpsilon) {
-                        final Vector3f myDiffAfterCollision = mathematik.Util.sub(myPositionBeforeCollision,
-                                                                                  myParticle.position());
-                        final Vector3f myDiffBeforeCollision = mathematik.Util.sub(myParticle.old_position(),
-                                                                                   myParticle.position());
-                        myDeflectionNormal.scale(1.0f / (float) myNumberOfCollisions);
+                        final PVector myDiffAfterCollision = PVector.sub(myPositionBeforeCollision,
+                                                                         myParticle.position());
+                        final PVector myDiffBeforeCollision = PVector.sub(myParticle.old_position(),
+                                                                          myParticle.position());
+                        myDeflectionNormal.mult(1.0f / (float) myNumberOfCollisions);
                         teilchen.util.Util.reflect(myDiffAfterCollision, myDeflectionNormal,
                                                    _myCoefficientOfRestitution);
                         teilchen.util.Util.reflect(myDiffBeforeCollision, myDeflectionNormal, 1);
 
-                        if (!myParticle.old_position().isNaN() && !myParticle.position().isNaN()) {
-                            myParticle.old_position().add(myParticle.position(), myDiffBeforeCollision);
+                        if (!Util.isNaN(myParticle.old_position()) && !Util.isNaN(myParticle.position())) {
+                            PVector.add(myParticle.position(), myDiffBeforeCollision, myParticle.old_position());
                             myParticle.position().add(myDiffAfterCollision);
                         }
                     }
