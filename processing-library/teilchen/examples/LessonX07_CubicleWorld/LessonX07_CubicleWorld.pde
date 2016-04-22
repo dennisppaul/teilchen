@@ -82,7 +82,7 @@ void draw() {
         mNumberOfPointsSelected = mEntities.size();
         for (ICubicleEntity mEntity : mEntities) {
             MCubicleEntity m = (MCubicleEntity) mEntity;
-            stroke(m.color);
+            stroke(m.mColor);
             DrawLib.cross3(g, mEntity.position(), 5.0f);
         }
     }
@@ -124,7 +124,7 @@ void addRandomEntities(int pNumberParticles) {
 class MCubicleEntity
         implements ICubicleEntity {
 
-    int color = color(0, 127, random(0, 255), 127);
+    int mColor = color(0, 127, random(0, 255), 127);
 
     Vector3i mCubiclePosition;
 

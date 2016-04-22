@@ -1,15 +1,13 @@
 package teilchen.additional.examples;
 
+import java.util.Vector;
 import mathematik.Vector3f;
 import mathematik.Vector3i;
-
 import processing.core.PApplet;
 import teilchen.cubicle.CubicleWorld;
 import teilchen.cubicle.ICubicleEntity;
 import teilchen.util.CubicleWorldView;
 import teilchen.util.DrawLib;
-
-import java.util.Vector;
 
 public class SketchLessonX07_CubicleWorld extends PApplet {
 
@@ -87,7 +85,7 @@ public class SketchLessonX07_CubicleWorld extends PApplet {
             mNumberOfPointsSelected = mEntities.size();
             for (ICubicleEntity mEntity : mEntities) {
                 MCubicleEntity m = (MCubicleEntity) mEntity;
-                stroke(m.color);
+                stroke(m.mColor);
                 DrawLib.cross3(g, mEntity.position(), 5.0f);
             }
         }
@@ -129,7 +127,7 @@ public class SketchLessonX07_CubicleWorld extends PApplet {
     class MCubicleEntity
             implements ICubicleEntity {
 
-        int color = color(0, 127, random(0, 255), 127);
+        int mColor = color(0, 127, random(0, 255), 127);
 
         private Vector3i mCubiclePosition;
 
@@ -149,12 +147,9 @@ public class SketchLessonX07_CubicleWorld extends PApplet {
         }
 
         public boolean leaving(int theX, int theY, int theZ) {
-            if (theX == cubicle().x
-                && theY == cubicle().y
-                && theZ == cubicle().z) {
-                return false;
-            }
-            return true;
+            return !(theX == cubicle().x
+                     && theY == cubicle().y
+                     && theZ == cubicle().z);
         }
 
         public boolean isActive() {
