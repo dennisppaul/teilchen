@@ -19,34 +19,49 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.util;
 
-import java.util.Vector;
 import processing.core.PMatrix3D;
 import processing.core.PVector;
-import static processing.core.PVector.*;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.constraint.IConstraint;
 import teilchen.force.TriangleDeflector;
 import teilchen.force.TriangleDeflectorIndexed;
 
+import java.util.Vector;
+
+import static processing.core.PVector.add;
+import static processing.core.PVector.sub;
+
 public class Util {
 
+    private static final float ALMOST_THRESHOLD = 0.001f;
+    private static final PVector TMP_MIN = new PVector();
+    private static final PVector TMP_MAX = new PVector();
+    /* normal */
+    private static final PVector TMP_BA = new PVector();
+    private static final PVector TMP_BC = new PVector();
+    private static final java.util.Random RND_GENERATOR = new java.util.Random();
+    private static final PVector TMP_NORMAL = new PVector();
+    private static final PVector TMP_TANGENT = new PVector();
 
     /* contain */
     public static final boolean contains(final PVector thePosition,
                                          final WorldAxisAlignedBoundingBox theWorldAlignedBox) {
-        return (contains(thePosition.x, theWorldAlignedBox.position.x, theWorldAlignedBox.scale.x)
-                && contains(thePosition.y, theWorldAlignedBox.position.y, theWorldAlignedBox.scale.y)
-                && contains(thePosition.z, theWorldAlignedBox.position.z, theWorldAlignedBox.scale.z));
+        return (contains(thePosition.x, theWorldAlignedBox.position.x, theWorldAlignedBox.scale.x) && contains(
+                thePosition.y,
+                theWorldAlignedBox.position.y,
+                theWorldAlignedBox.scale.y) && contains(thePosition.z,
+                                                        theWorldAlignedBox.position.z,
+                                                        theWorldAlignedBox.scale.z));
     }
 
     public static final boolean contains(final float theTestValue,
                                          final float theContainerValue,
                                          final float theRange) {
-        return (theTestValue > theContainerValue - theRange * 0.5f
-                && theTestValue < theContainerValue + theRange * 0.5f);
+        return (theTestValue > theContainerValue - theRange * 0.5f && theTestValue < theContainerValue + theRange * 0.5f);
     }
 
     public static boolean insidePolygon(PVector thePoint, PVector[] thePolygon) {
@@ -55,10 +70,7 @@ public class Util {
 
         int c = 0;
         for (int i = 0, j = thePolygon.length - 1; i < thePolygon.length; j = i++) {
-            if ((((thePolygon[i].y <= y) && (y < thePolygon[j].y))
-                 || ((thePolygon[j].y <= y) && (y < thePolygon[i].y)))
-                && (x < (thePolygon[j].x - thePolygon[i].x) * (y - thePolygon[i].y)
-                        / (thePolygon[j].y - thePolygon[i].y) + thePolygon[i].x)) {
+            if ((((thePolygon[i].y <= y) && (y < thePolygon[j].y)) || ((thePolygon[j].y <= y) && (y < thePolygon[i].y))) && (x < (thePolygon[j].x - thePolygon[i].x) * (y - thePolygon[i].y) / (thePolygon[j].y - thePolygon[i].y) + thePolygon[i].x)) {
                 c = (c + 1) % 2;
             }
         }
@@ -71,10 +83,9 @@ public class Util {
 
         int c = 0;
         for (int i = 0, j = thePolygon.size() - 1; i < thePolygon.size(); j = i++) {
-            if ((((thePolygon.get(i).y <= y) && (y < thePolygon.get(j).y))
-                 || ((thePolygon.get(j).y <= y) && (y < thePolygon.get(i).y)))
-                && (x < (thePolygon.get(j).x - thePolygon.get(i).x) * (y - thePolygon.get(i).y)
-                        / (thePolygon.get(j).y - thePolygon.get(i).y) + thePolygon.get(i).x)) {
+            if ((((thePolygon.get(i).y <= y) && (y < thePolygon.get(j).y)) || ((thePolygon.get(j).y <= y) && (y < thePolygon.get(
+                    i).y))) && (x < (thePolygon.get(j).x - thePolygon.get(i).x) * (y - thePolygon.get(i).y) / (thePolygon.get(
+                    j).y - thePolygon.get(i).y) + thePolygon.get(i).x)) {
                 c = (c + 1) % 2;
             }
         }
@@ -87,19 +98,14 @@ public class Util {
 
         int c = 0;
         for (int i = 0, j = thePolygon.size() - 1; i < thePolygon.size(); j = i++) {
-            if ((((thePolygon.get(i).y <= y) && (y < thePolygon.get(j).y))
-                 || ((thePolygon.get(j).y <= y) && (y < thePolygon.get(i).y)))
-                && (x < (thePolygon.get(j).x - thePolygon.get(i).x) * (y - thePolygon.get(i).y)
-                        / (thePolygon.get(j).y - thePolygon.get(i).y) + thePolygon.get(i).x)) {
+            if ((((thePolygon.get(i).y <= y) && (y < thePolygon.get(j).y)) || ((thePolygon.get(j).y <= y) && (y < thePolygon.get(
+                    i).y))) && (x < (thePolygon.get(j).x - thePolygon.get(i).x) * (y - thePolygon.get(i).y) / (thePolygon.get(
+                    j).y - thePolygon.get(i).y) + thePolygon.get(i).x)) {
                 c = (c + 1) % 2;
             }
         }
         return c == 1;
     }
-
-    private static final PVector TMP_MIN = new PVector();
-
-    private static final PVector TMP_MAX = new PVector();
 
     public static void updateBoundingBox(final WorldAxisAlignedBoundingBox theWorldAxisAlignedBoundingBox,
                                          final PVector[] myVectors) {
@@ -147,11 +153,6 @@ public class Util {
         theWorldAxisAlignedBoundingBox.scale.z = Math.abs(theWorldAxisAlignedBoundingBox.scale.z);
     }
 
-    /* normal */
-    private static final PVector TMP_BA = new PVector();
-
-    private static final PVector TMP_BC = new PVector();
-
     /**
      * calculate a normal from a set of three vectors.
      *
@@ -171,7 +172,6 @@ public class Util {
     }
 
     /**
-     *
      * @param theVectorAB     PVector
      * @param theVectorBC     PVector
      * @param theResultNormal PVector
@@ -197,18 +197,13 @@ public class Util {
         p.normalize();
     }
 
-    private static final java.util.Random RND_GENERATOR = new java.util.Random();
-
     /*
      * Rotate a point p by angle theta around an arbitrary line segment p1-p2
      * Return the rotated point.
      * Positive angles are anticlockwise looking down the axis towards the origin.
      * Assume right hand coordinate system.
      */
-    public static PVector rotatePoint(PVector p,
-                                      double theta,
-                                      PVector p1,
-                                      PVector p2) {
+    public static PVector rotatePoint(PVector p, double theta, PVector p1, PVector p2) {
         PVector r = new PVector();
         PVector q = new PVector();
         PVector myP = new PVector();
@@ -253,7 +248,7 @@ public class Util {
         p.z /= theVector.z;
     }
 
-    public final static void satisfyNeighborConstraints(final Vector<Particle> theParticles, final float theRelaxedness) {
+    public static void satisfyNeighborConstraints(final Vector<Particle> theParticles, final float theRelaxedness) {
         for (int i = 0; i < theParticles.size(); i++) {
             final Particle p1 = theParticles.get(i);
             for (int j = i + 1; j < theParticles.size(); j++) {
@@ -317,24 +312,16 @@ public class Util {
         return (float) Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
-    public static float distanceSquared(PVector p1, PVector p2) {
-        float dx = p1.x - p2.x;
-        float dy = p1.y - p2.y;
-        float dz = p1.z - p2.z;
+    public static float distanceSquared(PVector p0, PVector p1) {
+        float dx = p0.x - p1.x;
+        float dy = p0.y - p1.y;
+        float dz = p0.z - p1.z;
         return (dx * dx + dy * dy + dz * dz);
     }
 
-    private static final float ALMOST_THRESHOLD = 0.001f;
-
-    public static boolean almost(PVector p1, PVector p2) {
-        return Math.abs(p2.x - p1.x) < ALMOST_THRESHOLD
-               && Math.abs(p2.y - p1.y) < ALMOST_THRESHOLD
-               && Math.abs(p2.z - p1.z) < ALMOST_THRESHOLD;
+    public static boolean almost(PVector p0, PVector p1) {
+        return Math.abs(p1.x - p0.x) < ALMOST_THRESHOLD && Math.abs(p1.y - p0.y) < ALMOST_THRESHOLD && Math.abs(p1.z - p0.z) < ALMOST_THRESHOLD;
     }
-
-    private static final PVector TMP_NORMAL = new PVector();
-
-    private static final PVector TMP_TANGENT = new PVector();
 
     public final static void reflectVelocity(final Particle theParticle,
                                              final PVector theNormal,
@@ -356,7 +343,9 @@ public class Util {
         }
     }
 
-    public final static void reflect(final PVector theVector, final PVector theNormal, final float theCoefficientOfRestitution) {
+    public final static void reflect(final PVector theVector,
+                                     final PVector theNormal,
+                                     final float theCoefficientOfRestitution) {
         final PVector myNormalComponent = new PVector();
         final PVector myTangentComponent = new PVector();
 
@@ -388,15 +377,9 @@ public class Util {
         final Vector<IConstraint> myDeflectors = new Vector<IConstraint>();
         for (int i = 0; i < theVertices.length / 9; i++) {
             final TriangleDeflector myTriangleDeflector = new TriangleDeflector();
-            myTriangleDeflector.a().set(theVertices[i * 9 + 0],
-                                        theVertices[i * 9 + 1],
-                                        theVertices[i * 9 + 2]);
-            myTriangleDeflector.b().set(theVertices[i * 9 + 3],
-                                        theVertices[i * 9 + 4],
-                                        theVertices[i * 9 + 5]);
-            myTriangleDeflector.c().set(theVertices[i * 9 + 6],
-                                        theVertices[i * 9 + 7],
-                                        theVertices[i * 9 + 8]);
+            myTriangleDeflector.a().set(theVertices[i * 9 + 0], theVertices[i * 9 + 1], theVertices[i * 9 + 2]);
+            myTriangleDeflector.b().set(theVertices[i * 9 + 3], theVertices[i * 9 + 4], theVertices[i * 9 + 5]);
+            myTriangleDeflector.c().set(theVertices[i * 9 + 6], theVertices[i * 9 + 7], theVertices[i * 9 + 8]);
             myTriangleDeflector.coefficientofrestitution(theCoefficientOfRestitution);
             myTriangleDeflector.updateProperties();
             myDeflectors.add(myTriangleDeflector);
@@ -408,11 +391,10 @@ public class Util {
                                                                             final float theCoefficientOfRestitution) {
         final Vector<IConstraint> myDeflectors = new Vector<IConstraint>();
         for (int i = 0; i < theVertices.length / 9; i++) {
-            final TriangleDeflectorIndexed myTriangleDeflector = new TriangleDeflectorIndexed(
-                    theVertices,
-                    i * 9 + 0,
-                    i * 9 + 3,
-                    i * 9 + 6);
+            final TriangleDeflectorIndexed myTriangleDeflector = new TriangleDeflectorIndexed(theVertices,
+                                                                                              i * 9 + 0,
+                                                                                              i * 9 + 3,
+                                                                                              i * 9 + 6);
             myTriangleDeflector.coefficientofrestitution(theCoefficientOfRestitution);
             myTriangleDeflector.updateProperties();
             myDeflectors.add(myTriangleDeflector);
@@ -442,9 +424,7 @@ public class Util {
         final PVector mUpVector = cross(mForwardVector, mSideVector);
         mUpVector.normalize();
 
-        if (!isNaN(mSideVector)
-            && !isNaN(mUpVector)
-            && !isNaN(mForwardVector)) {
+        if (!isNaN(mSideVector) && !isNaN(mUpVector) && !isNaN(mForwardVector)) {
             /* x */
             pResult.m00 = mSideVector.x;
             pResult.m10 = mSideVector.y;
@@ -466,5 +446,18 @@ public class Util {
 
     public static float lengthSquared(PVector p) {
         return p.x * p.x + p.y * p.y + p.z * p.z;
+    }
+
+    public static PVector mult(PVector v1, PVector v2) {
+        return mult(v1, v2, null);
+    }
+
+    public static PVector mult(PVector v1, PVector v2, PVector target) {
+        if (target == null) {
+            target = new PVector(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z);
+        } else {
+            target.set(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z);
+        }
+        return target;
     }
 }
