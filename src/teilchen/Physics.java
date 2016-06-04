@@ -19,11 +19,9 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Vector;
 import processing.core.PVector;
 import teilchen.constraint.IConstraint;
 import teilchen.force.IForce;
@@ -34,18 +32,18 @@ import teilchen.integration.Midpoint;
 import teilchen.integration.Verlet;
 import teilchen.util.Util;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Vector;
+
 public class Physics {
 
-    private final Vector<Particle> mParticles;
-
-    private final Vector<IForce> mForces;
-
-    private final Vector<IConstraint> mConstraints;
-
-    private IIntegrator mIntegrator;
-
     public static final float EPSILON = 0.001f;
-
+    public static boolean HINT_UPDATE_OLD_POSITION = true;
+    private final Vector<Particle> mParticles;
+    private final Vector<IForce> mForces;
+    private final Vector<IConstraint> mConstraints;
     public boolean HINT_OPTIMIZE_STILL = true;
 
     public boolean HINT_REMOVE_DEAD = true;
@@ -53,8 +51,7 @@ public class Physics {
     public boolean HINT_RECOVER_NAN = true;
 
     public int contraint_iterations_per_steps = 1;
-
-    public static boolean HINT_UPDATE_OLD_POSITION = true;
+    private IIntegrator mIntegrator;
 
     public Physics() {
         mParticles = new Vector<Particle>();
@@ -62,7 +59,6 @@ public class Physics {
         mConstraints = new Vector<IConstraint>();
         mIntegrator = new Midpoint();
     }
-
 
     /* particles */
     public void add(Particle theParticle) {
@@ -151,7 +147,6 @@ public class Physics {
         }
     }
 
-
     /* forces */
     public void add(IForce theForce) {
         if (theForce instanceof ViscousDrag && mIntegrator instanceof Verlet) {
@@ -220,9 +215,7 @@ public class Physics {
         return mySpring;
     }
 
-    public Spring makeSpring(final Particle theA,
-                             final Particle theB,
-                             final float theRestLength) {
+    public Spring makeSpring(final Particle theA, final Particle theB, final float theRestLength) {
         Spring mySpring = new Spring(theA, theB, theRestLength);
         mForces.add(mySpring);
         return mySpring;
@@ -247,13 +240,16 @@ public class Physics {
         return mySpring;
     }
 
-
     /* constraints */
     public void add(final IConstraint theConstraint) {
         mConstraints.add(theConstraint);
     }
 
     public void addConstraints(final Vector<? extends IConstraint> theConstraints) {
+        mConstraints.addAll(theConstraints);
+    }
+
+    public void addConstraints(final ArrayList<? extends IConstraint> theConstraints) {
         mConstraints.addAll(theConstraints);
     }
 
@@ -268,7 +264,6 @@ public class Physics {
     public IConstraint constraints(final int theIndex) {
         return mConstraints.get(theIndex);
     }
-
 
     /* integration */
     public void setInegratorRef(IIntegrator theIntegrator) {

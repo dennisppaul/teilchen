@@ -44,7 +44,7 @@ public class SketchLessonX08_Schwarm extends PApplet {
         mPhysics.add(myViscousDrag);
 
         /* setup entities */
-        mSwarmEntities = new Vector<SwarmEntity>();
+        mSwarmEntities = new Vector<>();
         for (int i = 0; i < 60; i++) {
             SwarmEntity mSwarmEntity = new SwarmEntity();
             mSwarmEntity.position().set(random(mTeleporter.min().x, mTeleporter.max().x),
