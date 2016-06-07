@@ -5,6 +5,7 @@ import teilchen.cubicle.*;
 import teilchen.force.*;
 import teilchen.integration.*;
 import teilchen.util.*;
+import java.util.Vector;
 
 static final float PARTICLE_SIZE = 12;
 CollisionManager mCollision;

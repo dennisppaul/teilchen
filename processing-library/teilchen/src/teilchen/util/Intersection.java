@@ -19,12 +19,14 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.util;
 
-import java.io.Serializable;
 import processing.core.PVector;
+
+import java.io.Serializable;
+
 import static processing.core.PVector.cross;
-import static processing.core.PVector.mult;
 import static processing.core.PVector.sub;
 import static teilchen.util.Util.lengthSquared;
 
@@ -32,29 +34,26 @@ import static teilchen.util.Util.lengthSquared;
  * beware this is not really in good shape. i ll read my linear algebra book and
  * fix this class. someday. hopefully.
  */
-public final class Intersection
-        implements Serializable {
+public final class Intersection implements Serializable {
 
+    /**
+     * from paul bourke (
+     * http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline2d/ )
+     */
+    public static final int COINCIDENT = 0;
+    public static final int PARALLEL = 1;
+    public static final int INTERESECTING = 2;
+    public static final int NOT_INTERESECTING = 3;
     private static final float EPSILON = 0.00001f;
-
     private static final long serialVersionUID = -5392974339890719551L;
-
     private static final PVector H = new PVector();
-
     private static final PVector S = new PVector();
-
     private static final PVector Q = new PVector();
-
     private static final PVector TMP_EDGE_1 = new PVector();
-
     private static final PVector TMP_EDGE_2 = new PVector();
-
     private static final PVector TMP_EDGE_NORMAL = new PVector();
-
     private static final PVector P_VEC = new PVector();
-
     private static final PVector T_VEC = new PVector();
-
     private static final PVector Q_VEC = new PVector();
 
     public static boolean intersectRayPlane(final Ray3f theRay,
@@ -85,13 +84,12 @@ public final class Intersection
             return false;
         }
 
-        PVector myCross;
-        myCross = new PVector();
-        myCross.cross(diff, edge2);
+        PVector myCross = new PVector();
+        cross(diff, edge2, myCross);
         float dirDotDiffxEdge2 = sign * theRay.direction.dot(myCross);
         if (dirDotDiffxEdge2 > 0.0f) {
             myCross = new PVector();
-            myCross.cross(edge1, diff);
+            cross(edge1, diff, myCross);
             float dirDotEdge1xDiff = sign * theRay.direction.dot(myCross);
             if (dirDotEdge1xDiff >= 0.0f) {
                 if (!quad ? dirDotDiffxEdge2 + dirDotEdge1xDiff <= dirDotNorm : dirDotEdge1xDiff <= dirDotNorm) {
@@ -107,9 +105,7 @@ public final class Intersection
                         float t = diffDotNorm * inv;
                         if (!doPlanar) {
                             theResult.set(theRay.origin);
-                            theResult.add(theRay.direction.x * t,
-                                          theRay.direction.y * t,
-                                          theRay.direction.z * t);
+                            theResult.add(theRay.direction.x * t, theRay.direction.y * t, theRay.direction.z * t);
                         } else {
                             // these weights can be used to determine
                             // interpolated values, such as texture coord.
@@ -129,84 +125,6 @@ public final class Intersection
         return false;
     }
 
-//    /**
-//     * @deprecated not in good state.
-//     * @param v0 first point of the triangle.
-//     * @param v1 second point of the triangle.
-//     * @param v2 third point of the triangle.
-//     * @param store storage vector - if null, no intersection is calc'd
-//     * @param doPlanar true if we are calcing planar results.
-//     * @param quad
-//     * @return true if ray intersects triangle
-//     */
-//    public static boolean intersectRayTriangle(final Ray3f theRay,
-//                                               final PVector v0,
-//                                               final PVector v1,
-//                                               final PVector v2,
-//                                               final PVector store,
-//                                               final boolean doPlanar,
-//                                               final boolean quad) {
-//        PVector diff = mathematik.Util.sub(theRay.origin, v0);
-//        PVector edge1 = mathematik.Util.sub(v1, v0);
-//        PVector edge2 = mathematik.Util.sub(v2, v0);
-//        PVector norm = new PVector();
-//        norm.cross(edge1, edge2);
-//
-//        float dirDotNorm = theRay.direction.dot(norm);
-//        float sign;
-//        if (dirDotNorm > EPSILON) {
-//            sign = 1;
-//        } else if (dirDotNorm < EPSILON) {
-//            sign = -1f;
-//            dirDotNorm = -dirDotNorm;
-//        } else {
-//            // ray and triangle are parallel
-//            return false;
-//        }
-//
-//        PVector myCross;
-//        myCross = new PVector();
-//        myCross.cross(diff, edge2);
-//        float dirDotDiffxEdge2 = sign * theRay.direction.dot(myCross);
-//        if (dirDotDiffxEdge2 > 0.0f) {
-//            myCross = new PVector();
-//            myCross.cross(edge1, diff);
-//            float dirDotEdge1xDiff = sign * theRay.direction.dot(myCross);
-//            if (dirDotEdge1xDiff >= 0.0f) {
-//                if (!quad ? dirDotDiffxEdge2 + dirDotEdge1xDiff <= dirDotNorm : dirDotEdge1xDiff <= dirDotNorm) {
-//                    float diffDotNorm = -sign * diff.dot(norm);
-//                    if (diffDotNorm >= 0.0f) {
-//                        // ray intersects triangle
-//                        // if storage vector is null, just return true,
-//                        if (store == null) {
-//                            return true;
-//                        }
-//                        // else fill in.
-//                        float inv = 1f / dirDotNorm;
-//                        float t = diffDotNorm * inv;
-//                        if (!doPlanar) {
-//                            store.set(theRay.origin);
-//                            store.add(theRay.direction.x * t,
-//                                      theRay.direction.y * t,
-//                                      theRay.direction.z * t);
-//                        } else {
-//                            // these weights can be used to determine
-//                            // interpolated values, such as texture coord.
-//                            // eg. texcoord s,t at intersection point:
-//                            // s = w0*s0 + w1*s1 + w2*s2;
-//                            // t = w0*t0 + w1*t1 + w2*t2;
-//                            float w1 = dirDotDiffxEdge2 * inv;
-//                            float w2 = dirDotEdge1xDiff * inv;
-//                            //float w0 = 1.0f - w1 - w2;
-//                            store.set(t, w1, w2);
-//                        }
-//                        return true;
-//                    }
-//                }
-//            }
-//        }
-//        return false;
-//    }
     /*
      * Practical Analysis of Optimized Ray-Triangle Intersection
      * Tomas Moeller
@@ -228,9 +146,9 @@ public final class Intersection
         final int V = 2;
         PVector edge1;
         PVector edge2;
-//        PVector tvec;
-//        PVector pvec;
-//        PVector qvec;
+        //        PVector tvec;
+        //        PVector pvec;
+        //        PVector qvec;
         float det;
         float inv_det;
 
@@ -239,7 +157,7 @@ public final class Intersection
         edge2 = sub(vert2, vert0);
 
         /* begin calculating determinant - also used to calculate U parameter */
-        PVector.cross(dir, edge2, P_VEC);
+        cross(dir, edge2, P_VEC);
 
         /* if determinant is near zero, ray lies in plane of triangle */
         det = edge1.dot(P_VEC);
@@ -289,20 +207,18 @@ public final class Intersection
     /**
      * grabbed from Xith
      *
-     * @todo not sure whether this is for ray-plane or line-plane intersection.
-     * but i think it s for latter, hence the method name.
-     *
      * @param thePlane             Plane3f
      * @param theRay               Ray3f
      * @param theIntersectionPoint PVector
-     *
      * @return float
+     * @todo not sure whether this is for ray-plane or line-plane intersection.
+     * but i think it s for latter, hence the method name.
      */
     public static float intersectLinePlane(final Ray3f theRay,
                                            final Plane3f thePlane,
                                            final PVector theIntersectionPoint) {
         double time = 0;
-        TMP_EDGE_NORMAL.cross(thePlane.vectorA, thePlane.vectorB);
+        cross(thePlane.vectorA, thePlane.vectorB, TMP_EDGE_NORMAL);
         double denom = TMP_EDGE_NORMAL.dot(theRay.direction);
 
         if (denom == 0) {
@@ -327,172 +243,110 @@ public final class Intersection
      * Fast, Minimum Storage Ray-Triangle Intersection by Tomas Moeller & Ben
      * Trumbore http://jgt.akpeters.com/papers/MollerTrumbore97/code.html
      *
-     * @param theRayOrigin    PVector
-     * @param theRayDirection PVector
-     * @param theVertex0      PVector
-     * @param theVertex1      PVector
-     * @param theVertex2      PVector
-     * @param theResult       Result
-     * @param theCullingFlag  boolean
-     *
+     * @param pRayOrigin    PVector
+     * @param pRayDirection PVector
+     * @param v0            PVector
+     * @param v1            PVector
+     * @param v2            PVector
+     * @param pResult       Result
+     * @param pCullingFlag  boolean
      * @return boolean
      */
-    public static boolean intersectRayTriangle(final PVector theRayOrigin,
-                                               final PVector theRayDirection,
-                                               final PVector theVertex0,
-                                               final PVector theVertex1,
-                                               final PVector theVertex2,
-                                               final IntersectionResult theResult,
-                                               final boolean theCullingFlag) {
+    public static boolean intersectRayTriangle(final PVector pRayOrigin,
+                                               final PVector pRayDirection,
+                                               final PVector v0,
+                                               final PVector v1,
+                                               final PVector v2,
+                                               final IntersectionResult pResult,
+                                               final boolean pCullingFlag) {
 
         float det;
         float inv_det;
+        final float M_EPSILON = 0.0000001f;
 
         /* find vectors for two edges sharing vert0 */
-        sub(theVertex1, theVertex0, TMP_EDGE_1);
-        sub(theVertex2, theVertex0, TMP_EDGE_2);
+        sub(v1, v0, TMP_EDGE_1);
+        sub(v2, v0, TMP_EDGE_2);
 
         /* begin calculating determinant - also used to calculate U parameter */
-        P_VEC.cross(theRayDirection, TMP_EDGE_2);
+        cross(pRayDirection, TMP_EDGE_2, P_VEC);
 
         /* if determinant is near zero, ray lies in plane of triangle */
         det = TMP_EDGE_1.dot(P_VEC);
 
-        if (theCullingFlag) {
+        if (pCullingFlag) {
             /* define TEST_CULL if culling is desired */
-            if (det < EPSILON) {
+            if (det < M_EPSILON) {
                 return false;
             }
             /* calculate distance from vert0 to ray origin */
-            sub(theRayOrigin, theVertex0, T_VEC);
+            sub(pRayOrigin, v0, T_VEC);
 
             /* calculate U parameter and test bounds */
-            theResult.u = T_VEC.dot(P_VEC);
-            if (theResult.u < 0.0f || theResult.u > det) {
+            pResult.u = T_VEC.dot(P_VEC);
+            if (pResult.u < 0.0f || pResult.u > det) {
                 return false;
             }
 
             /* prepare to test V parameter */
-            Q_VEC.cross(T_VEC, TMP_EDGE_1);
+            cross(T_VEC, TMP_EDGE_1, Q_VEC);
 
             /* calculate V parameter and test bounds */
-            theResult.v = theRayDirection.dot(Q_VEC);
-            if (theResult.v < 0.0f || theResult.u + theResult.v > det) {
+            pResult.v = pRayDirection.dot(Q_VEC);
+            if (pResult.v < 0.0f || pResult.u + pResult.v > det) {
                 return false;
             }
 
             /* calculate t, scale parameters, ray intersects triangle */
-            theResult.t = TMP_EDGE_2.dot(Q_VEC);
+            pResult.t = TMP_EDGE_2.dot(Q_VEC);
             inv_det = 1.0f / det;
-            theResult.t *= inv_det;
-            theResult.u *= inv_det;
-            theResult.v *= inv_det;
+            pResult.t *= inv_det;
+            pResult.u *= inv_det;
+            pResult.v *= inv_det;
         } else {
             /* the non-culling branch */
-            if (det > -EPSILON && det < EPSILON) {
+            if (det > -M_EPSILON && det < M_EPSILON) {
                 return false;
             }
             inv_det = 1.0f / det;
 
             /* calculate distance from vert0 to ray origin */
-            sub(theRayOrigin, theVertex0, T_VEC);
+            sub(pRayOrigin, v0, T_VEC);
 
             /* calculate U parameter and test bounds */
-            theResult.u = T_VEC.dot(P_VEC) * inv_det;
-            if (theResult.u < 0.0f || theResult.u > 1.0f) {
+            pResult.u = T_VEC.dot(P_VEC) * inv_det;
+            if (pResult.u < 0.0f || pResult.u > 1.0f) {
                 return false;
             }
 
             /* prepare to test V parameter */
-            Q_VEC.cross(T_VEC, TMP_EDGE_1);
+            cross(T_VEC, TMP_EDGE_1, Q_VEC);
 
             /* calculate V parameter and test bounds */
-            theResult.v = theRayDirection.dot(Q_VEC) * inv_det;
-            if (theResult.v < 0.0f || theResult.u + theResult.v > 1.0f) {
+            pResult.v = pRayDirection.dot(Q_VEC) * inv_det;
+            if (pResult.v < 0.0f || pResult.u + pResult.v > 1.0f) {
                 return false;
             }
 
             /* calculate t, ray intersects triangle */
-            theResult.t = TMP_EDGE_2.dot(Q_VEC) * inv_det;
+            pResult.t = TMP_EDGE_2.dot(Q_VEC) * inv_det;
         }
         return true;
     }
 
-    public static class IntersectionResult {
-
-        public float t;
-
-        public float u;
-
-        public float v;
-
-    }
-
-    public static float intersectRayTriangle(final PVector theRayOrigin,
-                                             final PVector theRayDirection,
-                                             final PVector thePlanePointA,
-                                             final PVector thePlanePointB,
-                                             final PVector thePlanePointC,
-                                             final PVector theResult,
-                                             final boolean theCullingFlag) {
-        float a;
-        float f;
-        float u;
-        float v;
-        float t;
-
-        sub(thePlanePointB, thePlanePointA, TMP_EDGE_1);
-        sub(thePlanePointC, thePlanePointA, TMP_EDGE_2);
-
-        H.cross(theRayDirection, TMP_EDGE_2);
-
-        a = TMP_EDGE_1.dot(H);
-        if (a > -EPSILON && a < EPSILON) {
-            return Float.NaN;
-        }
-        if (theCullingFlag) {
-            // u
-            sub(theRayOrigin, thePlanePointA, S);
-            u = S.dot(H);
-            if (u < 0.0f || u > a) {
-                return Float.NaN;
-            }
-            // v
-            v = theRayDirection.dot(Q);
-            if (v < 0.0f || u + v > a) {
-                return Float.NaN;
-            }
-            // t
-            Q.cross(S, TMP_EDGE_1);
-            t = TMP_EDGE_2.dot(Q);
-            // invert
-            f = 1.0f / a;
-            u *= f;
-            v *= f;
-            t *= f;
-        } else {
-            f = 1f / a;
-            // u
-            sub(theRayOrigin, thePlanePointA, S);
-            u = f * S.dot(H);
-            if (u < 0.0f || u > 1.0f) {
-                return Float.NaN;
-            }
-            // v
-            Q.cross(S,
-                    TMP_EDGE_1);
-            v = f * theRayDirection.dot(Q);
-            if (v < 0.0 || u + v > 1.0) {
-                return Float.NaN;
-            }
-            // t
-            t = TMP_EDGE_2.dot(Q) * f;
-        }
-        // result
-        mult(theRayDirection, t, theResult);
-        theResult.add(theRayOrigin);
-
-        return t;
+    public static boolean intersectRayTriangle(final PVector pRayOrigin,
+                                               final PVector pRayDirection,
+                                               final PVector v0,
+                                               final PVector v1,
+                                               final PVector v2,
+                                               final PVector pResult,
+                                               final boolean pCullingFlag) {
+        final IntersectionResult mResult = new IntersectionResult();
+        final boolean mSuccess = intersectRayTriangle(pRayOrigin, pRayDirection, v0, v1, v2, mResult, pCullingFlag);
+        pResult.x = mResult.t;
+        pResult.y = mResult.u;
+        pResult.z = mResult.v;
+        return mSuccess;
     }
 
     /**
@@ -507,13 +361,9 @@ public final class Intersection
      * @param p2
      * @param sc
      * @param r
-     *
      * @return
      */
-    public static boolean RaySphere(PVector p1,
-                                    PVector p2,
-                                    PVector sc,
-                                    float r) {
+    public static boolean RaySphere(PVector p1, PVector p2, PVector sc, float r) {
         float a, b, c;
         float bb4ac;
         PVector dp = new PVector();
@@ -531,30 +381,17 @@ public final class Intersection
 
         return !(Math.abs(a) < EPSILON || bb4ac < 0);
     }
-    /**
-     * from paul bourke (
-     * http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline2d/ )
-     *
-     */
-    public static final int COINCIDENT = 0;
 
-    public static final int PARALLEL = 1;
-
-    public static final int INTERESECTING = 2;
-
-    public static final int NOT_INTERESECTING = 3;
-
-    public static int lineLineIntersect(PVector aBegin, PVector aEnd,
-                                        PVector bBegin, PVector bEnd,
+    public static int lineLineIntersect(PVector aBegin,
+                                        PVector aEnd,
+                                        PVector bBegin,
+                                        PVector bEnd,
                                         PVector theIntersection) {
-        float denom = ((bEnd.y - bBegin.y) * (aEnd.x - aBegin.x))
-                      - ((bEnd.x - bBegin.x) * (aEnd.y - aBegin.y));
+        float denom = ((bEnd.y - bBegin.y) * (aEnd.x - aBegin.x)) - ((bEnd.x - bBegin.x) * (aEnd.y - aBegin.y));
 
-        float nume_a = ((bEnd.x - bBegin.x) * (aBegin.y - bBegin.y))
-                       - ((bEnd.y - bBegin.y) * (aBegin.x - bBegin.x));
+        float nume_a = ((bEnd.x - bBegin.x) * (aBegin.y - bBegin.y)) - ((bEnd.y - bBegin.y) * (aBegin.x - bBegin.x));
 
-        float nume_b = ((aEnd.x - aBegin.x) * (aBegin.y - bBegin.y))
-                       - ((aEnd.y - aBegin.y) * (aBegin.x - bBegin.x));
+        float nume_b = ((aEnd.x - aBegin.x) * (aBegin.y - bBegin.y)) - ((aEnd.y - aBegin.y) * (aBegin.x - bBegin.x));
 
         if (denom == 0.0f) {
             if (nume_a == 0.0f && nume_b == 0.0f) {
@@ -581,7 +418,7 @@ public final class Intersection
     /**
      * from paul bourke (
      * http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline3d/ )
-     *
+     * <p>
      * Calculate the line segment PaPb that is the shortest route between two
      * lines P1P2 and P3P4. Calculate also the values of mua and mub where Pa =
      * P1 + mua (P2 - P1) Pb = P3 + mub (P4 - P3) Return FALSE if no solution
@@ -594,11 +431,14 @@ public final class Intersection
      * @param pa
      * @param pb
      * @param theResult
-     *
      * @return
      */
-    public static boolean lineLineIntersect(PVector p1, PVector p2, PVector p3, PVector p4,
-                                            PVector pa, PVector pb,
+    public static boolean lineLineIntersect(PVector p1,
+                                            PVector p2,
+                                            PVector p3,
+                                            PVector p4,
+                                            PVector pa,
+                                            PVector pb,
                                             float[] theResult) {
 
         final PVector p13 = sub(p1, p3);
@@ -684,15 +524,19 @@ public final class Intersection
         return points;
     }
 
-    public static void main(String[] args) {
-        PVector myP1 = new PVector();
-        PVector myP2 = new PVector(10, 10, 10);
-        PVector myP3 = new PVector(10, 0, 0);
-        PVector myP4 = new PVector(0, 10, 10);
-        PVector myPA = new PVector();
-        PVector myPB = new PVector();
-        lineLineIntersect(myP1, myP2, myP3, myP4, myPA, myPB, null);
-        System.out.println(myPA);
-        System.out.println(myPB);
+    public static class IntersectionResult {
+
+        public float t;
+
+        public float u;
+
+        public float v;
+
+        public void clear() {
+            v = 0;
+            u = 0;
+            t = 0;
+        }
+
     }
 }

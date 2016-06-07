@@ -225,7 +225,7 @@ public class DrawLib {
 
         PVector myNormal = new PVector();
         Util.calculateNormal(a, b, c, myNormal);
-        myNormal.mult(50);
+        myNormal.mult(75);
 
         PVector myCenterOfMass = new PVector();
         myCenterOfMass.add(a);

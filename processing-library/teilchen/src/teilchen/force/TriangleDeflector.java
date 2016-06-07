@@ -1,45 +1,37 @@
 package teilchen.force;
 
 import processing.core.PVector;
-import static processing.core.PVector.add;
-import static processing.core.PVector.sub;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.constraint.IConstraint;
 import teilchen.util.Intersection;
 import teilchen.util.Intersection.IntersectionResult;
-import static teilchen.util.Util.*;
 import teilchen.util.WorldAxisAlignedBoundingBox;
 
-public class TriangleDeflector
-        implements IConstraint {
+import static processing.core.PVector.add;
+import static processing.core.PVector.sub;
+import static teilchen.util.Util.calculateNormal;
+import static teilchen.util.Util.contains;
+import static teilchen.util.Util.isNaN;
+import static teilchen.util.Util.lengthSquared;
+import static teilchen.util.Util.updateBoundingBox;
+
+public class TriangleDeflector implements IConstraint {
 
     private final PVector a;
-
     private final PVector b;
-
     private final PVector c;
 
     private final PVector mNormal;
-
-    private float mCoefficientOfRestitution;
-
     private final PVector mTempReflectionVector;
-
     private final PVector mTempNormalComponent;
-
     private final PVector mTempTangentComponent;
-
     private final IntersectionResult mIntersectionResult;
-
     private final PVector mTempPointOfIntersection = new PVector();
-
     private final WorldAxisAlignedBoundingBox mWorldAxisAlignedBoundingBox;
-
     private final PVector[] mVectorCollection;
-
     public boolean AUTO_UPDATE = true;
-
+    private float mCoefficientOfRestitution;
     private boolean mGotHit = false;
 
     private boolean mActive;
@@ -91,10 +83,8 @@ public class TriangleDeflector
         updateBoundingBox(mWorldAxisAlignedBoundingBox, mVectorCollection);
     }
 
-    private float mPreviousT = -1.0f;
-
     public void apply(Physics pParticleSystem) {
-//    public void apply(final float pDeltaTime, final Physics pParticleSystem) {
+
 
         /* update triangle properties -- maybe this is better not done automatically */
         if (AUTO_UPDATE) {
@@ -102,27 +92,27 @@ public class TriangleDeflector
         }
 
         mGotHit = false;
-        for (final Particle myParticle : pParticleSystem.particles()) {
-            if (!myParticle.fixed()) {
-                final boolean IGNORE_BOUNDING_BOX = true;
+        for (final Particle mParticle : pParticleSystem.particles()) {
+            if (!mParticle.fixed()) {
 
+                final boolean IGNORE_BOUNDING_BOX = true;
                 /* adjust boundingbox width to particle velocity to avoid particle shooting through the boundingbox */
                 final PVector myTempBoundingBoxScale = new PVector();
                 myTempBoundingBoxScale.set(mWorldAxisAlignedBoundingBox.scale);
                 if (!IGNORE_BOUNDING_BOX) {
-                    if (myParticle.velocity().x > mWorldAxisAlignedBoundingBox.scale.x) {
-                        mWorldAxisAlignedBoundingBox.scale.x = myParticle.velocity().x;
+                    if (mParticle.velocity().x > mWorldAxisAlignedBoundingBox.scale.x) {
+                        mWorldAxisAlignedBoundingBox.scale.x = mParticle.velocity().x;
                     }
-                    if (myParticle.velocity().y > mWorldAxisAlignedBoundingBox.scale.y) {
-                        mWorldAxisAlignedBoundingBox.scale.y = myParticle.velocity().y;
+                    if (mParticle.velocity().y > mWorldAxisAlignedBoundingBox.scale.y) {
+                        mWorldAxisAlignedBoundingBox.scale.y = mParticle.velocity().y;
                     }
-                    if (myParticle.velocity().z > mWorldAxisAlignedBoundingBox.scale.z) {
-                        mWorldAxisAlignedBoundingBox.scale.z = myParticle.velocity().z;
+                    if (mParticle.velocity().z > mWorldAxisAlignedBoundingBox.scale.z) {
+                        mWorldAxisAlignedBoundingBox.scale.z = mParticle.velocity().z;
                     }
                 }
 
                 /* only test if in bounding box */
-                if (IGNORE_BOUNDING_BOX || contains(myParticle.position(), mWorldAxisAlignedBoundingBox)) {
+                if (IGNORE_BOUNDING_BOX || contains(mParticle.position(), mWorldAxisAlignedBoundingBox)) {
                     final PVector mRay;
                     final int RAY_FROM_VELOCITY = 0;
                     final int RAY_FROM_NORMAL = 1;
@@ -131,13 +121,13 @@ public class TriangleDeflector
 
                     switch (CREATE_RAY_FROM) {
                         case RAY_FROM_VELOCITY:
-                            mRay = myParticle.velocity();
+                            mRay = new PVector().set(mParticle.velocity());
                             break;
                         case RAY_FROM_NORMAL:
-                            mRay = PVector.mult(mNormal, -myParticle.velocity().mag());
+                            mRay = PVector.mult(mNormal, -mParticle.velocity().mag());
                             break;
                         case RAY_FROM_OLD_POSITION:
-                            mRay = PVector.sub(myParticle.position(), myParticle.old_position());
+                            mRay = PVector.sub(mParticle.position(), mParticle.old_position());
                             break;
                         default:
                             mRay = new PVector(1, 0, 0);
@@ -145,39 +135,35 @@ public class TriangleDeflector
                     }
 
                     if (isNaN(mRay)) {
-                        break;
+                        continue;
                     }
                     if (lengthSquared(mRay) == 0) {
-                        break;
+                        continue;
                     }
-                    final boolean mSuccess = Intersection.intersectRayTriangle(myParticle.position(),
+                    mIntersectionResult.clear();
+                    final boolean mSuccess = Intersection.intersectRayTriangle(mParticle.position(),
                                                                                mRay,
-                                                                               a, b, c,
+                                                                               a,
+                                                                               b,
+                                                                               c,
                                                                                mIntersectionResult,
                                                                                true);
+
                     /* is particle past plane. */
-                    if (mSuccess && mIntersectionResult.t <= 0 && mPreviousT > 0) {
+                    if (mSuccess && mIntersectionResult.t <= 0) {
                         mTempPointOfIntersection.set(mRay);
                         mTempPointOfIntersection.mult(mIntersectionResult.t);
-                        mTempPointOfIntersection.add(myParticle.position());
-                        myParticle.position().set(mTempPointOfIntersection);
+                        mTempPointOfIntersection.add(mParticle.position());
+                        mParticle.position().set(mTempPointOfIntersection);
 
                         /* reflect velocity i.e. change direction */
-                        seperateComponents(myParticle, mNormal);
-                        myParticle.velocity().set(mTempReflectionVector);
+                        seperateComponents(mParticle, mNormal);
+                        mParticle.velocity().set(mTempReflectionVector);
 
                         mGotHit = true;
-                        myParticle.tag(true);
-                        markParticle(myParticle);
-//                        mPreviousT = 0.0f; /* ??? */
-
+                        mParticle.tag(true);
+                        markParticle(mParticle);
                     }
-                    if (mSuccess) {
-                        mPreviousT = mIntersectionResult.t;
-                    } else {
-                        mPreviousT = 0.0f;
-                    }
-
                 }
 
                 /* reset boundingbox scale */

@@ -26,10 +26,10 @@ import processing.core.PMatrix3D;
 import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
-import teilchen.constraint.IConstraint;
 import teilchen.force.TriangleDeflector;
 import teilchen.force.TriangleDeflectorIndexed;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import static processing.core.PVector.add;
@@ -48,8 +48,7 @@ public class Util {
     private static final PVector TMP_TANGENT = new PVector();
 
     /* contain */
-    public static final boolean contains(final PVector thePosition,
-                                         final WorldAxisAlignedBoundingBox theWorldAlignedBox) {
+    public static boolean contains(final PVector thePosition, final WorldAxisAlignedBoundingBox theWorldAlignedBox) {
         return (contains(thePosition.x, theWorldAlignedBox.position.x, theWorldAlignedBox.scale.x) && contains(
                 thePosition.y,
                 theWorldAlignedBox.position.y,
@@ -58,9 +57,7 @@ public class Util {
                                                         theWorldAlignedBox.scale.z));
     }
 
-    public static final boolean contains(final float theTestValue,
-                                         final float theContainerValue,
-                                         final float theRange) {
+    public static boolean contains(final float theTestValue, final float theContainerValue, final float theRange) {
         return (theTestValue > theContainerValue - theRange * 0.5f && theTestValue < theContainerValue + theRange * 0.5f);
     }
 
@@ -77,7 +74,7 @@ public class Util {
         return c == 1;
     }
 
-    public static final boolean insidePolygon(final PVector thePoint, final Vector<PVector> thePolygon) {
+    public static boolean insidePolygon(final PVector thePoint, final Vector<PVector> thePolygon) {
         float x = thePoint.x;
         float y = thePoint.y;
 
@@ -92,7 +89,7 @@ public class Util {
         return c == 1;
     }
 
-    public static final boolean inside2DPolygon(final PVector thePoint, final Vector<PVector> thePolygon) {
+    public static boolean inside2DPolygon(final PVector thePoint, final Vector<PVector> thePolygon) {
         float x = thePoint.x;
         float y = thePoint.y;
 
@@ -161,13 +158,13 @@ public class Util {
      * @param pointC
      * @param theResultNormal
      */
-    public static final void calculateNormal(final PVector pointA,
-                                             final PVector pointB,
-                                             final PVector pointC,
-                                             final PVector theResultNormal) {
+    public static void calculateNormal(final PVector pointA,
+                                       final PVector pointB,
+                                       final PVector pointC,
+                                       final PVector theResultNormal) {
         sub(pointB, pointA, TMP_BA);
         sub(pointC, pointB, TMP_BC);
-        theResultNormal.cross(TMP_BA, TMP_BC);
+        PVector.cross(TMP_BA, TMP_BC, theResultNormal);
         theResultNormal.normalize();
     }
 
@@ -323,9 +320,9 @@ public class Util {
         return Math.abs(p1.x - p0.x) < ALMOST_THRESHOLD && Math.abs(p1.y - p0.y) < ALMOST_THRESHOLD && Math.abs(p1.z - p0.z) < ALMOST_THRESHOLD;
     }
 
-    public final static void reflectVelocity(final Particle theParticle,
-                                             final PVector theNormal,
-                                             float theCoefficientOfRestitution) {
+    public static void reflectVelocity(final Particle theParticle,
+                                       final PVector theNormal,
+                                       float theCoefficientOfRestitution) {
         final PVector myVelocity = theParticle.velocity();
         /* normal */
         TMP_NORMAL.set(theNormal);
@@ -343,9 +340,9 @@ public class Util {
         }
     }
 
-    public final static void reflect(final PVector theVector,
-                                     final PVector theNormal,
-                                     final float theCoefficientOfRestitution) {
+    public static void reflect(final PVector theVector,
+                               final PVector theNormal,
+                               final float theCoefficientOfRestitution) {
         final PVector myNormalComponent = new PVector();
         final PVector myTangentComponent = new PVector();
 
@@ -360,7 +357,7 @@ public class Util {
         add(myTangentComponent, myNormalComponent, theVector);
     }
 
-    public final static void reflect(final PVector theVector, final PVector theNormal) {
+    public static void reflect(final PVector theVector, final PVector theNormal) {
         /* normal */
         TMP_NORMAL.set(theNormal);
         TMP_NORMAL.mult(theNormal.dot(theVector));
@@ -372,9 +369,9 @@ public class Util {
         add(TMP_TANGENT, TMP_NORMAL, theVector);
     }
 
-    public static final Vector<IConstraint> createTriangleDeflectors(final float[] theVertices,
-                                                                     final float theCoefficientOfRestitution) {
-        final Vector<IConstraint> myDeflectors = new Vector<IConstraint>();
+    public static ArrayList<TriangleDeflector> createTriangleDeflectors(final float[] theVertices,
+                                                                        final float theCoefficientOfRestitution) {
+        final ArrayList<TriangleDeflector> myDeflectors = new ArrayList<>();
         for (int i = 0; i < theVertices.length / 9; i++) {
             final TriangleDeflector myTriangleDeflector = new TriangleDeflector();
             myTriangleDeflector.a().set(theVertices[i * 9 + 0], theVertices[i * 9 + 1], theVertices[i * 9 + 2]);
@@ -387,9 +384,24 @@ public class Util {
         return myDeflectors;
     }
 
-    public static final Vector<IConstraint> createTriangleDeflectorsIndexed(final float[] theVertices,
-                                                                            final float theCoefficientOfRestitution) {
-        final Vector<IConstraint> myDeflectors = new Vector<IConstraint>();
+    public static ArrayList<TriangleDeflector> createTriangleDeflectors(final PVector[] theVertices,
+                                                                        final float theCoefficientOfRestitution) {
+        final ArrayList<TriangleDeflector> myDeflectors = new ArrayList<>();
+        for (int i = 0; i < theVertices.length / 3; i++) {
+            final TriangleDeflector myTriangleDeflector = new TriangleDeflector();
+            myTriangleDeflector.a().set(theVertices[i * 3 + 0]);
+            myTriangleDeflector.b().set(theVertices[i * 3 + 1]);
+            myTriangleDeflector.c().set(theVertices[i * 3 + 2]);
+            myTriangleDeflector.coefficientofrestitution(theCoefficientOfRestitution);
+            myTriangleDeflector.updateProperties();
+            myDeflectors.add(myTriangleDeflector);
+        }
+        return myDeflectors;
+    }
+
+    public static ArrayList<TriangleDeflector> createTriangleDeflectorsIndexed(final float[] theVertices,
+                                                                               final float theCoefficientOfRestitution) {
+        final ArrayList<TriangleDeflector> myDeflectors = new ArrayList<>();
         for (int i = 0; i < theVertices.length / 9; i++) {
             final TriangleDeflectorIndexed myTriangleDeflector = new TriangleDeflectorIndexed(theVertices,
                                                                                               i * 9 + 0,
@@ -459,5 +471,34 @@ public class Util {
             target.set(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z);
         }
         return target;
+    }
+
+    public static boolean isPointInTriangle(final PVector v0,
+                                            final PVector v1,
+                                            final PVector v2,
+                                            final PVector thePoint) {
+        //    // Compute vectors
+        //    v0 = C - A
+        //    v1 = B - A
+        //    v2 = P - A
+
+        PVector v00 = new PVector().set(v2).sub(v0);
+        PVector v01 = new PVector().set(v1).sub(v0);
+        PVector v02 = new PVector().set(thePoint).sub(v0);
+
+        // Compute dot products
+        float dot00 = v00.dot(v00);
+        float dot01 = v00.dot(v01);
+        float dot02 = v00.dot(v02);
+        float dot11 = v01.dot(v01);
+        float dot12 = v01.dot(v02);
+
+        // Compute barycentric coordinates
+        float invDenom = 1 / (dot00 * dot11 - dot01 * dot01);
+        float u = (dot11 * dot02 - dot01 * dot12) * invDenom;
+        float v = (dot00 * dot12 - dot01 * dot02) * invDenom;
+
+        // Check if point is in triangle
+        return (u > 0) && (v > 0) && (u + v < 1);
     }
 }

@@ -5,6 +5,7 @@ import teilchen.cubicle.*;
 import teilchen.force.*;
 import teilchen.integration.*;
 import teilchen.util.*;
+import java.util.Vector;
 
 final int WORLD_NUMBER_OF_CUBICLES = 15;
 final float WORLD_CUBICLE_SCALE = 20;
