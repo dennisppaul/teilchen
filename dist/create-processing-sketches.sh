@@ -62,7 +62,6 @@ do
 			 import '$LIB_NAME'.force.*;\
 			 import '$LIB_NAME'.integration.*;\
 			 import '$LIB_NAME'.util.*;\
-			 import java.util.Vector;\
 			 \
 		'\
 		> $OUTPUT_DIR/$SKETCHNAME/$SKETCHFILE_NAME

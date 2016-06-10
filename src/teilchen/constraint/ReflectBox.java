@@ -19,39 +19,42 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.constraint;
 
-import java.util.Vector;
 import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.integration.Verlet;
 import teilchen.util.Util;
 
-public class ReflectBox
-        implements IConstraint {
+import java.util.ArrayList;
 
-    protected boolean mActive = true;
+public class ReflectBox implements IConstraint {
+
+    private static final PVector[] _myNormals;
+
+    static {
+        _myNormals = new PVector[6];
+        _myNormals[0] = new PVector(-1, 0, 0);
+        _myNormals[1] = new PVector(0, -1, 0);
+        _myNormals[2] = new PVector(0, 0, -1);
+        _myNormals[3] = new PVector(1, 0, 0);
+        _myNormals[4] = new PVector(0, 1, 0);
+        _myNormals[5] = new PVector(0, 0, 1);
+    }
 
     private final PVector _myMin;
-
     private final PVector _myMax;
-
-    private float _myCoefficientOfRestitution;
-
-    private float _myEpsilon;
-
     public boolean NEGATIVE_X = true;
-
     public boolean NEGATIVE_Y = true;
-
     public boolean NEGATIVE_Z = true;
-
     public boolean POSITIV_X = true;
-
     public boolean POSITIV_Y = true;
-
     public boolean POSITIV_Z = true;
+    protected boolean mActive = true;
+    private float _myCoefficientOfRestitution;
+    private float _myEpsilon;
 
     public ReflectBox(final PVector theMin, final PVector theMax) {
         _myMin = theMin;
@@ -75,17 +78,6 @@ public class ReflectBox
     public PVector max() {
         return _myMax;
     }
-    private static final PVector[] _myNormals;
-
-    static {
-        _myNormals = new PVector[6];
-        _myNormals[0] = new PVector(-1, 0, 0);
-        _myNormals[1] = new PVector(0, -1, 0);
-        _myNormals[2] = new PVector(0, 0, -1);
-        _myNormals[3] = new PVector(1, 0, 0);
-        _myNormals[4] = new PVector(0, 1, 0);
-        _myNormals[5] = new PVector(0, 0, 1);
-    }
 
     public void coefficientofrestitution(float theCoefficientOfRestitution) {
         _myCoefficientOfRestitution = theCoefficientOfRestitution;
@@ -102,11 +94,11 @@ public class ReflectBox
         apply(theParticleSystem.particles());
     }
 
-    public void apply(final Vector<Particle> theParticles) {
+    public void apply(final ArrayList<Particle> theParticles) {
         apply(theParticles, null);
     }
 
-    public void apply(final Vector<Particle> theParticles, final Vector<Particle> theCollisionParticles) {
+    public void apply(final ArrayList<Particle> theParticles, final ArrayList<Particle> theCollisionParticles) {
         if (!mActive) {
             return;
         }
@@ -119,12 +111,7 @@ public class ReflectBox
             /**
              * @todo we should weight the deflection normal
              */
-            if (p.x + r > _myMax.x
-                || p.y + r > _myMax.y
-                || p.z + r > _myMax.z
-                || p.x - r < _myMin.x
-                || p.y - r < _myMin.y
-                || p.z - r < _myMin.z) {
+            if (p.x + r > _myMax.x || p.y + r > _myMax.y || p.z + r > _myMax.z || p.x - r < _myMin.x || p.y - r < _myMin.y || p.z - r < _myMin.z) {
                 int myNumberOfCollisions = 0;
                 final PVector myDeflectionNormal = new PVector();
                 if (POSITIV_X) {
@@ -194,7 +181,8 @@ public class ReflectBox
                         final PVector myDiffBeforeCollision = PVector.sub(myParticle.old_position(),
                                                                           myParticle.position());
                         myDeflectionNormal.mult(1.0f / (float) myNumberOfCollisions);
-                        teilchen.util.Util.reflect(myDiffAfterCollision, myDeflectionNormal,
+                        teilchen.util.Util.reflect(myDiffAfterCollision,
+                                                   myDeflectionNormal,
                                                    _myCoefficientOfRestitution);
                         teilchen.util.Util.reflect(myDiffBeforeCollision, myDeflectionNormal, 1);
 

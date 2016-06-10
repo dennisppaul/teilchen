@@ -5,10 +5,9 @@ import teilchen.cubicle.*;
 import teilchen.force.*;
 import teilchen.integration.*;
 import teilchen.util.*;
-import java.util.Vector;
 
 Physics mPhysics;
-Vector<SwarmEntity> mSwarmEntities;
+ArrayList<SwarmEntity> mSwarmEntities;
 void settings() {
     size(640, 480, P3D);
 }
@@ -26,7 +25,7 @@ void setup() {
     ViscousDrag myViscousDrag = new ViscousDrag();
     mPhysics.add(myViscousDrag);
     /* setup entities */
-    mSwarmEntities = new Vector<>();
+    mSwarmEntities = new ArrayList<SwarmEntity>();
     for (int i = 0; i < 60; i++) {
         SwarmEntity mSwarmEntity = new SwarmEntity();
         mSwarmEntity.position().set(random(mTeleporter.min().x, mTeleporter.max().x),
@@ -50,8 +49,7 @@ void draw() {
         s.draw(g);
     }
 }
-class SwarmEntity
-        extends BehaviorParticle {
+class SwarmEntity extends BehaviorParticle {
     final Separation separation;
     final Alignment alignment;
     final Cohesion cohesion;

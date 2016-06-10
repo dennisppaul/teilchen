@@ -5,7 +5,6 @@ import teilchen.cubicle.*;
 import teilchen.force.*;
 import teilchen.integration.*;
 import teilchen.util.*;
-import java.util.Vector;
 
 Physics mPhysics;
 Attractor mAttractor;
@@ -31,7 +30,7 @@ void setup() {
         Particle myParticle = mPhysics.makeParticle();
         myParticle.position().set(random(width), random(height));
     }
-    mPhysics.particles().firstElement().fixed(true);
+    mPhysics.particles().get(0).fixed(true);
     /* create an attractor */
     mAttractor = new Attractor();
     mAttractor.radius(100);

@@ -1,6 +1,5 @@
 package teilchen.examples;
 
-import java.util.Vector;
 import processing.core.PApplet;
 import processing.core.PVector;
 import teilchen.cubicle.CubicleWorld;
@@ -8,6 +7,8 @@ import teilchen.cubicle.ICubicleEntity;
 import teilchen.util.CubicleWorldView;
 import teilchen.util.DrawLib;
 import teilchen.util.Vector3i;
+
+import java.util.ArrayList;
 
 public class SketchLessonX07_CubicleWorld extends PApplet {
 
@@ -18,11 +19,8 @@ public class SketchLessonX07_CubicleWorld extends PApplet {
     private final float WORLD_SCALE = WORLD_NUMBER_OF_CUBICLES * WORLD_CUBICLE_SCALE;
 
     private final boolean showCubicles = true;
-
-    private float mRotationZ = 0.1f;
-
     private final PVector mPosition = new PVector();
-
+    private float mRotationZ = 0.1f;
     private CubicleWorld mCubicleWorld;
 
     private CubicleWorldView mCubicleWorldView;
@@ -55,7 +53,7 @@ public class SketchLessonX07_CubicleWorld extends PApplet {
         }
 
         mCubicleWorld.update();
-        Vector<ICubicleEntity> mEntities = mCubicleWorld.getLocalEntities(mPosition, 1);
+        ArrayList<ICubicleEntity> mEntities = mCubicleWorld.getLocalEntities(mPosition, 1);
 
         /* draw things */
         background(255);
@@ -129,14 +127,11 @@ public class SketchLessonX07_CubicleWorld extends PApplet {
         }
     }
 
-    class MCubicleEntity
-            implements ICubicleEntity {
-
-        int mColor = color(0, 127, random(0, 255), 127);
+    class MCubicleEntity implements ICubicleEntity {
 
         private final Vector3i mCubiclePosition;
-
         private final PVector mPosition;
+        int mColor = color(0, 127, random(0, 255), 127);
 
         public MCubicleEntity() {
             mCubiclePosition = new Vector3i();
@@ -152,9 +147,7 @@ public class SketchLessonX07_CubicleWorld extends PApplet {
         }
 
         public boolean leaving(int theX, int theY, int theZ) {
-            return !(theX == cubicle().x
-                     && theY == cubicle().y
-                     && theZ == cubicle().z);
+            return !(theX == cubicle().x && theY == cubicle().y && theZ == cubicle().z);
         }
 
         public boolean isActive() {

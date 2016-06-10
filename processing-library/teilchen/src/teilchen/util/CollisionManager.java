@@ -21,7 +21,7 @@
  */
 package teilchen.util;
 
-import java.util.Vector;
+import java.util.ArrayList;
 import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
@@ -128,7 +128,7 @@ public class CollisionManager {
         return mCollisionPhysics;
     }
 
-    public Vector<IForce> collision_forces() {
+    public ArrayList<IForce> collision_forces() {
         return mCollisionPhysics.forces();
     }
 
@@ -244,7 +244,7 @@ public class CollisionManager {
             }
         }
 
-        final Vector<ICubicleEntity> myNeigbors = theWorld.getLocalEntities(theParticle);
+        final ArrayList<ICubicleEntity> myNeigbors = theWorld.getLocalEntities(theParticle);
         if (myNeigbors.size() > 1) {
             for (int j = 0; j < myNeigbors.size(); j++) {
                 final ICubicleEntity myEntity = myNeigbors.get(j);

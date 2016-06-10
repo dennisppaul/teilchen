@@ -1,12 +1,12 @@
 package teilchen.util;
 
 import java.util.List;
-import java.util.Vector;
+import java.util.ArrayList;
 import processing.core.PVector;
 
 public class Packing {
 
-    public static <E extends SpatialEntity> void pack(Vector<E> mShapes, PVector pCenter, float pDamping) {
+    public static <E extends SpatialEntity> void pack(ArrayList<E> mShapes, PVector pCenter, float pDamping) {
         resolveOverlap(mShapes);
         contract(mShapes, pCenter, pDamping);
     }
@@ -34,7 +34,7 @@ public class Packing {
         }
     }
 
-    public static <E extends SpatialEntity> void contract(Vector<E> mEntities, PVector pCenter, float pDamping) {
+    public static <E extends SpatialEntity> void contract(ArrayList<E> mEntities, PVector pCenter, float pDamping) {
         for (int i = 0; i < mEntities.size(); i++) {
             final SpatialEntity mEntity = mEntities.get(i);
             final PVector v = PVector.sub(mEntity.position(), pCenter);

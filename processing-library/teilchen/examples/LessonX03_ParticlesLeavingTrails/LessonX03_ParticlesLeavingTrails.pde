@@ -5,10 +5,9 @@ import teilchen.cubicle.*;
 import teilchen.force.*;
 import teilchen.integration.*;
 import teilchen.util.*;
-import java.util.Vector;
 
 Physics mPhysics;
-Vector<ParticleTrail> mTrails;
+ArrayList<ParticleTrail> mTrails;
 Attractor mAttractor;
 void settings() {
     size(640, 480, P3D);
@@ -27,7 +26,8 @@ void setup() {
     myViscousDrag.coefficient = 0.1f;
     mPhysics.add(myViscousDrag);
     final float mBorder = 40;
-    Box mBox = new Box(new PVector(mBorder, mBorder, mBorder), new PVector(width - mBorder, height - mBorder, 100 - mBorder));
+    Box mBox = new Box(new PVector(mBorder, mBorder, mBorder),
+                       new PVector(width - mBorder, height - mBorder, 100 - mBorder));
     mBox.reflect(true);
     mPhysics.add(mBox);
     /* create an attractor */
@@ -36,14 +36,11 @@ void setup() {
     mAttractor.strength(-300);
     mPhysics.add(mAttractor);
     /* create trails and particles */
-    mTrails = new Vector<ParticleTrail>();
+    mTrails = new ArrayList<ParticleTrail>();
     for (int i = 0; i < 500; i++) {
         Particle mParticle = mPhysics.makeParticle();
         mParticle.mass(2.0f);
-        ParticleTrail myParticleTrail = new ParticleTrail(mPhysics,
-                                                          mParticle,
-                                                          0.2f,
-                                                          random(0.5f, 1));
+        ParticleTrail myParticleTrail = new ParticleTrail(mPhysics, mParticle, 0.2f, random(0.5f, 1));
         myParticleTrail.mass(0.5f);
         mTrails.add(myParticleTrail);
     }
@@ -69,16 +66,14 @@ void draw() {
     }
 }
 void drawTrail(ParticleTrail theTrail) {
-    final Vector<Particle> mFragments = theTrail.fragments();
+    final ArrayList<Particle> mFragments = theTrail.fragments();
     final Particle mParticle = theTrail.particle();
     /* draw head */
     if (mFragments.size() > 1) {
         fill(255, 0, 127);
         noStroke();
         pushMatrix();
-        translate(mParticle.position().x,
-                  mParticle.position().y,
-                  mParticle.position().z);
+        translate(mParticle.position().x, mParticle.position().y, mParticle.position().z);
         sphereDetail(4);
         sphere(3);
         popMatrix();
@@ -99,9 +94,9 @@ void drawTrail(ParticleTrail theTrail) {
              mFragments.get(j).position().z);
     }
     if (!mFragments.isEmpty()) {
-        line(mFragments.lastElement().position().x,
-             mFragments.lastElement().position().y,
-             mFragments.lastElement().position().z,
+        line(mFragments.get(mFragments.size() - 1).position().x,
+             mFragments.get(mFragments.size() - 1).position().y,
+             mFragments.get(mFragments.size() - 1).position().z,
              mParticle.position().x,
              mParticle.position().y,
              mParticle.position().z);

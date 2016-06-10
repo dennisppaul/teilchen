@@ -173,14 +173,11 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
     }
 
     private void drawParticle(Particle p) {
-        ellipse(p.position().x,
-                p.position().y,
-                p.radius() * 2, p.radius() * 2);
+        ellipse(p.position().x, p.position().y, p.radius() * 2, p.radius() * 2);
     }
 
     private void line(Particle p1, Particle p2) {
-        line(p1.position().x, p1.position().y,
-             p2.position().x, p2.position().y);
+        line(p1.position().x, p1.position().y, p2.position().x, p2.position().y);
     }
 
     public static void main(String[] args) {

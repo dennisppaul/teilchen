@@ -113,8 +113,7 @@ public class SketchLessonX04_StickMan extends PApplet {
 
         /* draw particles */
         for (int i = 0; i < mPhysics.particles().size(); i++) {
-            ellipse(mPhysics.particles(i).position().x,
-                    mPhysics.particles(i).position().y, 5, 5);
+            ellipse(mPhysics.particles(i).position().x, mPhysics.particles(i).position().y, 5, 5);
         }
 
         /* draw man */

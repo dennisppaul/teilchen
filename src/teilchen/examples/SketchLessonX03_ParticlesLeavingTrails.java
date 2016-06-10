@@ -1,6 +1,5 @@
 package teilchen.examples;
 
-import java.util.Vector;
 import processing.core.PApplet;
 import processing.core.PVector;
 import teilchen.Particle;
@@ -12,11 +11,13 @@ import teilchen.force.Gravity;
 import teilchen.force.ViscousDrag;
 import teilchen.util.ParticleTrail;
 
+import java.util.ArrayList;
+
 public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
 
     private Physics mPhysics;
 
-    private Vector<ParticleTrail> mTrails;
+    private ArrayList<ParticleTrail> mTrails;
 
     private Attractor mAttractor;
 
@@ -42,7 +43,8 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
         mPhysics.add(myViscousDrag);
 
         final float mBorder = 40;
-        Box mBox = new Box(new PVector(mBorder, mBorder, mBorder), new PVector(width - mBorder, height - mBorder, 100 - mBorder));
+        Box mBox = new Box(new PVector(mBorder, mBorder, mBorder),
+                           new PVector(width - mBorder, height - mBorder, 100 - mBorder));
         mBox.reflect(true);
         mPhysics.add(mBox);
 
@@ -54,14 +56,11 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
 
 
         /* create trails and particles */
-        mTrails = new Vector<ParticleTrail>();
+        mTrails = new ArrayList<ParticleTrail>();
         for (int i = 0; i < 500; i++) {
             Particle mParticle = mPhysics.makeParticle();
             mParticle.mass(2.0f);
-            ParticleTrail myParticleTrail = new ParticleTrail(mPhysics,
-                                                              mParticle,
-                                                              0.2f,
-                                                              random(0.5f, 1));
+            ParticleTrail myParticleTrail = new ParticleTrail(mPhysics, mParticle, 0.2f, random(0.5f, 1));
             myParticleTrail.mass(0.5f);
             mTrails.add(myParticleTrail);
         }
@@ -94,7 +93,7 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
 
     private void drawTrail(ParticleTrail theTrail) {
 
-        final Vector<Particle> mFragments = theTrail.fragments();
+        final ArrayList<Particle> mFragments = theTrail.fragments();
         final Particle mParticle = theTrail.particle();
 
         /* draw head */
@@ -102,9 +101,7 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
             fill(255, 0, 127);
             noStroke();
             pushMatrix();
-            translate(mParticle.position().x,
-                      mParticle.position().y,
-                      mParticle.position().z);
+            translate(mParticle.position().x, mParticle.position().y, mParticle.position().z);
             sphereDetail(4);
             sphere(3);
             popMatrix();
@@ -126,9 +123,9 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
                  mFragments.get(j).position().z);
         }
         if (!mFragments.isEmpty()) {
-            line(mFragments.lastElement().position().x,
-                 mFragments.lastElement().position().y,
-                 mFragments.lastElement().position().z,
+            line(mFragments.get(mFragments.size() - 1).position().x,
+                 mFragments.get(mFragments.size() - 1).position().y,
+                 mFragments.get(mFragments.size() - 1).position().z,
                  mParticle.position().x,
                  mParticle.position().y,
                  mParticle.position().z);

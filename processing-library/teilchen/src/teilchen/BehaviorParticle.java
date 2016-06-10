@@ -19,23 +19,21 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen;
 
-import java.util.Vector;
 import teilchen.behavior.IBehavior;
 
-public class BehaviorParticle
-        extends BasicParticle
-        implements IBehaviorParticle {
+import java.util.ArrayList;
 
-    private final Vector<IBehavior> mBehaviors;
-
-    private float mMaximumInnerForce;
+public class BehaviorParticle extends BasicParticle implements IBehaviorParticle {
 
     private static final long serialVersionUID = 2735849326244271321L;
+    private final ArrayList<IBehavior> mBehaviors;
+    private float mMaximumInnerForce;
 
     public BehaviorParticle() {
-        mBehaviors = new Vector<IBehavior>();
+        mBehaviors = new ArrayList<>();
         mMaximumInnerForce = 50;
     }
 
@@ -63,7 +61,7 @@ public class BehaviorParticle
         mMaximumInnerForce = theForce;
     }
 
-    public Vector<IBehavior> behaviors() {
+    public ArrayList<IBehavior> behaviors() {
         return mBehaviors;
     }
 }

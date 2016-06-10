@@ -35,15 +35,14 @@ import teilchen.util.Util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Vector;
 
 public class Physics {
 
     public static final float EPSILON = 0.001f;
     public static boolean HINT_UPDATE_OLD_POSITION = true;
-    private final Vector<Particle> mParticles;
-    private final Vector<IForce> mForces;
-    private final Vector<IConstraint> mConstraints;
+    private final ArrayList<Particle> mParticles;
+    private final ArrayList<IForce> mForces;
+    private final ArrayList<IConstraint> mConstraints;
     public boolean HINT_OPTIMIZE_STILL = true;
 
     public boolean HINT_REMOVE_DEAD = true;
@@ -54,9 +53,9 @@ public class Physics {
     private IIntegrator mIntegrator;
 
     public Physics() {
-        mParticles = new Vector<Particle>();
-        mForces = new Vector<IForce>();
-        mConstraints = new Vector<IConstraint>();
+        mParticles = new ArrayList<>();
+        mForces = new ArrayList<>();
+        mConstraints = new ArrayList<>();
         mIntegrator = new Midpoint();
     }
 
@@ -78,7 +77,7 @@ public class Physics {
         mParticles.removeAll(theParticles);
     }
 
-    public Vector<Particle> particles() {
+    public ArrayList<Particle> particles() {
         return mParticles;
     }
 
@@ -156,7 +155,7 @@ public class Physics {
         mForces.add(theForce);
     }
 
-    public void addForces(final Vector<? extends IForce> theForces) {
+    public void addForces(final ArrayList<? extends IForce> theForces) {
         mForces.addAll(theForces);
     }
 
@@ -164,7 +163,7 @@ public class Physics {
         mForces.remove(theForce);
     }
 
-    public Vector<IForce> forces() {
+    public ArrayList<IForce> forces() {
         return mForces;
     }
 
@@ -245,10 +244,6 @@ public class Physics {
         mConstraints.add(theConstraint);
     }
 
-    public void addConstraints(final Vector<? extends IConstraint> theConstraints) {
-        mConstraints.addAll(theConstraints);
-    }
-
     public void addConstraints(final ArrayList<? extends IConstraint> theConstraints) {
         mConstraints.addAll(theConstraints);
     }
@@ -257,7 +252,7 @@ public class Physics {
         mConstraints.remove(theConstraint);
     }
 
-    public Vector<IConstraint> constraints() {
+    public ArrayList<IConstraint> constraints() {
         return mConstraints;
     }
 

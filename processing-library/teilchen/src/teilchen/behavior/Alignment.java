@@ -22,7 +22,7 @@
 package teilchen.behavior;
 
 import java.io.Serializable;
-import java.util.Vector;
+import java.util.ArrayList;
 import processing.core.PVector;
 import teilchen.IBehaviorParticle;
 import teilchen.behavior.Util.ProximityStructure;
@@ -40,7 +40,7 @@ public class Alignment
 
     private final PVector mForce;
 
-    private Vector<IBehaviorParticle> mNeighbors;
+    private ArrayList<IBehaviorParticle> mNeighbors;
 
     public Alignment() {
         mProximity = 100.0f;
@@ -51,13 +51,13 @@ public class Alignment
     public void update(float theDeltaTime, IBehaviorParticle pParent) {
         mForce.set(0, 0, 0);
         if (mNeighbors != null) {
-            Vector<ProximityStructure> mCloseNeighbors = ProximityStructure.findProximityEntities(pParent, mNeighbors, mProximity);
+            ArrayList<ProximityStructure> mCloseNeighbors = ProximityStructure.findProximityEntities(pParent, mNeighbors, mProximity);
             findCommonVelocity(mCloseNeighbors, mForce);
             mForce.mult(weight());
         }
     }
 
-    private static void findCommonVelocity(Vector<ProximityStructure> mCloseNeighbors, final PVector pForce) {
+    private static void findCommonVelocity(ArrayList<ProximityStructure> mCloseNeighbors, final PVector pForce) {
         /* find away vector */
         pForce.set(0, 0, 0);
         if (!mCloseNeighbors.isEmpty()) {
@@ -76,11 +76,11 @@ public class Alignment
         }
     }
 
-    public <E extends IBehaviorParticle> void neighbors(final Vector<E> pNeighbors) {
+    public <E extends IBehaviorParticle> void neighbors(final ArrayList<E> pNeighbors) {
         /**
          * @todo well is this OK?
          */
-        mNeighbors = (Vector<IBehaviorParticle>) pNeighbors;
+        mNeighbors = (ArrayList<IBehaviorParticle>) pNeighbors;
     }
 
     public PVector force() {

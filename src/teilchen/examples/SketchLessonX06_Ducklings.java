@@ -1,6 +1,5 @@
 package teilchen.examples;
 
-import java.util.Vector;
 import processing.core.PApplet;
 import teilchen.BehaviorParticle;
 import teilchen.Physics;
@@ -8,6 +7,8 @@ import teilchen.behavior.Arrival;
 import teilchen.force.Spring;
 import teilchen.force.ViscousDrag;
 import teilchen.util.CollisionManager;
+
+import java.util.ArrayList;
 
 /**
  * this demo shows how to add behaviors to particles. in this example the
@@ -17,7 +18,7 @@ public class SketchLessonX06_Ducklings extends PApplet {
 
     private Physics mPhysics;
 
-    private Vector<Duckling> mDucklings;
+    private ArrayList<Duckling> mDucklings;
 
     private CollisionManager mCollision;
 
@@ -41,11 +42,11 @@ public class SketchLessonX06_Ducklings extends PApplet {
         mCollision.minimumDistance(25);
 
         /* ducklings */
-        mDucklings = new Vector<Duckling>();
+        mDucklings = new ArrayList<Duckling>();
         for (int i = 0; i < 13; i++) {
             final Duckling mDuckling = new Duckling();
             if (!mDucklings.isEmpty()) {
-                mDuckling.arrival.setPositionRef(mDucklings.lastElement().particle.position());
+                mDuckling.arrival.setPositionRef(mDucklings.get(mDucklings.size() - 1).particle.position());
             }
             mCollision.collision().add(mDuckling.particle);
             mDucklings.add(mDuckling);
@@ -64,8 +65,8 @@ public class SketchLessonX06_Ducklings extends PApplet {
         drawCollisionSprings();
         mCollision.removeCollisionResolver();
 
-        mDucklings.firstElement().arrival.oversteer(!mousePressed);
-        mDucklings.firstElement().arrival.position().set(mouseX, mouseY);
+        mDucklings.get(mDucklings.size() - 1).arrival.oversteer(!mousePressed);
+        mDucklings.get(mDucklings.size() - 1).arrival.position().set(mouseX, mouseY);
 
         /* draw */
         for (Duckling mDuckling : mDucklings) {
@@ -75,9 +76,10 @@ public class SketchLessonX06_Ducklings extends PApplet {
         /* draw arrival */
         stroke(0, 0.25f);
         noFill();
-        ellipse(mDucklings.firstElement().arrival.position().x,
-                mDucklings.firstElement().arrival.position().y,
-                20, 20);
+        ellipse(mDucklings.get(mDucklings.size() - 1).arrival.position().x,
+                mDucklings.get(mDucklings.size() - 1).arrival.position().y,
+                20,
+                20);
     }
 
     private void drawParticle(Duckling pDuckling) {
@@ -93,13 +95,11 @@ public class SketchLessonX06_Ducklings extends PApplet {
         if (mArrival.arrived()) {
             stroke(0, 1, 0, 0.5f);
         }
-        ellipse(mParticle.position().x, mParticle.position().y,
-                mParticle.radius() * 2, mParticle.radius() * 2);
+        ellipse(mParticle.position().x, mParticle.position().y, mParticle.radius() * 2, mParticle.radius() * 2);
 
         /* - */
         pushMatrix();
-        translate(mParticle.position().x,
-                  mParticle.position().y);
+        translate(mParticle.position().x, mParticle.position().y);
 
         /* draw velocity */
         stroke(1, 0, 0, 0.5f);
@@ -118,8 +118,12 @@ public class SketchLessonX06_Ducklings extends PApplet {
         for (int i = 0; i < mCollision.collision().forces().size(); ++i) {
             if (mCollision.collision().forces().get(i) instanceof Spring) {
                 Spring mySpring = (Spring) mCollision.collision_forces().get(i);
-                line(mySpring.a().position().x, mySpring.a().position().y, mySpring.a().position().z,
-                     mySpring.b().position().x, mySpring.b().position().y, mySpring.b().position().z);
+                line(mySpring.a().position().x,
+                     mySpring.a().position().y,
+                     mySpring.a().position().z,
+                     mySpring.b().position().x,
+                     mySpring.b().position().y,
+                     mySpring.b().position().z);
             }
         }
     }

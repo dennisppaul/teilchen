@@ -1,6 +1,6 @@
 package teilchen.force.flowfield;
 
-import java.util.Vector;
+import java.util.ArrayList;
 import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
@@ -59,7 +59,7 @@ public class FlowField implements IForce {
 
     private TransformMatrix4f _myTransform;
 
-    private Vector<FlowFieldForce> _myForces;
+    private ArrayList<FlowFieldForce> _myForces;
 
     public float forceScale = 1;
 
@@ -77,7 +77,7 @@ public class FlowField implements IForce {
     private void init() {
         _myScale = new PVector();
         _myTransform = new TransformMatrix4f();
-        _myForces = new Vector<FlowFieldForce>();
+        _myForces = new ArrayList<FlowFieldForce>();
         _myGridSize = n + 2;
         u = new float[_myGridSize][_myGridSize];
         v = new float[_myGridSize][_myGridSize];
@@ -102,7 +102,7 @@ public class FlowField implements IForce {
         }
     }
 
-    public Vector<FlowFieldForce> forces() {
+    public ArrayList<FlowFieldForce> forces() {
         return _myForces;
     }
 

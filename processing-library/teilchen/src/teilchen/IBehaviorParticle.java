@@ -21,7 +21,7 @@
  */
 package teilchen;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 public interface IBehaviorParticle
         extends Particle {
@@ -30,5 +30,5 @@ public interface IBehaviorParticle
 
     void maximumInnerForce(float theForce);
 
-    Vector<teilchen.behavior.IBehavior> behaviors();
+    ArrayList<teilchen.behavior.IBehavior> behaviors();
 }

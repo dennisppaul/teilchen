@@ -5,7 +5,6 @@ import teilchen.cubicle.*;
 import teilchen.force.*;
 import teilchen.integration.*;
 import teilchen.util.*;
-import java.util.Vector;
 
 static final float PARTICLE_SIZE = 12;
 CollisionManager mCollision;
@@ -57,8 +56,12 @@ void drawThings() {
     for (int i = 0; i < mCollision.collision().forces().size(); ++i) {
         if (mCollision.collision().forces().get(i) instanceof Spring) {
             Spring mySpring = (Spring) mCollision.collision_forces().get(i);
-            line(mySpring.a().position().x, mySpring.a().position().y, mySpring.a().position().z,
-                 mySpring.b().position().x, mySpring.b().position().y, mySpring.b().position().z);
+            line(mySpring.a().position().x,
+                 mySpring.a().position().y,
+                 mySpring.a().position().z,
+                 mySpring.b().position().x,
+                 mySpring.b().position().y,
+                 mySpring.b().position().z);
         }
     }
     /* particles */
@@ -68,9 +71,7 @@ void drawThings() {
         Particle myParticle = mPhysics.particles().get(i);
         pushMatrix();
         translate(myParticle.position().x, myParticle.position().y, myParticle.position().z);
-        ellipse(0, 0,
-                PARTICLE_SIZE,
-                PARTICLE_SIZE);
+        ellipse(0, 0, PARTICLE_SIZE, PARTICLE_SIZE);
         popMatrix();
     }
 }

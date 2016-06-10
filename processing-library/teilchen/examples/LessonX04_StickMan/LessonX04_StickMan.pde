@@ -5,7 +5,6 @@ import teilchen.cubicle.*;
 import teilchen.force.*;
 import teilchen.integration.*;
 import teilchen.util.*;
-import java.util.Vector;
 
 Physics mPhysics;
 Attractor mAttractor;
@@ -85,8 +84,7 @@ void draw() {
     }
     /* draw particles */
     for (int i = 0; i < mPhysics.particles().size(); i++) {
-        ellipse(mPhysics.particles(i).position().x,
-                mPhysics.particles(i).position().y, 5, 5);
+        ellipse(mPhysics.particles(i).position().x, mPhysics.particles(i).position().y, 5, 5);
     }
     /* draw man */
     for (StickMan mMyStickMan1 : mMyStickMan) {

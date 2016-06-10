@@ -19,15 +19,16 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.cubicle;
 
-import java.util.Iterator;
-import java.util.Vector;
 import processing.core.PVector;
 import teilchen.util.TransformMatrix4f;
 import teilchen.util.Util;
 import teilchen.util.Vector3i;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /*
  * cubicle world handles entities and queries about a cubicles state.
@@ -44,24 +45,20 @@ public class CubicleWorld {
 
     private PVector mScale;
 
-    private Vector<ICubicleEntity> mEntites;
+    private ArrayList<ICubicleEntity> mEntites;
 
     public CubicleWorld(Vector3i theNumberOfAtoms) {
         this(theNumberOfAtoms.x, theNumberOfAtoms.y, theNumberOfAtoms.z);
     }
 
-    public CubicleWorld(int theNumberOfXAtoms,
-                        int theNumberOfYAtoms,
-                        int theNumberOfZAtoms) {
+    public CubicleWorld(int theNumberOfXAtoms, int theNumberOfYAtoms, int theNumberOfZAtoms) {
         initializeAtoms(theNumberOfXAtoms, theNumberOfYAtoms, theNumberOfZAtoms);
         mTransform = new TransformMatrix4f(TransformMatrix4f.IDENTITY);
         mScale = new PVector(1, 1, 1);
-        mEntites = new Vector<ICubicleEntity>();
+        mEntites = new ArrayList<>();
     }
 
-    private void initializeAtoms(int theNumberOfXAtoms,
-                                 int theNumberOfYAtoms,
-                                 int theNumberOfZAtoms) {
+    private void initializeAtoms(int theNumberOfXAtoms, int theNumberOfYAtoms, int theNumberOfZAtoms) {
         mWorld = new CubicleAtom[theNumberOfXAtoms][theNumberOfYAtoms][theNumberOfZAtoms];
         for (int x = 0; x < mWorld.length; x++) {
             for (int y = 0; y < mWorld[x].length; y++) {
@@ -122,7 +119,7 @@ public class CubicleWorld {
         }
     }
 
-    public Vector<ICubicleEntity> getLocalEntities(PVector thePosition) {
+    public ArrayList<ICubicleEntity> getLocalEntities(PVector thePosition) {
         final Vector3i myIndex = worldposition2index(thePosition);
         if (checkBounds(myIndex.x, myIndex.y, myIndex.z)) {
             final CubicleAtom myCubicleAtom = getAtom(myIndex.x, myIndex.y, myIndex.z);
@@ -131,28 +128,28 @@ public class CubicleWorld {
         return null;
     }
 
-    public Vector<ICubicleEntity> getLocalEntities(ICubicleEntity theEntity) {
+    public ArrayList<ICubicleEntity> getLocalEntities(ICubicleEntity theEntity) {
         final Vector3i myIndex = theEntity.cubicle();
         return getAtom(myIndex.x, myIndex.y, myIndex.z).data();
     }
 
-    public Vector<ICubicleEntity> getLocalEntities(PVector thePosition, int pExtraRadius) {
+    public ArrayList<ICubicleEntity> getLocalEntities(PVector thePosition, int pExtraRadius) {
         return getLocalEntities(thePosition, pExtraRadius, pExtraRadius, pExtraRadius);
     }
 
-    public Vector<ICubicleEntity> getLocalEntities(PVector thePosition,
-                                                   int theXRadius,
-                                                   int theYRadius,
-                                                   int theZRadius) {
+    public ArrayList<ICubicleEntity> getLocalEntities(PVector thePosition,
+                                                      int theXRadius,
+                                                      int theYRadius,
+                                                      int theZRadius) {
         final Vector3i myIndex = worldposition2index(thePosition);
         if (checkBounds(myIndex.x, myIndex.y, myIndex.z)) {
-            final Vector<CubicleAtom> mAtoms = getAtoms(myIndex.x,
-                                                        myIndex.y,
-                                                        myIndex.z,
-                                                        theXRadius,
-                                                        theYRadius,
-                                                        theZRadius);
-            final Vector<ICubicleEntity> mEntities = new Vector<ICubicleEntity>();
+            final ArrayList<CubicleAtom> mAtoms = getAtoms(myIndex.x,
+                                                           myIndex.y,
+                                                           myIndex.z,
+                                                           theXRadius,
+                                                           theYRadius,
+                                                           theZRadius);
+            final ArrayList<ICubicleEntity> mEntities = new ArrayList<>();
             for (CubicleAtom a : mAtoms) {
                 mEntities.addAll(a.data());
             }
@@ -162,25 +159,25 @@ public class CubicleWorld {
         }
     }
 
-    public Vector<ICubicleEntity> getLocalEntities(ICubicleEntity theEntity,
-                                                   int theXRadius,
-                                                   int theYRadius,
-                                                   int theZRadius) {
+    public ArrayList<ICubicleEntity> getLocalEntities(ICubicleEntity theEntity,
+                                                      int theXRadius,
+                                                      int theYRadius,
+                                                      int theZRadius) {
         final Vector3i myIndex = theEntity.cubicle();
-        final Vector<CubicleAtom> mAtoms = getAtoms(myIndex.x,
-                                                    myIndex.y,
-                                                    myIndex.z,
-                                                    theXRadius,
-                                                    theYRadius,
-                                                    theZRadius);
-        final Vector<ICubicleEntity> mEntities = new Vector<ICubicleEntity>();
+        final ArrayList<CubicleAtom> mAtoms = getAtoms(myIndex.x,
+                                                       myIndex.y,
+                                                       myIndex.z,
+                                                       theXRadius,
+                                                       theYRadius,
+                                                       theZRadius);
+        final ArrayList<ICubicleEntity> mEntities = new ArrayList<>();
         for (CubicleAtom a : mAtoms) {
             mEntities.addAll(a.data());
         }
         return mEntities.isEmpty() ? null : mEntities;
     }
 
-    public Vector<ICubicleEntity> entities() {
+    public ArrayList<ICubicleEntity> entities() {
         return mEntites;
     }
 
@@ -205,9 +202,7 @@ public class CubicleWorld {
     }
 
     private boolean removeFromCubicle(ICubicleEntity theEntity) {
-        if (theEntity.cubicle().x == OFF_WORLD
-            && theEntity.cubicle().y == OFF_WORLD
-            && theEntity.cubicle().z == OFF_WORLD) {
+        if (theEntity.cubicle().x == OFF_WORLD && theEntity.cubicle().y == OFF_WORLD && theEntity.cubicle().z == OFF_WORLD) {
             /* was stored in the offworld cubicle */
             return mOffWorld.remove(theEntity);
         } else if (checkBounds(theEntity.cubicle().x, theEntity.cubicle().y, theEntity.cubicle().z)) {
@@ -220,9 +215,7 @@ public class CubicleWorld {
         }
     }
 
-    private boolean checkBounds(int theX,
-                                int theY,
-                                int theZ) {
+    private boolean checkBounds(int theX, int theY, int theZ) {
         if (theX < mWorld.length && theX >= 0) {
             if (theY < mWorld[theX].length && theY >= 0) {
                 if (theZ < mWorld[theX][theY].length && theZ >= 0) {
@@ -233,9 +226,7 @@ public class CubicleWorld {
         return false;
     }
 
-    public CubicleAtom getAtom(int theX,
-                               int theY,
-                               int theZ) {
+    public CubicleAtom getAtom(int theX, int theY, int theZ) {
         if (checkBounds(theX, theY, theZ)) {
             return mWorld[theX][theY][theZ];
         } else {
@@ -243,13 +234,13 @@ public class CubicleWorld {
         }
     }
 
-    public Vector<CubicleAtom> getAtoms(int theX,
-                                        int theY,
-                                        int theZ,
-                                        int theXRadius,
-                                        int theYRadius,
-                                        int theZRadius) {
-        Vector<CubicleAtom> myAtoms = new Vector<CubicleAtom>();
+    public ArrayList<CubicleAtom> getAtoms(int theX,
+                                           int theY,
+                                           int theZ,
+                                           int theXRadius,
+                                           int theYRadius,
+                                           int theZRadius) {
+        ArrayList<CubicleAtom> myAtoms = new ArrayList<>();
         for (int z = -theZRadius; z < theZRadius + 1; ++z) {
             for (int y = -theYRadius; y < theYRadius + 1; ++y) {
                 for (int x = -theXRadius; x < theXRadius + 1; ++x) {
@@ -277,7 +268,7 @@ public class CubicleWorld {
         return mWorld;
     }
 
-    public Vector<ICubicleEntity> getEntities() {
+    public ArrayList<ICubicleEntity> getEntities() {
         return mEntites;
     }
 

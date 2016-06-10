@@ -23,7 +23,7 @@
 package teilchen.behavior;
 
 import java.io.Serializable;
-import java.util.Vector;
+import java.util.ArrayList;
 import processing.core.PVector;
 import teilchen.IBehaviorParticle;
 import teilchen.behavior.Util.ProximityStructure;
@@ -41,7 +41,7 @@ public class Cohesion
 
     private final PVector mForce;
 
-    private Vector<IBehaviorParticle> mNeighbors;
+    private ArrayList<IBehaviorParticle> mNeighbors;
 
     public Cohesion() {
         mProximity = 100.0f;
@@ -52,13 +52,13 @@ public class Cohesion
     public void update(float theDeltaTime, IBehaviorParticle pParent) {
         mForce.set(0, 0, 0);
         if (mNeighbors != null) {
-            Vector<ProximityStructure> mCloseNeighbors = ProximityStructure.findProximityEntities(pParent, mNeighbors, mProximity);
+            ArrayList<ProximityStructure> mCloseNeighbors = ProximityStructure.findProximityEntities(pParent, mNeighbors, mProximity);
             findTowardsVector(mCloseNeighbors, mForce);
             mForce.mult(weight());
         }
     }
 
-    private static void findTowardsVector(Vector<ProximityStructure> mCloseNeighbors, final PVector pForce) {
+    private static void findTowardsVector(ArrayList<ProximityStructure> mCloseNeighbors, final PVector pForce) {
         /* find away vector */
         if (!mCloseNeighbors.isEmpty()) {
             pForce.set(0, 0, 0);
@@ -80,11 +80,11 @@ public class Cohesion
         }
     }
 
-    public <E extends IBehaviorParticle> void neighbors(final Vector<E> pNeighbors) {
+    public <E extends IBehaviorParticle> void neighbors(final ArrayList<E> pNeighbors) {
         /**
          * @todo well is this OK?
          */
-        mNeighbors = (Vector<IBehaviorParticle>) pNeighbors;
+        mNeighbors = (ArrayList<IBehaviorParticle>) pNeighbors;
     }
 
     public PVector force() {

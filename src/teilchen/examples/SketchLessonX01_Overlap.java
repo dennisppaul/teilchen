@@ -15,11 +15,9 @@ import teilchen.util.Overlap;
  */
 public class SketchLessonX01_Overlap extends PApplet {
 
-    private Physics mPhysics;
-
-    private Particle mRoot;
-
     private static final float PARTICLE_RADIUS = 13;
+    private Physics mPhysics;
+    private Particle mRoot;
 
     public void settings() {
         size(640, 480, P3D);
@@ -73,8 +71,10 @@ public class SketchLessonX01_Overlap extends PApplet {
         for (int i = 0; i < mPhysics.forces().size(); i++) {
             if (mPhysics.forces().get(i) instanceof Spring) {
                 Spring mSSpring = (Spring) mPhysics.forces().get(i);
-                line(mSSpring.a().position().x, mSSpring.a().position().y,
-                     mSSpring.b().position().x, mSSpring.b().position().y);
+                line(mSSpring.a().position().x,
+                     mSSpring.a().position().y,
+                     mSSpring.b().position().x,
+                     mSSpring.b().position().y);
             }
         }
         /* draw particles */

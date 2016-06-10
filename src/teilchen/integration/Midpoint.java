@@ -21,14 +21,14 @@
  */
 package teilchen.integration;
 
-import java.util.Vector;
+import java.util.ArrayList;
 import teilchen.Particle;
 import teilchen.Physics;
 
 public class Midpoint
         implements IIntegrator {
 
-    private final Vector<Derivate3f> mK1 = new Vector<Derivate3f>();
+    private final ArrayList<Derivate3f> mK1 = new ArrayList<>();
 
     public void step(final float theDeltaTime, final Physics theParticleSystem) {
 

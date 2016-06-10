@@ -30,7 +30,6 @@ import teilchen.force.TriangleDeflector;
 import teilchen.force.TriangleDeflectorIndexed;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 import static processing.core.PVector.add;
 import static processing.core.PVector.sub;
@@ -74,7 +73,7 @@ public class Util {
         return c == 1;
     }
 
-    public static boolean insidePolygon(final PVector thePoint, final Vector<PVector> thePolygon) {
+    public static boolean insidePolygon(final PVector thePoint, final ArrayList<PVector> thePolygon) {
         float x = thePoint.x;
         float y = thePoint.y;
 
@@ -89,7 +88,7 @@ public class Util {
         return c == 1;
     }
 
-    public static boolean inside2DPolygon(final PVector thePoint, final Vector<PVector> thePolygon) {
+    public static boolean inside2DPolygon(final PVector thePoint, final ArrayList<PVector> thePolygon) {
         float x = thePoint.x;
         float y = thePoint.y;
 
@@ -245,7 +244,7 @@ public class Util {
         p.z /= theVector.z;
     }
 
-    public static void satisfyNeighborConstraints(final Vector<Particle> theParticles, final float theRelaxedness) {
+    public static void satisfyNeighborConstraints(final ArrayList<Particle> theParticles, final float theRelaxedness) {
         for (int i = 0; i < theParticles.size(); i++) {
             final Particle p1 = theParticles.get(i);
             for (int j = i + 1; j < theParticles.size(); j++) {

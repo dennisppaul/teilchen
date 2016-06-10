@@ -5,14 +5,13 @@ import teilchen.cubicle.*;
 import teilchen.force.*;
 import teilchen.integration.*;
 import teilchen.util.*;
-import java.util.Vector;
 
 final int WORLD_NUMBER_OF_CUBICLES = 15;
 final float WORLD_CUBICLE_SCALE = 20;
 final float WORLD_SCALE = WORLD_NUMBER_OF_CUBICLES * WORLD_CUBICLE_SCALE;
 final boolean showCubicles = true;
-float mRotationZ = 0.1f;
 final PVector mPosition = new PVector();
+float mRotationZ = 0.1f;
 CubicleWorld mCubicleWorld;
 CubicleWorldView mCubicleWorldView;
 void settings() {
@@ -37,7 +36,7 @@ void draw() {
         addRandomEntities(2);
     }
     mCubicleWorld.update();
-    Vector<ICubicleEntity> mEntities = mCubicleWorld.getLocalEntities(mPosition, 1);
+    ArrayList<ICubicleEntity> mEntities = mCubicleWorld.getLocalEntities(mPosition, 1);
     /* draw things */
     background(255);
     pushMatrix();
@@ -101,11 +100,10 @@ void addRandomEntities(int pNumberParticles) {
         mCubicleWorld.add(mEntity);
     }
 }
-class MCubicleEntity
-        implements ICubicleEntity {
-    int mColor = color(0, 127, random(0, 255), 127);
+class MCubicleEntity implements ICubicleEntity {
     final Vector3i mCubiclePosition;
     final PVector mPosition;
+    int mColor = color(0, 127, random(0, 255), 127);
     MCubicleEntity() {
         mCubiclePosition = new Vector3i();
         mPosition = new PVector();
@@ -117,9 +115,7 @@ class MCubicleEntity
         return mPosition;
     }
     boolean leaving(int theX, int theY, int theZ) {
-        return !(theX == cubicle().x
-                 && theY == cubicle().y
-                 && theZ == cubicle().z);
+        return !(theX == cubicle().x && theY == cubicle().y && theZ == cubicle().z);
     }
     boolean isActive() {
         return true;

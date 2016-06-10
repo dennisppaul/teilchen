@@ -21,7 +21,7 @@
  */
 package teilchen.util;
 
-import java.util.Vector;
+import java.util.ArrayList;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.ShortLivedParticle;
@@ -34,7 +34,7 @@ public class ParticleTrail {
 
     private final float _myInterval;
 
-    private final Vector<Particle> _myFragments;
+    private final ArrayList<Particle> _myFragments;
 
     private final float _myFragmentLifetime;
 
@@ -54,7 +54,7 @@ public class ParticleTrail {
         _myParticle = theParticle;
         _myInterval = theInterval;
         _myFragmentLifetime = theFragmentLifetime;
-        _myFragments = new Vector<Particle>();
+        _myFragments = new ArrayList<>();
         _myFixState = false;
     }
 
@@ -78,7 +78,7 @@ public class ParticleTrail {
         _myFragments.clear();
     }
 
-    public Vector<Particle> fragments() {
+    public ArrayList<Particle> fragments() {
         return _myFragments;
     }
 

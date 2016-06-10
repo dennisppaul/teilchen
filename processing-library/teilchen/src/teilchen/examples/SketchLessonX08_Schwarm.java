@@ -1,6 +1,5 @@
 package teilchen.examples;
 
-import java.util.Vector;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PMatrix3D;
@@ -16,11 +15,13 @@ import teilchen.constraint.Teleporter;
 import teilchen.force.ViscousDrag;
 import teilchen.util.Util;
 
+import java.util.ArrayList;
+
 public class SketchLessonX08_Schwarm extends PApplet {
 
     private Physics mPhysics;
 
-    private Vector<SwarmEntity> mSwarmEntities;
+    private ArrayList<SwarmEntity> mSwarmEntities;
 
     public void settings() {
         size(640, 480, P3D);
@@ -44,7 +45,7 @@ public class SketchLessonX08_Schwarm extends PApplet {
         mPhysics.add(myViscousDrag);
 
         /* setup entities */
-        mSwarmEntities = new Vector<>();
+        mSwarmEntities = new ArrayList<SwarmEntity>();
         for (int i = 0; i < 60; i++) {
             SwarmEntity mSwarmEntity = new SwarmEntity();
             mSwarmEntity.position().set(random(mTeleporter.min().x, mTeleporter.max().x),
@@ -73,8 +74,7 @@ public class SketchLessonX08_Schwarm extends PApplet {
         }
     }
 
-    private class SwarmEntity
-            extends BehaviorParticle {
+    private class SwarmEntity extends BehaviorParticle {
 
         private final Separation separation;
 

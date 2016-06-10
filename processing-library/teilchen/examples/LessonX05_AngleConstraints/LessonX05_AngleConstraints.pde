@@ -5,7 +5,6 @@ import teilchen.cubicle.*;
 import teilchen.force.*;
 import teilchen.integration.*;
 import teilchen.util.*;
-import java.util.Vector;
 
 Physics mPhysics;
 Particle mParticleA;
@@ -137,11 +136,8 @@ void drawParticles() {
     drawParticle(mParticleD);
 }
 void drawParticle(Particle p) {
-    ellipse(p.position().x,
-            p.position().y,
-            p.radius() * 2, p.radius() * 2);
+    ellipse(p.position().x, p.position().y, p.radius() * 2, p.radius() * 2);
 }
 void line(Particle p1, Particle p2) {
-    line(p1.position().x, p1.position().y,
-         p2.position().x, p2.position().y);
+    line(p1.position().x, p1.position().y, p2.position().x, p2.position().y);
 }

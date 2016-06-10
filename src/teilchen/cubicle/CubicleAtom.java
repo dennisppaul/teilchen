@@ -19,23 +19,24 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.cubicle;
 
-import java.util.Vector;
 import teilchen.util.Vector3i;
 
+import java.util.ArrayList;
 
 /*
  * container class for ICubicleEntity representing one cube in the world.
  */
 public class CubicleAtom {
 
-    private final Vector<ICubicleEntity> mContainer;
+    private final ArrayList<ICubicleEntity> mContainer;
 
     private final Vector3i mPosition;
 
     public CubicleAtom(int x, int y, int z) {
-        mContainer = new Vector<ICubicleEntity>();
+        mContainer = new ArrayList<>();
         mPosition = new Vector3i(x, y, z);
     }
 
@@ -59,7 +60,7 @@ public class CubicleAtom {
         return mContainer.size();
     }
 
-    public Vector<ICubicleEntity> data() {
+    public ArrayList<ICubicleEntity> data() {
         return mContainer;
     }
 }

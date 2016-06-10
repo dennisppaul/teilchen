@@ -5,11 +5,10 @@ import teilchen.cubicle.*;
 import teilchen.force.*;
 import teilchen.integration.*;
 import teilchen.util.*;
-import java.util.Vector;
 
+static final float PARTICLE_RADIUS = 13;
 Physics mPhysics;
 Particle mRoot;
-static final float PARTICLE_RADIUS = 13;
 void settings() {
     size(640, 480, P3D);
 }
@@ -51,8 +50,10 @@ void draw() {
     for (int i = 0; i < mPhysics.forces().size(); i++) {
         if (mPhysics.forces().get(i) instanceof Spring) {
             Spring mSSpring = (Spring) mPhysics.forces().get(i);
-            line(mSSpring.a().position().x, mSSpring.a().position().y,
-                 mSSpring.b().position().x, mSSpring.b().position().y);
+            line(mSSpring.a().position().x,
+                 mSSpring.a().position().y,
+                 mSSpring.b().position().x,
+                 mSSpring.b().position().y);
         }
     }
     /* draw particles */
