@@ -33,7 +33,7 @@ public class SketchLesson04_Deflectors extends PApplet {
          * the that defines the deflection area is defined by an
          * origin and a normal. this also means that the plane s size
          * is infinite.
-         * note that there is also a triangle delfector that is constraint
+         * note that there is also a triangle deflector that is constraint
          * by three points.
          */
         mDeflector = new PlaneDeflector();
@@ -44,7 +44,7 @@ public class SketchLesson04_Deflectors extends PApplet {
         mDeflector.coefficientofrestitution(0.7f);
         mPhysics.add(mDeflector);
 
-        /* create gravitiy */
+        /* create gravity */
         Gravity myGravity = new Gravity();
         myGravity.force().y = 50;
         mPhysics.add(myGravity);

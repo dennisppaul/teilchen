@@ -65,7 +65,7 @@ public class PlaneDeflector
 
                     /* find intersection with plane */
                     PVector myResult = new PVector();
-                    /**
+                    /*
                      * using the normal of the plane instead of the velocity of
                      * the particle. though less correct it seems to be more
                      * stable.
@@ -104,8 +104,8 @@ public class PlaneDeflector
     private float testParticlePosition(Particle theParticle, Plane3f thePlane) {
         sub(theParticle.position(), thePlane.origin, _myTempDiff);
         _myTempDiff.normalize();
-        final float myAngle = _myTempDiff.dot(thePlane.normal);
-        return myAngle;
+        final float mAngle = _myTempDiff.dot(thePlane.normal);
+        return mAngle;
     }
 
     private void seperateComponents(Particle theParticle, Plane3f thePlane) {
@@ -138,7 +138,7 @@ public class PlaneDeflector
 
         if (theIntersectionPoint != null) {
             theIntersectionPoint.set(theRayDirection);
-            theIntersectionPoint.mult((float) myT);
+            theIntersectionPoint.mult(myT);
             theIntersectionPoint.add(theRayOrigin);
         }
 
