@@ -78,14 +78,19 @@ public class SketchLesson04_Deflectors extends PApplet {
         /* draw all the particles in the particle system */
         background(255);
         for (int i = 0; i < mPhysics.particles().size(); i++) {
-            Particle myParticle = mPhysics.particles(i);
+            Particle mParticle = mPhysics.particles(i);
             /* this special particle can tell you how much time it has to live.
              * we map this information to its transparency.
              */
-            float myRatio = 1 - ((ShortLivedParticle) myParticle).ageRatio();
+            float myRatio = 1 - ((ShortLivedParticle) mParticle).ageRatio();
+            stroke(0, 127);
             stroke(0, 64 * myRatio);
-            fill(0, 32 * myRatio);
-            ellipse(myParticle.position().x, myParticle.position().y, 12, 12);
+            if (mParticle.tagged()) {
+                fill(255, 127, 0, 127 * myRatio);
+            } else {
+                fill(0, 32 * myRatio);
+            }
+            ellipse(mParticle.position().x, mParticle.position().y, 12, 12);
         }
 
         /* draw deflector */
@@ -100,6 +105,9 @@ public class SketchLesson04_Deflectors extends PApplet {
              mDeflector.plane().origin.y,
              mDeflector.plane().origin.x + mDeflector.plane().normal.x * 20,
              mDeflector.plane().origin.y + mDeflector.plane().normal.y * 20);
+
+        /* finally remove the collision tag */
+        mPhysics.removeTags();
     }
 
     public static void main(String[] args) {

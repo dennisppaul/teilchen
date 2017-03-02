@@ -19,7 +19,7 @@ void setup() {
     frameRate(60);
     noFill();
     mPhysics = new Physics();
-    mPhysics.setInegratorRef(new RungeKutta());
+    mPhysics.setIntegratorRef(new RungeKutta());
     mGravity = new Gravity();
     mGravity.force().y = 20;
     mPhysics.add(mGravity);

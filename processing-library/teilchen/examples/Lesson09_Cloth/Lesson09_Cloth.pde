@@ -20,7 +20,7 @@ void setup() {
     mPhysics.contraint_iterations_per_steps = 5;
     Verlet myVerlet = new Verlet();
     myVerlet.damping(0.9f);
-    mPhysics.setInegratorRef(myVerlet);
+    mPhysics.setIntegratorRef(myVerlet);
     mPhysics.add(new Gravity(new PVector(0, 1000f, 0)));
     mAttractor = new Attractor();
     mAttractor.strength(-15000);

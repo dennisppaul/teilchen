@@ -66,24 +66,24 @@ public class BasicParticle
         return mFixed;
     }
 
-    public void fixed(boolean theFixed) {
-        mFixed = theFixed;
+    public void fixed(boolean pFixed) {
+        mFixed = pFixed;
     }
 
     public float age() {
         return mAge;
     }
 
-    public void age(float theAge) {
-        mAge = theAge;
+    public void age(float pAge) {
+        mAge = pAge;
     }
 
     public float mass() {
         return mMass;
     }
 
-    public void mass(float theMass) {
-        mMass = theMass;
+    public void mass(float pMass) {
+        mMass = pMass;
     }
 
     public PVector position() {
@@ -94,8 +94,8 @@ public class BasicParticle
         return mOldPosition;
     }
 
-    public void setPositionRef(PVector thePosition) {
-        mPosition = thePosition;
+    public void setPositionRef(PVector pPosition) {
+        mPosition = pPosition;
     }
 
     public PVector velocity() {
@@ -110,30 +110,30 @@ public class BasicParticle
         return false;
     }
 
-    public void accumulateInnerForce(final float theDeltaTime) {
+    public void accumulateInnerForce(final float pDeltaTime) {
     }
 
     public boolean tagged() {
         return mTagged;
     }
 
-    public void tag(boolean theTag) {
-        mTagged = theTag;
+    public void tag(boolean pTag) {
+        mTagged = pTag;
     }
 
     public boolean still() {
         return mStill;
     }
 
-    public void still(boolean theStill) {
-        mStill = theStill;
+    public void still(boolean pStill) {
+        mStill = pStill;
     }
 
     public float radius() {
         return mRadius;
     }
 
-    public void radius(float theRadius) {
-        mRadius = theRadius;
+    public void radius(float pRadius) {
+        mRadius = pRadius;
     }
 }

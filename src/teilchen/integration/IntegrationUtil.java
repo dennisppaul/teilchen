@@ -24,7 +24,7 @@ package teilchen.integration;
 import java.util.List;
 import teilchen.Particle;
 
-public final class Util {
+public final class IntegrationUtil {
 
     public static <T> void checkContainerSize(final int theSize,
                                               final List<T> theContainer,

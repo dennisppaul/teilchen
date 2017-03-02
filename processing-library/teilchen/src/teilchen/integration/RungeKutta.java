@@ -66,16 +66,16 @@ public class RungeKutta implements IIntegrator {
     public void step(final float theDeltaTime, final Physics theParticleSystem) {
 
         final int mySize = theParticleSystem.particles().size();
-        Util.checkContainerSize(mySize, mOriginalPositions, PVector.class);
-        Util.checkContainerSize(mySize, mOriginalVelocities, PVector.class);
-        Util.checkContainerSize(mySize, mK1Forces, PVector.class);
-        Util.checkContainerSize(mySize, mK1Velocities, PVector.class);
-        Util.checkContainerSize(mySize, mK2Forces, PVector.class);
-        Util.checkContainerSize(mySize, mK2Velocities, PVector.class);
-        Util.checkContainerSize(mySize, mK3Forces, PVector.class);
-        Util.checkContainerSize(mySize, mK3Velocities, PVector.class);
-        Util.checkContainerSize(mySize, mK4Forces, PVector.class);
-        Util.checkContainerSize(mySize, mK4Velocities, PVector.class);
+        IntegrationUtil.checkContainerSize(mySize, mOriginalPositions, PVector.class);
+        IntegrationUtil.checkContainerSize(mySize, mOriginalVelocities, PVector.class);
+        IntegrationUtil.checkContainerSize(mySize, mK1Forces, PVector.class);
+        IntegrationUtil.checkContainerSize(mySize, mK1Velocities, PVector.class);
+        IntegrationUtil.checkContainerSize(mySize, mK2Forces, PVector.class);
+        IntegrationUtil.checkContainerSize(mySize, mK2Velocities, PVector.class);
+        IntegrationUtil.checkContainerSize(mySize, mK3Forces, PVector.class);
+        IntegrationUtil.checkContainerSize(mySize, mK3Velocities, PVector.class);
+        IntegrationUtil.checkContainerSize(mySize, mK4Forces, PVector.class);
+        IntegrationUtil.checkContainerSize(mySize, mK4Velocities, PVector.class);
 
         /* save original position and velocities */
         for (int i = 0; i < theParticleSystem.particles().size(); ++i) {

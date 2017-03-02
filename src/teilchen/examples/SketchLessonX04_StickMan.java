@@ -36,7 +36,7 @@ public class SketchLessonX04_StickMan extends PApplet {
         noFill();
 
         mPhysics = new Physics();
-        mPhysics.setInegratorRef(new RungeKutta());
+        mPhysics.setIntegratorRef(new RungeKutta());
 
         mGravity = new Gravity();
         mGravity.force().y = 20;

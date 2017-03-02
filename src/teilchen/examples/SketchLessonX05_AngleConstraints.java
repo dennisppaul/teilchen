@@ -36,7 +36,7 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
         smooth();
 
         mPhysics = new Physics();
-        mPhysics.setInegratorRef(new RungeKutta());
+        mPhysics.setIntegratorRef(new RungeKutta());
 
         ViscousDrag myViscousDrag = new ViscousDrag();
         myViscousDrag.coefficient = 1f;

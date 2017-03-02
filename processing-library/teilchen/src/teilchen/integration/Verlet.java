@@ -92,7 +92,7 @@ public class Verlet
          x' = x + (x - ox) + a*dt^2
          */
 
- /* v ~= (x - ox) / dt */
+        /* v ~= (x - ox) / dt */
         sub(theParticle.position(), theParticle.old_position(), theParticle.velocity());
         theParticle.velocity().mult(1.0f / theDeltaTime);
 

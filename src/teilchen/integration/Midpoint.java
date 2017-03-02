@@ -32,11 +32,11 @@ public class Midpoint
 
     public void step(final float theDeltaTime, final Physics theParticleSystem) {
 
-        Util.checkContainerSize(theParticleSystem.particles().size(), mK1, Derivate3f.class);
+        IntegrationUtil.checkContainerSize(theParticleSystem.particles().size(), mK1, Derivate3f.class);
 
         /* one */
         theParticleSystem.applyForces(theDeltaTime);
-        Util.calculateDerivatives(theParticleSystem.particles(), mK1);
+        IntegrationUtil.calculateDerivatives(theParticleSystem.particles(), mK1);
         for (int i = 0; i < theParticleSystem.particles().size(); i++) {
             Particle myParticle = theParticleSystem.particles().get(i);
             if (!myParticle.fixed()) {
@@ -51,7 +51,7 @@ public class Midpoint
 
         /* two */
         theParticleSystem.applyForces(theDeltaTime);
-        Util.calculateDerivatives(theParticleSystem.particles(), mK1);
+        IntegrationUtil.calculateDerivatives(theParticleSystem.particles(), mK1);
         for (int i = 0; i < theParticleSystem.particles().size(); i++) {
             Particle myParticle = theParticleSystem.particles().get(i);
             if (!myParticle.fixed()) {

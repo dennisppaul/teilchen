@@ -6,6 +6,7 @@ import teilchen.Physics;
 import teilchen.constraint.IConstraint;
 import teilchen.util.Intersection;
 import teilchen.util.Intersection.IntersectionResult;
+import teilchen.util.Util;
 import teilchen.util.WorldAxisAlignedBoundingBox;
 
 import static processing.core.PVector.add;
@@ -14,6 +15,7 @@ import static teilchen.util.Util.calculateNormal;
 import static teilchen.util.Util.contains;
 import static teilchen.util.Util.isNaN;
 import static teilchen.util.Util.lengthSquared;
+import static teilchen.util.Util.setVelocityAndOldPosition;
 import static teilchen.util.Util.updateBoundingBox;
 
 public class TriangleDeflector implements IConstraint {
@@ -155,13 +157,23 @@ public class TriangleDeflector implements IConstraint {
                         mTempPointOfIntersection.mult(mIntersectionResult.t);
                         mTempPointOfIntersection.add(mParticle.position());
                         mParticle.position().set(mTempPointOfIntersection);
-
                         /* reflect velocity i.e. change direction */
-                        seperateComponents(mParticle, mNormal);
-                        mParticle.velocity().set(mTempReflectionVector);
-
+                        separateComponents(mParticle, mNormal);
+//                        System.out.println("mIntersectionResult.u " + mIntersectionResult.u);
+//                        System.out.println("mIntersectionResult.v " + mIntersectionResult.v);
+//                        System.out.println("mIntersectionResult.t " + mIntersectionResult.t);
+                        if (Util.almost(mIntersectionResult.t, -1)) {
+                            /* particle is still */
+                            setVelocityAndOldPosition(mParticle, mTempReflectionVector);
+                            mParticle.still(true);
+//                            System.out.println("### particle is stuck");
+//                            System.out.println("vel " + mParticle.velocity());
+//                            System.out.println("opa " + sub(mParticle.position(), mParticle.old_position()));
+                        } else {
+//                            System.out.println("vel " + mParticle.velocity());
+                            setVelocityAndOldPosition(mParticle, mTempReflectionVector);
+                        }
                         mGotHit = true;
-                        mParticle.tag(true);
                         markParticle(mParticle);
                     }
                 }
@@ -174,7 +186,16 @@ public class TriangleDeflector implements IConstraint {
         }
     }
 
+    public boolean active() {
+        return mActive;
+    }
+
+    public void active(boolean pActiveState) {
+        mActive = pActiveState;
+    }
+
     protected void markParticle(Particle pParticle) {
+        pParticle.tag(true);
     }
 
     public boolean hit() {
@@ -189,7 +210,7 @@ public class TriangleDeflector implements IConstraint {
         return mCoefficientOfRestitution;
     }
 
-    private void seperateComponents(Particle pParticle, PVector pNormal) {
+    private void separateComponents(Particle pParticle, PVector pNormal) {
         /* normal */
         mTempNormalComponent.set(pNormal);
         mTempNormalComponent.mult(pNormal.dot(pParticle.velocity()));
@@ -207,13 +228,5 @@ public class TriangleDeflector implements IConstraint {
 
     public boolean dead() {
         return false;
-    }
-
-    public boolean active() {
-        return mActive;
-    }
-
-    public void active(boolean pActiveState) {
-        mActive = pActiveState;
     }
 }

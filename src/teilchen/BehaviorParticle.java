@@ -37,10 +37,10 @@ public class BehaviorParticle extends BasicParticle implements IBehaviorParticle
         mMaximumInnerForce = 50;
     }
 
-    public void accumulateInnerForce(final float theDeltaTime) {
+    public void accumulateInnerForce(final float pDeltaTime) {
         for (final IBehavior mBehavior : mBehaviors) {
             if (mBehavior != null) {
-                mBehavior.update(theDeltaTime, this);
+                mBehavior.update(pDeltaTime, this);
                 force().add(mBehavior.force());
             }
         }

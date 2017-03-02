@@ -58,10 +58,10 @@ public class PlaneDeflector
     }
 
     public void apply(final float theDeltaTime, final Physics theParticleSystem) {
-        for (final Particle myParticle : theParticleSystem.particles()) {
-            if (!myParticle.fixed()) {
+        for (final Particle mParticle : theParticleSystem.particles()) {
+            if (!mParticle.fixed()) {
                 /* test if particle passed plane */
-                if (testParticlePosition(myParticle, mPlane) < 0) {
+                if (testParticlePosition(mParticle, mPlane) < 0) {
 
                     /* find intersection with plane */
                     PVector myResult = new PVector();
@@ -70,7 +70,7 @@ public class PlaneDeflector
                      * the particle. though less correct it seems to be more
                      * stable.
                      */
-                    final float myIntersectionResult = intersectLinePlane(myParticle.position(),
+                    final float myIntersectionResult = intersectLinePlane(mParticle.position(),
                                                                           mPlane.normal,
                                                                           mPlane,
                                                                           myResult);
@@ -78,12 +78,15 @@ public class PlaneDeflector
                     /* remove particle from collision */
                     if (myIntersectionResult != Float.NEGATIVE_INFINITY
                         && !isNaN(myResult)) {
-                        myParticle.position().set(myResult);
+                        mParticle.position().set(myResult);
                     }
 
                     /* change direction */
-                    seperateComponents(myParticle, mPlane);
-                    myParticle.velocity().set(mTempReflectionVector);
+                    seperateComponents(mParticle, mPlane);
+                    mParticle.velocity().set(mTempReflectionVector);
+
+                    /* tag particle */
+                    mParticle.tag(true);
                 }
             }
         }

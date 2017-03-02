@@ -39,12 +39,19 @@ public class Util {
     private static final float ALMOST_THRESHOLD = 0.001f;
     private static final PVector TMP_MIN = new PVector();
     private static final PVector TMP_MAX = new PVector();
+
     /* normal */
     private static final PVector TMP_BA = new PVector();
     private static final PVector TMP_BC = new PVector();
     private static final java.util.Random RND_GENERATOR = new java.util.Random();
     private static final PVector TMP_NORMAL = new PVector();
     private static final PVector TMP_TANGENT = new PVector();
+
+    public static void setVelocityAndOldPosition(Particle pParticle, PVector pNewVelocity) {
+        pParticle.velocity().set(pNewVelocity);
+        final PVector mOldPosition = sub(pParticle.position(), pParticle.velocity());
+        pParticle.old_position().set(mOldPosition);
+    }
 
     /* contain */
     public static boolean contains(final PVector thePosition, final WorldAxisAlignedBoundingBox theWorldAlignedBox) {
@@ -57,7 +64,8 @@ public class Util {
     }
 
     public static boolean contains(final float theTestValue, final float theContainerValue, final float theRange) {
-        return (theTestValue > theContainerValue - theRange * 0.5f && theTestValue < theContainerValue + theRange * 0.5f);
+        return (theTestValue > theContainerValue - theRange * 0.5f && theTestValue < theContainerValue + theRange *
+                0.5f);
     }
 
     public static boolean insidePolygon(PVector thePoint, PVector[] thePolygon) {
@@ -66,7 +74,9 @@ public class Util {
 
         int c = 0;
         for (int i = 0, j = thePolygon.length - 1; i < thePolygon.length; j = i++) {
-            if ((((thePolygon[i].y <= y) && (y < thePolygon[j].y)) || ((thePolygon[j].y <= y) && (y < thePolygon[i].y))) && (x < (thePolygon[j].x - thePolygon[i].x) * (y - thePolygon[i].y) / (thePolygon[j].y - thePolygon[i].y) + thePolygon[i].x)) {
+            if ((((thePolygon[i].y <= y) && (y < thePolygon[j].y)) || ((thePolygon[j].y <= y) && (y < thePolygon[i]
+                    .y))) && (x < (thePolygon[j].x - thePolygon[i].x) * (y - thePolygon[i].y) / (thePolygon[j].y -
+                    thePolygon[i].y) + thePolygon[i].x)) {
                 c = (c + 1) % 2;
             }
         }
@@ -79,9 +89,11 @@ public class Util {
 
         int c = 0;
         for (int i = 0, j = thePolygon.size() - 1; i < thePolygon.size(); j = i++) {
-            if ((((thePolygon.get(i).y <= y) && (y < thePolygon.get(j).y)) || ((thePolygon.get(j).y <= y) && (y < thePolygon.get(
-                    i).y))) && (x < (thePolygon.get(j).x - thePolygon.get(i).x) * (y - thePolygon.get(i).y) / (thePolygon.get(
-                    j).y - thePolygon.get(i).y) + thePolygon.get(i).x)) {
+            if ((((thePolygon.get(i).y <= y) && (y < thePolygon.get(j).y)) || ((thePolygon.get(j).y <= y) && (y <
+                    thePolygon
+                    .get(i).y))) && (x < (thePolygon.get(j).x - thePolygon.get(i).x) * (y - thePolygon.get(i).y) /
+                    (thePolygon
+                    .get(j).y - thePolygon.get(i).y) + thePolygon.get(i).x)) {
                 c = (c + 1) % 2;
             }
         }
@@ -94,9 +106,11 @@ public class Util {
 
         int c = 0;
         for (int i = 0, j = thePolygon.size() - 1; i < thePolygon.size(); j = i++) {
-            if ((((thePolygon.get(i).y <= y) && (y < thePolygon.get(j).y)) || ((thePolygon.get(j).y <= y) && (y < thePolygon.get(
-                    i).y))) && (x < (thePolygon.get(j).x - thePolygon.get(i).x) * (y - thePolygon.get(i).y) / (thePolygon.get(
-                    j).y - thePolygon.get(i).y) + thePolygon.get(i).x)) {
+            if ((((thePolygon.get(i).y <= y) && (y < thePolygon.get(j).y)) || ((thePolygon.get(j).y <= y) && (y <
+                    thePolygon
+                    .get(i).y))) && (x < (thePolygon.get(j).x - thePolygon.get(i).x) * (y - thePolygon.get(i).y) /
+                    (thePolygon
+                    .get(j).y - thePolygon.get(i).y) + thePolygon.get(i).x)) {
                 c = (c + 1) % 2;
             }
         }
@@ -289,7 +303,7 @@ public class Util {
 
     public static float angle(PVector p, PVector theVector) {
         float d = p.dot(theVector) / (p.mag() * theVector.mag());
-        /**
+        /*
          * @todo check these lines.
          */
         if (d < -1.0f) {
@@ -398,8 +412,24 @@ public class Util {
         return myDeflectors;
     }
 
+    public static TriangleDeflector createTriangleDeflector2D(float x1,
+                                                              float y1,
+                                                              float x2,
+                                                              float y2,
+                                                              float mCoefficientOfRestitution) {
+        final float mZOffset = 1.0f;
+        final TriangleDeflector myTriangleDeflector = new TriangleDeflector();
+        myTriangleDeflector.a().set(new PVector(x1, y1, 0));
+        myTriangleDeflector.b().set(new PVector(x2, y2, 0));
+        myTriangleDeflector.c().set(new PVector(x2, y2, mZOffset));
+        myTriangleDeflector.coefficientofrestitution(mCoefficientOfRestitution);
+        myTriangleDeflector.updateProperties();
+        return myTriangleDeflector;
+    }
+
     public static ArrayList<TriangleDeflector> createTriangleDeflectorsIndexed(final float[] theVertices,
-                                                                               final float theCoefficientOfRestitution) {
+                                                                               final float
+                                                                                       theCoefficientOfRestitution) {
         final ArrayList<TriangleDeflector> myDeflectors = new ArrayList<>();
         for (int i = 0; i < theVertices.length / 9; i++) {
             final TriangleDeflectorIndexed myTriangleDeflector = new TriangleDeflectorIndexed(theVertices,
@@ -499,5 +529,10 @@ public class Util {
 
         // Check if point is in triangle
         return (u > 0) && (v > 0) && (u + v < 1);
+    }
+
+    public static boolean almost(float a, float b) {
+        final float mDelta = Math.abs(b - a);
+        return mDelta < ALMOST_THRESHOLD;
     }
 }

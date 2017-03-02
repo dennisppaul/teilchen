@@ -79,10 +79,10 @@ public class Euler
 //
 //    public void step(final float theDeltaTime, final ParticleSystem theParticleSystem) {
 //
-//        Util.checkContainerSize(theParticleSystem.particles().size(), myK1, Derivate3f.class);
+//        IntegrationUtil.checkContainerSize(theParticleSystem.particles().size(), myK1, Derivate3f.class);
 //
 //        theParticleSystem.applyForces(theDeltaTime);
-//        Util.calculateDerivatives(theParticleSystem.particles(), myK1);
+//        IntegrationUtil.calculateDerivatives(theParticleSystem.particles(), myK1);
 //        for (int i = 0; i < theParticleSystem.particles().size(); i++) {
 //            Particle myParticle = theParticleSystem.particles().get(i);
 //            if (!myParticle.fixed()) {

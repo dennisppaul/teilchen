@@ -1,5 +1,5 @@
 package teilchen.examples;
 
-public class SketchLessonX10_MarioGalaxy {
+public class SketchLessonX11_MarioGalaxy {
     // todo port from old sources
 }

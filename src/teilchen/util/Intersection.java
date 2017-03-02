@@ -61,9 +61,9 @@ public final class Intersection implements Serializable {
                                             final PVector theResult,
                                             final boolean doPlanar,
                                             final boolean quad) {
-        PVector diff = PVector.sub(theRay.origin, thePlane.origin); // mathematik.Util.sub(theRay.origin, v0);
-        PVector edge1 = thePlane.vectorA; // mathematik.Util.sub(v1, v0);
-        PVector edge2 = thePlane.vectorB; // mathematik.Util.sub(v2, v0);
+        PVector diff = PVector.sub(theRay.origin, thePlane.origin); // mathematik.IntegrationUtil.sub(theRay.origin, v0);
+        PVector edge1 = thePlane.vectorA; // mathematik.IntegrationUtil.sub(v1, v0);
+        PVector edge2 = thePlane.vectorB; // mathematik.IntegrationUtil.sub(v2, v0);
 
         PVector norm = thePlane.normal; //new PVector();
 

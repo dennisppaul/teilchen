@@ -26,7 +26,7 @@ public class SketchLesson07_StableQuads extends PApplet {
 
         mPhysics = new Physics();
         /* we use 'runge kutta' as it is more stable for this application */
-        mPhysics.setInegratorRef(new RungeKutta());
+        mPhysics.setIntegratorRef(new RungeKutta());
 
         Gravity myGravity = new Gravity();
         myGravity.force().y = 98.1f;

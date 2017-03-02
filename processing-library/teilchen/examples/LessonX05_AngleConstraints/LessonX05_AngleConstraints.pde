@@ -20,7 +20,7 @@ void setup() {
     frameRate(30);
     smooth();
     mPhysics = new Physics();
-    mPhysics.setInegratorRef(new RungeKutta());
+    mPhysics.setIntegratorRef(new RungeKutta());
     ViscousDrag myViscousDrag = new ViscousDrag();
     myViscousDrag.coefficient = 1f;
     mPhysics.add(myViscousDrag);

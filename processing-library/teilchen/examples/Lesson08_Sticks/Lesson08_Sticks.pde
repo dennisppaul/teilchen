@@ -22,7 +22,7 @@ void setup() {
     /* we chose verlet integration as it integrates much more nicely with sticks ( and constraints in general ) */
     Verlet myVerlet = new Verlet();
     myVerlet.damping(0.99f);
-    mPhysics.setInegratorRef(myVerlet);
+    mPhysics.setIntegratorRef(myVerlet);
     /* setup sticks to form a whip */
     mParticles = new Particle[16];
     float mSegmentLength = 20.0f;

@@ -29,21 +29,21 @@ public interface Particle
 
     boolean fixed();
 
-    void fixed(boolean theFixed);
+    void fixed(boolean pFixed);
 
     float age();
 
-    void age(float theAge);
+    void age(float pAge);
 
     float mass();
 
-    void mass(float theMass);
+    void mass(float pMass);
 
     PVector position();
 
     PVector old_position();
 
-    void setPositionRef(PVector thePosition);
+    void setPositionRef(PVector pPosition);
 
     PVector velocity();
 
@@ -53,15 +53,15 @@ public interface Particle
 
     boolean tagged();
 
-    void tag(boolean theTag);
+    void tag(boolean pTag);
 
-    void accumulateInnerForce(final float theDeltaTime);
+    void accumulateInnerForce(final float pDeltaTime);
 
     float radius();
 
-    void radius(float theRadius);
+    void radius(float pRadius);
 
     boolean still();
 
-    void still(boolean theStill);
+    void still(boolean pStill);
 }

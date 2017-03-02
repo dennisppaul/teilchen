@@ -23,11 +23,13 @@ void setup() {
             /* triangle deflectors */
     final PVector[] mVertices = new PVector[]{new PVector(0, 0, 0),
                                               new PVector(width, height, 0),
-                                              new PVector(0, height, 0),
+                                              new PVector(0,
+                                                          height,
+                                                          0),
                                               new PVector(0, 0, 0),
                                               new PVector(width, 0, 0),
                                               new PVector(width, height, 0),};
-    mTriangleDeflectors = Util.createTriangleDeflectors(mVertices, 1.0f);
+    mTriangleDeflectors = teilchen.util.Util.createTriangleDeflectors(mVertices, 1.0f);
     mPhysics.addConstraints(mTriangleDeflectors);
 }
 void draw() {
@@ -50,10 +52,14 @@ void draw() {
     /* draw particles */
     background(255);
     camera(width / 2, mouseY + height, height * 1.3f - mouseY, width / 2, height / 2, 0, 0, 1, 0);
-    stroke(0, 127);
-    fill(0, 32);
     for (int i = 0; i < mPhysics.particles().size(); i++) {
         Particle mParticle = mPhysics.particles(i);
+        stroke(0, 127);
+        if (mParticle.tagged()) {
+            fill(255, 127, 64);
+        }else {
+            fill(0, 32);
+        }
         pushMatrix();
         translate(mParticle.position().x, mParticle.position().y, mParticle.position().z);
         ellipse(0, 0, 10, 10);
@@ -64,4 +70,6 @@ void draw() {
     for (TriangleDeflector mTriangleDeflector : mTriangleDeflectors) {
         DrawLib.draw(g, mTriangleDeflector, color(0), color(255, 0, 0), color(0, 255, 0));
     }
+    /* finally remove the collision tag */
+    mPhysics.removeTags();
 }
