@@ -3,7 +3,6 @@ package teilchen.force;
 import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
-import teilchen.constraint.IConstraint;
 import teilchen.util.Intersection;
 import teilchen.util.Intersection.IntersectionResult;
 import teilchen.util.Util;
@@ -18,7 +17,7 @@ import static teilchen.util.Util.lengthSquared;
 import static teilchen.util.Util.setVelocityAndOldPosition;
 import static teilchen.util.Util.updateBoundingBox;
 
-public class TriangleDeflector implements IConstraint {
+public class TriangleDeflector implements IForce {
 
     private final PVector a;
     private final PVector b;
@@ -85,9 +84,8 @@ public class TriangleDeflector implements IConstraint {
         updateBoundingBox(mWorldAxisAlignedBoundingBox, mVectorCollection);
     }
 
-    public void apply(Physics pParticleSystem) {
-
-
+    //    public void apply(Physics pParticleSystem) {
+    public void apply(final float theDeltaTime, final Physics pParticleSystem) {
         /* update triangle properties -- maybe this is better not done automatically */
         if (AUTO_UPDATE) {
             updateProperties();
@@ -123,6 +121,7 @@ public class TriangleDeflector implements IConstraint {
 
                     switch (CREATE_RAY_FROM) {
                         case RAY_FROM_VELOCITY:
+                            // todo why does this not work?
                             mRay = new PVector().set(mParticle.velocity());
                             break;
                         case RAY_FROM_NORMAL:
@@ -159,18 +158,11 @@ public class TriangleDeflector implements IConstraint {
                         mParticle.position().set(mTempPointOfIntersection);
                         /* reflect velocity i.e. change direction */
                         separateComponents(mParticle, mNormal);
-//                        System.out.println("mIntersectionResult.u " + mIntersectionResult.u);
-//                        System.out.println("mIntersectionResult.v " + mIntersectionResult.v);
-//                        System.out.println("mIntersectionResult.t " + mIntersectionResult.t);
                         if (Util.almost(mIntersectionResult.t, -1)) {
                             /* particle is still */
                             setVelocityAndOldPosition(mParticle, mTempReflectionVector);
                             mParticle.still(true);
-//                            System.out.println("### particle is stuck");
-//                            System.out.println("vel " + mParticle.velocity());
-//                            System.out.println("opa " + sub(mParticle.position(), mParticle.old_position()));
                         } else {
-//                            System.out.println("vel " + mParticle.velocity());
                             setVelocityAndOldPosition(mParticle, mTempReflectionVector);
                         }
                         mGotHit = true;
@@ -184,6 +176,10 @@ public class TriangleDeflector implements IConstraint {
                 }
             }
         }
+    }
+
+    public boolean dead() {
+        return false;
     }
 
     public boolean active() {
@@ -224,9 +220,5 @@ public class TriangleDeflector implements IConstraint {
 
     public PVector normal() {
         return mNormal;
-    }
-
-    public boolean dead() {
-        return false;
     }
 }

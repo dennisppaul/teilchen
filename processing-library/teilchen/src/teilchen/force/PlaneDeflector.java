@@ -19,31 +19,27 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.force;
 
 import processing.core.PVector;
-import static processing.core.PVector.*;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.util.Plane3f;
-import static teilchen.util.Util.*;
 
-public class PlaneDeflector
-        implements IForce {
+import static processing.core.PVector.add;
+import static processing.core.PVector.sub;
+import static teilchen.util.Util.isNaN;
+
+public class PlaneDeflector implements IForce {
 
     private final Plane3f mPlane;
-
-    private float mCoefficientOfRestitution;
-
     private final PVector _myTempDiff;
-
     private final PVector mTempReflectionVector;
-
     private final PVector mTempNormalComponent;
-
     private final PVector mTempTangentComponent;
-
-    private boolean _myActive;
+    private float mCoefficientOfRestitution;
+    private boolean mActive;
 
     public PlaneDeflector() {
         mPlane = new Plane3f();
@@ -54,7 +50,7 @@ public class PlaneDeflector
         mTempReflectionVector = new PVector();
         mTempNormalComponent = new PVector();
         mTempTangentComponent = new PVector();
-        _myActive = true;
+        mActive = true;
     }
 
     public void apply(final float theDeltaTime, final Physics theParticleSystem) {
@@ -62,7 +58,7 @@ public class PlaneDeflector
             if (!mParticle.fixed()) {
                 /* test if particle passed plane */
                 if (testParticlePosition(mParticle, mPlane) < 0) {
-
+                    // @todo maybe add a *distance to origin* check here?
                     /* find intersection with plane */
                     PVector myResult = new PVector();
                     /*
@@ -76,13 +72,12 @@ public class PlaneDeflector
                                                                           myResult);
 
                     /* remove particle from collision */
-                    if (myIntersectionResult != Float.NEGATIVE_INFINITY
-                        && !isNaN(myResult)) {
+                    if (myIntersectionResult != Float.NEGATIVE_INFINITY && !isNaN(myResult)) {
                         mParticle.position().set(myResult);
                     }
 
                     /* change direction */
-                    seperateComponents(mParticle, mPlane);
+                    separateComponents(mParticle, mPlane);
                     mParticle.velocity().set(mTempReflectionVector);
 
                     /* tag particle */
@@ -92,12 +87,24 @@ public class PlaneDeflector
         }
     }
 
+    public boolean dead() {
+        return false;
+    }
+
+    public boolean active() {
+        return mActive;
+    }
+
+    public void active(boolean theActiveState) {
+        mActive = theActiveState;
+    }
+
     public Plane3f plane() {
         return mPlane;
     }
 
-    public void coefficientofrestitution(float theCoefficientOfRestitution) {
-        mCoefficientOfRestitution = theCoefficientOfRestitution;
+    public void coefficientofrestitution(float pCoefficientOfRestitution) {
+        mCoefficientOfRestitution = pCoefficientOfRestitution;
     }
 
     public float coefficientofrestitution() {
@@ -111,7 +118,7 @@ public class PlaneDeflector
         return mAngle;
     }
 
-    private void seperateComponents(Particle theParticle, Plane3f thePlane) {
+    private void separateComponents(Particle theParticle, Plane3f thePlane) {
         /* normal */
         mTempNormalComponent.set(thePlane.normal);
         mTempNormalComponent.mult(thePlane.normal.dot(theParticle.velocity()));
@@ -135,9 +142,9 @@ public class PlaneDeflector
             return Float.NEGATIVE_INFINITY;
         }
 
-        final float numer = thePlane.normal.dot(theRayOrigin);
+        final float n = thePlane.normal.dot(theRayOrigin);
         final float D = -thePlane.origin.dot(thePlane.normal);
-        myT = -((numer + D) / myDenominator);
+        myT = -((n + D) / myDenominator);
 
         if (theIntersectionPoint != null) {
             theIntersectionPoint.set(theRayDirection);
@@ -146,17 +153,5 @@ public class PlaneDeflector
         }
 
         return myT;
-    }
-
-    public boolean dead() {
-        return false;
-    }
-
-    public boolean active() {
-        return _myActive;
-    }
-
-    public void active(boolean theActiveState) {
-        _myActive = theActiveState;
     }
 }

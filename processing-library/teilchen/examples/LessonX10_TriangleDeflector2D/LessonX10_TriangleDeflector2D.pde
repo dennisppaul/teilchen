@@ -32,10 +32,7 @@ void draw() {
     /* remove particles  */
     for (int i = 0; i < mPhysics.particles().size(); i++) {
         Particle mParticle = mPhysics.particles(i);
-        if (mParticle.still()) {
-            //                mPhysics.particles().remove(i);
-        }
-        if (mParticle.position().y > height) {
+        if (mParticle.position().y > height || mParticle.still()) {
             mPhysics.particles().remove(i);
         }
     }

@@ -150,8 +150,8 @@ public class Physics {
     public void add(IForce theForce) {
         if (theForce instanceof ViscousDrag && mIntegrator instanceof Verlet) {
             System.err.println(
-                    "### WARNING / 'viscous drag' might have no effect with 'verlet' integration. use 'Verlet.damping" +
-                            "(float theDamping)' instead.");
+                    "### WARNING / 'viscous drag' might have no effect with 'verlet' integration. use 'Verlet" + "" +
+                            ".damping" + "(float theDamping)' instead.");
         }
         mForces.add(theForce);
     }
