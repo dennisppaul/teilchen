@@ -286,7 +286,13 @@ public class Physics {
 
     protected synchronized void handleForces() {
         synchronized (mForces) {
-            mForces.removeIf(IForce::dead);
+            final Iterator<IForce> i = mForces.iterator();
+            while (i.hasNext()) {
+                final IForce myForce = i.next();
+                if (myForce.dead()) {
+                    i.remove();
+                }
+            }
         }
     }
 

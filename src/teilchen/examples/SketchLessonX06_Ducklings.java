@@ -47,6 +47,7 @@ public class SketchLessonX06_Ducklings extends PApplet {
             final Duckling mDuckling = new Duckling();
             if (!mDucklings.isEmpty()) {
                 mDuckling.arrival.setPositionRef(mDucklings.get(mDucklings.size() - 1).particle.position());
+                System.out.println(mDuckling.arrival.position());
             }
             mCollision.collision().add(mDuckling.particle);
             mDucklings.add(mDuckling);
@@ -65,8 +66,8 @@ public class SketchLessonX06_Ducklings extends PApplet {
         drawCollisionSprings();
         mCollision.removeCollisionResolver();
 
-        mDucklings.get(mDucklings.size() - 1).arrival.oversteer(!mousePressed);
-        mDucklings.get(mDucklings.size() - 1).arrival.position().set(mouseX, mouseY);
+        mDucklings.get(0).arrival.oversteer(!mousePressed);
+        mDucklings.get(0).arrival.position().set(mouseX, mouseY);
 
         /* draw */
         for (Duckling mDuckling : mDucklings) {
