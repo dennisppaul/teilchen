@@ -49,7 +49,7 @@ public class Physics {
 
     public boolean HINT_RECOVER_NAN = true;
 
-    public int contraint_iterations_per_steps = 1;
+    public int constrain_iterations_per_steps = 1;
     private IIntegrator mIntegrator;
 
     public Physics() {
@@ -298,7 +298,7 @@ public class Physics {
 
     protected synchronized void handleConstraints() {
         synchronized (mConstraints) {
-            for (int i = 0; i < contraint_iterations_per_steps; i++) {
+            for (int i = 0; i < constrain_iterations_per_steps; i++) {
                 for (IConstraint myConstraint : mConstraints) {
                     myConstraint.apply(this);
                 }
