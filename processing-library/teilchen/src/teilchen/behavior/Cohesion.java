@@ -1,4 +1,3 @@
-
 /*
  * Teilchen
  *
@@ -20,28 +19,25 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.behavior;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import processing.core.PVector;
 import teilchen.IBehaviorParticle;
 import teilchen.behavior.Util.ProximityStructure;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+
 import static teilchen.util.Util.isNaN;
 
-public class Cohesion
-        implements IBehavior,
-                   Serializable {
+public class Cohesion<E extends IBehaviorParticle> implements IBehavior, Serializable {
 
     private static final long serialVersionUID = -4953599448151741585L;
-
-    private float mProximity;
-
-    private float mWeight;
-
     private final PVector mForce;
-
-    private ArrayList<IBehaviorParticle> mNeighbors;
+    private float mProximity;
+    private float mWeight;
+    private ArrayList<E> mNeighbors;
 
     public Cohesion() {
         mProximity = 100.0f;
@@ -52,10 +48,24 @@ public class Cohesion
     public void update(float theDeltaTime, IBehaviorParticle pParent) {
         mForce.set(0, 0, 0);
         if (mNeighbors != null) {
-            ArrayList<ProximityStructure> mCloseNeighbors = ProximityStructure.findProximityEntities(pParent, mNeighbors, mProximity);
+            ArrayList<ProximityStructure> mCloseNeighbors = ProximityStructure.findProximityEntities(pParent,
+                                                                                                     mNeighbors,
+                                                                                                     mProximity);
             findTowardsVector(mCloseNeighbors, mForce);
             mForce.mult(weight());
         }
+    }
+
+    public PVector force() {
+        return mForce;
+    }
+
+    public float weight() {
+        return mWeight;
+    }
+
+    public void weight(float pWeight) {
+        mWeight = pWeight;
     }
 
     private static void findTowardsVector(ArrayList<ProximityStructure> mCloseNeighbors, final PVector pForce) {
@@ -80,23 +90,8 @@ public class Cohesion
         }
     }
 
-    public <E extends IBehaviorParticle> void neighbors(final ArrayList<E> pNeighbors) {
-        /**
-         * @todo well is this OK?
-         */
-        mNeighbors = (ArrayList<IBehaviorParticle>) pNeighbors;
-    }
-
-    public PVector force() {
-        return mForce;
-    }
-
-    public float weight() {
-        return mWeight;
-    }
-
-    public void weight(float pWeight) {
-        mWeight = pWeight;
+    public void neighbors(final ArrayList<E> pNeighbors) {
+        mNeighbors = pNeighbors;
     }
 
     public float proximity() {

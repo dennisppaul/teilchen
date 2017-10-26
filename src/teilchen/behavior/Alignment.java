@@ -19,28 +19,25 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.behavior;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import processing.core.PVector;
 import teilchen.IBehaviorParticle;
 import teilchen.behavior.Util.ProximityStructure;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+
 import static teilchen.util.Util.isNaN;
 
-public class Alignment
-        implements IBehavior,
-                   Serializable {
+public class Alignment<E extends IBehaviorParticle> implements IBehavior, Serializable {
 
     private static final long serialVersionUID = -4953599448151741585L;
-
-    private float mProximity;
-
-    private float mWeight;
-
     private final PVector mForce;
-
-    private ArrayList<IBehaviorParticle> mNeighbors;
+    private float mProximity;
+    private float mWeight;
+    private ArrayList<E> mNeighbors;
 
     public Alignment() {
         mProximity = 100.0f;
@@ -51,36 +48,12 @@ public class Alignment
     public void update(float theDeltaTime, IBehaviorParticle pParent) {
         mForce.set(0, 0, 0);
         if (mNeighbors != null) {
-            ArrayList<ProximityStructure> mCloseNeighbors = ProximityStructure.findProximityEntities(pParent, mNeighbors, mProximity);
+            ArrayList<ProximityStructure> mCloseNeighbors = ProximityStructure.findProximityEntities(pParent,
+                                                                                                     mNeighbors,
+                                                                                                     mProximity);
             findCommonVelocity(mCloseNeighbors, mForce);
             mForce.mult(weight());
         }
-    }
-
-    private static void findCommonVelocity(ArrayList<ProximityStructure> mCloseNeighbors, final PVector pForce) {
-        /* find away vector */
-        pForce.set(0, 0, 0);
-        if (!mCloseNeighbors.isEmpty()) {
-            /**
-             * @todo the vectors could be weighted according to distance: 1.0 -
-             * distance ( for example )
-             */
-            for (ProximityStructure p : mCloseNeighbors) {
-                pForce.add(p.particle.velocity());
-            }
-            pForce.mult(1.0f / mCloseNeighbors.size());
-            pForce.normalize();
-            if (isNaN(pForce)) {
-                pForce.set(0, 0, 0);
-            }
-        }
-    }
-
-    public <E extends IBehaviorParticle> void neighbors(final ArrayList<E> pNeighbors) {
-        /**
-         * @todo well is this OK?
-         */
-        mNeighbors = (ArrayList<IBehaviorParticle>) pNeighbors;
     }
 
     public PVector force() {
@@ -93,6 +66,28 @@ public class Alignment
 
     public void weight(float pWeight) {
         mWeight = pWeight;
+    }
+
+    private static void findCommonVelocity(ArrayList<ProximityStructure> mCloseNeighbors, final PVector pForce) {
+        /* find away vector */
+        pForce.set(0, 0, 0);
+        if (!mCloseNeighbors.isEmpty()) {
+            /*
+             * @todo the vectors could be weighted according to distance: 1.0 - distance ( for example )
+             */
+            for (ProximityStructure p : mCloseNeighbors) {
+                pForce.add(p.particle.velocity());
+            }
+            pForce.mult(1.0f / mCloseNeighbors.size());
+            pForce.normalize();
+            if (isNaN(pForce)) {
+                pForce.set(0, 0, 0);
+            }
+        }
+    }
+
+    public void neighbors(final ArrayList<E> pNeighbors) {
+        mNeighbors = pNeighbors;
     }
 
     public float proximity() {

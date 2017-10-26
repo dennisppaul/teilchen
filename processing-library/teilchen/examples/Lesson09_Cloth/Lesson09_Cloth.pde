@@ -17,7 +17,7 @@ void settings() {
 void setup() {
     frameRate(60);
     mPhysics = new Physics();
-    mPhysics.contraint_iterations_per_steps = 5;
+    mPhysics.constrain_iterations_per_steps = 5;
     Verlet myVerlet = new Verlet();
     myVerlet.damping(0.9f);
     mPhysics.setIntegratorRef(myVerlet);

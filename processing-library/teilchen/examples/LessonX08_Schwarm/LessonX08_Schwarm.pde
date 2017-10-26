@@ -25,7 +25,7 @@ void setup() {
     ViscousDrag myViscousDrag = new ViscousDrag();
     mPhysics.add(myViscousDrag);
     /* setup entities */
-    mSwarmEntities = new ArrayList<SwarmEntity>();
+    mSwarmEntities = new ArrayList<>();
     for (int i = 0; i < 60; i++) {
         SwarmEntity mSwarmEntity = new SwarmEntity();
         mSwarmEntity.position().set(random(mTeleporter.min().x, mTeleporter.max().x),
@@ -50,23 +50,23 @@ void draw() {
     }
 }
 class SwarmEntity extends BehaviorParticle {
-    final Separation separation;
-    final Alignment alignment;
-    final Cohesion cohesion;
+    final Separation<SwarmEntity> separation;
+    final Alignment<SwarmEntity> alignment;
+    final Cohesion<SwarmEntity> cohesion;
     final Wander wander;
     final Motor motor;
     SwarmEntity() {
         maximumInnerForce(random(100.0f, 1000.0f));
         radius(10f);
-        separation = new Separation();
+        separation = new Separation<>();
         separation.proximity(20);
         separation.weight(50.0f);
         behaviors().add(separation);
-        alignment = new Alignment();
+        alignment = new Alignment<>();
         alignment.proximity(30);
         alignment.weight(30.0f);
         behaviors().add(alignment);
-        cohesion = new Cohesion();
+        cohesion = new Cohesion<>();
         cohesion.proximity(100);
         cohesion.weight(5.0f);
         behaviors().add(cohesion);

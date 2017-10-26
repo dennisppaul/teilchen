@@ -16,7 +16,7 @@ void setup() {
     smooth();
     mPhysics = new Physics();
     /* increase the number of iterations for contraints in each step. this can greatly relaxes tensions in the system. */
-    mPhysics.contraint_iterations_per_steps = 5;
+    mPhysics.constrain_iterations_per_steps = 5;
     /* add gravity for extra fun */
     mPhysics.add(new Gravity());
     /* we chose verlet integration as it integrates much more nicely with sticks ( and constraints in general ) */

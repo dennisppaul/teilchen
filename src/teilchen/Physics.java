@@ -134,6 +134,7 @@ public class Physics {
             myParticle = theParticleClass.newInstance();
             mParticles.add(myParticle);
         } catch (Exception ex) {
+            ex.printStackTrace();
             System.err.println(ex);
             myParticle = null;
         }

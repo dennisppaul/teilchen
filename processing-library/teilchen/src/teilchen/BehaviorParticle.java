@@ -22,6 +22,7 @@
 
 package teilchen;
 
+import processing.core.PVector;
 import teilchen.behavior.IBehavior;
 
 import java.util.ArrayList;
@@ -41,7 +42,10 @@ public class BehaviorParticle extends BasicParticle implements IBehaviorParticle
         for (final IBehavior mBehavior : mBehaviors) {
             if (mBehavior != null) {
                 mBehavior.update(pDeltaTime, this);
-                force().add(mBehavior.force());
+                final PVector mForce = mBehavior.force();
+                if (mForce != null) {
+                    force().add(mBehavior.force());
+                }
             }
         }
         /* clamp to maximum force */

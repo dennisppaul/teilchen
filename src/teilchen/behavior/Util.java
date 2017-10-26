@@ -19,13 +19,16 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.behavior;
 
-import java.util.ArrayList;
 import processing.core.PVector;
-import static processing.core.PVector.sub;
 import teilchen.IBehaviorParticle;
 import teilchen.Particle;
+
+import java.util.ArrayList;
+
+import static processing.core.PVector.sub;
 
 public class Util {
 
@@ -43,9 +46,10 @@ public class Util {
             distance = pDistance;
         }
 
-        public static ArrayList<ProximityStructure> findProximityEntities(IBehaviorParticle pParentEntity,
-                                                                          ArrayList<IBehaviorParticle> pNeighborsEntity,
-                                                                       float pProximity) {
+        public static <E extends IBehaviorParticle> ArrayList<ProximityStructure> findProximityEntities(
+                IBehaviorParticle pParentEntity,
+                ArrayList<E> pNeighborsEntity,
+                float pProximity) {
             /* find neighbors in proximity */
             ArrayList<ProximityStructure> mCloseNeighbors = new ArrayList<>();
             for (IBehaviorParticle p : pNeighborsEntity) {

@@ -34,5 +34,5 @@ public interface IBehavior
 
     float weight();
 
-    void weight(float theWeight);
+    void weight(float pWeight);
 }

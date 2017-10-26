@@ -45,7 +45,7 @@ public class SketchLessonX08_Schwarm extends PApplet {
         mPhysics.add(myViscousDrag);
 
         /* setup entities */
-        mSwarmEntities = new ArrayList<SwarmEntity>();
+        mSwarmEntities = new ArrayList<>();
         for (int i = 0; i < 60; i++) {
             SwarmEntity mSwarmEntity = new SwarmEntity();
             mSwarmEntity.position().set(random(mTeleporter.min().x, mTeleporter.max().x),
@@ -76,11 +76,11 @@ public class SketchLessonX08_Schwarm extends PApplet {
 
     private class SwarmEntity extends BehaviorParticle {
 
-        private final Separation separation;
+        private final Separation<SwarmEntity> separation;
 
-        private final Alignment alignment;
+        private final Alignment<SwarmEntity> alignment;
 
-        private final Cohesion cohesion;
+        private final Cohesion<SwarmEntity> cohesion;
 
         private final Wander wander;
 
@@ -90,17 +90,17 @@ public class SketchLessonX08_Schwarm extends PApplet {
             maximumInnerForce(random(100.0f, 1000.0f));
             radius(10f);
 
-            separation = new Separation();
+            separation = new Separation<>();
             separation.proximity(20);
             separation.weight(50.0f);
             behaviors().add(separation);
 
-            alignment = new Alignment();
+            alignment = new Alignment<>();
             alignment.proximity(30);
             alignment.weight(30.0f);
             behaviors().add(alignment);
 
-            cohesion = new Cohesion();
+            cohesion = new Cohesion<>();
             cohesion.proximity(100);
             cohesion.weight(5.0f);
             behaviors().add(cohesion);

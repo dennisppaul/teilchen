@@ -42,7 +42,7 @@ public class SketchLesson10_WanderBehavior extends PApplet {
         mWander = new Wander();
         mParticle.behaviors().add(mWander);
 
-        /* a motor is required to push the particle forward - wander manipulats the direction the particle is pushed in */
+        /* a motor is required to push the particle forward - wander manipulates the direction the particle is pushed in */
         mMotor = new Motor();
         mMotor.auto_update_direction(true);
         /* the direction the motor pushes into is each step automatically set to the velocity */
