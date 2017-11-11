@@ -1,10 +1,11 @@
-import teilchen.*;
-import teilchen.behavior.*;
-import teilchen.constraint.*;
-import teilchen.cubicle.*;
-import teilchen.force.*;
-import teilchen.integration.*;
-import teilchen.util.*;
+import teilchen.*; 
+import teilchen.behavior.*; 
+import teilchen.constraint.*; 
+import teilchen.cubicle.*; 
+import teilchen.force.*; 
+import teilchen.integration.*; 
+import teilchen.util.*; 
+
 
 Physics mPhysics;
 ArrayList<SwarmEntity> mSwarmEntities;
@@ -25,7 +26,7 @@ void setup() {
     ViscousDrag myViscousDrag = new ViscousDrag();
     mPhysics.add(myViscousDrag);
     /* setup entities */
-    mSwarmEntities = new ArrayList<>();
+    mSwarmEntities = new ArrayList();
     for (int i = 0; i < 60; i++) {
         SwarmEntity mSwarmEntity = new SwarmEntity();
         mSwarmEntity.position().set(random(mTeleporter.min().x, mTeleporter.max().x),

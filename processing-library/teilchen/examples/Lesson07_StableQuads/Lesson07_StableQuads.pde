@@ -1,10 +1,11 @@
-import teilchen.*;
-import teilchen.behavior.*;
-import teilchen.constraint.*;
-import teilchen.cubicle.*;
-import teilchen.force.*;
-import teilchen.integration.*;
-import teilchen.util.*;
+import teilchen.*; 
+import teilchen.behavior.*; 
+import teilchen.constraint.*; 
+import teilchen.cubicle.*; 
+import teilchen.force.*; 
+import teilchen.integration.*; 
+import teilchen.util.*; 
+
 
 Physics mPhysics;
 Particle mRoot;

@@ -200,7 +200,6 @@ public class Physics {
             myForce = theForceClass.newInstance();
             mForces.add(myForce);
         } catch (Exception ex) {
-            System.err.println(ex);
             myForce = null;
         }
         return myForce;

@@ -3,7 +3,6 @@
 source config.build
 
 ROOT=$(pwd)
-BASE_COLOR=32
 C0=$(tput sgr0)
 C1=$(tput setaf $(expr $BASE_COLOR + 72))
 C2=$(tput setaf $BASE_COLOR)
@@ -21,6 +20,10 @@ printJob "create folder"
 sh $ROOT/create-folder.sh $LIB_NAME
 printJob "copying jar"
 sh $ROOT/copy_jar.sh $LIB_NAME
+printJob "copying additional libs"
+for i in ${ADDITIONAL_LIBS[@]}; do
+	sh $ROOT/copy_additional_libs.sh $LIB_NAME $i
+done
 printJob "copying src"
 sh $ROOT/copy_src.sh $LIB_NAME
 printJob "copying README"

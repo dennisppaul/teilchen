@@ -1,11 +1,14 @@
 #!/bin/sh
 
+source config.build
+
 # for further hints on `sed` read this: http://www.grymoire.com/Unix/Sed.html
 
 LIB_NAME=$1
 INPUT_FOLDER=$2
 OUTPUT_FOLDER=$2
-SRC_PATH="../src/$LIB_NAME/$INPUT_FOLDER/"
+M_PACKAGE_FOLDER=$(echo $PROJECT_PACKAGE | sed -e 's/\./\//g')
+SRC_PATH="../src/$M_PACKAGE_FOLDER/$INPUT_FOLDER/"
 OUTPUT_DIR="../processing-library/$LIB_NAME/$OUTPUT_FOLDER"
 
 if [ -d "$OUTPUT_DIR" ]; then
@@ -13,14 +16,22 @@ if [ -d "$OUTPUT_DIR" ]; then
 fi
 mkdir -p "$OUTPUT_DIR"
 
+# compile imports
+M_IMPORTS='import '$PROJECT_PACKAGE'.*; \
+'
+for j in ${SKETCH_IMPORTS[@]}; do
+	M_IMPORTS=$M_IMPORTS'import '$j'; \
+'
+done
+
+# transmogrify sketches
 for file in $SRC_PATH/*.java
 do
 	#echo "$file"
-	FILENAME=$(echo $file | sed -e 's/.*\///') # retreive filename
+	FILENAME=$(echo $file | sed -e 's/.*\///') # retrieve filename
 	SKETCHNAME=$(echo $FILENAME | sed -e 's/.java//')
 	SKETCHNAME=$(echo $SKETCHNAME | sed -e 's/Sketch//')
 	SKETCHFILE_NAME="$SKETCHNAME.pde"
-	
 	
 	echo "# sketch '"$SKETCHNAME"'"
 
@@ -38,6 +49,8 @@ do
 			s/private //
 			s/protected //
 			s/public //
+			# simplify generics
+			s/new ArrayList<>()/new ArrayList()/
 			# remove main method
 			/static void main/,/}$/ {
 				D
@@ -55,13 +68,7 @@ do
 		cat /tmp/tmp.pde | \
 		sed '
 			1 i\
-			 import '$LIB_NAME'.*;\
-			 import '$LIB_NAME'.behavior.*;\
-			 import '$LIB_NAME'.constraint.*;\
-			 import '$LIB_NAME'.cubicle.*;\
-			 import '$LIB_NAME'.force.*;\
-			 import '$LIB_NAME'.integration.*;\
-			 import '$LIB_NAME'.util.*;\
+			 '"$M_IMPORTS"'\
 			 \
 		'\
 		> $OUTPUT_DIR/$SKETCHNAME/$SKETCHFILE_NAME
