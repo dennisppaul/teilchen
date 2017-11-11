@@ -6,7 +6,7 @@ teilchen
 * *teilchen* is also a [processing.org](http://processing.org "Processing.org")-style library.
 * *teilchen* is a german word and the synonym for *Partikel* which translates to the english *particle*  )
 
-## versions
+## releases
 
 ### 002 20160423
 
