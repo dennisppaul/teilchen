@@ -31,14 +31,14 @@ import static processing.core.PVector.sub;
 import static teilchen.util.Util.lengthSquared;
 
 /**
- * beware this is not really in good shape. i ll read my linear algebra book and
- * fix this class. someday. hopefully.
+ beware this is not really in good shape. i ll read my linear algebra book and
+ fix this class. someday. hopefully.
  */
 public final class Intersection implements Serializable {
 
     /**
-     * from paul bourke (
-     * http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline2d/ )
+     from paul bourke (
+     http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline2d/ )
      */
     public static final int COINCIDENT = 0;
     public static final int PARALLEL = 1;
@@ -126,97 +126,136 @@ public final class Intersection implements Serializable {
     }
 
     /*
-     * Practical Analysis of Optimized Ray-Triangle Intersection
-     * Tomas Moeller
-     * Department of Computer Engineering, Chalmers University of Technology, Sweden.
-     *
-     * code rewritten to do tests on the sign of the determinant
-     * the division is before the test of the sign of the det
-     * and one CROSS has been moved out from the if-else if-else
-     * from -- http://www.cs.lth.se/home/Tomas_Akenine_Moller/raytri/raytri.c
+     * *Möller–Trumbore intersection algorithm* from
+     * https://en.wikipedia.org/wiki/Möller–Trumbore_intersection_algorithm
      */
-    public static boolean intersectRayTriangle(final PVector orig,
-                                               final PVector dir,
-                                               final PVector vert0,
-                                               final PVector vert1,
-                                               final PVector vert2,
-                                               float[] result) {
-        final int T = 0;
-        final int U = 1;
-        final int V = 2;
-        PVector edge1;
-        PVector edge2;
-        //        PVector tvec;
-        //        PVector pvec;
-        //        PVector qvec;
-        float det;
-        float inv_det;
-
-        /* find vectors for two edges sharing vert0 */
-        edge1 = sub(vert1, vert0);
-        edge2 = sub(vert2, vert0);
-
-        /* begin calculating determinant - also used to calculate U parameter */
-        cross(dir, edge2, P_VEC);
-
-        /* if determinant is near zero, ray lies in plane of triangle */
-        det = edge1.dot(P_VEC);
-
-        /* calculate distance from vert0 to ray origin */
-        sub(orig, vert0, T_VEC);
-        inv_det = 1.0f / det;
-
-        cross(T_VEC, edge1, Q_VEC);
-
-        if (det > EPSILON) {
-            result[U] = T_VEC.dot(P_VEC);
-            if (result[U] < 0.0f || result[U] > det) {
-                return false;
-            }
-
-            /* calculate V parameter and test bounds */
-            result[V] = dir.dot(Q_VEC);
-            if (result[V] < 0.0f || result[U] + result[V] > det) {
-                return false;
-            }
-
-        } else if (det < -EPSILON) {
-            /* calculate U parameter and test bounds */
-            result[U] = T_VEC.dot(P_VEC);
-            if (result[U] > 0.0f || result[U] < det) {
-                return false;
-            }
-
-            /* calculate V parameter and test bounds */
-            result[V] = dir.dot(Q_VEC);
-            if (result[V] > 0.0f || result[U] + result[V] < det) {
-                return false;
-            }
-        } else {
+    public static boolean intersectRayTriangle(final PVector pRayOrigin,
+                                               final PVector pRayDirection,
+                                               final PVector v0,
+                                               final PVector v1,
+                                               final PVector v2,
+                                               final PVector pIntersectionPoint) {
+        final float EPSILON = 0.0000001f;
+        PVector edge1, edge2, h, s, q;
+        float a, f, u, v;
+        edge1 = PVector.sub(v1, v0);
+        edge2 = PVector.sub(v2, v0);
+        h = pRayDirection.cross(edge2);
+        a = edge1.dot(h);
+        if (a > -EPSILON && a < EPSILON) {
             return false;
-            /* ray is parallell to the plane of the triangle */
         }
-
-        result[T] = edge2.dot(Q_VEC) * inv_det;
-        result[U] *= inv_det;
-        result[V] *= inv_det;
-
-        return true;
+        f = 1 / a;
+        s = PVector.sub(pRayOrigin, v0);
+        u = f * (s.dot(h));
+        if (u < 0.0 || u > 1.0) {
+            return false;
+        }
+        q = s.cross(edge1);
+        v = f * pRayDirection.dot(q);
+        if (v < 0.0 || u + v > 1.0) {
+            return false;
+        }
+        // At this stage we can compute t to find out where the intersection point is on the line.
+        float t = f * edge2.dot(q);
+        if (t > EPSILON) { // ray intersection
+            pIntersectionPoint.set(PVector.add(pRayOrigin, PVector.mult(pRayDirection, t)));
+            return true;
+        } else { // This means that there is a line intersection but not a ray intersection.
+            return false;
+        }
     }
 
+    //    /*
+    //     * Practical Analysis of Optimized Ray-Triangle Intersection
+    //     * Tomas Moeller
+    //     * Department of Computer Engineering, Chalmers University of Technology, Sweden.
+    //     *
+    //     * code rewritten to do tests on the sign of the determinant
+    //     * the division is before the test of the sign of the det
+    //     * and one CROSS has been moved out from the if-else if-else
+    //     * from -- http://www.cs.lth.se/home/Tomas_Akenine_Moller/raytri/raytri.c
+    //     */
+    //    public static boolean intersectRayTriangle(final PVector orig,
+    //                                               final PVector dir,
+    //                                               final PVector vert0,
+    //                                               final PVector vert1,
+    //                                               final PVector vert2,
+    //                                               float[] result) {
+    //        final int T = 0;
+    //        final int U = 1;
+    //        final int V = 2;
+    //        PVector edge1;
+    //        PVector edge2;
+    //        //        PVector tvec;
+    //        //        PVector pvec;
+    //        //        PVector qvec;
+    //        float det;
+    //        float inv_det;
+    //
+    //        /* find vectors for two edges sharing vert0 */
+    //        edge1 = sub(vert1, vert0);
+    //        edge2 = sub(vert2, vert0);
+    //
+    //        /* begin calculating determinant - also used to calculate U parameter */
+    //        cross(dir, edge2, P_VEC);
+    //
+    //        /* if determinant is near zero, ray lies in plane of triangle */
+    //        det = edge1.dot(P_VEC);
+    //
+    //        /* calculate distance from vert0 to ray origin */
+    //        sub(orig, vert0, T_VEC);
+    //        inv_det = 1.0f / det;
+    //
+    //        cross(T_VEC, edge1, Q_VEC);
+    //
+    //        if (det > EPSILON) {
+    //            result[U] = T_VEC.dot(P_VEC);
+    //            if (result[U] < 0.0f || result[U] > det) {
+    //                return false;
+    //            }
+    //
+    //            /* calculate V parameter and test bounds */
+    //            result[V] = dir.dot(Q_VEC);
+    //            if (result[V] < 0.0f || result[U] + result[V] > det) {
+    //                return false;
+    //            }
+    //
+    //        } else if (det < -EPSILON) {
+    //            /* calculate U parameter and test bounds */
+    //            result[U] = T_VEC.dot(P_VEC);
+    //            if (result[U] > 0.0f || result[U] < det) {
+    //                return false;
+    //            }
+    //
+    //            /* calculate V parameter and test bounds */
+    //            result[V] = dir.dot(Q_VEC);
+    //            if (result[V] > 0.0f || result[U] + result[V] < det) {
+    //                return false;
+    //            }
+    //        } else {
+    //            return false;
+    //            /* ray is parallell to the plane of the triangle */
+    //        }
+    //
+    //        result[T] = edge2.dot(Q_VEC) * inv_det;
+    //        result[U] *= inv_det;
+    //        result[V] *= inv_det;
+    //
+    //        return true;
+    //    }
+
     /**
-     * grabbed from Xith
-     *
-     * @param thePlane             Plane3f
-     * @param theRay               Ray3f
-     * @param theIntersectionPoint PVector
-     * @return float
-     * @todo not sure whether this is for ray-plane or line-plane intersection.
-     * but i think it s for latter, hence the method name.
+     grabbed from Xith
+
+     @param thePlane             Plane3f
+     @param theRay               Ray3f
+     @param theIntersectionPoint PVector
+     @return float
+     @todo not sure whether this is for ray-plane or line-plane intersection.
+     but i think it s for latter, hence the method name.
      */
-    public static float intersectLinePlane(final Ray3f theRay,
-                                           final Plane3f thePlane,
-                                           final PVector theIntersectionPoint) {
+    public static float intersectLinePlane(final Ray3f theRay, final Plane3f thePlane, final PVector theIntersectionPoint) {
         double time = 0;
         cross(thePlane.vectorA, thePlane.vectorB, TMP_EDGE_NORMAL);
         double denom = TMP_EDGE_NORMAL.dot(theRay.direction);
@@ -240,17 +279,17 @@ public final class Intersection implements Serializable {
     }
 
     /**
-     * Fast, Minimum Storage Ray-Triangle Intersection by Tomas Moeller & Ben
-     * Trumbore http://jgt.akpeters.com/papers/MollerTrumbore97/code.html
-     *
-     * @param pRayOrigin    PVector
-     * @param pRayDirection PVector
-     * @param v0            PVector
-     * @param v1            PVector
-     * @param v2            PVector
-     * @param pResult       Result
-     * @param pCullingFlag  boolean
-     * @return boolean
+     Fast, Minimum Storage Ray-Triangle Intersection by Tomas Moeller & Ben
+     Trumbore http://jgt.akpeters.com/papers/MollerTrumbore97/code.html
+
+     @param pRayOrigin    PVector
+     @param pRayDirection PVector
+     @param v0            PVector
+     @param v1            PVector
+     @param v2            PVector
+     @param pResult       Result
+     @param pCullingFlag  boolean
+     @return boolean
      */
     public static boolean intersectRayTriangle(final PVector pRayOrigin,
                                                final PVector pRayDirection,
@@ -334,34 +373,34 @@ public final class Intersection implements Serializable {
         return true;
     }
 
-    public static boolean intersectRayTriangle(final PVector pRayOrigin,
-                                               final PVector pRayDirection,
-                                               final PVector v0,
-                                               final PVector v1,
-                                               final PVector v2,
-                                               final PVector pResult,
-                                               final boolean pCullingFlag) {
-        final IntersectionResult mResult = new IntersectionResult();
-        final boolean mSuccess = intersectRayTriangle(pRayOrigin, pRayDirection, v0, v1, v2, mResult, pCullingFlag);
-        pResult.x = mResult.t;
-        pResult.y = mResult.u;
-        pResult.z = mResult.v;
-        return mSuccess;
-    }
+    //    public static boolean intersectRayTriangle(final PVector pRayOrigin,
+    //                                               final PVector pRayDirection,
+    //                                               final PVector v0,
+    //                                               final PVector v1,
+    //                                               final PVector v2,
+    //                                               final PVector pResult,
+    //                                               final boolean pCullingFlag) {
+    //        final IntersectionResult mResult = new IntersectionResult();
+    //        final boolean mSuccess = intersectRayTriangle(pRayOrigin, pRayDirection, v0, v1, v2, mResult, pCullingFlag);
+    //        pResult.x = mResult.t;
+    //        pResult.y = mResult.u;
+    //        pResult.z = mResult.v;
+    //        return mSuccess;
+    //    }
 
     /**
-     * http://local.wasp.uwa.edu.au/~pbourke/geometry/sphereline/raysphere.c
-     * Calculate the intersection of a ray and a sphere The line segment is
-     * defined from p1 to p2 The sphere is of radius r and centered at sc There
-     * are potentially two points of intersection given by p = p1 + mu1 (p2 -
-     * p1) p = p1 + mu2 (p2 - p1) Return FALSE if the ray doesn't intersect the
-     * sphere.
-     *
-     * @param p1
-     * @param p2
-     * @param sc
-     * @param r
-     * @return
+     http://local.wasp.uwa.edu.au/~pbourke/geometry/sphereline/raysphere.c
+     Calculate the intersection of a ray and a sphere The line segment is
+     defined from p1 to p2 The sphere is of radius r and centered at sc There
+     are potentially two points of intersection given by p = p1 + mu1 (p2 -
+     p1) p = p1 + mu2 (p2 - p1) Return FALSE if the ray doesn't intersect the
+     sphere.
+
+     @param p1
+     @param p2
+     @param sc
+     @param r
+     @return
      */
     public static boolean RaySphere(PVector p1, PVector p2, PVector sc, float r) {
         float a, b, c;
@@ -382,11 +421,7 @@ public final class Intersection implements Serializable {
         return !(Math.abs(a) < EPSILON || bb4ac < 0);
     }
 
-    public static int lineLineIntersect(PVector aBegin,
-                                        PVector aEnd,
-                                        PVector bBegin,
-                                        PVector bEnd,
-                                        PVector theIntersection) {
+    public static int lineLineIntersect(PVector aBegin, PVector aEnd, PVector bBegin, PVector bEnd, PVector theIntersection) {
         float denom = ((bEnd.y - bBegin.y) * (aEnd.x - aBegin.x)) - ((bEnd.x - bBegin.x) * (aEnd.y - aBegin.y));
 
         float nume_a = ((bEnd.x - bBegin.x) * (aBegin.y - bBegin.y)) - ((bEnd.y - bBegin.y) * (aBegin.x - bBegin.x));
@@ -416,30 +451,24 @@ public final class Intersection implements Serializable {
     }
 
     /**
-     * from paul bourke (
-     * http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline3d/ )
-     * <p>
-     * Calculate the line segment PaPb that is the shortest route between two
-     * lines P1P2 and P3P4. Calculate also the values of mua and mub where Pa =
-     * P1 + mua (P2 - P1) Pb = P3 + mub (P4 - P3) Return FALSE if no solution
-     * exists.
-     *
-     * @param p1
-     * @param p2
-     * @param p3
-     * @param p4
-     * @param pa
-     * @param pb
-     * @param theResult
-     * @return
+     from paul bourke (
+     http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline3d/ )
+     <p>
+     Calculate the line segment PaPb that is the shortest route between two
+     lines P1P2 and P3P4. Calculate also the values of mua and mub where Pa =
+     P1 + mua (P2 - P1) Pb = P3 + mub (P4 - P3) Return FALSE if no solution
+     exists.
+
+     @param p1
+     @param p2
+     @param p3
+     @param p4
+     @param pa
+     @param pb
+     @param theResult
+     @return
      */
-    public static boolean lineLineIntersect(PVector p1,
-                                            PVector p2,
-                                            PVector p3,
-                                            PVector p4,
-                                            PVector pa,
-                                            PVector pb,
-                                            float[] theResult) {
+    public static boolean lineLineIntersect(PVector p1, PVector p2, PVector p3, PVector p4, PVector pa, PVector pb, float[] theResult) {
 
         final PVector p13 = sub(p1, p3);
         final PVector p43 = sub(p4, p3);

@@ -27,7 +27,7 @@ constraints act on particle positions outside of a physical simulation. constrai
 
 integrators are used to integrate acceleration and velocity to calculate the new position. the most well-known is the *euler* integrator, but there are also optimized versions like *runge-kutta* or *midpoint* or even slightly different concepts like *verlet*.
 
-## versions
+## releases
 
 ### 002 20160423
 
