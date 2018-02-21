@@ -34,7 +34,7 @@ import static teilchen.util.Util.isNaN;
 public class PlaneDeflector implements IForce {
 
     private final Plane3f mPlane;
-    private final PVector _myTempDiff;
+    private final PVector mTempDiff;
     private final PVector mTempReflectionVector;
     private final PVector mTempNormalComponent;
     private final PVector mTempTangentComponent;
@@ -46,7 +46,7 @@ public class PlaneDeflector implements IForce {
         mPlane.normal = new PVector(0, 1, 0);
         mCoefficientOfRestitution = 1.0f;
 
-        _myTempDiff = new PVector();
+        mTempDiff = new PVector();
         mTempReflectionVector = new PVector();
         mTempNormalComponent = new PVector();
         mTempTangentComponent = new PVector();
@@ -66,10 +66,7 @@ public class PlaneDeflector implements IForce {
                      * the particle. though less correct it seems to be more
                      * stable.
                      */
-                    final float myIntersectionResult = intersectLinePlane(mParticle.position(),
-                                                                          mPlane.normal,
-                                                                          mPlane,
-                                                                          myResult);
+                    final float myIntersectionResult = intersectLinePlane(mParticle.position(), mPlane.normal, mPlane, myResult);
 
                     /* remove particle from collision */
                     if (myIntersectionResult != Float.NEGATIVE_INFINITY && !isNaN(myResult)) {
@@ -112,9 +109,9 @@ public class PlaneDeflector implements IForce {
     }
 
     private float testParticlePosition(Particle theParticle, Plane3f thePlane) {
-        sub(theParticle.position(), thePlane.origin, _myTempDiff);
-        _myTempDiff.normalize();
-        final float mAngle = _myTempDiff.dot(thePlane.normal);
+        sub(theParticle.position(), thePlane.origin, mTempDiff);
+        mTempDiff.normalize();
+        final float mAngle = mTempDiff.dot(thePlane.normal);
         return mAngle;
     }
 

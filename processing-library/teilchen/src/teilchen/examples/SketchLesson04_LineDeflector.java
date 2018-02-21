@@ -5,18 +5,16 @@ import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.ShortLivedParticle;
 import teilchen.force.Gravity;
-import teilchen.force.PlaneDeflector;
+import teilchen.force.LineDeflector2D;
 import teilchen.force.ViscousDrag;
 
 /**
- * this sketch shows 1 how to create and use plane deflectors 2 how to use
- * 'ShortLivedParticle'
+ this sketch shows 1 how to create and use line deflectors 2 how to use 'ShortLivedParticle'
  */
-public class SketchLesson04_Deflectors extends PApplet {
+public class SketchLesson04_LineDeflector extends PApplet {
 
     private Physics mPhysics;
-
-    private PlaneDeflector mDeflector;
+    private LineDeflector2D mDeflector;
 
     public void settings() {
         size(640, 480, P3D);
@@ -29,19 +27,9 @@ public class SketchLesson04_Deflectors extends PApplet {
         /* create a particle system */
         mPhysics = new Physics();
 
-        /* create a deflector and add it to the particle system.
-         * the that defines the deflection area is defined by an
-         * origin and a normal. this also means that the plane s size
-         * is infinite.
-         * note that there is also a triangle deflector that is constraint
-         * by three points.
-         */
-        mDeflector = new PlaneDeflector();
-        /* set plane origin into the center of the screen */
-        mDeflector.plane().origin.set(width / 2, height / 2, 0);
-        mDeflector.plane().normal.set(0, -1, 0);
-        /* the coefficient of restitution defines how hard particles bounce of the deflector */
-        mDeflector.coefficientofrestitution(0.7f);
+        mDeflector = new LineDeflector2D();
+        mDeflector.a().set(50, height / 2);
+        mDeflector.b().set(width - 50, height / 2 - 100);
         mPhysics.add(mDeflector);
 
         /* create gravity */
@@ -58,8 +46,7 @@ public class SketchLesson04_Deflectors extends PApplet {
     public void draw() {
         /* rotate deflector plane */
         if (mousePressed) {
-            final float myAngle = 2 * PI * (float) mouseX / width - PI;
-            mDeflector.plane().normal.set(sin(myAngle), -cos(myAngle), 0);
+            mDeflector.a().set(mouseX, mouseY);
         }
 
         /* create a special particle */
@@ -68,6 +55,7 @@ public class SketchLesson04_Deflectors extends PApplet {
         myNewParticle.velocity().set(0, random(100) + 50);
         /* this particle is removed after a specific interval */
         myNewParticle.setMaxAge(4);
+        myNewParticle.radius(5);
         /* add particle manually to the particle system */
         mPhysics.add(myNewParticle);
 
@@ -90,27 +78,17 @@ public class SketchLesson04_Deflectors extends PApplet {
             } else {
                 fill(0, 32 * myRatio);
             }
-            ellipse(mParticle.position().x, mParticle.position().y, 12, 12);
+            ellipse(mParticle.position().x, mParticle.position().y, mParticle.radius() * 2, mParticle.radius() * 2);
         }
 
         /* draw deflector */
-        stroke(0, 127);
-        line(mDeflector.plane().origin.x - mDeflector.plane().normal.y * -width,
-             mDeflector.plane().origin.y + mDeflector.plane().normal.x * -width,
-             mDeflector.plane().origin.x - mDeflector.plane().normal.y * width,
-             mDeflector.plane().origin.y + mDeflector.plane().normal.x * width);
-
-        stroke(255, 0, 0, 127);
-        line(mDeflector.plane().origin.x,
-             mDeflector.plane().origin.y,
-             mDeflector.plane().origin.x + mDeflector.plane().normal.x * 20,
-             mDeflector.plane().origin.y + mDeflector.plane().normal.y * 20);
+        mDeflector.draw(g);
 
         /* finally remove the collision tag */
         mPhysics.removeTags();
     }
 
     public static void main(String[] args) {
-        PApplet.main(new String[]{SketchLesson04_Deflectors.class.getName()});
+        PApplet.main(SketchLesson04_LineDeflector.class.getName());
     }
 }

@@ -7,6 +7,7 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 
+// @todo unfinished
 PVector p1 = new PVector(0, 0);
 PVector p2 = new PVector(300, 300);
 void settings() {

@@ -3,7 +3,10 @@ package teilchen.examples;
 import processing.core.PApplet;
 import processing.core.PVector;
 
+
 public class SketchLessonX12_ExplodingZeldaShrine extends PApplet {
+
+    // @todo unfinished
 
     PVector p1 = new PVector(0, 0);
     PVector p2 = new PVector(300, 300);

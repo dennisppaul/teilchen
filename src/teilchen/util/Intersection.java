@@ -459,24 +459,29 @@ public final class Intersection implements Serializable {
      P1 + mua (P2 - P1) Pb = P3 + mub (P4 - P3) Return FALSE if no solution
      exists.
 
-     @param p1
-     @param p2
-     @param p3
-     @param p4
-     @param pa
-     @param pb
-     @param theResult
+     @param pLine00
+     @param pLine01
+     @param pLine10
+     @param pLine11
+     @param pLineResultSeg0
+     @param pLineResultSeg1
      @return
      */
-    public static boolean lineLineIntersect(PVector p1, PVector p2, PVector p3, PVector p4, PVector pa, PVector pb, float[] theResult) {
+    public static boolean lineLineIntersect(PVector pLine00,
+                                            PVector pLine01,
+                                            PVector pLine10,
+                                            PVector pLine11,
+                                            PVector pLineResultSeg0,
+                                            PVector pLineResultSeg1) {
+        //        float[] theResult) {
 
-        final PVector p13 = sub(p1, p3);
-        final PVector p43 = sub(p4, p3);
+        final PVector p13 = sub(pLine00, pLine10);
+        final PVector p43 = sub(pLine11, pLine10);
         if (Math.abs(p43.x) < EPSILON && Math.abs(p43.y) < EPSILON && Math.abs(p43.z) < EPSILON) {
             return false;
         }
 
-        final PVector p21 = sub(p2, p1);
+        final PVector p21 = sub(pLine01, pLine00);
         if (Math.abs(p21.x) < EPSILON && Math.abs(p21.y) < EPSILON && Math.abs(p21.z) < EPSILON) {
             return false;
         }
@@ -496,17 +501,23 @@ public final class Intersection implements Serializable {
         final float mua = numer / denom;
         final float mub = (d1343 + d4321 * mua) / d4343;
 
-        pa.x = p1.x + mua * p21.x;
-        pa.y = p1.y + mua * p21.y;
-        pa.z = p1.z + mua * p21.z;
-        pb.x = p3.x + mub * p43.x;
-        pb.y = p3.y + mub * p43.y;
-        pb.z = p3.z + mub * p43.z;
-
-        if (theResult != null) {
-            theResult[0] = mua;
-            theResult[1] = mub;
+        if (pLineResultSeg0 == null) {
+            pLineResultSeg0 = new PVector();
         }
+        pLineResultSeg0.x = pLine00.x + mua * p21.x;
+        pLineResultSeg0.y = pLine00.y + mua * p21.y;
+        pLineResultSeg0.z = pLine00.z + mua * p21.z;
+        if (pLineResultSeg1 == null) {
+            pLineResultSeg1 = new PVector();
+        }
+        pLineResultSeg1.x = pLine10.x + mub * p43.x;
+        pLineResultSeg1.y = pLine10.y + mub * p43.y;
+        pLineResultSeg1.z = pLine10.z + mub * p43.z;
+
+        //        if (theResult != null) {
+        //            theResult[0] = mua;
+        //            theResult[1] = mub;
+        //        }
         return true;
     }
 

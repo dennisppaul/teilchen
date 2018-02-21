@@ -19,22 +19,22 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.force;
 
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.integration.Verlet;
 
-public class ViscousDrag
-        implements IForce {
+public class ViscousDrag implements IForce {
 
     public float coefficient;
 
-    private boolean _myActive;
+    private boolean mActive;
 
-    public ViscousDrag(float theCoefficient) {
-        coefficient = theCoefficient;
-        _myActive = true;
+    public ViscousDrag(float pCoefficient) {
+        coefficient = pCoefficient;
+        mActive = true;
     }
 
     public ViscousDrag() {
@@ -61,10 +61,10 @@ public class ViscousDrag
     }
 
     public boolean active() {
-        return _myActive;
+        return mActive;
     }
 
     public void active(boolean theActiveState) {
-        _myActive = theActiveState;
+        mActive = theActiveState;
     }
 }
