@@ -26,15 +26,3 @@ constraints act on particle positions outside of a physical simulation. constrai
 ### integrators
 
 integrators are used to integrate acceleration and velocity to calculate the new position. the most well-known is the *euler* integrator, but there are also optimized versions like *runge-kutta* or *midpoint* or even slightly different concepts like *verlet*.
-
-## releases
-
-### 002 20160423
-
-- updated for processing3
-- now using PVector for linear algebra
-- removed dependency on *mathematik*
-
-### 001 20150228
-
-- initial release
