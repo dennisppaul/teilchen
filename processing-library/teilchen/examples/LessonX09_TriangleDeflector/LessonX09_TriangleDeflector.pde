@@ -53,17 +53,18 @@ void draw() {
     /* draw particles */
     background(255);
     camera(width / 2, mouseY + height, height * 1.3f - mouseY, width / 2, height / 2, 0, 0, 1, 0);
+    noStroke();
+    sphereDetail(10);
     for (int i = 0; i < mPhysics.particles().size(); i++) {
         Particle mParticle = mPhysics.particles(i);
-        stroke(0, 127);
         if (mParticle.tagged()) {
             fill(255, 127, 64);
-        }else {
-            fill(0, 32);
+        } else {
+            fill(0);
         }
         pushMatrix();
         translate(mParticle.position().x, mParticle.position().y, mParticle.position().z);
-        ellipse(0, 0, 10, 10);
+        sphere(5);
         popMatrix();
     }
     /* draw deflectors */
