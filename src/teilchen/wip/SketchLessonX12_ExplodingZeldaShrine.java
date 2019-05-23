@@ -1,4 +1,4 @@
-package teilchen.examples;
+package teilchen.wip;
 
 import processing.core.PApplet;
 import processing.core.PVector;
