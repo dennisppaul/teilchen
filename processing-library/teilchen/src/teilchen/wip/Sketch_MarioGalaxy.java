@@ -1,5 +1,5 @@
 package teilchen.wip;
 
-public class SketchLessonX11_MarioGalaxy {
+public class Sketch_MarioGalaxy {
     // todo port from old sources
 }

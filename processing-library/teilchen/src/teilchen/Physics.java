@@ -150,9 +150,8 @@ public class Physics {
     /* forces */
     public void add(IForce theForce) {
         if (theForce instanceof ViscousDrag && mIntegrator instanceof Verlet) {
-            System.err.println(
-                    "### WARNING / 'viscous drag' might have no effect with 'verlet' integration. use 'Verlet" + "" +
-                            ".damping" + "(float theDamping)' instead.");
+            System.err.println("### WARNING / 'viscous drag' might have no effect with 'verlet' integration. use 'Verlet" + "" +
+                               ".damping" + "(float theDamping)' instead.");
         }
         mForces.add(theForce);
     }
@@ -217,10 +216,7 @@ public class Physics {
         return mySpring;
     }
 
-    public Spring makeSpring(final Particle theA,
-                             final Particle theB,
-                             final float theSpringConstant,
-                             final float theSpringDamping) {
+    public Spring makeSpring(final Particle theA, final Particle theB, final float theSpringConstant, final float theSpringDamping) {
         Spring mySpring = new Spring(theA, theB, theSpringConstant, theSpringDamping);
         mForces.add(mySpring);
         return mySpring;
@@ -345,9 +341,12 @@ public class Physics {
 
     protected synchronized void post(float theDeltaTime) {
         synchronized (mParticles) {
-            for (Particle myParticle : mParticles) {
+            for (Particle mParticle : mParticles) {
+                if (mParticle.fixed()) {
+                    mParticle.velocity().set(PVector.sub(mParticle.position(), mParticle.old_position()));
+                }
                 if (HINT_UPDATE_OLD_POSITION) {
-                    myParticle.old_position().set(myParticle.position());
+                    mParticle.old_position().set(mParticle.position());
                 }
             }
         }

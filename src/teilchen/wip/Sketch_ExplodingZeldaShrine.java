@@ -4,7 +4,7 @@ import processing.core.PApplet;
 import processing.core.PVector;
 
 
-public class SketchLessonX12_ExplodingZeldaShrine extends PApplet {
+public class Sketch_ExplodingZeldaShrine extends PApplet {
 
     // @todo unfinished
 
@@ -73,6 +73,6 @@ public class SketchLessonX12_ExplodingZeldaShrine extends PApplet {
     }
 
     public static void main(String[] args) {
-        PApplet.main(SketchLessonX12_ExplodingZeldaShrine.class.getName());
+        PApplet.main(Sketch_ExplodingZeldaShrine.class.getName());
     }
 }

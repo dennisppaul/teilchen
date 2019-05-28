@@ -42,8 +42,8 @@ public final class Intersection implements Serializable {
      */
     public static final int COINCIDENT = 0;
     public static final int PARALLEL = 1;
-    public static final int INTERESECTING = 2;
-    public static final int NOT_INTERESECTING = 3;
+    public static final int INTERSECTING = 2;
+    public static final int NOT_INTERSECTING = 3;
     private static final float EPSILON = 0.00001f;
     private static final long serialVersionUID = -5392974339890719551L;
     private static final PVector H = new PVector();
@@ -421,7 +421,11 @@ public final class Intersection implements Serializable {
         return !(Math.abs(a) < EPSILON || bb4ac < 0);
     }
 
-    public static int lineLineIntersect(PVector aBegin, PVector aEnd, PVector bBegin, PVector bEnd, PVector theIntersection) {
+    public static int lineLineIntersect(PVector aBegin,
+                                        PVector aEnd,
+                                        PVector bBegin,
+                                        PVector bEnd,
+                                        PVector theIntersection) {
         float denom = ((bEnd.y - bBegin.y) * (aEnd.x - aBegin.x)) - ((bEnd.x - bBegin.x) * (aEnd.y - aBegin.y));
 
         float nume_a = ((bEnd.x - bBegin.x) * (aBegin.y - bBegin.y)) - ((bEnd.y - bBegin.y) * (aBegin.x - bBegin.x));
@@ -444,10 +448,10 @@ public final class Intersection implements Serializable {
                 theIntersection.x = aBegin.x + ua * (aEnd.x - aBegin.x);
                 theIntersection.y = aBegin.y + ua * (aEnd.y - aBegin.y);
             }
-            return INTERESECTING;
+            return INTERSECTING;
         }
 
-        return NOT_INTERESECTING;
+        return NOT_INTERSECTING;
     }
 
     /**
