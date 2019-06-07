@@ -19,16 +19,16 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.force;
 
 import teilchen.IConnection;
 import teilchen.Particle;
 import teilchen.Physics;
-import static teilchen.util.Util.*;
 
-public class Spring
-        implements IForce,
-                   IConnection {
+import static teilchen.util.Util.distance;
+
+public class Spring implements IForce, IConnection {
 
     protected float mSpringConstant;
 
@@ -45,28 +45,7 @@ public class Spring
     protected boolean mActive;
 
     public Spring(Particle theA, Particle theB) {
-        this(theA,
-             theB,
-             2.0f, 0.1f,
-             distance(theA.position(), theB.position()));
-    }
-
-    public Spring(Particle theA, Particle theB, float theRestLength) {
-        this(theA,
-             theB,
-             2.0f, 0.1f,
-             theRestLength);
-    }
-
-    public Spring(Particle theA,
-                  Particle theB,
-                  final float theSpringConstant,
-                  final float theSpringDamping) {
-        this(theA,
-             theB,
-             theSpringConstant,
-             theSpringDamping,
-             distance(theA.position(), theB.position()));
+        this(theA, theB, 2.0f, 0.1f, distance(theA.position(), theB.position()));
     }
 
     public Spring(final Particle theA,
@@ -81,6 +60,14 @@ public class Spring
         mB = theB;
         mOneWay = false;
         mActive = true;
+    }
+
+    public Spring(Particle theA, Particle theB, float theRestLength) {
+        this(theA, theB, 2.0f, 0.1f, theRestLength);
+    }
+
+    public Spring(Particle theA, Particle theB, final float theSpringConstant, final float theSpringDamping) {
+        this(theA, theB, theSpringConstant, theSpringDamping, distance(theA.position(), theB.position()));
     }
 
     public void setRestLengthByPosition() {
@@ -116,18 +103,18 @@ public class Spring
     }
 
     /**
-     * spring constant.
-     *
-     * @return float
+     spring constant.
+
+     @return float
      */
     public final float strength() {
         return mSpringConstant;
     }
 
     /**
-     * spring constant.
-     *
-     * @param theSpringConstant float
+     spring constant.
+
+     @param theSpringConstant float
      */
     public final void strength(float theSpringConstant) {
         mSpringConstant = theSpringConstant;
@@ -145,8 +132,8 @@ public class Spring
         mOneWay = theOneWayState;
     }
 
-    public void apply(final float theDeltaTime, final Physics theParticleSystem) {
-//        if (!mA.fixed() || !mB.fixed()) {
+    public void apply(final float pDeltaTime, final Physics pParticleSystem) {
+        //        if (!mA.fixed() || !mB.fixed()) {
         float a2bX = mA.position().x - mB.position().x;
         float a2bY = mA.position().y - mB.position().y;
         float a2bZ = mA.position().z - mB.position().z;
@@ -185,7 +172,7 @@ public class Spring
                 mB.force().add(-a2bX, -a2bY, -a2bZ);
             }
         }
-//        }
+        //        }
     }
 
     protected static float fastInverseSqrt(float v) {
@@ -204,7 +191,7 @@ public class Spring
         return mActive;
     }
 
-    public void active(boolean theActiveState) {
-        mActive = theActiveState;
+    public void active(boolean pActiveState) {
+        mActive = pActiveState;
     }
 }

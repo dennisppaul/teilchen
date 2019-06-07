@@ -50,10 +50,6 @@ public class SketchLessonX11_NonIntersectingStructures extends PApplet {
                 /* damp stick to release tensions from system */
                 myStick.damping(0.99f);
                 mPhysics.add(myStick);
-                if (i == 1) {
-                    /* make head stick shorter */
-                    myStick.restlength(10);
-                }
             }
         }
 
@@ -61,9 +57,8 @@ public class SketchLessonX11_NonIntersectingStructures extends PApplet {
         for (Particle mParticle : mParticles) {
             LineIntersectionConstraint mLineIntersections = new LineIntersectionConstraint(mParticle);
             mLineIntersections.intersecting_lines().addAll(mSticks);
-            mLineIntersections.intersection_padding(1);
-            mLineIntersections.DEBUG_VIEW = g;
             mPhysics.add(mLineIntersections);
+            mLineIntersections.DEBUG_VIEW = g;
         }
 
         /* fix root particle so it can stick to the mouse later */

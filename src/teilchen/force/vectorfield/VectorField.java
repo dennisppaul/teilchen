@@ -173,15 +173,15 @@ public class VectorField
         return null;
     }
 
-    public void apply(final float theDeltaTime,
-                      final Physics theParticleSystem) {
+    public void apply(final float pDeltaTime,
+                      final Physics pParticleSystem) {
         /**
          * @todo clean up force method
          */
-        for (final Particle myParticle : theParticleSystem.particles()) {
+        for (final Particle myParticle : pParticleSystem.particles()) {
             if (!myParticle.fixed()) {
                 if (myParticle instanceof VectorfieldParticle) {
-                    myParticle.force().add(force(theDeltaTime,
+                    myParticle.force().add(force(pDeltaTime,
                                                  (VectorfieldParticle) myParticle));
                 }
             }
@@ -196,7 +196,7 @@ public class VectorField
         return _myActive;
     }
 
-    public void active(boolean theActiveState) {
-        _myActive = theActiveState;
+    public void active(boolean pActiveState) {
+        _myActive = pActiveState;
     }
 }

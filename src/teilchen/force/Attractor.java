@@ -71,9 +71,9 @@ public class Attractor
         _myRadius = theRadius;
     }
 
-    public void apply(float theDeltaTime, Physics theParticleSystem) {
+    public void apply(float pDeltaTime, Physics pParticleSystem) {
         if (_myStrength != 0) {
-            for (final Particle myParticle : theParticleSystem.particles()) {
+            for (final Particle myParticle : pParticleSystem.particles()) {
                 /* each particle */
                 if (!myParticle.fixed()) {
                     sub(_myPosition, myParticle.position(), myTemp);
@@ -107,7 +107,7 @@ public class Attractor
         return _myActive;
     }
 
-    public void active(boolean theActiveState) {
-        _myActive = theActiveState;
+    public void active(boolean pActiveState) {
+        _myActive = pActiveState;
     }
 }

@@ -40,16 +40,14 @@ public class Physics {
 
     public static final float EPSILON = 0.001f;
     public static boolean HINT_UPDATE_OLD_POSITION = true;
+    public boolean HINT_OPTIMIZE_STILL = true;
+    public boolean HINT_RECOVER_NAN = true;
+    public boolean HINT_REMOVE_DEAD = true;
+    public int constrain_iterations_per_steps = 1;
+    public int integrations_per_steps = 1;
     private final ArrayList<Particle> mParticles;
     private final ArrayList<IForce> mForces;
     private final ArrayList<IConstraint> mConstraints;
-    public boolean HINT_OPTIMIZE_STILL = true;
-
-    public boolean HINT_REMOVE_DEAD = true;
-
-    public boolean HINT_RECOVER_NAN = true;
-
-    public int constrain_iterations_per_steps = 1;
     private IIntegrator mIntegrator;
 
     public Physics() {
@@ -85,16 +83,16 @@ public class Physics {
         return mParticles.get(theIndex);
     }
 
-    public BasicParticle makeParticle() {
-        BasicParticle myParticle = new BasicParticle();
-        mParticles.add(myParticle);
-        return myParticle;
-    }
-
     public BasicParticle makeParticle(final PVector thePosition) {
         BasicParticle myParticle = makeParticle();
         myParticle.setPositionRef(thePosition);
         myParticle.old_position().set(myParticle.position());
+        return myParticle;
+    }
+
+    public BasicParticle makeParticle() {
+        BasicParticle myParticle = new BasicParticle();
+        mParticles.add(myParticle);
         return myParticle;
     }
 
@@ -277,7 +275,9 @@ public class Physics {
     }
 
     protected synchronized void integrate(float theDeltaTime) {
-        mIntegrator.step(theDeltaTime, this);
+        for (int j = 0; j < integrations_per_steps; j++) {
+            mIntegrator.step(theDeltaTime / integrations_per_steps, this);
+        }
     }
 
     protected synchronized void handleForces() {

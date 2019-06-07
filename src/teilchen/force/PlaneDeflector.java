@@ -53,8 +53,8 @@ public class PlaneDeflector implements IForce {
         mActive = true;
     }
 
-    public void apply(final float theDeltaTime, final Physics theParticleSystem) {
-        for (final Particle mParticle : theParticleSystem.particles()) {
+    public void apply(final float pDeltaTime, final Physics pParticleSystem) {
+        for (final Particle mParticle : pParticleSystem.particles()) {
             if (!mParticle.fixed()) {
                 /* test if particle passed plane */
                 if (testParticlePosition(mParticle, mPlane) < 0) {
@@ -92,8 +92,8 @@ public class PlaneDeflector implements IForce {
         return mActive;
     }
 
-    public void active(boolean theActiveState) {
-        mActive = theActiveState;
+    public void active(boolean pActiveState) {
+        mActive = pActiveState;
     }
 
     public Plane3f plane() {

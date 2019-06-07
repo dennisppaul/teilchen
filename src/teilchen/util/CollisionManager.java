@@ -338,7 +338,7 @@ public class CollisionManager {
                   theRestLength);
         }
 
-        public void apply(final float theDeltaTime, final Physics theParticleSystem) {
+        public void apply(final float pDeltaTime, final Physics pParticleSystem) {
             if (!mA.fixed() || !mB.fixed()) {
                 float a2bX = mA.position().x - mB.position().x;
                 float a2bY = mA.position().y - mB.position().y;
