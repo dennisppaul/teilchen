@@ -6,6 +6,7 @@ import teilchen.Physics;
 import teilchen.force.Gravity;
 import teilchen.force.Pulse;
 import teilchen.force.Spring;
+import teilchen.integration.Verlet;
 
 public class SketchLessonX12_Pendulum extends PApplet {
 
@@ -21,7 +22,6 @@ public class SketchLessonX12_Pendulum extends PApplet {
 
     public void setup() {
         mPhysics = new Physics();
-        mPhysics.integrations_per_steps = 1;
 
         Gravity mGravity = new Gravity();
         mPhysics.add(mGravity);
@@ -35,6 +35,7 @@ public class SketchLessonX12_Pendulum extends PApplet {
         float mSegmentLength = height / 2;
         Spring mConnection = new Spring(mPendulumRoot, mPendulumTip, mSegmentLength);
         mConnection.damping(0.0f);
+        mConnection.strength(10);
         mPhysics.add(mConnection);
 
         mPulse = new Pulse(mPendulumTip);

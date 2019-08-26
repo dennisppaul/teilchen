@@ -6,6 +6,7 @@ import teilchen.Physics;
 import teilchen.constraint.LineIntersectionConstraint;
 import teilchen.constraint.Stick;
 import teilchen.force.Gravity;
+import teilchen.force.Spring;
 import teilchen.integration.Verlet;
 
 import java.util.ArrayList;
@@ -25,31 +26,30 @@ public class SketchLessonX11_NonIntersectingStructures extends PApplet {
         smooth();
 
         mPhysics = new Physics();
-        mPhysics.constrain_iterations_per_steps = 1;
-
-        /* add gravity for extra fun */
-        mPhysics.add(new Gravity());
 
         /* we chose verlet integration as it integrates much more nicely with sticks ( and constraints in general ) */
         Verlet myVerlet = new Verlet();
         myVerlet.damping(0.99f);
         mPhysics.setIntegratorRef(myVerlet);
 
+        Gravity mGravity = new Gravity(0,100,0);
+        mPhysics.add(mGravity);
+
         /* setup sticks to form mParticle whip */
         mParticles = new Particle[16];
-        float mSegmentLength = 20.0f;
+        float mSegmentLength = 10.0f;
 
         /* create sticks */
-        ArrayList<Stick> mSticks = new ArrayList<>();
+        final ArrayList<Stick> mSticks = new ArrayList<>();
 
         for (int i = 0; i < mParticles.length; i++) {
             mParticles[i] = mPhysics.makeParticle(i * mSegmentLength, 0, 0, 0.1f);
             if (i > 0) {
-                Stick myStick = new Stick(mParticles[i - 1], mParticles[i], mSegmentLength);
-                mSticks.add(myStick);
-                /* damp stick to release tensions from system */
-                myStick.damping(0.99f);
-                mPhysics.add(myStick);
+                final Stick mConnection = new Stick(mParticles[i - 1], mParticles[i], mSegmentLength);
+//                mConnection.strength(3);
+//                mConnection.damping(0.99f);
+                mSticks.add(mConnection);
+                mPhysics.add(mConnection);
             }
         }
 
