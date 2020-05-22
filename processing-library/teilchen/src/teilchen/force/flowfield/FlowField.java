@@ -480,8 +480,8 @@ public class FlowField implements IForce {
         setBnd(b, d);
     }
 
-    public void apply(float theDeltaTime, Physics theParticleSystem) {
-        for (Particle myParticle : theParticleSystem.particles()) {
+    public void apply(float pDeltaTime, Physics pParticleSystem) {
+        for (Particle myParticle : pParticleSystem.particles()) {
             if (!myParticle.fixed()) {
                 PVector myForce = getForce(myParticle.position());
                 myForce.mult(forceScale);
@@ -498,6 +498,6 @@ public class FlowField implements IForce {
         return true;
     }
 
-    public void active(boolean theActiveState) {
+    public void active(boolean pActiveState) {
     }
 }

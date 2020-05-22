@@ -13,11 +13,8 @@ import java.util.ArrayList;
 public class SketchLessonX07_CubicleWorld extends PApplet {
 
     private final int WORLD_NUMBER_OF_CUBICLES = 15;
-
     private final float WORLD_CUBICLE_SCALE = 20;
-
     private final float WORLD_SCALE = WORLD_NUMBER_OF_CUBICLES * WORLD_CUBICLE_SCALE;
-
     private final boolean showCubicles = true;
     private final PVector mPosition = new PVector();
     private float mRotationZ = 0.1f;

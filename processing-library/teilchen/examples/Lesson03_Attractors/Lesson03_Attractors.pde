@@ -7,6 +7,9 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 
+/*
+ * this sketch shows how to create and use attractors.
+ */
 Physics mPhysics;
 Attractor mAttractor;
 void settings() {
@@ -31,18 +34,11 @@ void setup() {
         Particle myParticle = mPhysics.makeParticle();
         myParticle.position().set(random(width), random(height));
     }
-    mPhysics.particles().get(0).fixed(true);
     /* create an attractor */
     mAttractor = new Attractor();
     mAttractor.radius(100);
     mAttractor.strength(150);
     mPhysics.add(mAttractor);
-}
-void mousePressed() {
-    /* flip the direction of the attractors strength. */
-    float myInvertedStrength = -1 * mAttractor.strength();
-    /* a negative strength turns the attractor into a repulsor */
-    mAttractor.strength(myInvertedStrength);
 }
 void draw() {
     /* set attractor to mouse position */
@@ -68,4 +64,10 @@ void draw() {
     }
     ellipse(mAttractor.position().x, mAttractor.position().y,
             mAttractor.radius(), mAttractor.radius());
+}
+void mousePressed() {
+    /* flip the direction of the attractors strength. */
+    float myInvertedStrength = -1 * mAttractor.strength();
+    /* a negative strength turns the attractor into a repulsor */
+    mAttractor.strength(myInvertedStrength);
 }

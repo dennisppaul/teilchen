@@ -10,20 +10,17 @@ import teilchen.integration.RungeKutta;
 import teilchen.util.Overlap;
 import teilchen.util.StickMan;
 
-/**
- * this demo shows some advanced use of particles, springs and attractors to
- * create stickmen.
- */
 public class SketchLessonX04_StickMan extends PApplet {
 
+    /*
+     * this demo shows some advanced use of particles, springs and attractors to
+     * create stickmen.
+     */
+
     private Physics mPhysics;
-
     private Attractor mAttractor;
-
     private Gravity mGravity;
-
     private ViscousDrag mViscousDrag;
-
     private StickMan[] mMyStickMan;
 
     public void settings() {
@@ -31,7 +28,6 @@ public class SketchLessonX04_StickMan extends PApplet {
     }
 
     public void setup() {
-        smooth();
         frameRate(60);
         noFill();
 

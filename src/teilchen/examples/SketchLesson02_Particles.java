@@ -5,11 +5,12 @@ import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.force.Gravity;
 
-/**
- * this sketch shows how to create and handle multiple particles and remove
- * individual particles.
- */
 public class SketchLesson02_Particles extends PApplet {
+
+    /*
+     * this sketch shows how to create and handle multiple particles and remove
+     * individual particles.
+     */
 
     private Physics mPhysics;
 

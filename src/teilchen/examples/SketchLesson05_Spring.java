@@ -6,14 +6,14 @@ import teilchen.Physics;
 import teilchen.force.Spring;
 import teilchen.force.ViscousDrag;
 
-/**
- * this sketch shows 1 how to create a viscous drag to slow motion eventually
- * down. 2 how to create a spring that connects two particles.
- */
 public class SketchLesson05_Spring extends PApplet {
 
-    private Physics mPhysics;
+    /*
+     * this sketch shows 1 how to create a viscous drag to slow motion eventually
+     * down. 2 how to create a spring that connects two particles.
+     */
 
+    private Physics mPhysics;
     private Spring mSpring;
 
     public void settings() {
@@ -21,9 +21,6 @@ public class SketchLesson05_Spring extends PApplet {
     }
 
     public void setup() {
-        smooth();
-        frameRate(30);
-
         /* create a particle system */
         mPhysics = new Physics();
 

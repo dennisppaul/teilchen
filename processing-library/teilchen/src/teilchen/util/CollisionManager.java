@@ -1,7 +1,7 @@
 /*
  * Teilchen
  *
- * Copyright (C) 2015
+ * Copyright (C) 2020
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -338,7 +338,7 @@ public class CollisionManager {
                   theRestLength);
         }
 
-        public void apply(final float theDeltaTime, final Physics theParticleSystem) {
+        public void apply(final float pDeltaTime, final Physics pParticleSystem) {
             if (!mA.fixed() || !mB.fixed()) {
                 float a2bX = mA.position().x - mB.position().x;
                 float a2bY = mA.position().y - mB.position().y;

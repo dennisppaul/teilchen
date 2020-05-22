@@ -1,7 +1,7 @@
 /*
  * Teilchen
  *
- * Copyright (C) 2015
+ * Copyright (C) 2020
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -99,15 +99,15 @@ public class MuscleSpring
         return mOffset;
     }
 
-    public void apply(final float theDeltaTime, final Physics theParticleSystem) {
+    public void apply(final float pDeltaTime, final Physics pParticleSystem) {
 
         if (mAutomaticContraction) {
-            mCurrentTime += theDeltaTime;
+            mCurrentTime += pDeltaTime;
 
             final float myOffset = (float) Math.sin(mCurrentTime * mFrequency + mOffset) * mAmplitude;
             mRestLength = mInitialRestLength + myOffset;
         }
 
-        super.apply(theDeltaTime, theParticleSystem);
+        super.apply(pDeltaTime, pParticleSystem);
     }
 }

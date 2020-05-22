@@ -7,13 +7,13 @@ import teilchen.constraint.Teleporter;
 import teilchen.force.Attractor;
 import teilchen.force.ViscousDrag;
 
-/**
- * this sketch shows how to create and use attractors.
- */
 public class SketchLesson03_Attractors extends PApplet {
+    
+    /*
+     * this sketch shows how to create and use attractors.
+     */
 
     private Physics mPhysics;
-
     private Attractor mAttractor;
 
     public void settings() {
@@ -21,9 +21,6 @@ public class SketchLesson03_Attractors extends PApplet {
     }
 
     public void setup() {
-        smooth();
-        frameRate(30);
-
         /* create a particle system */
         mPhysics = new Physics();
 
@@ -43,20 +40,12 @@ public class SketchLesson03_Attractors extends PApplet {
             Particle myParticle = mPhysics.makeParticle();
             myParticle.position().set(random(width), random(height));
         }
-        mPhysics.particles().get(0).fixed(true);
 
         /* create an attractor */
         mAttractor = new Attractor();
         mAttractor.radius(100);
         mAttractor.strength(150);
         mPhysics.add(mAttractor);
-    }
-
-    public void mousePressed() {
-        /* flip the direction of the attractors strength. */
-        float myInvertedStrength = -1 * mAttractor.strength();
-        /* a negative strength turns the attractor into a repulsor */
-        mAttractor.strength(myInvertedStrength);
     }
 
     public void draw() {
@@ -89,7 +78,15 @@ public class SketchLesson03_Attractors extends PApplet {
                 mAttractor.radius(), mAttractor.radius());
     }
 
+    public void mousePressed() {
+        /* flip the direction of the attractors strength. */
+        float myInvertedStrength = -1 * mAttractor.strength();
+        /* a negative strength turns the attractor into a repulsor */
+        mAttractor.strength(myInvertedStrength);
+    }
+
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLesson03_Attractors.class.getName()});
     }
 }
+

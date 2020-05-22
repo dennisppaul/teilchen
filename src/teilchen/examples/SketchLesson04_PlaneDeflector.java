@@ -8,14 +8,14 @@ import teilchen.force.Gravity;
 import teilchen.force.PlaneDeflector;
 import teilchen.force.ViscousDrag;
 
-/**
- * this sketch shows 1 how to create and use plane deflectors 2 how to use
- * 'ShortLivedParticle'
- */
 public class SketchLesson04_PlaneDeflector extends PApplet {
 
-    private Physics mPhysics;
+    /*
+     * this sketch shows 1 how to create and use plane deflectors 2 how to use
+     * 'ShortLivedParticle'
+     */
 
+    private Physics mPhysics;
     private PlaneDeflector mDeflector;
 
     public void settings() {
@@ -23,9 +23,6 @@ public class SketchLesson04_PlaneDeflector extends PApplet {
     }
 
     public void setup() {
-        smooth();
-        frameRate(30);
-
         /* create a particle system */
         mPhysics = new Physics();
 

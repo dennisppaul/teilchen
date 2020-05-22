@@ -1,7 +1,7 @@
 /*
  * Teilchen
  *
- * Copyright (C) 2015
+ * Copyright (C) 2020
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,11 +25,11 @@ import teilchen.Physics;
 
 public interface IForce {
 
-    void apply(final float theDeltaTime, final Physics theParticleSystem);
+    void apply(final float pDeltaTime, final Physics pParticleSystem);
 
     boolean dead();
 
     boolean active();
 
-    void active(boolean theActiveState);
+    void active(boolean pActiveState);
 }

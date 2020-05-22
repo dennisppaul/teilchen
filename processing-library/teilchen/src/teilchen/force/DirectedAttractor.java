@@ -1,7 +1,7 @@
 /*
  * Teilchen
  *
- * Copyright (C) 2015
+ * Copyright (C) 2020
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -37,8 +37,8 @@ public class DirectedAttractor
         super();
     }
 
-    public void apply(float theDeltaTime, Physics theParticleSystem) {
-        for (final Particle myParticle : theParticleSystem.particles()) {
+    public void apply(float pDeltaTime, Physics pParticleSystem) {
+        for (final Particle myParticle : pParticleSystem.particles()) {
             /* each particle */
             if (!myParticle.fixed()) {
                 PVector.sub(_myPosition, myParticle.position(), myTemp);

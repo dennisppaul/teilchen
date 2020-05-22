@@ -1,7 +1,7 @@
 /*
  * Teilchen
  *
- * Copyright (C) 2015
+ * Copyright (C) 2020
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,26 +19,26 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.force;
 
 import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
 
-public class Gravity
-        implements IForce {
+public class Gravity implements IForce {
 
-    private boolean _myActive;
+    private boolean mActive;
 
-    private PVector _myForce;
-
-    public Gravity(final PVector theForce) {
-        _myActive = true;
-        _myForce = theForce;
-    }
+    private PVector mForce;
 
     public Gravity() {
         this(new PVector(0, 9.81f, 0));
+    }
+
+    public Gravity(final PVector pForce) {
+        mActive = true;
+        mForce = pForce;
     }
 
     public Gravity(float theX, float theY, float theZ) {
@@ -46,13 +46,13 @@ public class Gravity
     }
 
     public PVector force() {
-        return _myForce;
+        return mForce;
     }
 
-    public void apply(final float theDeltaTime, final Physics theParticleSystem) {
-        for (final Particle myParticle : theParticleSystem.particles()) {
-            if (!myParticle.fixed()) {
-                myParticle.force().add(_myForce);
+    public void apply(final float pDeltaTime, final Physics pParticleSystem) {
+        for (final Particle mParticle : pParticleSystem.particles()) {
+            if (!mParticle.fixed()) {
+                mParticle.force().add(mForce);
             }
         }
     }
@@ -62,10 +62,10 @@ public class Gravity
     }
 
     public boolean active() {
-        return _myActive;
+        return mActive;
     }
 
-    public void active(boolean theActiveState) {
-        _myActive = theActiveState;
+    public void active(boolean pActiveState) {
+        mActive = pActiveState;
     }
 }

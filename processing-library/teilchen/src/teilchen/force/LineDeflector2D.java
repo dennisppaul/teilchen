@@ -69,10 +69,10 @@ public class LineDeflector2D implements IForce {
     }
 
     @Override
-    public void apply(float theDeltaTime, Physics theParticleSystem) {
-        for (final Particle mParticle : theParticleSystem.particles()) {
+    public void apply(float pDeltaTime, Physics pParticleSystem) {
+        for (final Particle mParticle : pParticleSystem.particles()) {
             if (!mParticle.fixed()) {
-                calculateIntersection(mParticle, theDeltaTime);
+                calculateIntersection(mParticle, pDeltaTime);
             }
         }
     }
@@ -88,8 +88,8 @@ public class LineDeflector2D implements IForce {
     }
 
     @Override
-    public void active(boolean theActiveState) {
-        mActive = theActiveState;
+    public void active(boolean pActiveState) {
+        mActive = pActiveState;
     }
 
     public void coefficientofrestitution(float pCoefficientOfRestitution) {

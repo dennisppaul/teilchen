@@ -1,7 +1,7 @@
 /*
  * Teilchen
  *
- * Copyright (C) 2015
+ * Copyright (C) 2020
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -41,12 +41,12 @@ public class ViscousDrag implements IForce {
         this(1.0f);
     }
 
-    public final void apply(final float theDeltaTime, final Physics theParticleSystem) {
-        if (theParticleSystem.getIntegrator() instanceof Verlet) {
+    public final void apply(final float pDeltaTime, final Physics pParticleSystem) {
+        if (pParticleSystem.getIntegrator() instanceof Verlet) {
             return;
         }
         if (coefficient != 0) {
-            for (final Particle myParticle : theParticleSystem.particles()) {
+            for (final Particle myParticle : pParticleSystem.particles()) {
                 if (!myParticle.fixed()) {
                     myParticle.force().add(myParticle.velocity().x * -coefficient,
                                            myParticle.velocity().y * -coefficient,
@@ -64,7 +64,7 @@ public class ViscousDrag implements IForce {
         return mActive;
     }
 
-    public void active(boolean theActiveState) {
-        mActive = theActiveState;
+    public void active(boolean pActiveState) {
+        mActive = pActiveState;
     }
 }

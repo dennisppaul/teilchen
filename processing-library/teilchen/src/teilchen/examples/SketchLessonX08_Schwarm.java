@@ -37,8 +37,8 @@ public class SketchLessonX08_Schwarm extends PApplet {
         mPhysics = new Physics();
 
         Teleporter mTeleporter = new Teleporter();
-        mTeleporter.min().set(0, 0, height / -2);
-        mTeleporter.max().set(width, height, height / 2);
+        mTeleporter.min().set(0, 0, height / -2.0f);
+        mTeleporter.max().set(width, height, height / 2.0f);
         mPhysics.add(mTeleporter);
 
         ViscousDrag myViscousDrag = new ViscousDrag();
@@ -90,17 +90,17 @@ public class SketchLessonX08_Schwarm extends PApplet {
             maximumInnerForce(random(100.0f, 1000.0f));
             radius(10f);
 
-            separation = new Separation<>();
+            separation = new Separation();
             separation.proximity(20);
             separation.weight(50.0f);
             behaviors().add(separation);
 
-            alignment = new Alignment<>();
+            alignment = new Alignment();
             alignment.proximity(30);
             alignment.weight(30.0f);
             behaviors().add(alignment);
 
-            cohesion = new Cohesion<>();
+            cohesion = new Cohesion();
             cohesion.proximity(100);
             cohesion.weight(5.0f);
             behaviors().add(cohesion);
@@ -128,7 +128,7 @@ public class SketchLessonX08_Schwarm extends PApplet {
             pushMatrix();
 
             PMatrix3D p = new PMatrix3D();
-            Util.pointAt(p, position(), new PVector(0, 1, 0), PVector.add(position(), velocity()));
+            teilchen.util.Util.pointAt(p, position(), new PVector(0, 1, 0), PVector.add(position(), velocity()));
             applyMatrix(p);
 
             noStroke();

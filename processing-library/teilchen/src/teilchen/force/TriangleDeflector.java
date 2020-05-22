@@ -85,7 +85,7 @@ public class TriangleDeflector implements IForce {
     }
 
     //    public void apply(Physics pParticleSystem) {
-    public void apply(final float theDeltaTime, final Physics pParticleSystem) {
+    public void apply(final float pDeltaTime, final Physics pParticleSystem) {
         /* update triangle properties -- maybe this is better not done automatically */
         if (AUTO_UPDATE) {
             updateProperties();

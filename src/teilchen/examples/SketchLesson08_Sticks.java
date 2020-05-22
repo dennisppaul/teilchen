@@ -10,7 +10,6 @@ import teilchen.integration.Verlet;
 public class SketchLesson08_Sticks extends PApplet {
 
     private Physics mPhysics;
-
     private Particle[] mParticles;
 
     public void settings() {
@@ -19,10 +18,10 @@ public class SketchLesson08_Sticks extends PApplet {
 
     public void setup() {
         frameRate(60);
-        smooth();
 
         mPhysics = new Physics();
-        /* increase the number of iterations for contraints in each step. this can greatly relaxes tensions in the system. */
+        /* increase the number of iterations for contraints in each step. this can greatly relaxes tensions in the
+        system. */
         mPhysics.constrain_iterations_per_steps = 5;
 
         /* add gravity for extra fun */

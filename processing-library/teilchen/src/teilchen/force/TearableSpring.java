@@ -1,7 +1,7 @@
 /*
  * Teilchen
  *
- * Copyright (C) 2015
+ * Copyright (C) 2020
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -61,7 +61,7 @@ public class TearableSpring
         _myTearDistance = theTearDistance;
     }
 
-    public void apply(final float theDeltaTime, final Physics theParticleSystem) {
+    public void apply(final float pDeltaTime, final Physics pParticleSystem) {
         /* check if spring will tear */
         if (_myTearDistance > 0) {
             final float myActualDistance = distance(a().position(), b().position());
@@ -71,7 +71,7 @@ public class TearableSpring
         }
         /* apply force if spring is ok */
         if (!_myTornApart) {
-            super.apply(theDeltaTime, theParticleSystem);
+            super.apply(pDeltaTime, pParticleSystem);
         }
     }
 

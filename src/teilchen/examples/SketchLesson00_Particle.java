@@ -4,13 +4,13 @@ import processing.core.PApplet;
 import teilchen.Particle;
 import teilchen.Physics;
 
-/**
- this sketch show how to create a particle system with a single particle in it.
- */
 public class SketchLesson00_Particle extends PApplet {
 
-    private Physics mPhysics;
+    /*
+     * this sketch show how to create a particle system with a single particle in it.
+     */
 
+    private Physics mPhysics;
     private Particle mParticle;
 
     public void settings() {
@@ -18,9 +18,6 @@ public class SketchLesson00_Particle extends PApplet {
     }
 
     public void setup() {
-        smooth();
-        frameRate(30);
-
         /* create a particle system. */
         mPhysics = new Physics();
 

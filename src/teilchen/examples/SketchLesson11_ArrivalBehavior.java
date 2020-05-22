@@ -5,15 +5,14 @@ import teilchen.BehaviorParticle;
 import teilchen.Physics;
 import teilchen.behavior.Arrival;
 
-/**
- * this sketch shows how to assign an 'arrival' behavior to a particle.
- */
 public class SketchLesson11_ArrivalBehavior extends PApplet {
 
+    /*
+     * this sketch shows how to assign an 'arrival' behavior to a particle.
+     */
+
     private Physics mPhysics;
-
     private BehaviorParticle mParticle;
-
     private Arrival mArrival;
 
     public void settings() {
@@ -21,7 +20,6 @@ public class SketchLesson11_ArrivalBehavior extends PApplet {
     }
 
     public void setup() {
-        smooth();
         frameRate(120);
         colorMode(RGB, 1.0f);
         noFill();

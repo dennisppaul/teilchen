@@ -13,7 +13,6 @@ import teilchen.util.StableSpringQuad;
 public class SketchLesson07_StableQuads extends PApplet {
 
     private Physics mPhysics;
-
     private Particle mRoot;
 
     public void settings() {
@@ -21,7 +20,6 @@ public class SketchLesson07_StableQuads extends PApplet {
     }
 
     public void setup() {
-        smooth();
         frameRate(60);
 
         mPhysics = new Physics();
@@ -50,7 +48,7 @@ public class SketchLesson07_StableQuads extends PApplet {
         new StableSpringQuad(mPhysics, d, c, mPhysics.makeParticle(100, 200), mPhysics.makeParticle(0, 200));
 
         /* create stable quad from springs */
- /* first the edge-springs ... */
+        /* first the edge-springs ... */
         final float mySpringConstant = 100;
         final float mySpringDamping = 5;
         mPhysics.makeSpring(a, b, mySpringConstant, mySpringDamping);

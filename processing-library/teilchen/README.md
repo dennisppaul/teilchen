@@ -7,6 +7,8 @@
 - *teilchen* is also a [processing.org](http://processing.org "Processing.org")-style library.
 - *teilchen* is a german word and a synonym for *Partikel* which translates to the english *particle*.
 
+the library is hosted on github [teilchen](https://github.com/d3p/teilchen).
+
 ## anatomy of a physic-based particle system
 
 ### particles
@@ -28,3 +30,4 @@ constraints act on particle positions outside of a physical simulation. constrai
 ### integrators
 
 integrators are used to integrate acceleration and velocity to calculate the new position. the most well-known is the *euler* integrator, but there are also optimized versions like *runge-kutta* or *midpoint* or even slightly different concepts like *verlet*.
+
