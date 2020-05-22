@@ -7,6 +7,9 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 
+/*
+ * this sketch shows how to assign an 'wander' behavior to a particle.
+ */
 Physics mPhysics;
 BehaviorParticle mParticle;
 Wander mWander;
@@ -15,7 +18,6 @@ void settings() {
     size(640, 480, P3D);
 }
 void setup() {
-    smooth();
     frameRate(120);
     /* physics */
     mPhysics = new Physics();
@@ -28,7 +30,8 @@ void setup() {
     /* create behavior */
     mWander = new Wander();
     mParticle.behaviors().add(mWander);
-    /* a motor is required to push the particle forward - wander manipulates the direction the particle is pushed in */
+    /* a motor is required to push the particle forward - wander manipulates the direction the particle is pushed
+     in */
     mMotor = new Motor();
     mMotor.auto_update_direction(true);
     /* the direction the motor pushes into is each step automatically set to the velocity */

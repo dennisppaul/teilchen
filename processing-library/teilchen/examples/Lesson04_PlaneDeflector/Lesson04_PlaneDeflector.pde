@@ -7,14 +7,16 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 
+/*
+ * this sketch shows 1 how to create and use plane deflectors 2 how to use
+ * 'ShortLivedParticle'
+ */
 Physics mPhysics;
 PlaneDeflector mDeflector;
 void settings() {
     size(640, 480, P3D);
 }
 void setup() {
-    smooth();
-    frameRate(30);
     /* create a particle system */
     mPhysics = new Physics();
     /* create a deflector and add it to the particle system.

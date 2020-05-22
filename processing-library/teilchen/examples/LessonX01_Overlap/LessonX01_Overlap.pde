@@ -7,6 +7,10 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 
+/*
+ * this sketch is exactly like Lesson06_Springs, except that it also shows how
+ * to resolveOverlap overlaps.
+ */
 static final float PARTICLE_RADIUS = 13;
 Physics mPhysics;
 Particle mRoot;
@@ -14,8 +18,6 @@ void settings() {
     size(640, 480, P3D);
 }
 void setup() {
-    smooth();
-    frameRate(30);
     mPhysics = new Physics();
     /* create drag */
     mPhysics.add(new ViscousDrag());

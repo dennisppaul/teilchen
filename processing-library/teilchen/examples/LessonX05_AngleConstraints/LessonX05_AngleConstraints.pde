@@ -18,8 +18,6 @@ void settings() {
     size(640, 480, P3D);
 }
 void setup() {
-    frameRate(30);
-    smooth();
     mPhysics = new Physics();
     mPhysics.setIntegratorRef(new RungeKutta());
     ViscousDrag myViscousDrag = new ViscousDrag();

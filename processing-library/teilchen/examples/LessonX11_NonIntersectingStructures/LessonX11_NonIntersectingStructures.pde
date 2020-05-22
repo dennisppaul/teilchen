@@ -7,6 +7,7 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 
+// @TODO(not fully functional yet)
 Physics mPhysics;
 Particle[] mParticles;
 void settings() {
@@ -20,7 +21,7 @@ void setup() {
     Verlet myVerlet = new Verlet();
     myVerlet.damping(0.99f);
     mPhysics.setIntegratorRef(myVerlet);
-    Gravity mGravity = new Gravity(0,100,0);
+    Gravity mGravity = new Gravity(0, 100, 0);
     mPhysics.add(mGravity);
     /* setup sticks to form mParticle whip */
     mParticles = new Particle[16];

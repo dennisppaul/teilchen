@@ -12,14 +12,10 @@ import teilchen.integration.Verlet;
 
 public class SketchLesson09_Cloth extends PApplet {
 
+    private static final int GRID_WIDTH = 32;
+    private static final int GRID_HEIGHT = 16;
     private Physics mPhysics;
-
     private Particle[][] mParticles;
-
-    private final int GRID_WIDTH = 32;
-
-    private final int GRID_HEIGHT = 16;
-
     private Attractor mAttractor;
 
     public void settings() {

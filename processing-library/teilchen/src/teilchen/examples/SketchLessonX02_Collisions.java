@@ -13,9 +13,7 @@ import teilchen.util.CollisionManager;
 public class SketchLessonX02_Collisions extends PApplet {
 
     private static final float PARTICLE_SIZE = 12;
-
     private CollisionManager mCollision;
-
     private Physics mPhysics;
 
     public void settings() {
@@ -23,8 +21,6 @@ public class SketchLessonX02_Collisions extends PApplet {
     }
 
     public void setup() {
-        smooth();
-        frameRate(30);
         noFill();
         ellipseMode(CENTER);
 

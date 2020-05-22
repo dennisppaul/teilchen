@@ -5,14 +5,13 @@ import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.force.Gravity;
 
-/**
- * this sketch show how to create a particle system with a single particle in
- * it.
- */
 public class SketchLesson01_Gravity extends PApplet {
 
-    private Physics mPhysics;
+    /*
+     * this sketch show how to create a particle system with a single particle in it.
+     */
 
+    private Physics mPhysics;
     private Particle mParticle;
 
     public void settings() {
@@ -20,9 +19,6 @@ public class SketchLesson01_Gravity extends PApplet {
     }
 
     public void setup() {
-        smooth();
-        frameRate(30);
-
         /* create a particle system */
         mPhysics = new Physics();
 
@@ -30,7 +26,8 @@ public class SketchLesson01_Gravity extends PApplet {
         Gravity mGravity = new Gravity();
         /* the direction of the gravity is defined by the 'force' vector */
         mGravity.force().set(0, 30, 0);
-        /* forces, like gravity or any other force, can be added to the system. they will be automatically applied to all particles */
+        /* forces, like gravity or any other force, can be added to the system. they will be automatically applied to
+         all particles */
         mPhysics.add(mGravity);
 
         /* create a particle and add it to the system */

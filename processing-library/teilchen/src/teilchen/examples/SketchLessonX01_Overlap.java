@@ -9,11 +9,12 @@ import teilchen.force.Spring;
 import teilchen.force.ViscousDrag;
 import teilchen.util.Overlap;
 
-/**
- * this sketch is exactly like Lesson06_Springs, except that it also shows how
- * to resolveOverlap overlaps.
- */
 public class SketchLessonX01_Overlap extends PApplet {
+
+    /*
+     * this sketch is exactly like Lesson06_Springs, except that it also shows how
+     * to resolveOverlap overlaps.
+     */
 
     private static final float PARTICLE_RADIUS = 13;
     private Physics mPhysics;
@@ -24,9 +25,6 @@ public class SketchLessonX01_Overlap extends PApplet {
     }
 
     public void setup() {
-        smooth();
-        frameRate(30);
-
         mPhysics = new Physics();
 
         /* create drag */

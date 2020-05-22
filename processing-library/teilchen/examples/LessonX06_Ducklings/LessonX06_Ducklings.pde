@@ -7,6 +7,10 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 
+/*
+ * this demo shows how to add behaviors to particles. in this example the
+ * arrival behavior.
+ */
 Physics mPhysics;
 ArrayList<Duckling> mDucklings;
 CollisionManager mCollision;
@@ -15,7 +19,6 @@ void settings() {
 }
 void setup() {
     frameRate(60);
-    smooth();
     colorMode(RGB, 1.0f);
     /* physics */
     mPhysics = new Physics();

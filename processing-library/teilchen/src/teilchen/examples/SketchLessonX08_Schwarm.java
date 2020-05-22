@@ -13,14 +13,12 @@ import teilchen.behavior.Separation;
 import teilchen.behavior.Wander;
 import teilchen.constraint.Teleporter;
 import teilchen.force.ViscousDrag;
-import teilchen.util.Util;
 
 import java.util.ArrayList;
 
 public class SketchLessonX08_Schwarm extends PApplet {
 
     private Physics mPhysics;
-
     private ArrayList<SwarmEntity> mSwarmEntities;
 
     public void settings() {
@@ -28,8 +26,6 @@ public class SketchLessonX08_Schwarm extends PApplet {
     }
 
     public void setup() {
-        frameRate(60);
-        smooth();
         rectMode(CENTER);
         hint(DISABLE_DEPTH_TEST);
 

@@ -14,7 +14,6 @@ void settings() {
     size(640, 480, P3D);
 }
 void setup() {
-    smooth();
     frameRate(60);
     /* create a particle system */
     mPhysics = new Physics();

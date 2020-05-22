@@ -14,8 +14,6 @@ void settings() {
     size(640, 480, P3D);
 }
 void setup() {
-    smooth();
-    frameRate(30);
     noFill();
     ellipseMode(CENTER);
     mCollision = new CollisionManager();

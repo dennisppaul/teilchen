@@ -13,7 +13,6 @@ import java.util.ArrayList;
 public class SketchLessonX09_TriangleDeflector extends PApplet {
 
     private Physics mPhysics;
-
     private ArrayList<TriangleDeflector> mTriangleDeflectors;
 
     public void settings() {
@@ -21,8 +20,6 @@ public class SketchLessonX09_TriangleDeflector extends PApplet {
     }
 
     public void setup() {
-        frameRate(60);
-        smooth();
         rectMode(CENTER);
         hint(DISABLE_DEPTH_TEST);
 
@@ -31,7 +28,7 @@ public class SketchLessonX09_TriangleDeflector extends PApplet {
         Gravity myGravity = new Gravity(0, 0, -30);
         mPhysics.add(myGravity);
 
-                /* triangle deflectors */
+        /* triangle deflectors */
         final PVector[] mVertices = new PVector[]{new PVector(0, 0, 0),
                                                   new PVector(width, height, 0),
                                                   new PVector(0,

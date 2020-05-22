@@ -9,7 +9,6 @@ import teilchen.force.TriangleDeflector;
 public class SketchLessonX10_TriangleDeflector2D extends PApplet {
 
     private Physics mPhysics;
-
     private TriangleDeflector mTriangleDeflector;
 
     public void settings() {
@@ -17,8 +16,6 @@ public class SketchLessonX10_TriangleDeflector2D extends PApplet {
     }
 
     public void setup() {
-        frameRate(60);
-
         /* physics */
         mPhysics = new Physics();
         Gravity myGravity = new Gravity(0, 20, 0);
@@ -35,7 +32,6 @@ public class SketchLessonX10_TriangleDeflector2D extends PApplet {
     }
 
     public void draw() {
-
         final float mDeltaTime = 1.0f / frameRate;
         mPhysics.step(mDeltaTime);
 
@@ -43,7 +39,7 @@ public class SketchLessonX10_TriangleDeflector2D extends PApplet {
         for (int i = 0; i < mPhysics.particles().size(); i++) {
             Particle mParticle = mPhysics.particles(i);
             if (mParticle.position().y > height || mParticle.still()) {
-                mPhysics.particles().remove(i);
+                mPhysics.particles().remove(i); //@TODO(this might cause an exception. should be replaced by iterator)
             }
         }
 

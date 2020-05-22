@@ -7,10 +7,10 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 
+static final int GRID_WIDTH = 32;
+static final int GRID_HEIGHT = 16;
 Physics mPhysics;
 Particle[][] mParticles;
-final int GRID_WIDTH = 32;
-final int GRID_HEIGHT = 16;
 Attractor mAttractor;
 void settings() {
     size(640, 480, P3D);

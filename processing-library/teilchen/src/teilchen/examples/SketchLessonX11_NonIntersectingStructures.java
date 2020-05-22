@@ -6,15 +6,15 @@ import teilchen.Physics;
 import teilchen.constraint.LineIntersectionConstraint;
 import teilchen.constraint.Stick;
 import teilchen.force.Gravity;
-import teilchen.force.Spring;
 import teilchen.integration.Verlet;
 
 import java.util.ArrayList;
 
 public class SketchLessonX11_NonIntersectingStructures extends PApplet {
 
-    private Physics mPhysics;
+    // @TODO(not fully functional yet)
 
+    private Physics mPhysics;
     private Particle[] mParticles;
 
     public void settings() {
@@ -32,7 +32,7 @@ public class SketchLessonX11_NonIntersectingStructures extends PApplet {
         myVerlet.damping(0.99f);
         mPhysics.setIntegratorRef(myVerlet);
 
-        Gravity mGravity = new Gravity(0,100,0);
+        Gravity mGravity = new Gravity(0, 100, 0);
         mPhysics.add(mGravity);
 
         /* setup sticks to form mParticle whip */

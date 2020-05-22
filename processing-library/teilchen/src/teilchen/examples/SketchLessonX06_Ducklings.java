@@ -10,16 +10,15 @@ import teilchen.util.CollisionManager;
 
 import java.util.ArrayList;
 
-/**
- * this demo shows how to add behaviors to particles. in this example the
- * arrival behavior.
- */
 public class SketchLessonX06_Ducklings extends PApplet {
 
+    /*
+     * this demo shows how to add behaviors to particles. in this example the
+     * arrival behavior.
+     */
+
     private Physics mPhysics;
-
     private ArrayList<Duckling> mDucklings;
-
     private CollisionManager mCollision;
 
     public void settings() {
@@ -28,7 +27,6 @@ public class SketchLessonX06_Ducklings extends PApplet {
 
     public void setup() {
         frameRate(60);
-        smooth();
         colorMode(RGB, 1.0f);
 
         /* physics */

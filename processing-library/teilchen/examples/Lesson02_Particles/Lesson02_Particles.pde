@@ -7,6 +7,10 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 
+/*
+ * this sketch shows how to create and handle multiple particles and remove
+ * individual particles.
+ */
 Physics mPhysics;
 void settings() {
     size(640, 480, P3D);

@@ -8,6 +8,7 @@ import teilchen.force.Attractor;
 import teilchen.force.ViscousDrag;
 
 public class SketchLesson03_Attractors extends PApplet {
+    
     /*
      * this sketch shows how to create and use attractors.
      */
@@ -20,9 +21,6 @@ public class SketchLesson03_Attractors extends PApplet {
     }
 
     public void setup() {
-        smooth();
-        frameRate(30);
-
         /* create a particle system */
         mPhysics = new Physics();
 

@@ -16,9 +16,7 @@ import java.util.ArrayList;
 public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
 
     private Physics mPhysics;
-
     private ArrayList<ParticleTrail> mTrails;
-
     private Attractor mAttractor;
 
     public void settings() {
@@ -26,7 +24,6 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
     }
 
     public void setup() {
-        smooth();
         frameRate(60);
 
         /* create a particle system */

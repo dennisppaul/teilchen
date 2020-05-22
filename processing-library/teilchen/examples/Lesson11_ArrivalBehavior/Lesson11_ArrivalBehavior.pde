@@ -7,6 +7,9 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 
+/*
+ * this sketch shows how to assign an 'arrival' behavior to a particle.
+ */
 Physics mPhysics;
 BehaviorParticle mParticle;
 Arrival mArrival;
@@ -14,7 +17,6 @@ void settings() {
     size(640, 480, P3D);
 }
 void setup() {
-    smooth();
     frameRate(120);
     colorMode(RGB, 1.0f);
     noFill();

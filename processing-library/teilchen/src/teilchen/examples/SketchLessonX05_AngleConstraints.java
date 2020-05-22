@@ -14,17 +14,11 @@ import teilchen.integration.RungeKutta;
 public class SketchLessonX05_AngleConstraints extends PApplet {
 
     private Physics mPhysics;
-
     private Particle mParticleA;
-
     private Particle mParticleB;
-
     private Particle mParticleC;
-
     private Particle mParticleD;
-
     private AngleConstraintSpring mAngleConstraintABC;
-
     private AngleConstraintStick mAngleConstraintBCD;
 
     public void settings() {
@@ -32,9 +26,6 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
     }
 
     public void setup() {
-        frameRate(30);
-        smooth();
-
         mPhysics = new Physics();
         mPhysics.setIntegratorRef(new RungeKutta());
 

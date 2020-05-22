@@ -7,14 +7,15 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 
+/*
+ * this sketch show how to create a particle system with a single particle in it.
+ */
 Physics mPhysics;
 Particle mParticle;
 void settings() {
     size(640, 480, P3D);
 }
 void setup() {
-    smooth();
-    frameRate(30);
     /* create a particle system. */
     mPhysics = new Physics();
     /* create a particle. note that the particle is automatically added to particle system */

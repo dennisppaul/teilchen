@@ -13,15 +13,13 @@ void settings() {
     size(640, 480, P3D);
 }
 void setup() {
-    frameRate(60);
-    smooth();
     rectMode(CENTER);
     hint(DISABLE_DEPTH_TEST);
     /* physics */
     mPhysics = new Physics();
     Gravity myGravity = new Gravity(0, 0, -30);
     mPhysics.add(myGravity);
-            /* triangle deflectors */
+    /* triangle deflectors */
     final PVector[] mVertices = new PVector[]{new PVector(0, 0, 0),
                                               new PVector(width, height, 0),
                                               new PVector(0,

@@ -7,6 +7,10 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 
+/*
+ * this demo shows some advanced use of particles, springs and attractors to
+ * create stickmen.
+ */
 Physics mPhysics;
 Attractor mAttractor;
 Gravity mGravity;
@@ -16,7 +20,6 @@ void settings() {
     size(640, 480, P3D);
 }
 void setup() {
-    smooth();
     frameRate(60);
     noFill();
     mPhysics = new Physics();

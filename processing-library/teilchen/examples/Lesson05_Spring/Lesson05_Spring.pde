@@ -7,14 +7,16 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 
+/*
+ * this sketch shows 1 how to create a viscous drag to slow motion eventually
+ * down. 2 how to create a spring that connects two particles.
+ */
 Physics mPhysics;
 Spring mSpring;
 void settings() {
     size(640, 480, P3D);
 }
 void setup() {
-    smooth();
-    frameRate(30);
     /* create a particle system */
     mPhysics = new Physics();
     /* create a viscous force that slows down all motion; 0 means no slowing down. */

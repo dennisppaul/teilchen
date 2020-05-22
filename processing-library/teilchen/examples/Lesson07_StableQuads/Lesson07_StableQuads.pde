@@ -13,7 +13,6 @@ void settings() {
     size(640, 480, P3D);
 }
 void setup() {
-    smooth();
     frameRate(60);
     mPhysics = new Physics();
     /* we use 'runge kutta' as it is more stable for this application */
@@ -35,7 +34,7 @@ void setup() {
     Particle d = mPhysics.makeParticle(0, 100);
     new StableSpringQuad(mPhysics, d, c, mPhysics.makeParticle(100, 200), mPhysics.makeParticle(0, 200));
     /* create stable quad from springs */
- /* first the edge-springs ... */
+    /* first the edge-springs ... */
     final float mySpringConstant = 100;
     final float mySpringDamping = 5;
     mPhysics.makeSpring(a, b, mySpringConstant, mySpringDamping);

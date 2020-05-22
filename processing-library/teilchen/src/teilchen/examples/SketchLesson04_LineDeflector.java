@@ -8,10 +8,11 @@ import teilchen.force.Gravity;
 import teilchen.force.LineDeflector2D;
 import teilchen.force.ViscousDrag;
 
-/**
- this sketch shows 1 how to create and use line deflectors 2 how to use 'ShortLivedParticle'
- */
 public class SketchLesson04_LineDeflector extends PApplet {
+
+    /*
+     * this sketch shows 1 how to create and use line deflectors 2 how to use 'ShortLivedParticle'
+     */
 
     private Physics mPhysics;
     private LineDeflector2D mDeflector;
@@ -21,9 +22,6 @@ public class SketchLesson04_LineDeflector extends PApplet {
     }
 
     public void setup() {
-        smooth();
-        frameRate(30);
-
         /* create a particle system */
         mPhysics = new Physics();
 

@@ -13,8 +13,6 @@ void settings() {
     size(640, 480, P3D);
 }
 void setup() {
-    frameRate(60);
-    smooth();
     rectMode(CENTER);
     hint(DISABLE_DEPTH_TEST);
     /* physics */

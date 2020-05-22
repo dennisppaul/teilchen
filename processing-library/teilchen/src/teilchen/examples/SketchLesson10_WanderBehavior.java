@@ -7,17 +7,15 @@ import teilchen.behavior.Motor;
 import teilchen.behavior.Wander;
 import teilchen.force.ViscousDrag;
 
-/**
- * this sketch shows how to assign an 'wander' behavior to a particle.
- */
 public class SketchLesson10_WanderBehavior extends PApplet {
 
+    /*
+     * this sketch shows how to assign an 'wander' behavior to a particle.
+     */
+
     private Physics mPhysics;
-
     private BehaviorParticle mParticle;
-
     private Wander mWander;
-
     private Motor mMotor;
 
     public void settings() {
@@ -25,7 +23,6 @@ public class SketchLesson10_WanderBehavior extends PApplet {
     }
 
     public void setup() {
-        smooth();
         frameRate(120);
 
         /* physics */
@@ -42,7 +39,8 @@ public class SketchLesson10_WanderBehavior extends PApplet {
         mWander = new Wander();
         mParticle.behaviors().add(mWander);
 
-        /* a motor is required to push the particle forward - wander manipulates the direction the particle is pushed in */
+        /* a motor is required to push the particle forward - wander manipulates the direction the particle is pushed
+         in */
         mMotor = new Motor();
         mMotor.auto_update_direction(true);
         /* the direction the motor pushes into is each step automatically set to the velocity */
