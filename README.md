@@ -31,3 +31,30 @@ constraints act on particle positions outside of a physical simulation. constrai
 
 integrators are used to integrate acceleration and velocity to calculate the new position. the most well-known is the *euler* integrator, but there are also optimized versions like *runge-kutta* or *midpoint* or even slightly different concepts like *verlet*.
 
+## anatomy of a particle
+
+![](./resources/teilchen-tutorial-01.png)
+
+![](./resources/teilchen-tutorial-02.png)
+
+![](./resources/teilchen-tutorial-03.png)
+
+![](./resources/teilchen-tutorial-04.png)
+
+## moving a particle ( with forces )
+
+![](./resources/teilchen-tutorial-05.png)
+
+![](./resources/teilchen-tutorial-06.png)
+
+![](./resources/teilchen-tutorial-07.png)
+
+![](./resources/teilchen-tutorial-08.png)
+
+![](./resources/teilchen-tutorial-09.png)
+
+![](./resources/teilchen-tutorial-10.png)
+
+![](./resources/teilchen-tutorial-11.png)
+
+![](./resources/teilchen-tutorial-12.png)
