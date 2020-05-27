@@ -52,7 +52,7 @@ public class Util {
      @param v line segment start
      @param w line segment end
      @param p point
-     @return
+     @return resulting point on line segment
      */
     public static PVector projectPointOnLineSegment(PVector v, PVector w, PVector p) {
         // Return minimum distance between line segment vw and point p
@@ -66,8 +66,7 @@ public class Util {
         // It falls where t = [(p-v) . (w-v)] / |w-v|^2
         // We clamp t from [0,1] to handle points outside the segment vw.
         final float t = Math.max(0, Math.min(1, PVector.dot(PVector.sub(p, v), PVector.sub(w, v)) / l2));
-        final PVector mProjection = PVector.add(v, PVector.mult(PVector.sub(w, v), t));  // Projection falls on the segment
-        return mProjection;
+        return PVector.add(v, PVector.mult(PVector.sub(w, v), t));
         //        return distance(p, projection);
     }
 
@@ -189,10 +188,10 @@ public class Util {
     /**
      calculate a normal from a set of three vectors.
 
-     @param pointA
-     @param pointB
-     @param pointC
-     @param theResultNormal
+     @param pointA point A
+     @param pointB point B
+     @param pointC point C
+     @param theResultNormal normal
      */
     public static void calculateNormal(final PVector pointA, final PVector pointB, final PVector pointC, final PVector theResultNormal) {
         sub(pointB, pointA, TMP_BA);
@@ -202,9 +201,9 @@ public class Util {
     }
 
     /**
-     @param theVectorAB     PVector
-     @param theVectorBC     PVector
-     @param theResultNormal PVector
+     @param theVectorAB     vector AB
+     @param theVectorBC     vector BC
+     @param theResultNormal normal
      */
     public static void calculateNormal(final PVector theVectorAB, final PVector theVectorBC, final PVector theResultNormal) {
         theResultNormal.cross(theVectorAB, theVectorBC);
@@ -216,7 +215,7 @@ public class Util {
      centered at the origin. Orientation will be random and length will range
      between 0 and 1
 
-     @param p
+     @param p randomized vector
      */
     public static void randomize(PVector p) {
         p.x = RND_GENERATOR.nextFloat() * 2.0F - 1.0F;

@@ -31,14 +31,14 @@ import static processing.core.PVector.sub;
 import static teilchen.util.Util.lengthSquared;
 
 /**
- beware this is not really in good shape. i ll read my linear algebra book and
- fix this class. someday. hopefully.
+ * beware this is not really in good shape. i ll read my linear algebra book and
+ * fix this class. someday. hopefully.
  */
 public final class Intersection implements Serializable {
 
     /**
-     from paul bourke (
-     http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline2d/ )
+     * from paul bourke (
+     * http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline2d/ )
      */
     public static final int COINCIDENT = 0;
     public static final int PARALLEL = 1;
@@ -61,7 +61,8 @@ public final class Intersection implements Serializable {
                                             final PVector theResult,
                                             final boolean doPlanar,
                                             final boolean quad) {
-        PVector diff = PVector.sub(theRay.origin, thePlane.origin); // mathematik.IntegrationUtil.sub(theRay.origin, v0);
+        PVector diff = PVector.sub(theRay.origin,
+                                   thePlane.origin); // mathematik.IntegrationUtil.sub(theRay.origin, v0);
         PVector edge1 = thePlane.vectorA; // mathematik.IntegrationUtil.sub(v1, v0);
         PVector edge2 = thePlane.vectorB; // mathematik.IntegrationUtil.sub(v2, v0);
 
@@ -246,16 +247,21 @@ public final class Intersection implements Serializable {
     //    }
 
     /**
-     grabbed from Xith
-
-     @param thePlane             Plane3f
-     @param theRay               Ray3f
-     @param theIntersectionPoint PVector
-     @return float
-     @todo not sure whether this is for ray-plane or line-plane intersection.
-     but i think it s for latter, hence the method name.
+     * intersect line with plane ( grabbed from Xith )
+     *
+     * @param thePlane             Plane3f
+     * @param theRay               Ray3f
+     * @param theIntersectionPoint PVector
+     * @return float
      */
-    public static float intersectLinePlane(final Ray3f theRay, final Plane3f thePlane, final PVector theIntersectionPoint) {
+    public static float intersectLinePlane(final Ray3f theRay,
+                                           final Plane3f thePlane,
+                                           final PVector theIntersectionPoint) {
+        /*
+         * @todo not sure whether this is for ray-plane or line-plane intersection. but i think it s for the latter,
+         *   hence the method name.
+         */
+
         double time = 0;
         cross(thePlane.vectorA, thePlane.vectorB, TMP_EDGE_NORMAL);
         double denom = TMP_EDGE_NORMAL.dot(theRay.direction);
@@ -279,17 +285,17 @@ public final class Intersection implements Serializable {
     }
 
     /**
-     Fast, Minimum Storage Ray-Triangle Intersection by Tomas Moeller & Ben
-     Trumbore http://jgt.akpeters.com/papers/MollerTrumbore97/code.html
-
-     @param pRayOrigin    PVector
-     @param pRayDirection PVector
-     @param v0            PVector
-     @param v1            PVector
-     @param v2            PVector
-     @param pResult       Result
-     @param pCullingFlag  boolean
-     @return boolean
+     * Fast, Minimum Storage Ray-Triangle Intersection by Tomas Moeller &amp; Ben
+     * Trumbore http://jgt.akpeters.com/papers/MollerTrumbore97/code.html
+     *
+     * @param pRayOrigin    ray origin
+     * @param pRayDirection ray direction
+     * @param v0            triangle v0
+     * @param v1            triangle v1
+     * @param v2            triangle v2
+     * @param pResult       interesction result container
+     * @param pCullingFlag  culling
+     * @return returns true if intersections exists
      */
     public static boolean intersectRayTriangle(final PVector pRayOrigin,
                                                final PVector pRayDirection,
@@ -381,7 +387,8 @@ public final class Intersection implements Serializable {
     //                                               final PVector pResult,
     //                                               final boolean pCullingFlag) {
     //        final IntersectionResult mResult = new IntersectionResult();
-    //        final boolean mSuccess = intersectRayTriangle(pRayOrigin, pRayDirection, v0, v1, v2, mResult, pCullingFlag);
+    //        final boolean mSuccess = intersectRayTriangle(pRayOrigin, pRayDirection, v0, v1, v2, mResult,
+    //        pCullingFlag);
     //        pResult.x = mResult.t;
     //        pResult.y = mResult.u;
     //        pResult.z = mResult.v;
@@ -389,33 +396,33 @@ public final class Intersection implements Serializable {
     //    }
 
     /**
-     http://local.wasp.uwa.edu.au/~pbourke/geometry/sphereline/raysphere.c
-     Calculate the intersection of a ray and a sphere The line segment is
-     defined from p1 to p2 The sphere is of radius r and centered at sc There
-     are potentially two points of intersection given by p = p1 + mu1 (p2 -
-     p1) p = p1 + mu2 (p2 - p1) Return FALSE if the ray doesn't intersect the
-     sphere.
-
-     @param p1
-     @param p2
-     @param sc
-     @param r
-     @return
+     * http://local.wasp.uwa.edu.au/~pbourke/geometry/sphereline/raysphere.c
+     * Calculate the intersection of a ray and a sphere The line segment is
+     * defined from p1 to p2 The sphere is of radius r and centered at sc There
+     * are potentially two points of intersection given by p = p1 + mu1 (p2 -
+     * p1) p = p1 + mu2 (p2 - p1) Return FALSE if the ray doesn't intersect the
+     * sphere.
+     *
+     * @param pP1           P1
+     * @param pP2           P2
+     * @param pSphereCenter sphere center
+     * @param pSphereRadius sphere radius
+     * @return returns true if intersection exists
      */
-    public static boolean RaySphere(PVector p1, PVector p2, PVector sc, float r) {
+    public static boolean RaySphere(PVector pP1, PVector pP2, PVector pSphereCenter, float pSphereRadius) {
         float a, b, c;
         float bb4ac;
         PVector dp = new PVector();
 
-        dp.x = p2.x - p1.x;
-        dp.y = p2.y - p1.y;
-        dp.z = p2.z - p1.z;
+        dp.x = pP2.x - pP1.x;
+        dp.y = pP2.y - pP1.y;
+        dp.z = pP2.z - pP1.z;
         a = dp.x * dp.x + dp.y * dp.y + dp.z * dp.z;
-        b = 2 * (dp.x * (p1.x - sc.x) + dp.y * (p1.y - sc.y) + dp.z * (p1.z - sc.z));
-        c = sc.x * sc.x + sc.y * sc.y + sc.z * sc.z;
-        c += p1.x * p1.x + p1.y * p1.y + p1.z * p1.z;
-        c -= 2 * (sc.x * p1.x + sc.y * p1.y + sc.z * p1.z);
-        c -= r * r;
+        b = 2 * (dp.x * (pP1.x - pSphereCenter.x) + dp.y * (pP1.y - pSphereCenter.y) + dp.z * (pP1.z - pSphereCenter.z));
+        c = pSphereCenter.x * pSphereCenter.x + pSphereCenter.y * pSphereCenter.y + pSphereCenter.z * pSphereCenter.z;
+        c += pP1.x * pP1.x + pP1.y * pP1.y + pP1.z * pP1.z;
+        c -= 2 * (pSphereCenter.x * pP1.x + pSphereCenter.y * pP1.y + pSphereCenter.z * pP1.z);
+        c -= pSphereRadius * pSphereRadius;
         bb4ac = b * b - 4 * a * c;
 
         return !(Math.abs(a) < EPSILON || bb4ac < 0);
@@ -455,37 +462,37 @@ public final class Intersection implements Serializable {
     }
 
     /**
-     from paul bourke (
-     http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline3d/ )
-     <p>
-     Calculate the line segment PaPb that is the shortest route between two
-     lines P1P2 and P3P4. Calculate also the values of mua and mub where Pa =
-     P1 + mua (P2 - P1) Pb = P3 + mub (P4 - P3) Return FALSE if no solution
-     exists.
-
-     @param pLine00
-     @param pLine01
-     @param pLine10
-     @param pLine11
-     @param pLineResultSeg0
-     @param pLineResultSeg1
-     @return
+     * from paul bourke (
+     * http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline3d/ )
+     * <p>
+     * Calculate the line segment PaPb that is the shortest route between two
+     * lines P1P2 and P3P4. Calculate also the values of mua and mub where Pa =
+     * P1 + mua (P2 - P1) Pb = P3 + mub (P4 - P3) Return FALSE if no solution
+     * exists.
+     *
+     * @param pP1 P1
+     * @param pP2 P2
+     * @param pP3 P3
+     * @param pP4 P4
+     * @param pPa Pa
+     * @param pPb Pb
+     * @return sucess if solution exists
      */
-    public static boolean lineLineIntersect(PVector pLine00,
-                                            PVector pLine01,
-                                            PVector pLine10,
-                                            PVector pLine11,
-                                            PVector pLineResultSeg0,
-                                            PVector pLineResultSeg1) {
+    public static boolean lineLineIntersect(PVector pP1,
+                                            PVector pP2,
+                                            PVector pP3,
+                                            PVector pP4,
+                                            PVector pPa,
+                                            PVector pPb) {
         //        float[] theResult) {
 
-        final PVector p13 = sub(pLine00, pLine10);
-        final PVector p43 = sub(pLine11, pLine10);
+        final PVector p13 = sub(pP1, pP3);
+        final PVector p43 = sub(pP4, pP3);
         if (Math.abs(p43.x) < EPSILON && Math.abs(p43.y) < EPSILON && Math.abs(p43.z) < EPSILON) {
             return false;
         }
 
-        final PVector p21 = sub(pLine01, pLine00);
+        final PVector p21 = sub(pP2, pP1);
         if (Math.abs(p21.x) < EPSILON && Math.abs(p21.y) < EPSILON && Math.abs(p21.z) < EPSILON) {
             return false;
         }
@@ -505,18 +512,18 @@ public final class Intersection implements Serializable {
         final float mua = numer / denom;
         final float mub = (d1343 + d4321 * mua) / d4343;
 
-        if (pLineResultSeg0 == null) {
-            pLineResultSeg0 = new PVector();
+        if (pPa == null) {
+            pPa = new PVector();
         }
-        pLineResultSeg0.x = pLine00.x + mua * p21.x;
-        pLineResultSeg0.y = pLine00.y + mua * p21.y;
-        pLineResultSeg0.z = pLine00.z + mua * p21.z;
-        if (pLineResultSeg1 == null) {
-            pLineResultSeg1 = new PVector();
+        pPa.x = pP1.x + mua * p21.x;
+        pPa.y = pP1.y + mua * p21.y;
+        pPa.z = pP1.z + mua * p21.z;
+        if (pPb == null) {
+            pPb = new PVector();
         }
-        pLineResultSeg1.x = pLine10.x + mub * p43.x;
-        pLineResultSeg1.y = pLine10.y + mub * p43.y;
-        pLineResultSeg1.z = pLine10.z + mub * p43.z;
+        pPb.x = pP3.x + mub * p43.x;
+        pPb.y = pP3.y + mub * p43.y;
+        pPb.z = pP3.z + mub * p43.z;
 
         //        if (theResult != null) {
         //            theResult[0] = mua;

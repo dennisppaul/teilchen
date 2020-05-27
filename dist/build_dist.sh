@@ -28,6 +28,8 @@ printJob "copying src"
 sh $ROOT/copy_src.sh $LIB_NAME
 printJob "copying README"
 sh $ROOT/copy_readme.sh $LIB_NAME
+printJob "copying reference"
+sh $ROOT/copy_reference.sh $LIB_NAME
 printJob "creating processing sketches"
 for i in ${IO_EXAMPLE_PATHS[@]}; do
 	sh $ROOT/create-processing-sketches.sh $LIB_NAME $i

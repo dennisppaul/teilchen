@@ -40,9 +40,9 @@ public class AngleConstraintSpring
      *
      * particles are connected like this: A -- B -- C
      *
-     * @param pParticleA
-     * @param pParticleB
-     * @param pParticleC
+     * @param pParticleA particle A
+     * @param pParticleB particle B
+     * @param pParticleC particle C
      */
     public AngleConstraintSpring(Particle pParticleA, Particle pParticleB, Particle pParticleC) {
         super(pParticleA, pParticleC);

@@ -19,6 +19,7 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.cubicle;
 
 import processing.core.PVector;
@@ -29,34 +30,31 @@ public interface ICubicleEntity {
     /**
      * get reference to the cubicle id
      *
-     * @return Vector3i
+     * @return cubicle id
      */
     Vector3i cubicle();
 
     /**
      * get reference to position vector
      *
-     * @return PVector
+     * @return position
      */
     PVector position();
 
     /**
-     * returns true if the new position don t match the previously stored
-     * position
+     * returns true if the new position don t match the previously stored position
      *
-     * @param theX
-     * @param theY
-     * @param theZ
-     *
-     * @return boolean
+     * @param pX x
+     * @param pY y
+     * @param pZ z
+     * @return returns true if the new position don t match the previously stored position
      */
-    boolean leaving(int theX, int theY, int theZ);
+    boolean leaving(int pX, int pY, int pZ);
 
     /**
-     * entities can be temporarily removed from the process of being updated by
-     * the world.
+     * entities can be temporarily removed from the process of being updated by the world.
      *
-     * @return
+     * @return returns active state
      */
     boolean isActive();
 }

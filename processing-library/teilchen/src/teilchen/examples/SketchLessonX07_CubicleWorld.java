@@ -143,8 +143,8 @@ public class SketchLessonX07_CubicleWorld extends PApplet {
             return mPosition;
         }
 
-        public boolean leaving(int theX, int theY, int theZ) {
-            return !(theX == cubicle().x && theY == cubicle().y && theZ == cubicle().z);
+        public boolean leaving(int pX, int pY, int pZ) {
+            return !(pX == cubicle().x && pY == cubicle().y && pZ == cubicle().z);
         }
 
         public boolean isActive() {

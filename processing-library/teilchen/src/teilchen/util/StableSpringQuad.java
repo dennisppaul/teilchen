@@ -60,10 +60,10 @@ public class StableSpringQuad {
      * connected particles.
      *
      * @param pParticleSystem ParticleSystem
-     * @param pA
-     * @param pB
-     * @param pC
-     * @param pD
+     * @param pA vertex A
+     * @param pB vertex B
+     * @param pC vertex C
+     * @param pD vertex D
      */
     public StableSpringQuad(final Physics pParticleSystem,
                             final PVector pA,

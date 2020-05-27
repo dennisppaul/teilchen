@@ -115,8 +115,8 @@ class MCubicleEntity implements ICubicleEntity {
     PVector position() {
         return mPosition;
     }
-    boolean leaving(int theX, int theY, int theZ) {
-        return !(theX == cubicle().x && theY == cubicle().y && theZ == cubicle().z);
+    boolean leaving(int pX, int pY, int pZ) {
+        return !(pX == cubicle().x && pY == cubicle().y && pZ == cubicle().z);
     }
     boolean isActive() {
         return true;

@@ -19,9 +19,9 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.util;
 
-import java.util.List;
 import processing.core.PGraphics;
 import processing.core.PVector;
 import teilchen.Particle;
@@ -31,14 +31,16 @@ import teilchen.force.IForce;
 import teilchen.force.Spring;
 import teilchen.force.TriangleDeflector;
 
+import java.util.List;
+
 public class DrawLib {
 
     public static void drawAttractor(final PGraphics g,
                                      final List<IForce> theForces,
-                                     int theColor) {
+                                     int pColor) {
         for (final IForce myForce : theForces) {
             if (myForce instanceof Attractor) {
-                draw(g, (Attractor) myForce, theColor);
+                draw(g, (Attractor) myForce, pColor);
             }
         }
     }
@@ -48,12 +50,12 @@ public class DrawLib {
      *
      * @param g           PGraphics
      * @param myAttractor Attractor
-     * @param theColor    int
+     * @param pColor      int
      */
-    public static void draw(final PGraphics g, final Attractor myAttractor, int theColor) {
+    public static void draw(final PGraphics g, final Attractor myAttractor, int pColor) {
         g.sphereDetail(6);
         g.noFill();
-        g.stroke(theColor);
+        g.stroke(pColor);
 
         g.pushMatrix();
         g.translate(myAttractor.position().x,
@@ -66,11 +68,11 @@ public class DrawLib {
     public static void drawParticles(final PGraphics g,
                                      final Physics theParticleSystem,
                                      float theSize,
-                                     int theColor) {
+                                     int pColor) {
         draw(g,
              theParticleSystem.particles(),
              theSize,
-             theColor);
+             pColor);
     }
 
     public static void drawParticles(final PGraphics g,
@@ -86,13 +88,13 @@ public class DrawLib {
     }
 
     public static void drawSprings(final PGraphics g,
-                                   final Physics theParticleSystem,
-                                   int theColor) {
+                                   final Physics pParticleSystem,
+                                   int pColor) {
         /* draw springs */
-        g.stroke(theColor);
-        for (int i = 0; i < theParticleSystem.forces().size(); i++) {
-            if (theParticleSystem.forces(i) instanceof Spring) {
-                Spring mySpring = (Spring) theParticleSystem.forces(i);
+        g.stroke(pColor);
+        for (int i = 0; i < pParticleSystem.forces().size(); i++) {
+            if (pParticleSystem.forces(i) instanceof Spring) {
+                Spring mySpring = (Spring) pParticleSystem.forces(i);
                 g.line(mySpring.a().position().x,
                        mySpring.a().position().y,
                        mySpring.b().position().x,
@@ -104,23 +106,23 @@ public class DrawLib {
     /**
      * draw particles.
      *
-     * @param g            PGraphics
-     * @param theParticles Vector
-     * @param theSize      float
-     * @param theColor     int
+     * @param g          PGraphics
+     * @param pParticles particles
+     * @param pSize      radius
+     * @param pColor     stroke color
      */
     public static void draw(final PGraphics g,
-                            final List<Particle> theParticles,
-                            float theSize,
-                            int theColor) {
-        g.stroke(theColor);
+                            final List<Particle> pParticles,
+                            float pSize,
+                            int pColor) {
+        g.stroke(pColor);
         g.noFill();
-        for (Particle myParticle : theParticles) {
+        for (Particle myParticle : pParticles) {
             g.pushMatrix();
             g.translate(myParticle.position().x,
                         myParticle.position().y,
                         myParticle.position().z);
-            g.ellipse(0, 0, theSize, theSize);
+            g.ellipse(0, 0, pSize, pSize);
             g.popMatrix();
         }
     }
@@ -128,25 +130,25 @@ public class DrawLib {
     /**
      * draw particles.
      *
-     * @param g              PGraphics
-     * @param theParticles   Vector
-     * @param theSize        float
-     * @param theStrokeColor int
-     * @param theFillColor
+     * @param g            PGraphics
+     * @param pParticles   particles
+     * @param pSize        radius
+     * @param pStrokeColor stroke color
+     * @param pFillColor   fill color
      */
     public static void draw(final PGraphics g,
-                            final List<Particle> theParticles,
-                            float theSize,
-                            int theStrokeColor,
-                            int theFillColor) {
-        g.stroke(theStrokeColor);
-        g.fill(theFillColor);
-        for (Particle myParticle : theParticles) {
+                            final List<Particle> pParticles,
+                            float pSize,
+                            int pStrokeColor,
+                            int pFillColor) {
+        g.stroke(pStrokeColor);
+        g.fill(pFillColor);
+        for (Particle myParticle : pParticles) {
             g.pushMatrix();
             g.translate(myParticle.position().x,
                         myParticle.position().y,
                         myParticle.position().z);
-            g.ellipse(0, 0, theSize, theSize);
+            g.ellipse(0, 0, pSize, pSize);
             g.popMatrix();
         }
     }
@@ -154,31 +156,31 @@ public class DrawLib {
     /**
      * draw triangle deflector with bounding box.
      *
-     * @param g                    PGraphics
-     * @param theTriangleDeflector TriangleDeflector
-     * @param theTriangleColor     int
-     * @param theBBColor           int
-     * @param theNormalColor       int
+     * @param g                  PGraphics
+     * @param pTriangleDeflector triangle deflector
+     * @param pTriangleColor     triangle color
+     * @param pBBColor           bounding box color
+     * @param pNormalColor       normal color
      */
     public static void draw(final PGraphics g,
-                            final TriangleDeflector theTriangleDeflector,
-                            int theTriangleColor,
-                            int theBBColor,
-                            int theNormalColor) {
+                            final TriangleDeflector pTriangleDeflector,
+                            int pTriangleColor,
+                            int pBBColor,
+                            int pNormalColor) {
         /* triangle */
-        int myTriangleColor = theTriangleColor;
-        if (theTriangleDeflector.hit()) {
-            myTriangleColor = theBBColor;
+        int myTriangleColor = pTriangleColor;
+        if (pTriangleDeflector.hit()) {
+            myTriangleColor = pBBColor;
         }
         draw(g,
-             theTriangleDeflector.a(), theTriangleDeflector.b(), theTriangleDeflector.c(),
+             pTriangleDeflector.a(), pTriangleDeflector.b(), pTriangleDeflector.c(),
              myTriangleColor,
-             theNormalColor);
+             pNormalColor);
 
         /* bb */
         draw(g,
-             theTriangleDeflector.boundingbox(),
-             theBBColor);
+             pTriangleDeflector.boundingbox(),
+             pBBColor);
     }
 
     /**
@@ -186,12 +188,12 @@ public class DrawLib {
      *
      * @param g                              PGraphics
      * @param theWorldAxisAlignedBoundingBox WorldAxisAlignedBoundingBox
-     * @param theColor                       int
+     * @param pColor                         int
      */
     public static void draw(final PGraphics g,
                             final WorldAxisAlignedBoundingBox theWorldAxisAlignedBoundingBox,
-                            int theColor) {
-        g.stroke(theColor);
+                            int pColor) {
+        g.stroke(pColor);
         g.pushMatrix();
         g.translate(theWorldAxisAlignedBoundingBox.position.x,
                     theWorldAxisAlignedBoundingBox.position.y,

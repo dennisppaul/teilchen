@@ -29,8 +29,8 @@ import teilchen.Physics;
 public class Pulse implements IForce {
 
     private boolean mActive;
-    private Particle mParticle;
-    private PVector mForce;
+    private final Particle mParticle;
+    private final PVector mForce;
     private float mDamping;
 
     public Pulse(final Particle pParticle) {
