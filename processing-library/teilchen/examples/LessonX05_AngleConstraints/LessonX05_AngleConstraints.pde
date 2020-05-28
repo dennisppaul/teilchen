@@ -7,6 +7,9 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 
+/*
+ * this sketch demonstrates how to contraint the angle between two springs or two sticks.
+ */
 Physics mPhysics;
 Particle mParticleA;
 Particle mParticleB;
@@ -31,10 +34,10 @@ void setup() {
     mParticleB = mPhysics.makeParticle();
     mParticleC = mPhysics.makeParticle();
     mParticleD = mPhysics.makeParticle();
-    mParticleA.position().set(width / 2 + 50, height / 3);
-    mParticleB.position().set(width / 2, height - height / 1.75f);
-    mParticleC.position().set(width / 2, height - height / 4);
-    mParticleD.position().set(width / 2, height - height / 8);
+    mParticleA.position().set(width / 2.0f + 50, height / 3.0f);
+    mParticleB.position().set(width / 2.0f, height - height / 1.75f);
+    mParticleC.position().set(width / 2.0f, height - height / 4.0f);
+    mParticleD.position().set(width / 2.0f, height - height / 8.0f);
     mParticleA.radius(7);
     mParticleB.radius(3);
     mParticleC.radius(10);

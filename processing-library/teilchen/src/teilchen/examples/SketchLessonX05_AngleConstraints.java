@@ -13,6 +13,10 @@ import teilchen.integration.RungeKutta;
 
 public class SketchLessonX05_AngleConstraints extends PApplet {
 
+    /*
+     * this sketch demonstrates how to contraint the angle between two springs or two sticks.
+     */
+
     private Physics mPhysics;
     private Particle mParticleA;
     private Particle mParticleB;
@@ -43,10 +47,10 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
         mParticleC = mPhysics.makeParticle();
         mParticleD = mPhysics.makeParticle();
 
-        mParticleA.position().set(width / 2 + 50, height / 3);
-        mParticleB.position().set(width / 2, height - height / 1.75f);
-        mParticleC.position().set(width / 2, height - height / 4);
-        mParticleD.position().set(width / 2, height - height / 8);
+        mParticleA.position().set(width / 2.0f + 50, height / 3.0f);
+        mParticleB.position().set(width / 2.0f, height - height / 1.75f);
+        mParticleC.position().set(width / 2.0f, height - height / 4.0f);
+        mParticleD.position().set(width / 2.0f, height - height / 8.0f);
 
         mParticleA.radius(7);
         mParticleB.radius(3);

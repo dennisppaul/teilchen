@@ -19,26 +19,26 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen;
 
 import teilchen.util.Vector3i;
 
-public class VectorfieldParticle
-        extends BasicParticle {
+public class VectorfieldParticle extends BasicParticle {
 
-    private Vector3i _myLastUnit;
+    private Vector3i mLastUnit;
 
     public VectorfieldParticle() {
         super();
-        _myLastUnit = new Vector3i();
-    }
-
-    public void setLastUnit(Vector3i theUnit) {
-        _myLastUnit = theUnit;
+        mLastUnit = new Vector3i();
     }
 
     public Vector3i getLastUnit() {
-        return _myLastUnit;
+        return mLastUnit;
+    }
+
+    public void setLastUnit(Vector3i pUnit) {
+        mLastUnit = pUnit;
     }
 
     public void accumulateInnerForce(final float pDeltaTime) {

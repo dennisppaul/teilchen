@@ -62,30 +62,30 @@ public class Physics {
         mParticles.add(theParticle);
     }
 
-    public void add(Collection<? extends Particle> theParticles) {
-        mParticles.addAll(theParticles);
+    public void add(Collection<? extends Particle> pParticles) {
+        mParticles.addAll(pParticles);
     }
 
     public void remove(Particle theParticle) {
         mParticles.remove(theParticle);
     }
 
-    public void remove(Collection<? extends Particle> theParticles) {
+    public void remove(Collection<? extends Particle> pParticles) {
 
-        mParticles.removeAll(theParticles);
+        mParticles.removeAll(pParticles);
     }
 
     public ArrayList<Particle> particles() {
         return mParticles;
     }
 
-    public Particle particles(final int theIndex) {
-        return mParticles.get(theIndex);
+    public Particle particles(final int pIndex) {
+        return mParticles.get(pIndex);
     }
 
-    public BasicParticle makeParticle(final PVector thePosition) {
+    public BasicParticle makeParticle(final PVector pPosition) {
         BasicParticle myParticle = makeParticle();
-        myParticle.setPositionRef(thePosition);
+        myParticle.setPositionRef(pPosition);
         myParticle.old_position().set(myParticle.position());
         return myParticle;
     }
@@ -126,10 +126,10 @@ public class Physics {
         return myParticle;
     }
 
-    public <T extends Particle> T makeParticle(Class<T> theParticleClass) {
+    public <T extends Particle> T makeParticle(Class<T> pParticleClass) {
         T myParticle;
         try {
-            myParticle = theParticleClass.newInstance();
+            myParticle = pParticleClass.newInstance();
             mParticles.add(myParticle);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -148,14 +148,15 @@ public class Physics {
     /* forces */
     public void add(IForce theForce) {
         if (theForce instanceof ViscousDrag && mIntegrator instanceof Verlet) {
-            System.err.println("### WARNING / 'viscous drag' might have no effect with 'verlet' integration. use 'Verlet" + "" +
-                               ".damping" + "(float theDamping)' instead.");
+            System.err.println(
+                    "### WARNING / 'viscous drag' might have no effect with 'verlet' integration. use 'Verlet" + "" +
+                    ".damping" + "(float theDamping)' instead.");
         }
         mForces.add(theForce);
     }
 
-    public void addForces(final ArrayList<? extends IForce> theForces) {
-        mForces.addAll(theForces);
+    public void addForces(final ArrayList<? extends IForce> pForces) {
+        mForces.addAll(pForces);
     }
 
     public void remove(IForce theForce) {
@@ -191,10 +192,10 @@ public class Physics {
         }
     }
 
-    public <T extends IForce> T makeForce(Class<T> theForceClass) {
+    public <T extends IForce> T makeForce(Class<T> pForceClass) {
         T myForce;
         try {
-            myForce = theForceClass.newInstance();
+            myForce = pForceClass.newInstance();
             mForces.add(myForce);
         } catch (Exception ex) {
             myForce = null;
@@ -202,81 +203,84 @@ public class Physics {
         return myForce;
     }
 
-    public Spring makeSpring(final Particle theA, final Particle theB) {
-        Spring mySpring = new Spring(theA, theB);
+    public Spring makeSpring(final Particle pA, final Particle pB) {
+        Spring mySpring = new Spring(pA, pB);
         mForces.add(mySpring);
         return mySpring;
     }
 
-    public Spring makeSpring(final Particle theA, final Particle theB, final float theRestLength) {
-        Spring mySpring = new Spring(theA, theB, theRestLength);
+    public Spring makeSpring(final Particle pA, final Particle pB, final float pRestLength) {
+        Spring mySpring = new Spring(pA, pB, pRestLength);
         mForces.add(mySpring);
         return mySpring;
     }
 
-    public Spring makeSpring(final Particle theA, final Particle theB, final float theSpringConstant, final float theSpringDamping) {
-        Spring mySpring = new Spring(theA, theB, theSpringConstant, theSpringDamping);
+    public Spring makeSpring(final Particle pA,
+                             final Particle pB,
+                             final float pSpringConstant,
+                             final float pSpringDamping) {
+        Spring mySpring = new Spring(pA, pB, pSpringConstant, pSpringDamping);
         mForces.add(mySpring);
         return mySpring;
     }
 
-    public Spring makeSpring(final Particle theA,
-                             final Particle theB,
-                             final float theSpringConstant,
-                             final float theSpringDamping,
-                             final float theRestLength) {
-        Spring mySpring = new Spring(theA, theB, theSpringConstant, theSpringDamping, theRestLength);
+    public Spring makeSpring(final Particle pA,
+                             final Particle pB,
+                             final float pSpringConstant,
+                             final float pSpringDamping,
+                             final float pRestLength) {
+        Spring mySpring = new Spring(pA, pB, pSpringConstant, pSpringDamping, pRestLength);
         mForces.add(mySpring);
         return mySpring;
     }
 
     /* constraints */
-    public void add(final IConstraint theConstraint) {
-        mConstraints.add(theConstraint);
+    public void add(final IConstraint pConstraint) {
+        mConstraints.add(pConstraint);
     }
 
-    public void addConstraints(final ArrayList<? extends IConstraint> theConstraints) {
-        mConstraints.addAll(theConstraints);
+    public void addConstraints(final ArrayList<? extends IConstraint> pConstraints) {
+        mConstraints.addAll(pConstraints);
     }
 
-    public void remove(final IConstraint theConstraint) {
-        mConstraints.remove(theConstraint);
+    public void remove(final IConstraint pConstraint) {
+        mConstraints.remove(pConstraint);
     }
 
     public ArrayList<IConstraint> constraints() {
         return mConstraints;
     }
 
-    public IConstraint constraints(final int theIndex) {
-        return mConstraints.get(theIndex);
+    public IConstraint constraints(final int pIndex) {
+        return mConstraints.get(pIndex);
     }
 
     /* integration */
-    public void setIntegratorRef(IIntegrator theIntegrator) {
-        mIntegrator = theIntegrator;
+    public void setIntegratorRef(IIntegrator pIntegrator) {
+        mIntegrator = pIntegrator;
     }
 
     public IIntegrator getIntegrator() {
         return mIntegrator;
     }
 
-    public void loop(final float theDeltaTime, final int theIterations) {
-        for (int i = 0; i < theIterations; i++) {
-            step(theDeltaTime / (float) theIterations);
+    public void loop(final float theDeltaTime, final int pIterations) {
+        for (int i = 0; i < pIterations; i++) {
+            step(theDeltaTime / (float) pIterations);
         }
     }
 
-    public void step(final float theDeltaTime) {
+    public void step(final float pDeltaTime) {
         handleForces();
-        integrate(theDeltaTime);
-        advance(theDeltaTime);
+        integrate(pDeltaTime);
+        advance(pDeltaTime);
         handleConstraints();
-        post(theDeltaTime);
+        post(pDeltaTime);
     }
 
-    protected synchronized void integrate(float theDeltaTime) {
+    protected synchronized void integrate(float pDeltaTime) {
         for (int j = 0; j < integrations_per_steps; j++) {
-            mIntegrator.step(theDeltaTime / integrations_per_steps, this);
+            mIntegrator.step(pDeltaTime / integrations_per_steps, this);
         }
     }
 
@@ -302,7 +306,7 @@ public class Physics {
         }
     }
 
-    protected synchronized void advance(float theDeltaTime) {
+    protected synchronized void advance(float pDeltaTime) {
         synchronized (mParticles) {
             final Iterator<Particle> i = mParticles.iterator();
             while (i.hasNext()) {
@@ -310,7 +314,7 @@ public class Physics {
                 /* clear force */
                 mParticle.force().set(0, 0, 0);
                 /* age particle */
-                mParticle.age(mParticle.age() + theDeltaTime);
+                mParticle.age(mParticle.age() + pDeltaTime);
                 /* remove dead */
                 if (HINT_REMOVE_DEAD) {
                     if (mParticle.dead()) {
@@ -339,7 +343,7 @@ public class Physics {
         }
     }
 
-    protected synchronized void post(float theDeltaTime) {
+    protected synchronized void post(float pDeltaTime) {
         synchronized (mParticles) {
             for (Particle mParticle : mParticles) {
                 if (mParticle.fixed()) {

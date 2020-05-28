@@ -12,8 +12,8 @@ import teilchen.util.Overlap;
 public class SketchLessonX01_Overlap extends PApplet {
 
     /*
-     * this sketch is exactly like Lesson06_Springs, except that it also shows how
-     * to resolveOverlap overlaps.
+     * this sketch is exactly like `Lesson06_Springs` except that it also shows how to resolve
+     * overlaps of particles by moving particles apart manipulating their position directly.
      */
 
     private static final float PARTICLE_RADIUS = 13;
@@ -31,7 +31,7 @@ public class SketchLessonX01_Overlap extends PApplet {
         mPhysics.add(new ViscousDrag());
         mPhysics.add(new Gravity(new PVector(0, 100f, 0)));
 
-        mRoot = mPhysics.makeParticle(width / 2, height / 2, 0.0f);
+        mRoot = mPhysics.makeParticle(width / 2.0f, height / 2.0f, 0.0f);
         mRoot.mass(30);
         mRoot.fixed(true);
         mRoot.radius(PARTICLE_RADIUS);
@@ -52,7 +52,7 @@ public class SketchLessonX01_Overlap extends PApplet {
 
         /* move overlapping particles away from each other */
         for (int i = 0; i < 10; i++) {
-            mRoot.position().set(width / 2, height / 2, 0.0f); // a bit of a 'hack'
+            mRoot.position().set(width / 2.0f, height / 2.0f, 0.0f); // a bit of a 'hack'
             Overlap.resolveOverlap(mPhysics.particles());
         }
 

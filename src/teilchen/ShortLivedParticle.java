@@ -19,30 +19,30 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen;
 
-public class ShortLivedParticle
-        extends BasicParticle {
+public class ShortLivedParticle extends BasicParticle {
 
-    private float _myMaxAge;
+    private float mMaxAge;
 
-    public ShortLivedParticle(float theMaxAge) {
-        _myMaxAge = theMaxAge;
+    public ShortLivedParticle(float pMaxAge) {
+        mMaxAge = pMaxAge;
     }
 
     public ShortLivedParticle() {
         this(1);
     }
 
-    public void setMaxAge(float theMaxAge) {
-        _myMaxAge = theMaxAge;
+    public void setMaxAge(float pMaxAge) {
+        mMaxAge = pMaxAge;
     }
 
     public float ageRatio() {
-        return Math.min(age() / _myMaxAge, 1);
+        return Math.min(age() / mMaxAge, 1);
     }
 
     public boolean dead() {
-        return age() >= _myMaxAge;
+        return age() >= mMaxAge;
     }
 }

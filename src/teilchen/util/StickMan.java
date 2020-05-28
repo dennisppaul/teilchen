@@ -11,15 +11,10 @@ import teilchen.force.MuscleSpring;
 public class StickMan {
 
     private final StableSpringQuad _myQuad;
-
     private final float _myScale;
-
     private final BasicParticle myLeftFoot;
-
     private final BasicParticle myRightFoot;
-
     private final BasicParticle myLeftHand;
-
     private final BasicParticle myRightHand;
 
     public StickMan(Physics theParticleSystem, float theOffset, float theScale) {

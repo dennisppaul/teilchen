@@ -19,6 +19,7 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen;
 
 import processing.core.PVector;
@@ -39,8 +40,6 @@ public interface Particle
 
     void mass(float pMass);
 
-    PVector position();
-
     PVector old_position();
 
     void setPositionRef(PVector pPosition);
@@ -58,6 +57,8 @@ public interface Particle
     void accumulateInnerForce(final float pDeltaTime);
 
     float radius();
+
+    PVector position();
 
     void radius(float pRadius);
 

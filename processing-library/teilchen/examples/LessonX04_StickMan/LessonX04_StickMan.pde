@@ -8,13 +8,12 @@ import teilchen.util.*;
 
 
 /*
- * this demo shows some advanced use of particles, springs and attractors to
- * create stickmen.
+ * this sketch demonstratwa some advanced use of particles, springs ( e.g `MuscleSpring` )
+ * and attractors to create a group of `StickMan`.
  */
 Physics mPhysics;
 Attractor mAttractor;
 Gravity mGravity;
-ViscousDrag mViscousDrag;
 StickMan[] mMyStickMan;
 void settings() {
     size(640, 480, P3D);
@@ -27,13 +26,13 @@ void setup() {
     mGravity = new Gravity();
     mGravity.force().y = 20;
     mPhysics.add(mGravity);
-    mViscousDrag = new ViscousDrag();
+    ViscousDrag mViscousDrag = new ViscousDrag();
     mViscousDrag.coefficient = 0.85f;
     mPhysics.add(mViscousDrag);
     mAttractor = new Attractor();
     mAttractor.radius(500);
     mAttractor.strength(0);
-    mAttractor.position().set(width / 2, height / 2);
+    mAttractor.position().set(width / 2.0f, height / 2.0f);
     mPhysics.add(mAttractor);
     mMyStickMan = new StickMan[20];
     for (int i = 0; i < mMyStickMan.length; i++) {

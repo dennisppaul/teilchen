@@ -19,35 +19,26 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen;
 
-import java.io.Serializable;
 import processing.core.PVector;
 
-public class BasicParticle
-        implements Particle, Serializable {
+import java.io.Serializable;
 
-    private boolean mFixed;
-
-    private float mAge;
-
-    private float mMass;
-
-    private PVector mPosition;
-
-    private final PVector mOldPosition;
-
-    private final PVector mVelocity;
-
-    private final PVector mForce;
-
-    private boolean mTagged;
-
-    private boolean mStill;
-
-    private float mRadius;
+public class BasicParticle implements Particle, Serializable {
 
     private static final long serialVersionUID = 3737917975116369338L;
+    private final PVector mOldPosition;
+    private final PVector mVelocity;
+    private final PVector mForce;
+    private boolean mFixed;
+    private float mAge;
+    private float mMass;
+    private PVector mPosition;
+    private boolean mTagged;
+    private boolean mStill;
+    private float mRadius;
 
     public BasicParticle() {
         mPosition = new PVector();
@@ -86,10 +77,6 @@ public class BasicParticle
         mMass = pMass;
     }
 
-    public PVector position() {
-        return mPosition;
-    }
-
     public PVector old_position() {
         return mOldPosition;
     }
@@ -110,9 +97,6 @@ public class BasicParticle
         return false;
     }
 
-    public void accumulateInnerForce(final float pDeltaTime) {
-    }
-
     public boolean tagged() {
         return mTagged;
     }
@@ -121,19 +105,26 @@ public class BasicParticle
         mTagged = pTag;
     }
 
-    public boolean still() {
-        return mStill;
-    }
-
-    public void still(boolean pStill) {
-        mStill = pStill;
+    public void accumulateInnerForce(final float pDeltaTime) {
     }
 
     public float radius() {
         return mRadius;
     }
 
+    public PVector position() {
+        return mPosition;
+    }
+
     public void radius(float pRadius) {
         mRadius = pRadius;
+    }
+
+    public boolean still() {
+        return mStill;
+    }
+
+    public void still(boolean pStill) {
+        mStill = pStill;
     }
 }

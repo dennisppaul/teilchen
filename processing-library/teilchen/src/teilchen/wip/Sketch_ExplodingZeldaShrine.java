@@ -16,7 +16,7 @@ public class Sketch_ExplodingZeldaShrine extends PApplet {
     }
 
     public void setup() {
-        p1.set(width / 2, height / 2);
+        p1.set(width / 2.0f, height / 2.0f);
     }
 
     public void draw() {
@@ -40,7 +40,7 @@ public class Sketch_ExplodingZeldaShrine extends PApplet {
         PVector d = PVector.sub(v2, v1);
         PVector c = new PVector(-d.y, d.x);
         c.normalize();
-        c.mult(pLineWidth / 2);
+        c.mult(pLineWidth / 2.0f);
         beginShape(QUADS);
         /* core */
         fill(pColorCore);

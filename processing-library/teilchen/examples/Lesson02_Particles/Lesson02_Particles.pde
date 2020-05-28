@@ -8,8 +8,8 @@ import teilchen.util.*;
 
 
 /*
- * this sketch shows how to create and handle multiple particles and remove
- * individual particles.
+ * this sketch demonstrates how to create and handle multiple particles and remove individual
+ * particles.
  */
 Physics mPhysics;
 void settings() {
@@ -39,7 +39,7 @@ void draw() {
     for (int i = 0; i < mPhysics.particles().size(); i++) {
         Particle mParticle = mPhysics.particles(i);
         if (mParticle.position().y > height * 0.9f) {
-            mPhysics.particles().remove(i);
+            mPhysics.particles().remove(i); // @TODO(check if this potentially creates an exception)
         }
     }
     /* draw all the particles in the system */

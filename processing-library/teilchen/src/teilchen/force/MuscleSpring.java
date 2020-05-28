@@ -66,8 +66,8 @@ public class MuscleSpring
         return mInitialRestLength;
     }
 
-    public void restlength(float theRestLength) {
-        mInitialRestLength = theRestLength;
+    public void restlength(float pRestLength) {
+        mInitialRestLength = pRestLength;
     }
 
     public void frequency(final float theFrequency) {

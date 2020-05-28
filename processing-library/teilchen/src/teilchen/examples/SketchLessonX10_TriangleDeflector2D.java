@@ -1,12 +1,19 @@
 package teilchen.examples;
 
 import processing.core.PApplet;
+import teilchen.MortalParticle;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.force.Gravity;
 import teilchen.force.TriangleDeflector;
 
 public class SketchLessonX10_TriangleDeflector2D extends PApplet {
+
+    /*
+     * this sketch demonstrates how to use `TriangleDeflectors` in a 2D context to make particles
+     * bounce off a triangle ( that looks like a line ). it also demonstrates how to use
+     * `MortalParticle` to remove particles automatically once they leave the screen.
+     */
 
     private Physics mPhysics;
     private TriangleDeflector mTriangleDeflector;
@@ -35,14 +42,6 @@ public class SketchLessonX10_TriangleDeflector2D extends PApplet {
         final float mDeltaTime = 1.0f / frameRate;
         mPhysics.step(mDeltaTime);
 
-        /* remove particles  */
-        for (int i = 0; i < mPhysics.particles().size(); i++) {
-            Particle mParticle = mPhysics.particles(i);
-            if (mParticle.position().y > height || mParticle.still()) {
-                mPhysics.particles().remove(i); //@TODO(this might cause an exception. should be replaced by iterator)
-            }
-        }
-
         /* draw particles */
         background(255);
 
@@ -67,14 +66,22 @@ public class SketchLessonX10_TriangleDeflector2D extends PApplet {
 
         /* finally remove the collision tag */
         mPhysics.removeTags();
+
+        if (mousePressed) {
+            /* create and add a particle to the system */
+            MyMortalParticle mParticle = new MyMortalParticle();
+            mPhysics.add(mParticle);
+            /* set particle to mouse position with random velocity */
+            mParticle.position().set(mouseX, mouseY);
+            mParticle.velocity().set(random(-20, 20), 0);
+        }
     }
 
-    public void mousePressed() {
-        /* create and add a particle to the system */
-        Particle mParticle = mPhysics.makeParticle();
-        /* set particle to mouse position with random velocity */
-        mParticle.position().set(mouseX, mouseY);
-        mParticle.velocity().set(random(-20, 20), 0);
+    private class MyMortalParticle extends MortalParticle {
+
+        public boolean isDead() {
+            return position().y > height || still();
+        }
     }
 
     public static void main(String[] args) {

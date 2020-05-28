@@ -7,10 +7,16 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 
+/*
+ * this sketch demonstrates how to use `CubicleWorld` to separate a given space into equally
+ * sized cubes in order to only draw paticles from a specific cube. this mechanism is helpful
+ * to avoid decrease the in demand for computational resources in particle systems with large
+ * numbers of particles.
+ */
 final int WORLD_NUMBER_OF_CUBICLES = 15;
 final float WORLD_CUBICLE_SCALE = 20;
 final float WORLD_SCALE = WORLD_NUMBER_OF_CUBICLES * WORLD_CUBICLE_SCALE;
-final boolean showCubicles = true;
+final boolean mShowCubicles = true;
 final PVector mPosition = new PVector();
 float mRotationZ = 0.1f;
 CubicleWorld mCubicleWorld;
@@ -28,33 +34,30 @@ void setup() {
     mCubicleWorld.transform().translation.set(-WORLD_SCALE / 2, -WORLD_SCALE / 2, -WORLD_SCALE / 2);
     mCubicleWorldView = new CubicleWorldView(mCubicleWorld);
     mCubicleWorldView.color_empty = color(0, 1);
-    mCubicleWorldView.color_full = color(0, 4);
+    mCubicleWorldView.color_full = color(0, 2);
     mCubicleWorld.add(new MCubicleEntity());
 }
 void draw() {
-    /* handle entities */
-    if (frameRate > 30) {
-        addRandomEntities(2);
-    }
+    /* add entities */
+    addRandomEntities(10);
     mCubicleWorld.update();
     ArrayList<ICubicleEntity> mEntities = mCubicleWorld.getLocalEntities(mPosition, 1);
     /* draw things */
     background(255);
     pushMatrix();
-    translate(width / 2, height / 2, 0);
+    translate(width / 2.0f, height / 2.0f, 0);
     /* rotate */
     if (mousePressed) {
         mRotationZ += (mouseX * 0.01f - mRotationZ) * 0.05f;
     } else {
-        mPosition.x = mouseX - width / 2;
-        mPosition.y = mouseY - height / 2;
+        mPosition.x = mouseX - width / 2.0f;
+        mPosition.y = mouseY - height / 2.0f;
     }
     rotateX(THIRD_PI);
     rotateZ(mRotationZ);
     /* draw cubicle world */
-    if (showCubicles) {
-        strokeWeight(0.1f);
-        stroke(0, 127);
+    if (mShowCubicles) {
+        strokeWeight(1.0f / mCubicleWorld.cellscale().x); // unscale stroke weight
         noFill();
         mCubicleWorldView.draw(g);
     }

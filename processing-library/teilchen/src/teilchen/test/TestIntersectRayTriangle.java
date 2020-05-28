@@ -22,7 +22,7 @@ public class TestIntersectRayTriangle extends PApplet {
     public void draw() {
         background(50);
 
-        translate(width / 2, height / 2);
+        translate(width / 2.0f, height / 2.0f);
         if (!mousePressed) {
             mRotationX = TWO_PI * mouseY / (float) height;
             mRotationY = TWO_PI * mouseX / (float) width;
@@ -33,8 +33,8 @@ public class TestIntersectRayTriangle extends PApplet {
         PVector rayOrigin = new PVector(0, 0, 0);
         PVector rayVector = new PVector(mRayX, mRayY, -100);
         if (mousePressed) {
-            mRayX = mouseX - width / 2;
-            mRayY = mouseY - height / 2;
+            mRayX = mouseX - width / 2.0f;
+            mRayY = mouseY - height / 2.0f;
         }
         PVector v0 = new PVector(-100, -100, -200);
         PVector v1 = new PVector(100, -100, -200);

@@ -7,6 +7,10 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 
+/*
+ * this sketch demonstrates how to create a complex swarm behavior by combining the four simple
+ * behaviors `Separation`, `Alignment`, `Cohesion` and `Wander` ( plus `Motor` ).
+ */
 Physics mPhysics;
 ArrayList<SwarmEntity> mSwarmEntities;
 void settings() {

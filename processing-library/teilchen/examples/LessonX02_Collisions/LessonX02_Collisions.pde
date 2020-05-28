@@ -7,6 +7,10 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 
+/*
+ * this sketch demonstrates how to use `CollisionManager` to resolve particle collisions by
+ * applying temporary springs pushing 2 colliding particles appart.
+ */
 static final float PARTICLE_SIZE = 12;
 CollisionManager mCollision;
 Physics mPhysics;

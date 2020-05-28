@@ -19,19 +19,22 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.util;
 
-import java.util.ArrayList;
 import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
-import static teilchen.Physics.EPSILON;
 import teilchen.constraint.Stick;
 import teilchen.cubicle.CubicleParticle;
 import teilchen.cubicle.CubicleWorld;
 import teilchen.cubicle.ICubicleEntity;
 import teilchen.force.IForce;
 import teilchen.force.Spring;
+
+import java.util.ArrayList;
+
+import static teilchen.Physics.EPSILON;
 import static teilchen.util.Util.distance;
 import static teilchen.util.Util.lengthSquared;
 
@@ -42,38 +45,19 @@ import static teilchen.util.Util.lengthSquared;
  */
 public class CollisionManager {
 
-    public boolean HINT_IGNORE_STILL_OR_FIXED = false;
-
-    private float mCollisionSpringConstant;
-
-    private float mCollisionSpringDamping;
-
-    private final Physics mCollisionPhysics;
-
-    private float mMinimumDistance;
-
-    private PVector mResolveSamePosition;
-
-    public enum ResolverType {
-//        COLLISION_STICK, COLLISION_SPRING,
-
-        SPRING, STICK
-
-    }
-    private final Random mRandom;
-
-    private ResolverType mResolverType;
-
-    private float mCollisionResolverIntervalCounter = 1;
-
-    private float mCollisionResolverInterval = 0;
-
-    private int mDistanceMode = DISTANCE_MODE_FIXED;
-
     public static final int DISTANCE_MODE_RADIUS = 0;
-
     public static final int DISTANCE_MODE_FIXED = 1;
-
+    public boolean HINT_IGNORE_STILL_OR_FIXED = false;
+    private final Physics mCollisionPhysics;
+    private final Random mRandom;
+    private float mCollisionSpringConstant;
+    private float mCollisionSpringDamping;
+    private float mMinimumDistance;
+    private final PVector mResolveSamePosition;
+    private ResolverType mResolverType;
+    private float mCollisionResolverIntervalCounter = 1;
+    private float mCollisionResolverInterval = 0;
+    private int mDistanceMode = DISTANCE_MODE_FIXED;
     public CollisionManager() {
         this(new Physics());
     }
@@ -178,6 +162,15 @@ public class CollisionManager {
         }
     }
 
+    public void createCollisionResolvers(final CubicleWorld theWorld) {
+        for (int i = 0; i < mCollisionPhysics.particles().size(); i++) {
+            final Particle myParticle = mCollisionPhysics.particles().get(i);
+            if (myParticle instanceof CubicleParticle) {
+                createCollisionResolver(theWorld, (CubicleParticle) myParticle);
+            }
+        }
+    }
+
     private void createCollisionResolver(final Particle theParticle, final int theStart) {
         if (HINT_IGNORE_STILL_OR_FIXED) {
             if (theParticle.fixed() || theParticle.still()) {
@@ -193,7 +186,7 @@ public class CollisionManager {
                     if (theParticle.fixed() && myOtherParticle.fixed()) {
 //                        continue;
                     }
-                    /**
+                    /*
                      * because of the way we handle the collision resolver
                      * creation there is no need to check for multiple spring
                      * connections.
@@ -224,15 +217,6 @@ public class CollisionManager {
                                                                          mResolveSamePosition.z * 0.5f);
                     }
                 }
-            }
-        }
-    }
-
-    public void createCollisionResolvers(final CubicleWorld theWorld) {
-        for (int i = 0; i < mCollisionPhysics.particles().size(); i++) {
-            final Particle myParticle = mCollisionPhysics.particles().get(i);
-            if (myParticle instanceof CubicleParticle) {
-                createCollisionResolver(theWorld, (CubicleParticle) myParticle);
             }
         }
     }
@@ -303,6 +287,11 @@ public class CollisionManager {
             myMinimumDistance = mMinimumDistance;
         }
         return myMinimumDistance;
+    }
+
+    public enum ResolverType {
+        //        COLLISION_STICK, COLLISION_SPRING,
+        SPRING, STICK
     }
 
     public static class CollisionSpring

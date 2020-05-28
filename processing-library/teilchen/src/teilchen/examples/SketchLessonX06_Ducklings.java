@@ -13,8 +13,8 @@ import java.util.ArrayList;
 public class SketchLessonX06_Ducklings extends PApplet {
 
     /*
-     * this demo shows how to add behaviors to particles. in this example the
-     * arrival behavior.
+     * this sketch demonstrates how to use `Arrival` behaviors with particles to create a group of
+     * ducklings.
      */
 
     private Physics mPhysics;
@@ -26,7 +26,6 @@ public class SketchLessonX06_Ducklings extends PApplet {
     }
 
     public void setup() {
-        frameRate(60);
         colorMode(RGB, 1.0f);
 
         /* physics */

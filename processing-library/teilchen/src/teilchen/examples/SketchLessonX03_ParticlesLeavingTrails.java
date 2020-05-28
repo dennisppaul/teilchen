@@ -15,6 +15,10 @@ import java.util.ArrayList;
 
 public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
 
+    /*
+     * this sketch demonstrates how to use `ParticleTrail` to make particles leave a trail.
+     */
+
     private Physics mPhysics;
     private ArrayList<ParticleTrail> mTrails;
     private Attractor mAttractor;
@@ -61,15 +65,7 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
             myParticleTrail.mass(0.5f);
             mTrails.add(myParticleTrail);
         }
-        resetParticles(width / 2, height / 2);
-    }
-
-    private void resetParticles(float x, float y) {
-        for (ParticleTrail myTrails : mTrails) {
-            myTrails.particle().position().set(x + random(-10, 10), y + random(-10, 10), 0);
-            myTrails.particle().velocity().set(random(-10, 10), random(-10, 10), random(-10, 10));
-            myTrails.fragments().clear();
-        }
+        resetParticles(width / 2.0f, height / 2.0f);
     }
 
     public void draw() {
@@ -85,6 +81,18 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
         background(255);
         for (ParticleTrail myTrail : mTrails) {
             drawTrail(myTrail);
+        }
+    }
+
+    public void mousePressed() {
+        resetParticles(mouseX, mouseY);
+    }
+
+    private void resetParticles(float x, float y) {
+        for (ParticleTrail myTrails : mTrails) {
+            myTrails.particle().position().set(x + random(-10, 10), y + random(-10, 10), 0);
+            myTrails.particle().velocity().set(random(-10, 10), random(-10, 10), random(-10, 10));
+            myTrails.fragments().clear();
         }
     }
 
@@ -127,10 +135,6 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
                  mParticle.position().y,
                  mParticle.position().z);
         }
-    }
-
-    public void mousePressed() {
-        resetParticles(mouseX, mouseY);
     }
 
     public static void main(String[] args) {

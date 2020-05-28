@@ -8,8 +8,8 @@ import teilchen.util.*;
 
 
 /*
- * this demo shows how to add behaviors to particles. in this example the
- * arrival behavior.
+ * this sketch demonstrates how to use `Arrival` behaviors with particles to create a group of
+ * ducklings.
  */
 Physics mPhysics;
 ArrayList<Duckling> mDucklings;
@@ -18,7 +18,6 @@ void settings() {
     size(640, 480, P3D);
 }
 void setup() {
-    frameRate(60);
     colorMode(RGB, 1.0f);
     /* physics */
     mPhysics = new Physics();

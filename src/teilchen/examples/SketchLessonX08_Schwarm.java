@@ -18,6 +18,11 @@ import java.util.ArrayList;
 
 public class SketchLessonX08_Schwarm extends PApplet {
 
+    /*
+     * this sketch demonstrates how to create a complex swarm behavior by combining the four simple
+     * behaviors `Separation`, `Alignment`, `Cohesion` and `Wander` ( plus `Motor` ).
+     */
+
     private Physics mPhysics;
     private ArrayList<SwarmEntity> mSwarmEntities;
 
@@ -73,13 +78,9 @@ public class SketchLessonX08_Schwarm extends PApplet {
     private class SwarmEntity extends BehaviorParticle {
 
         private final Separation<SwarmEntity> separation;
-
         private final Alignment<SwarmEntity> alignment;
-
         private final Cohesion<SwarmEntity> cohesion;
-
         private final Wander wander;
-
         private final Motor motor;
 
         public SwarmEntity() {

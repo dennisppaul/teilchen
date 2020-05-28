@@ -28,7 +28,7 @@ public interface IBehaviorParticle
 
     float maximumInnerForce();
 
-    void maximumInnerForce(float theForce);
+    void maximumInnerForce(float pForce);
 
     ArrayList<teilchen.behavior.IBehavior> behaviors();
 }

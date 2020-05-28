@@ -2,6 +2,7 @@ package teilchen.examples;
 
 import processing.core.PApplet;
 import processing.core.PVector;
+import teilchen.MortalParticle;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.force.Gravity;
@@ -11,6 +12,12 @@ import teilchen.util.DrawLib;
 import java.util.ArrayList;
 
 public class SketchLessonX09_TriangleDeflector extends PApplet {
+
+    /*
+     * this sketch demonstrates how to use `TriangleDeflectors` to make particles bounce off two
+     * triangles. it also demonstrates how to use `MortalParticle` to remove particles
+     * automatically once they leave the screen.
+     */
 
     private Physics mPhysics;
     private ArrayList<TriangleDeflector> mTriangleDeflectors;
@@ -31,9 +38,7 @@ public class SketchLessonX09_TriangleDeflector extends PApplet {
         /* triangle deflectors */
         final PVector[] mVertices = new PVector[]{new PVector(0, 0, 0),
                                                   new PVector(width, height, 0),
-                                                  new PVector(0,
-                                                              height,
-                                                              0),
+                                                  new PVector(0, height, 0),
                                                   new PVector(0, 0, 0),
                                                   new PVector(width, 0, 0),
                                                   new PVector(width, height, 0),};
@@ -44,26 +49,19 @@ public class SketchLessonX09_TriangleDeflector extends PApplet {
     public void draw() {
         if (mousePressed) {
             /* create and add a particle to the system */
-            Particle mParticle = mPhysics.makeParticle();
+            MyMortalParticle mParticle = new MyMortalParticle();
+            mPhysics.add(mParticle);
             /* set particle to mouse position with random velocity */
-            mParticle.position().set(mouseX, random(height), height / 2);
+            mParticle.position().set(mouseX, random(height), height / 2.0f);
             mParticle.velocity().set(random(-20, 20), 0, random(20));
         }
 
         final float mDeltaTime = 1.0f / frameRate;
         mPhysics.step(mDeltaTime);
 
-        /* remove particles  */
-        for (int i = 0; i < mPhysics.particles().size(); i++) {
-            Particle mParticle = mPhysics.particles(i);
-            if (mParticle.position().z < -height) {
-                mPhysics.particles().remove(i);
-            }
-        }
-
         /* draw particles */
         background(255);
-        camera(width / 2, mouseY + height, height * 1.3f - mouseY, width / 2, height / 2, 0, 0, 1, 0);
+        camera(width / 2.0f, mouseY + height, height * 1.3f - mouseY, width / 2.0f, height / 2.0f, 0, 0, 1, 0);
 
         noStroke();
         sphereDetail(10);
@@ -88,6 +86,13 @@ public class SketchLessonX09_TriangleDeflector extends PApplet {
 
         /* finally remove the collision tag */
         mPhysics.removeTags();
+    }
+
+    private class MyMortalParticle extends MortalParticle {
+
+        public boolean isDead() {
+            return position().z < -height;
+        }
     }
 
     public static void main(String[] args) {

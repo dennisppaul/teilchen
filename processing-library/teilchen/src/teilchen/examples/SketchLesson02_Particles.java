@@ -8,8 +8,8 @@ import teilchen.force.Gravity;
 public class SketchLesson02_Particles extends PApplet {
 
     /*
-     * this sketch shows how to create and handle multiple particles and remove
-     * individual particles.
+     * this sketch demonstrates how to create and handle multiple particles and remove individual
+     * particles.
      */
 
     private Physics mPhysics;
@@ -47,7 +47,7 @@ public class SketchLesson02_Particles extends PApplet {
         for (int i = 0; i < mPhysics.particles().size(); i++) {
             Particle mParticle = mPhysics.particles(i);
             if (mParticle.position().y > height * 0.9f) {
-                mPhysics.particles().remove(i);
+                mPhysics.particles().remove(i); // @TODO(check if this potentially creates an exception)
             }
         }
 

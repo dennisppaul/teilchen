@@ -61,8 +61,8 @@ public class BehaviorParticle extends BasicParticle implements IBehaviorParticle
         return mMaximumInnerForce;
     }
 
-    public void maximumInnerForce(float theForce) {
-        mMaximumInnerForce = theForce;
+    public void maximumInnerForce(float pForce) {
+        mMaximumInnerForce = pForce;
     }
 
     public ArrayList<IBehavior> behaviors() {

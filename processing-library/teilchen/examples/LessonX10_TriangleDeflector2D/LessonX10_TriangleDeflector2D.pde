@@ -7,6 +7,11 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 
+/*
+ * this sketch demonstrates how to use `TriangleDeflectors` in a 2D context to make particles
+ * bounce off a triangle ( that looks like a line ). it also demonstrates how to use
+ * `MortalParticle` to remove particles automatically once they leave the screen.
+ */
 Physics mPhysics;
 TriangleDeflector mTriangleDeflector;
 void settings() {
@@ -29,13 +34,6 @@ void setup() {
 void draw() {
     final float mDeltaTime = 1.0f / frameRate;
     mPhysics.step(mDeltaTime);
-    /* remove particles  */
-    for (int i = 0; i < mPhysics.particles().size(); i++) {
-        Particle mParticle = mPhysics.particles(i);
-        if (mParticle.position().y > height || mParticle.still()) {
-            mPhysics.particles().remove(i); //@TODO(this might cause an exception. should be replaced by iterator)
-        }
-    }
     /* draw particles */
     background(255);
     for (int i = 0; i < mPhysics.particles().size(); i++) {
@@ -57,11 +55,17 @@ void draw() {
     line(mTriangleDeflector.a().x, mTriangleDeflector.a().y, mTriangleDeflector.b().x, mTriangleDeflector.b().y);
     /* finally remove the collision tag */
     mPhysics.removeTags();
+    if (mousePressed) {
+        /* create and add a particle to the system */
+        MyMortalParticle mParticle = new MyMortalParticle();
+        mPhysics.add(mParticle);
+        /* set particle to mouse position with random velocity */
+        mParticle.position().set(mouseX, mouseY);
+        mParticle.velocity().set(random(-20, 20), 0);
+    }
 }
-void mousePressed() {
-    /* create and add a particle to the system */
-    Particle mParticle = mPhysics.makeParticle();
-    /* set particle to mouse position with random velocity */
-    mParticle.position().set(mouseX, mouseY);
-    mParticle.velocity().set(random(-20, 20), 0);
+class MyMortalParticle extends MortalParticle {
+    boolean isDead() {
+        return position().y > height || still();
+    }
 }

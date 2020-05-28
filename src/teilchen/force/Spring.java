@@ -31,43 +31,37 @@ import static teilchen.util.Util.distance;
 public class Spring implements IForce, IConnection {
 
     protected float mSpringConstant;
-
     protected float mSpringDamping;
-
     protected float mRestLength;
-
     protected Particle mA;
-
     protected Particle mB;
-
     protected boolean mOneWay;
-
     protected boolean mActive;
 
-    public Spring(Particle theA, Particle theB) {
-        this(theA, theB, 2.0f, 0.1f, distance(theA.position(), theB.position()));
+    public Spring(Particle pA, Particle pB) {
+        this(pA, pB, 2.0f, 0.1f, distance(pA.position(), pB.position()));
     }
 
-    public Spring(final Particle theA,
-                  final Particle theB,
-                  final float theSpringConstant,
-                  final float theSpringDamping,
-                  final float theRestLength) {
-        mSpringConstant = theSpringConstant;
-        mSpringDamping = theSpringDamping;
-        mRestLength = theRestLength;
-        mA = theA;
-        mB = theB;
+    public Spring(final Particle pA,
+                  final Particle pB,
+                  final float pSpringConstant,
+                  final float pSpringDamping,
+                  final float pRestLength) {
+        mSpringConstant = pSpringConstant;
+        mSpringDamping = pSpringDamping;
+        mRestLength = pRestLength;
+        mA = pA;
+        mB = pB;
         mOneWay = false;
         mActive = true;
     }
 
-    public Spring(Particle theA, Particle theB, float theRestLength) {
-        this(theA, theB, 2.0f, 0.1f, theRestLength);
+    public Spring(Particle pA, Particle pB, float pRestLength) {
+        this(pA, pB, 2.0f, 0.1f, pRestLength);
     }
 
-    public Spring(Particle theA, Particle theB, final float theSpringConstant, final float theSpringDamping) {
-        this(theA, theB, theSpringConstant, theSpringDamping, distance(theA.position(), theB.position()));
+    public Spring(Particle pA, Particle pB, final float pSpringConstant, final float pSpringDamping) {
+        this(pA, pB, pSpringConstant, pSpringDamping, distance(pA.position(), pB.position()));
     }
 
     public void setRestLengthByPosition() {
@@ -78,8 +72,8 @@ public class Spring implements IForce, IConnection {
         return mRestLength;
     }
 
-    public void restlength(float theRestLength) {
-        mRestLength = theRestLength;
+    public void restlength(float pRestLength) {
+        mRestLength = pRestLength;
     }
 
     public final Particle a() {
@@ -90,46 +84,36 @@ public class Spring implements IForce, IConnection {
         return mB;
     }
 
-    public final Particle a(Particle theA) {
-        return mA = theA;
+    public final Particle a(Particle pA) {
+        return mA = pA;
     }
 
-    public final Particle b(Particle theB) {
-        return mB = theB;
+    public final Particle b(Particle pB) {
+        return mB = pB;
     }
 
     public final float currentLength() {
         return distance(mA.position(), mB.position());
     }
 
-    /**
-     spring constant.
-
-     @return float
-     */
     public final float strength() {
         return mSpringConstant;
     }
 
-    /**
-     spring constant.
-
-     @param theSpringConstant float
-     */
-    public final void strength(float theSpringConstant) {
-        mSpringConstant = theSpringConstant;
+    public final void strength(float pSpringConstant) {
+        mSpringConstant = pSpringConstant;
     }
 
     public final float damping() {
         return mSpringDamping;
     }
 
-    public final void damping(float theSpringDamping) {
-        mSpringDamping = theSpringDamping;
+    public final void damping(float pSpringDamping) {
+        mSpringDamping = pSpringDamping;
     }
 
-    public void setOneWay(boolean theOneWayState) {
-        mOneWay = theOneWayState;
+    public void setOneWay(boolean pOneWayState) {
+        mOneWay = pOneWayState;
     }
 
     public void apply(final float pDeltaTime, final Physics pParticleSystem) {
@@ -175,14 +159,6 @@ public class Spring implements IForce, IConnection {
         //        }
     }
 
-    protected static float fastInverseSqrt(float v) {
-        final float half = 0.5f * v;
-        int i = Float.floatToIntBits(v);
-        i = 0x5f375a86 - (i >> 1);
-        v = Float.intBitsToFloat(i);
-        return v * (1.5f - half * v * v);
-    }
-
     public boolean dead() {
         return mA.dead() || mB.dead();
     }
@@ -193,5 +169,13 @@ public class Spring implements IForce, IConnection {
 
     public void active(boolean pActiveState) {
         mActive = pActiveState;
+    }
+
+    protected static float fastInverseSqrt(float v) {
+        final float half = 0.5f * v;
+        int i = Float.floatToIntBits(v);
+        i = 0x5f375a86 - (i >> 1);
+        v = Float.intBitsToFloat(i);
+        return v * (1.5f - half * v * v);
     }
 }

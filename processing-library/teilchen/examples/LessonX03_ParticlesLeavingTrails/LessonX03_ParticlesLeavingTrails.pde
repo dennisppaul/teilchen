@@ -7,6 +7,9 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 
+/*
+ * this sketch demonstrates how to use `ParticleTrail` to make particles leave a trail.
+ */
 Physics mPhysics;
 ArrayList<ParticleTrail> mTrails;
 Attractor mAttractor;
@@ -44,14 +47,7 @@ void setup() {
         myParticleTrail.mass(0.5f);
         mTrails.add(myParticleTrail);
     }
-    resetParticles(width / 2, height / 2);
-}
-void resetParticles(float x, float y) {
-    for (ParticleTrail myTrails : mTrails) {
-        myTrails.particle().position().set(x + random(-10, 10), y + random(-10, 10), 0);
-        myTrails.particle().velocity().set(random(-10, 10), random(-10, 10), random(-10, 10));
-        myTrails.fragments().clear();
-    }
+    resetParticles(width / 2.0f, height / 2.0f);
 }
 void draw() {
     /* set attractor to mouse position */
@@ -63,6 +59,16 @@ void draw() {
     background(255);
     for (ParticleTrail myTrail : mTrails) {
         drawTrail(myTrail);
+    }
+}
+void mousePressed() {
+    resetParticles(mouseX, mouseY);
+}
+void resetParticles(float x, float y) {
+    for (ParticleTrail myTrails : mTrails) {
+        myTrails.particle().position().set(x + random(-10, 10), y + random(-10, 10), 0);
+        myTrails.particle().velocity().set(random(-10, 10), random(-10, 10), random(-10, 10));
+        myTrails.fragments().clear();
     }
 }
 void drawTrail(ParticleTrail theTrail) {
@@ -101,7 +107,4 @@ void drawTrail(ParticleTrail theTrail) {
              mParticle.position().y,
              mParticle.position().z);
     }
-}
-void mousePressed() {
-    resetParticles(mouseX, mouseY);
 }

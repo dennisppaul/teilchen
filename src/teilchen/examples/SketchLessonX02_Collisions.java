@@ -12,6 +12,11 @@ import teilchen.util.CollisionManager;
 
 public class SketchLessonX02_Collisions extends PApplet {
 
+    /*
+     * this sketch demonstrates how to use `CollisionManager` to resolve particle collisions by
+     * applying temporary springs pushing 2 colliding particles appart.
+     */
+
     private static final float PARTICLE_SIZE = 12;
     private CollisionManager mCollision;
     private Physics mPhysics;

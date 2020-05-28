@@ -7,7 +7,7 @@ import teilchen.Physics;
 public class SketchLesson00_Particle extends PApplet {
 
     /*
-     * this sketch show how to create a particle system with a single particle in it.
+     * this sketch demonstrates how to create a particle system with a single particle in it.
      */
 
     private Physics mPhysics;

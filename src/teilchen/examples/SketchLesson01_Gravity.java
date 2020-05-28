@@ -8,7 +8,8 @@ import teilchen.force.Gravity;
 public class SketchLesson01_Gravity extends PApplet {
 
     /*
-     * this sketch show how to create a particle system with a single particle in it.
+     * this sketch demonstrates how to create a particle system with a single particle in it and a
+     * gravity force pulling it downward.
      */
 
     private Physics mPhysics;

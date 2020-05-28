@@ -13,14 +13,13 @@ import teilchen.util.StickMan;
 public class SketchLessonX04_StickMan extends PApplet {
 
     /*
-     * this demo shows some advanced use of particles, springs and attractors to
-     * create stickmen.
+     * this sketch demonstratwa some advanced use of particles, springs ( e.g `MuscleSpring` )
+     * and attractors to create a group of `StickMan`.
      */
 
     private Physics mPhysics;
     private Attractor mAttractor;
     private Gravity mGravity;
-    private ViscousDrag mViscousDrag;
     private StickMan[] mMyStickMan;
 
     public void settings() {
@@ -38,14 +37,14 @@ public class SketchLessonX04_StickMan extends PApplet {
         mGravity.force().y = 20;
         mPhysics.add(mGravity);
 
-        mViscousDrag = new ViscousDrag();
+        ViscousDrag mViscousDrag = new ViscousDrag();
         mViscousDrag.coefficient = 0.85f;
         mPhysics.add(mViscousDrag);
 
         mAttractor = new Attractor();
         mAttractor.radius(500);
         mAttractor.strength(0);
-        mAttractor.position().set(width / 2, height / 2);
+        mAttractor.position().set(width / 2.0f, height / 2.0f);
         mPhysics.add(mAttractor);
 
         mMyStickMan = new StickMan[20];

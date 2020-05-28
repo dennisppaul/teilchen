@@ -8,7 +8,7 @@ import teilchen.util.*;
 
 
 /*
- * this sketch shows how to create and use attractors.
+ * this sketch demonstrates how to create and use an `Attractor` and how to teleport particles.
  */
 Physics mPhysics;
 Attractor mAttractor;
