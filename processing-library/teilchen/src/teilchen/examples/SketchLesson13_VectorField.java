@@ -30,12 +30,12 @@ public class SketchLesson13_VectorField extends PApplet {
         mVectorField.hint(VectorField.ENABLE_IGNORE_3D);
         mVectorField.cell_size().set(10, 10);
         mVectorField.position().set(40, 40);
-        mVectorField.randomize_forces(40);
         mPhysics.add(mVectorField);
 
         ViscousDrag myDrag = new ViscousDrag(0.75f);
         mPhysics.add(myDrag);
 
+        mVectorField.randomize_forces(40);
         spawnParticles();
     }
 
