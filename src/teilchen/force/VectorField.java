@@ -44,16 +44,16 @@ public class VectorField implements IForce {
     private boolean mActiveState;
     private boolean mDead;
 
-    public VectorField(int pWidth, int pHeight) {
-        this(pWidth, pHeight, 1);
+    public VectorField(int pNumCellsWidth, int pNumCellsHeight) {
+        this(pNumCellsWidth, pNumCellsHeight, 1);
     }
 
-    public VectorField(int pWidth, int pHeight, int pDepth) {
+    public VectorField(int pNumCellsWidth, int pNumCellsHeight, int pNumCellsDepth) {
         mActiveState = true;
         mDead = false;
-        width = pWidth;
-        height = pHeight;
-        depth = pDepth;
+        width = pNumCellsWidth;
+        height = pNumCellsHeight;
+        depth = pNumCellsDepth;
         mField = new PVector[width][height][depth];
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -76,7 +76,7 @@ public class VectorField implements IForce {
         for (int x = 0; x < v.width; x++) {
             for (int y = 0; y < v.height; y++) {
                 for (int z = 0; z < v.depth; z++) {
-                    PVector mForce = v.cubicles()[x][y][z];
+                    PVector mForce = v.cells()[x][y][z];
                     drawQuad(g, v, x, y, z);
                     drawVelocity(g, v, x, y, z, mForce, pForceScale);
                 }
@@ -96,7 +96,7 @@ public class VectorField implements IForce {
         }
     }
 
-    public PVector[][][] cubicles() {
+    public PVector[][][] cells() {
         return mField;
     }
 
@@ -125,7 +125,7 @@ public class VectorField implements IForce {
         mActiveState = pActiveState;
     }
 
-    public PVector scale() { return mScale; }
+    public PVector cell_size() { return mScale; }
 
     public void dead(boolean pDead) {
         mDead = pDead;
@@ -235,8 +235,12 @@ public class VectorField implements IForce {
         }
     }
 
+    public boolean inside(PVector p) {
+        return checkLocation(getLocation(p));
+    }
+
     private static void drawVelocity(PGraphics g, VectorField v, int x, int y, int z, PVector p, float pForceScale) {
-        final PVector s = v.scale();
+        final PVector s = v.cell_size();
         float x0 = (x + 0.5f) * s.x;
         float y0 = (y + 0.5f) * s.y;
         float z0 = (z + 0.5f) * s.z;
@@ -253,7 +257,7 @@ public class VectorField implements IForce {
 
     private static void drawQuad(PGraphics g, VectorField v, float x, float y, float z) {
         g.beginShape(PGraphics.QUAD);
-        final PVector s = v.scale();
+        final PVector s = v.cell_size();
         x *= s.x;
         y *= s.y;
         z *= s.z;
@@ -272,9 +276,7 @@ public class VectorField implements IForce {
     }
 
     private PVector getForce(Particle p) {
-        final Vector3i mLocation = new Vector3i();
-        mLocation.x = PApplet.floor((p.position().x - mPosition.x) / mScale.x);
-        mLocation.y = PApplet.floor((p.position().y - mPosition.y) / mScale.y);
+        final Vector3i mLocation = getLocation(p.position());
         if (mIgnore3D) {
             mLocation.z = 0;
         } else {
@@ -285,6 +287,14 @@ public class VectorField implements IForce {
         } else {
             return new PVector();
         }
+    }
+
+    private Vector3i getLocation(PVector pPosition) {
+        final Vector3i mLocation = new Vector3i();
+        mLocation.x = PApplet.floor((pPosition.x - mPosition.x) / mScale.x);
+        mLocation.y = PApplet.floor((pPosition.y - mPosition.y) / mScale.y);
+        mLocation.z = PApplet.floor((pPosition.z - mPosition.z) / mScale.z);
+        return mLocation;
     }
 
     private boolean checkLocation(Vector3i mLocation) {
