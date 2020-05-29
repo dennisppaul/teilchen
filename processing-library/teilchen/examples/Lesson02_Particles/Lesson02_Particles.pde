@@ -16,8 +16,6 @@ void settings() {
     size(640, 480, P3D);
 }
 void setup() {
-    smooth();
-    frameRate(30);
     /* create a particle system */
     mPhysics = new Physics();
     /* create a gravitational force and add it to the particle system */

@@ -19,9 +19,6 @@ public class SketchLesson02_Particles extends PApplet {
     }
 
     public void setup() {
-        smooth();
-        frameRate(30);
-
         /* create a particle system */
         mPhysics = new Physics();
 

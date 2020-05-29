@@ -22,179 +22,274 @@
 
 package teilchen.force;
 
+import processing.core.PApplet;
+import processing.core.PGraphics;
 import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
-import teilchen.VectorfieldParticle;
 import teilchen.util.Util;
 import teilchen.util.Vector3i;
 
-public class VectorField
-        implements IForce {
+public class VectorField implements IForce {
 
-    public float strength;
-    private final VectorFieldUnit[][][] _myField;
-    private final PVector _myPosition;
+    public static final int ENABLE_IGNORE_3D = 0;
+    public static final int DISABLE_IGNORE_3D = 1;
+    public boolean mIgnore3D = false;
+    private final PVector[][][] mField;
+    private final int width;
+    private final int height;
+    private final int depth;
+    private final PVector mScale;
+    private final PVector mPosition;
+    private boolean mActiveState;
+    private boolean mDead;
 
-    private final PVector _myScale;
-
-    private boolean _myActive;
-
-    public VectorField(VectorFieldGenerator theGenerator) {
-        /* init fields */
-        strength = 1;
-        _myPosition = new PVector();
-        _myScale = new PVector(1f, 1f, 1f);
-        _myField = theGenerator.data();
-        _myActive = true;
+    public VectorField(int pWidth, int pHeight) {
+        this(pWidth, pHeight, 1);
     }
 
-    public VectorFieldUnit[][][] data() {
-        return _myField;
-    }
-
-    public PVector getPosition() {
-        return _myPosition;
-    }
-
-    public void setPosition(final PVector thePosition) {
-        _myPosition.set(thePosition);
-        for (int x = 0; x < _myField.length; x++) {
-            for (int y = 0; y < _myField[x].length; y++) {
-                for (int z = 0; z < _myField[x][y].length; z++) {
-                    PVector myPosition = new PVector(x
-                                                     * (_myScale.x / (float) _myField.length),
-                                                     y * (_myScale.y / (float) _myField[x].length),
-                                                     z * (_myScale.z / (float) _myField[x][y].length));
-                    _myField[x][y][z].getPosition().set(myPosition);
-                    _myField[x][y][z].getPosition().add(thePosition);
+    public VectorField(int pWidth, int pHeight, int pDepth) {
+        mActiveState = true;
+        mDead = false;
+        width = pWidth;
+        height = pHeight;
+        depth = pDepth;
+        mField = new PVector[width][height][depth];
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                for (int z = 0; z < depth; z++) {
+                    mField[x][y][z] = new PVector();
                 }
+            }
+        }
+        mScale = new PVector().set(1, 1, 1);
+        mPosition = new PVector();
+    }
+
+    public static void draw(PGraphics g, VectorField v, float pForceScale) {
+        g.pushMatrix();
+        if (v.mIgnore3D) {
+            g.translate(v.position().x, v.position().y);
+        } else {
+            g.translate(v.position().x, v.position().y, v.position().z);
+        }
+        for (int x = 0; x < v.width; x++) {
+            for (int y = 0; y < v.height; y++) {
+                for (int z = 0; z < v.depth; z++) {
+                    PVector mForce = v.cubicles()[x][y][z];
+                    drawQuad(g, v, x, y, z);
+                    drawVelocity(g, v, x, y, z, mForce, pForceScale);
+                }
+            }
+        }
+        g.popMatrix();
+    }
+
+    public void hint(int pFlag) {
+        switch (pFlag) {
+            case DISABLE_IGNORE_3D:
+                mIgnore3D = false;
+                break;
+            case ENABLE_IGNORE_3D:
+                mIgnore3D = true;
+                break;
+        }
+    }
+
+    public PVector[][][] cubicles() {
+        return mField;
+    }
+
+    @Override
+    public void apply(final float pDeltaTime, final Physics pParticleSystem) {
+        for (final Particle mParticle : pParticleSystem.particles()) {
+            if (!mParticle.fixed()) {
+                final PVector mForce = getForce(mParticle);
+                mParticle.force().add(mForce);
             }
         }
     }
 
-    public final PVector getScale() {
-        return _myScale;
-    }
-
-    public void setScale(final PVector theScale) {
-        _myScale.set(theScale);
-        for (int x = 0; x < _myField.length; x++) {
-            for (int y = 0; y < _myField[x].length; y++) {
-                for (int z = 0; z < _myField[x][y].length; z++) {
-                    PVector myUnitScale = new PVector(_myScale.x
-                                                      / (float) _myField.length,
-                                                      _myScale.y / (float) _myField[x].length,
-                                                      _myScale.z / (float) _myField[x][y].length);
-                    _myField[x][y][z].setScale(myUnitScale);
-                    PVector myPosition = new PVector(x
-                                                     * (_myScale.x / (float) _myField.length),
-                                                     y * (_myScale.y / (float) _myField[x].length),
-                                                     z * (_myScale.z / (float) _myField[x][y].length));
-                    myPosition.add(_myPosition);
-                    _myField[x][y][z].setPosition(myPosition);
-                }
-            }
-        }
-    }
-
-    public void apply(final float pDeltaTime,
-                      final Physics pParticleSystem) {
-        /*
-         * @todo clean up force method
-         */
-        for (final Particle myParticle : pParticleSystem.particles()) {
-            if (!myParticle.fixed()) {
-                if (myParticle instanceof VectorfieldParticle) {
-                    myParticle.force().add(force(pDeltaTime,
-                                                 (VectorfieldParticle) myParticle));
-                }
-            }
-        }
-    }
-
+    @Override
     public boolean dead() {
-        return false;
+        return mDead;
     }
 
+    @Override
     public boolean active() {
-        return _myActive;
+        return mActiveState;
     }
 
+    @Override
     public void active(boolean pActiveState) {
-        _myActive = pActiveState;
+        mActiveState = pActiveState;
     }
 
-    //    public void setScale(final PVector theScale) {
-//    _myScale.set(theScale);
-//    for (int x = 0; x < _myField.length; x++) {
-//        for (int y = 0; y < _myField[x].length; y++) {
-//            for (int z = 0; z < _myField[x][y].length; z++) {
-//                PVector myUnitScale = new PVector(_myScale.x,
-//                        _myScale.y,
-//                        _myScale.z);
-//                _myField[x][y][z].setScale(myUnitScale);
-//                PVector myPosition = new PVector(x *
-//                        (_myScale.x),
-//                        y * (_myScale.y),
-//                        z * (_myScale.z));
-//                myPosition.add(_myPosition);
-//                _myField[x][y][z].setPosition(myPosition);
-//            }
-//        }
-//    }
-//}
-    /* IForce */
-    private PVector force(float theDeltaTime, VectorfieldParticle theParticle) {
-        if (isInBoundingBox(theParticle)) {
-            Vector3i myUnit = checkIfIsInside(theParticle, 1);
-            if (myUnit != null) {
-                PVector myAcceleration = Util.clone(_myField[myUnit.x][myUnit.y][myUnit.z].getAcceleration());
-                myAcceleration.mult(strength);
-                theParticle.setLastUnit(myUnit);
-                return myAcceleration;
+    public PVector scale() { return mScale; }
+
+    public void dead(boolean pDead) {
+        mDead = pDead;
+    }
+
+    public void randomize_forces(float pScaleWidth, float pScaleHeight) {
+        randomize_forces(new PVector(pScaleWidth, pScaleHeight, 0));
+    }
+
+    public void randomize_forces(float pScaleWidth, float pScaleHeight, float pScaleDepth) {
+        randomize_forces(new PVector(pScaleWidth, pScaleHeight, pScaleDepth));
+    }
+
+    public void randomize_forces(float pScale) {
+        randomize_forces(new PVector(pScale, pScale, pScale));
+    }
+
+    public void randomize_forces(PVector pScale) {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                for (int z = 0; z < depth; z++) {
+                    final PVector p = mField[x][y][z];
+                    if (mIgnore3D) {
+                        Util.randomize2D(p);
+                    } else {
+                        Util.randomize(p);
+                    }
+                    Util.scale(p, pScale);
+                }
             }
-            for (int x = 0; x < _myField.length; x++) {
-                for (int y = 0; y < _myField[x].length; y++) {
-                    for (int z = 0; z < _myField[x][y].length; z++) {
-                        if (_myField[x][y][z].isInside(theParticle.position())) {
-                            PVector myAcceleration = Util.clone(_myField[x][y][z].getAcceleration());
-                            myAcceleration.mult(strength);
-                            theParticle.setLastUnit(new Vector3i(x, y, z));
-                            return myAcceleration;
+        }
+    }
+
+    public void set_force_strength(float pForce) {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                for (int z = 0; z < depth; z++) {
+                    final PVector p = mField[x][y][z];
+                    p.normalize();
+                    p.mult(pForce);
+                }
+            }
+        }
+    }
+
+    public PVector position() {
+        return mPosition;
+    }
+
+    public void smooth_forces(boolean pWrap) {
+        if (mIgnore3D) {
+            if (width > 2 && height > 2) {
+                final PVector[][][] mFieldCopy = new PVector[width][height][1];
+                for (int x = 0; x < width; x++) {
+                    for (int y = 0; y < height; y++) {
+                        final int z = 0;
+                        final int xP;
+                        final int xN;
+                        final int yP;
+                        final int yN;
+                        if (!pWrap) {
+                            if (x == 0 || y == 0 || x == width - 1 || y == height - 1) { continue; }
+                            xP = x - 1;
+                            xN = x + 1;
+                            yP = y - 1;
+                            yN = y + 1;
+                        } else {
+                            xP = x == 0 ? width - 1 : x - 1;
+                            xN = x == width - 1 ? 0 : x + 1;
+                            yP = y == 0 ? height - 1 : y - 1;
+                            yN = y == height - 1 ? 0 : y + 1;
+                        }
+                        final PVector p = new PVector().set(mField[x][y][z]);
+                        final PVector a = mField[xP][y][z];
+                        final PVector b = mField[x][yN][z];
+                        final PVector c = mField[xN][y][z];
+                        final PVector d = mField[x][yP][z];
+                        p.add(a);
+                        p.add(b);
+                        p.add(c);
+                        p.add(d);
+                        p.div(5.0f);
+                        mFieldCopy[x][y][z] = p;
+                    }
+                }
+                for (int x = 0; x < width; x++) {
+                    for (int y = 0; y < height; y++) {
+                        final int z = 0;
+                        if (!pWrap) {
+                            if (x == 0 || y == 0 || x == width - 1 || y == height - 1) { continue; }
+                        }
+                        mField[x][y][z].set(mFieldCopy[x][y][z]);
+                    }
+                }
+            }
+        } else {
+            if (width > 2 && height > 2 && depth > 2) {
+                System.out.println("@VectorField  for 3D smoothing is not implemented");
+                for (int x = 1; x < width - 1; x++) {
+                    for (int y = 1; y < height - 1; y++) {
+                        for (int z = 1; z < depth - 1; z++) {
+                            final PVector p = mField[x][y][z];
                         }
                     }
                 }
             }
         }
-        return new PVector();
     }
 
-    private boolean isInBoundingBox(VectorfieldParticle theParticle) {
-        return theParticle.position().x >= _myPosition.x
-               && theParticle.position().x <= _myPosition.x + _myScale.x
-               && theParticle.position().y >= _myPosition.y
-               && theParticle.position().y <= _myPosition.y + _myScale.y
-               && theParticle.position().z >= _myPosition.z
-               && theParticle.position().z <= _myPosition.z + _myScale.z;
-    }
+    private static void drawVelocity(PGraphics g, VectorField v, int x, int y, int z, PVector p, float pForceScale) {
+        final PVector s = v.scale();
+        float x0 = (x + 0.5f) * s.x;
+        float y0 = (y + 0.5f) * s.y;
+        float z0 = (z + 0.5f) * s.z;
+        float x1 = x0 + p.x * pForceScale;
+        float y1 = y0 + p.y * pForceScale;
+        float z1 = z0 + p.z * pForceScale;
 
-    private Vector3i checkIfIsInside(VectorfieldParticle theParticle,
-                                     int theRadius) {
-        Vector3i myUnit = new Vector3i(theParticle.getLastUnit());
-        for (int x = myUnit.x - theRadius; x < myUnit.x + theRadius; x++) {
-            for (int y = myUnit.y - theRadius; y < myUnit.y + theRadius; y++) {
-                for (int z = myUnit.z - theRadius; z < myUnit.z + theRadius; z++) {
-                    if (x >= 0 && x < _myField.length
-                        && y >= 0 && y < _myField[x].length
-                        && z >= 0 && z < _myField[x][y].length) {
-                        if (_myField[x][y][z].isInside(theParticle.position())) {
-                            return new Vector3i(x, y, z);
-                        }
-                    }
-                }
-            }
+        if (v.mIgnore3D) {
+            g.line(x0, y0, x1, y1);
+        } else {
+            g.line(x0, y0, z0, x1, y1, z1);
         }
-        return null;
+    }
+
+    private static void drawQuad(PGraphics g, VectorField v, float x, float y, float z) {
+        g.beginShape(PGraphics.QUAD);
+        final PVector s = v.scale();
+        x *= s.x;
+        y *= s.y;
+        z *= s.z;
+        if (v.mIgnore3D) {
+            g.vertex(x + 0, y + 0);
+            g.vertex(x + s.x, y + 0);
+            g.vertex(x + s.x, y + s.y);
+            g.vertex(x + 0, y + s.y);
+        } else {
+            g.vertex(x + 0, y + 0, z);
+            g.vertex(x + s.x, y + 0, z);
+            g.vertex(x + s.x, y + s.y, z);
+            g.vertex(x + 0, y + s.y, z);
+        }
+        g.endShape();
+    }
+
+    private PVector getForce(Particle p) {
+        final Vector3i mLocation = new Vector3i();
+        mLocation.x = PApplet.floor((p.position().x - mPosition.x) / mScale.x);
+        mLocation.y = PApplet.floor((p.position().y - mPosition.y) / mScale.y);
+        if (mIgnore3D) {
+            mLocation.z = 0;
+        } else {
+            mLocation.z = PApplet.floor((p.position().z - mPosition.z) / mScale.z);
+        }
+        if (checkLocation(mLocation)) {
+            return mField[mLocation.x][mLocation.y][mLocation.z];
+        } else {
+            return new PVector();
+        }
+    }
+
+    private boolean checkLocation(Vector3i mLocation) {
+        return mLocation.x >= 0 && mLocation.x < width &&
+               mLocation.y >= 0 && mLocation.y < height &&
+               mLocation.z >= 0 && mLocation.z < depth;
     }
 }
