@@ -22,6 +22,7 @@
 
 package teilchen.force;
 
+import processing.core.PVector;
 import teilchen.IConnection;
 import teilchen.Particle;
 import teilchen.Physics;
@@ -30,6 +31,7 @@ import static teilchen.util.Util.distance;
 
 public class Spring implements IForce, IConnection {
 
+    private static final boolean USE_FAST_SQRT = true;
     protected float mSpringConstant;
     protected float mSpringDamping;
     protected float mRestLength;
@@ -117,46 +119,110 @@ public class Spring implements IForce, IConnection {
     }
 
     public void apply(final float pDeltaTime, final Physics pParticleSystem) {
-        //        if (!mA.fixed() || !mB.fixed()) {
-        float a2bX = mA.position().x - mB.position().x;
-        float a2bY = mA.position().y - mB.position().y;
-        float a2bZ = mA.position().z - mB.position().z;
-        final float myInversDistance = fastInverseSqrt(a2bX * a2bX + a2bY * a2bY + a2bZ * a2bZ);
-        final float myDistance = 1.0F / myInversDistance;
+        if (!(mA.fixed() && mB.fixed())) {
+            // from http://paulbourke.net/miscellaneous/particle/
+            final float dx = mA.position().x - mB.position().x;
+            final float dy = mA.position().y - mB.position().y;
+            final float dz = mA.position().z - mB.position().z;
+            final float mLength = 1.0f / fastInverseSqrt(dx * dx + dy * dy + dz * dz);
+            PVector f = new PVector();
+            f.x = mSpringConstant * (mLength - mRestLength);
+            f.x += mSpringDamping * (mA.velocity().x - mB.velocity().x) * dx / mLength;
+            f.x *= -dx / mLength;
+            f.y = mSpringConstant * (mLength - mRestLength);
+            f.y += mSpringDamping * (mA.velocity().y - mB.velocity().y) * dy / mLength;
+            f.y *= -dy / mLength;
+            f.z = mSpringConstant * (mLength - mRestLength);
+            f.z += mSpringDamping * (mA.velocity().z - mB.velocity().z) * dz / mLength;
+            f.z *= -dz / mLength;
 
-        if (myDistance == 0.0F) {
-            a2bX = 0.0F;
-            a2bY = 0.0F;
-            a2bZ = 0.0F;
-        } else {
-            a2bX *= myInversDistance;
-            a2bY *= myInversDistance;
-            a2bZ *= myInversDistance;
+            if (mOneWay) {
+                if (!mB.fixed()) {
+                    f.mult(-2);
+                    mB.force().add(f);
+                }
+            } else {
+                if (!mA.fixed()) {
+                    mA.force().add(f);
+                }
+                if (!mB.fixed()) {
+                    mB.force().sub(f);
+                }
+            }
+
+//            final PVector mAB = PVector.sub(mA.position(), mB.position());
+//            final float mDistance;
+//            if (USE_FAST_SQRT) {
+//                mDistance = 1.0f / fastInverseSqrt(mAB.magSq());
+//            } else {
+//                mDistance = mAB.mag();
+//            }
+//            if (mDistance == 0.0f) { return; }
+//
+//            final float mSpringForce = -mSpringConstant * (mDistance - mRestLength); // Fspring = - k * x
+//
+//            PVector mABV = PVector.sub(mA.velocity(), mB.velocity());
+//            Util.scale(mABV, mAB);
+//            mABV.div(mDistance);
+//            mABV.mult(mSpringDamping);
+//            mAB.add(mABV);
+//
+//            mAB.div(mDistance); // normalize
+//            mAB.mult(mSpringForce);
+//
+//            if (mOneWay) {
+//                if (!mB.fixed()) {
+//                    mAB.mult(-2);
+//                    mB.force().add(mAB);
+//                }
+//            } else {
+//                if (!mA.fixed()) {
+//                    mA.force().add(mAB);
+//                }
+//                if (!mB.fixed()) {
+//                    mB.force().sub(mAB);
+//                }
+//            }
+
+//            float a2bX = mA.position().x - mB.position().x;
+//            float a2bY = mA.position().y - mB.position().y;
+//            float a2bZ = mA.position().z - mB.position().z;
+//            final float mInversDistance = fastInverseSqrt(a2bX * a2bX + a2bY * a2bY + a2bZ * a2bZ);
+//            final float mDistance = 1.0f / mInversDistance;
+//
+//            if (mDistance == 0.0f) {
+//                a2bX = 0.0f;
+//                a2bY = 0.0f;
+//                a2bZ = 0.0f;
+//            } else {
+//                a2bX *= mInversDistance;
+//                a2bY *= mInversDistance;
+//                a2bZ *= mInversDistance;
+//            }
+//
+//            final float mSpringForce = -(mDistance - mRestLength) * mSpringConstant;
+//            final float Va2bX = mA.velocity().x - mB.velocity().x;
+//            final float Va2bY = mA.velocity().y - mB.velocity().y;
+//            final float Va2bZ = mA.velocity().z - mB.velocity().z;
+//            final float mDampingForce = -mSpringDamping * (a2bX * Va2bX + a2bY * Va2bY + a2bZ * Va2bZ);
+//            final float r = mSpringForce + mDampingForce;
+//            a2bX *= r;
+//            a2bY *= r;
+//            a2bZ *= r;
+//
+//            if (mOneWay) {
+//                if (!mB.fixed()) {
+//                    mB.force().add(-2 * a2bX, -2 * a2bY, -2 * a2bZ);
+//                }
+//            } else {
+//                if (!mA.fixed()) {
+//                    mA.force().add(a2bX, a2bY, a2bZ);
+//                }
+//                if (!mB.fixed()) {
+//                    mB.force().add(-a2bX, -a2bY, -a2bZ);
+//                }
+//            }
         }
-
-        final float mSpringForce = -(myDistance - mRestLength) * mSpringConstant;
-        final float Va2bX = mA.velocity().x - mB.velocity().x;
-        final float Va2bY = mA.velocity().y - mB.velocity().y;
-        final float Va2bZ = mA.velocity().z - mB.velocity().z;
-        final float mDampingForce = -mSpringDamping * (a2bX * Va2bX + a2bY * Va2bY + a2bZ * Va2bZ);
-        final float r = mSpringForce + mDampingForce;
-        a2bX *= r;
-        a2bY *= r;
-        a2bZ *= r;
-
-        if (mOneWay) {
-            if (!mB.fixed()) {
-                mB.force().add(-2 * a2bX, -2 * a2bY, -2 * a2bZ);
-            }
-        } else {
-            if (!mA.fixed()) {
-                mA.force().add(a2bX, a2bY, a2bZ);
-            }
-            if (!mB.fixed()) {
-                mB.force().add(-a2bX, -a2bY, -a2bZ);
-            }
-        }
-        //        }
     }
 
     public boolean dead() {

@@ -30,10 +30,10 @@ public class SketchLesson04_Spring extends PApplet {
 
         /* create two particles that we can connect with a spring */
         Particle myA = mPhysics.makeParticle();
-        myA.position().set(width / 2 - 50, height / 2.0f);
+        myA.position().set(width / 2.0f - 50, height / 2.0f);
 
         Particle myB = mPhysics.makeParticle();
-        myB.position().set(width / 2 + 50, height / 2.0f);
+        myB.position().set(width / 2.0f + 50, height / 2.0f);
 
         /* create a spring force that connects two particles.
          * note that there is more than one way to create a spring.

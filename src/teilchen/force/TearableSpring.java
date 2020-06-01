@@ -28,9 +28,9 @@ import static teilchen.util.Util.*;
 public class TearableSpring
         extends Spring {
 
-    private boolean _myTornApart = false;
+    private boolean mTorn = false;
 
-    private float _myTearDistance = -1;
+    private float mTearDistance = -1;
 
     public TearableSpring(Particle theA, Particle theB) {
         super(theA,
@@ -50,32 +50,32 @@ public class TearableSpring
               theSpringConstant,
               theSpringDamping,
               theRestLength);
-        _myTearDistance = theTearDistance;
+        mTearDistance = theTearDistance;
     }
 
-    public final float teardistance() {
-        return _myTearDistance;
+    public final float tear_distance() {
+        return mTearDistance;
     }
 
-    public final void teardistance(float theTearDistance) {
-        _myTearDistance = theTearDistance;
+    public final void tear_distance(float theTearDistance) {
+        mTearDistance = theTearDistance;
     }
 
     public void apply(final float pDeltaTime, final Physics pParticleSystem) {
         /* check if spring will tear */
-        if (_myTearDistance > 0) {
+        if (mTearDistance > 0) {
             final float myActualDistance = distance(a().position(), b().position());
-            if (myActualDistance > restlength() + _myTearDistance) {
-                _myTornApart = true;
+            if (myActualDistance > restlength() + mTearDistance) {
+                mTorn = true;
             }
         }
         /* apply force if spring is ok */
-        if (!_myTornApart) {
+        if (!mTorn) {
             super.apply(pDeltaTime, pParticleSystem);
         }
     }
 
     public boolean dead() {
-        return _myTornApart || super.dead();
+        return mTorn || super.dead();
     }
 }

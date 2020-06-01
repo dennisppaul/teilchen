@@ -44,10 +44,10 @@ public class Physics {
     public boolean HINT_RECOVER_NAN = true;
     public boolean HINT_REMOVE_DEAD = true;
     public int constrain_iterations_per_steps = 1;
-    public int integrations_per_steps = 1;
     private final ArrayList<Particle> mParticles;
     private final ArrayList<IForce> mForces;
     private final ArrayList<IConstraint> mConstraints;
+    private int integrations_per_steps = 1;
     private IIntegrator mIntegrator;
 
     public Physics() {
@@ -264,9 +264,9 @@ public class Physics {
         return mIntegrator;
     }
 
-    public void loop(final float theDeltaTime, final int pIterations) {
+    public void step(final float pDeltaTime, final int pIterations) {
         for (int i = 0; i < pIterations; i++) {
-            step(theDeltaTime / (float) pIterations);
+            step(pDeltaTime / (float) pIterations);
         }
     }
 

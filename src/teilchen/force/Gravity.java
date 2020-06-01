@@ -30,7 +30,7 @@ public class Gravity implements IForce {
 
     private boolean mActive;
 
-    private PVector mForce;
+    private final PVector mForce;
 
     public Gravity() {
         this(new PVector(0, 9.81f, 0));
@@ -41,8 +41,8 @@ public class Gravity implements IForce {
         mForce = pForce;
     }
 
-    public Gravity(float theX, float theY, float theZ) {
-        this(new PVector(theX, theY, theZ));
+    public Gravity(float pForceX, float pForceY, float pForceZ) {
+        this(new PVector(pForceX, pForceY, pForceZ));
     }
 
     public PVector force() {
