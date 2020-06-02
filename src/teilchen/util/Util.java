@@ -588,4 +588,40 @@ public class Util {
         final float mDelta = Math.abs(b - a);
         return mDelta < ALMOST_THRESHOLD;
     }
+
+    public static float fastInverseSqrt(float v) {
+        final float half = 0.5f * v;
+        int i = Float.floatToIntBits(v);
+        i = 0x5f375a86 - (i >> 1);
+        v = Float.intBitsToFloat(i);
+        return v * (1.5f - half * v * v);
+    }
+
+    public static Particle findParticleByProximity(Physics pPhysics,
+                                                   float x,
+                                                   float y,
+                                                   float z,
+                                                   float pSelectionRadius) {
+        return findParticleByProximity(pPhysics, new PVector().set(x, y, z), pSelectionRadius);
+    }
+
+    public static Particle findParticleByProximity(Physics pPhysics, PVector pPosition, float pSelectionRadius) {
+        ArrayList<Particle> mCloseParticles = new ArrayList<>();
+        for (Particle p : pPhysics.particles()) {
+            if (PVector.dist(pPosition, p.position()) < pSelectionRadius) {
+                mCloseParticles.add(p);
+            }
+        }
+        if (mCloseParticles.isEmpty()) { return null; }
+        Particle mClosestParticle = mCloseParticles.get(0);
+        float mClosestDistance = PVector.dist(pPosition, mClosestParticle.position());
+        for (int i = 1; i < mCloseParticles.size(); i++) {
+            final float mDistance = PVector.dist(pPosition, mCloseParticles.get(i).position());
+            if (mDistance < mClosestDistance) {
+                mClosestDistance = mDistance;
+                mClosestParticle = mCloseParticles.get(i);
+            }
+        }
+        return mClosestParticle;
+    }
 }

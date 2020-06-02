@@ -82,7 +82,7 @@ public class Angular
         return _myMaximumAngle;
     }
 
-    public void apply(Physics theParticleSystem) {
+    public void apply(Physics pParticleSystem) {
 
         if (!mActive) {
             return;

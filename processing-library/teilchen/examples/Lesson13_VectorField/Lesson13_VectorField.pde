@@ -10,6 +10,10 @@ import teilchen.util.*;
 /*
  * this sketch demonstrates how to use `VectorField`. a vector field is a set of regions
  * that apply a force to all particles with the regions.
+ *
+ * press `SPACE` to reset particles.
+ * press `G` to toggle field view
+ * press `L` to toggle line/point view
  */
 /* drawing particles as lines looks more intriguing but less explicatory */
 boolean mDrawParticlesAsLines = false;
@@ -63,12 +67,14 @@ void draw() {
 void keyPressed() {
     switch (key) {
         case 'l':
+        case 'L':
             mDrawParticlesAsLines = !mDrawParticlesAsLines;
         case ' ':
             spawnParticles();
             mVectorField.randomize_forces(40);
             break;
         case 'g':
+        case 'G':
             mDrawGrid = !mDrawGrid;
             break;
     }

@@ -9,6 +9,8 @@ public class SketchLesson05_Springs extends PApplet {
 
     /*
      * this sketch demonstrates how to connect multiple particles with springs.
+     *
+     * press mouse to create springs and particles.
      */
 
     private Physics mPhysics;
@@ -31,13 +33,19 @@ public class SketchLesson05_Springs extends PApplet {
     public void draw() {
         /* create a particle at mouse position and connect it to the root particle through a spring */
         if (mousePressed) {
-            Particle mParticle = mPhysics.makeParticle(mouseX, mouseY, 0);
-            Spring mSpring = mPhysics.makeSpring(mRoot, mParticle);
-            /* restlength defines the desired length of the spring. in this case it is the distance between the two
-            particles. */
-            float mRestlength = mSpring.restlength();
-            /* we modify the restlength to add a bit of energy into the system */
-            mSpring.restlength(mRestlength * 1.5f);
+            /* find the particle closest to the mouse */
+            Particle mNeighborParticle = teilchen.util.Util.findParticleByProximity(mPhysics,
+                                                                                    mouseX, mouseY, 0,
+                                                                                    20);
+            if (mNeighborParticle != null) {
+                Particle mParticle = mPhysics.makeParticle(mouseX, mouseY, 0);
+                Spring mSpring = mPhysics.makeSpring(mNeighborParticle, mParticle);
+                /* restlength defines the desired length of the spring. in this case it is the
+                distance between the two particles. */
+                float mRestlength = mSpring.restlength();
+                /* we modify the restlength to add a bit of energy into the system */
+                mSpring.restlength(10 + mRestlength * random(2.0f, 4.0f));
+            }
         }
 
         /* update the particle system */
@@ -49,7 +57,7 @@ public class SketchLesson05_Springs extends PApplet {
 
         /* draw springs */
         noFill();
-        stroke(255, 0, 127, 64);
+        stroke(0, 31);
         for (int i = 0; i < mPhysics.forces().size(); i++) {
             if (mPhysics.forces().get(i) instanceof Spring) {
                 Spring mSSpring = (Spring) mPhysics.forces().get(i);
@@ -58,12 +66,12 @@ public class SketchLesson05_Springs extends PApplet {
             }
         }
         /* draw particles */
-        fill(245);
-        stroke(164);
+        fill(0);
+        noStroke();
         for (int i = 0; i < mPhysics.particles().size(); i++) {
             ellipse(mPhysics.particles().get(i).position().x,
                     mPhysics.particles().get(i).position().y,
-                    12, 12);
+                    5, 5);
         }
     }
 

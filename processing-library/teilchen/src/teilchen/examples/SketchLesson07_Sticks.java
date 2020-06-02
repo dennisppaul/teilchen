@@ -13,6 +13,8 @@ public class SketchLesson07_Sticks extends PApplet {
      * this sketch demonstrates how to use a stick to connect two particles. `Stick` is similar to
      * `Spring` except that it does not use forces to move particles which results in a more
      * *stiff* behavior.
+     *
+     * move mouse to drag sticks.
      */
 
     private Physics mPhysics;
@@ -23,17 +25,12 @@ public class SketchLesson07_Sticks extends PApplet {
     }
 
     public void setup() {
-        frameRate(60);
-
         mPhysics = new Physics();
-        /* increase the number of iterations for contraints in each step. this can greatly relaxes tensions in the
-        system. */
-        mPhysics.constrain_iterations_per_steps = 5;
 
         /* add gravity for extra fun */
         mPhysics.add(new Gravity());
 
-        /* we chose verlet integration as it integrates much more nicely with sticks ( and constraints in general ) */
+        /* choose verlet integration as it produces more stable results with sticks ( and constraints in general ) */
         Verlet myVerlet = new Verlet();
         myVerlet.damping(0.99f);
         mPhysics.setIntegratorRef(myVerlet);
@@ -63,7 +60,10 @@ public class SketchLesson07_Sticks extends PApplet {
         mParticles[0].position().set(mouseX, mouseY);
 
         /* update */
-        mPhysics.step(1.0f / frameRate);
+
+        /* increasing the number of iterations for each step can greatly relaxes tensions and
+        errors in the system. */
+        mPhysics.step(1.0f / frameRate, 5);
 
         /* draw sticks with descending stroke weight */
         background(255);

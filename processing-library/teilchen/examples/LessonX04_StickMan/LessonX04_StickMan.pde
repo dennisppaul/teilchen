@@ -19,7 +19,6 @@ void settings() {
     size(640, 480, P3D);
 }
 void setup() {
-    frameRate(60);
     noFill();
     mPhysics = new Physics();
     mPhysics.setIntegratorRef(new RungeKutta());

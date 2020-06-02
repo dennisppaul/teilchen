@@ -19,7 +19,6 @@ void settings() {
     size(640, 480, P3D);
 }
 void setup() {
-    frameRate(120);
     /* physics */
     mPhysics = new Physics();
     mPhysics.add(new ViscousDrag());
@@ -44,12 +43,13 @@ void draw() {
     mPhysics.step(1.0f / frameRate);
     /* draw behavior particle */
     background(255);
-    fill(1);
     stroke(0, 127);
     line(mParticle.position().x,
          mParticle.position().y,
          mParticle.position().x + mParticle.velocity().x,
          mParticle.position().y + mParticle.velocity().y);
+    fill(0);
+    noStroke();
     ellipse(mParticle.position().x, mParticle.position().y,
             mParticle.radius() * 2, mParticle.radius() * 2);
 }

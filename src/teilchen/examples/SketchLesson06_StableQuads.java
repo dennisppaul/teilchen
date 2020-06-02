@@ -15,6 +15,8 @@ public class SketchLesson06_StableQuads extends PApplet {
     /*
      * this sketch demonstrates how to connect four particles and six springs to form a
      * `StableSpringQuad` a construct that allows to emulate something similar to a *body*.
+     *
+     * press mouse to drag corner.
      */
 
     private Physics mPhysics;
@@ -25,10 +27,8 @@ public class SketchLesson06_StableQuads extends PApplet {
     }
 
     public void setup() {
-        frameRate(60);
-
         mPhysics = new Physics();
-        /* we use 'runge kutta' as it is more stable for this application */
+        /* use `RungeKutta` as it produces more stable results in applications like these */
         mPhysics.setIntegratorRef(new RungeKutta());
 
         Gravity myGravity = new Gravity();
@@ -54,15 +54,15 @@ public class SketchLesson06_StableQuads extends PApplet {
 
         /* create stable quad from springs */
         /* first the edge-springs ... */
-        final float mySpringConstant = 100;
-        final float mySpringDamping = 5;
-        mPhysics.makeSpring(a, b, mySpringConstant, mySpringDamping);
-        mPhysics.makeSpring(b, c, mySpringConstant, mySpringDamping);
-        mPhysics.makeSpring(c, d, mySpringConstant, mySpringDamping);
-        mPhysics.makeSpring(d, a, mySpringConstant, mySpringDamping).restlength();
+        final float mSpringConstant = 100;
+        final float mSpringDamping = 5;
+        mPhysics.makeSpring(a, b, mSpringConstant, mSpringDamping);
+        mPhysics.makeSpring(b, c, mSpringConstant, mSpringDamping);
+        mPhysics.makeSpring(c, d, mSpringConstant, mSpringDamping);
+        mPhysics.makeSpring(d, a, mSpringConstant, mSpringDamping).restlength();
         /* ... then the diagonal-springs */
-        mPhysics.makeSpring(a, c, mySpringConstant, mySpringDamping);
-        mPhysics.makeSpring(b, d, mySpringConstant, mySpringDamping).restlength();
+        mPhysics.makeSpring(a, c, mSpringConstant, mSpringDamping);
+        mPhysics.makeSpring(b, d, mSpringConstant, mSpringDamping).restlength();
 
         /* define 'a' as root particle for mouse interaction */
         mRoot = a;
@@ -79,11 +79,11 @@ public class SketchLesson06_StableQuads extends PApplet {
             mRoot.fixed(false);
         }
 
-        mPhysics.step(1f / frameRate);
+        mPhysics.step(1.0f / frameRate);
 
         /* draw */
         background(255);
-        DrawLib.drawSprings(g, mPhysics, color(255, 0, 127, 64));
+        DrawLib.drawSprings(g, mPhysics, color(255, 127, 0, 64));
         DrawLib.drawParticles(g, mPhysics, 12, color(164), color(245));
     }
 

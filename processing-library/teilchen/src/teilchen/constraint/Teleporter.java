@@ -52,12 +52,12 @@ public class Teleporter
         return mMin;
     }
 
-    public void apply(Physics theParticleSystem) {
+    public void apply(Physics pParticleSystem) {
         if (!mActive) {
             return;
         }
 
-        for (final Particle mParticle : theParticleSystem.particles()) {
+        for (final Particle mParticle : pParticleSystem.particles()) {
             if (mParticle.position().x > mMax.x) {
                 mParticle.position().x -= Math.abs(mMax.x - mMin.x);
             }

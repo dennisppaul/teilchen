@@ -12,6 +12,8 @@ public class SketchLessonX11_Pendulum extends PApplet {
     /*
      * this sketch demonstrates how to create a pendulum from two particles, a spring and a pulse
      * force.
+     *
+     * press mouse top push pendulum.
      */
 
     private Physics mPhysics;
@@ -25,9 +27,7 @@ public class SketchLessonX11_Pendulum extends PApplet {
 
     public void setup() {
         mPhysics = new Physics();
-
-        Gravity mGravity = new Gravity();
-        mPhysics.add(mGravity);
+        mPhysics.add(new Gravity());
 
         mPendulumRoot = mPhysics.makeParticle(0, 0, 0, 0.05f);
         mPendulumRoot.position().set(width / 2.0f, 100);
@@ -47,21 +47,18 @@ public class SketchLessonX11_Pendulum extends PApplet {
     }
 
     public void draw() {
-        final int NUM_ITERATIONS = 5;
-        for (int i = 0; i < NUM_ITERATIONS; i++) {
-            mPhysics.step(1.0f / (frameRate * NUM_ITERATIONS));
-        }
+        mPhysics.step(1.0f / frameRate, 5);
 
         background(255);
         Particle p1 = mPendulumRoot;
         Particle p2 = mPendulumTip;
 
-        stroke(0, 192);
+        stroke(0, 191);
         noFill();
         line(p1.position().x, p1.position().y, p2.position().x, p2.position().y);
 
-        stroke(255, 0, 0);
-        fill(255);
+        fill(0);
+        noStroke();
         ellipse(p1.position().x, p1.position().y, 10, 10);
         ellipse(p2.position().x, p2.position().y, 20, 20);
     }

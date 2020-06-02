@@ -54,16 +54,16 @@ public class Verlet
         _myDamping = theDamping;
     }
 
-    public void step(final float theDeltaTime, final Physics theParticleSystem) {
+    public void step(final float pDeltaTime, final Physics pParticleSystem) {
 
-        theParticleSystem.applyForces(theDeltaTime);
+        pParticleSystem.applyForces(pDeltaTime);
 
-        synchronized (theParticleSystem.particles()) {
-            final Iterator<Particle> myIterator = theParticleSystem.particles().iterator();
+        synchronized (pParticleSystem.particles()) {
+            final Iterator<Particle> myIterator = pParticleSystem.particles().iterator();
             while (myIterator.hasNext()) {
                 final Particle myParticle = myIterator.next();
                 if (!myParticle.fixed()) {
-                    integrate(theDeltaTime, myParticle);
+                    integrate(pDeltaTime, myParticle);
                 }
             }
         }

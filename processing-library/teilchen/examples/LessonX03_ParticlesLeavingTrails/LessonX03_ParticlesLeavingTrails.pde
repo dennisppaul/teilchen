@@ -9,6 +9,8 @@ import teilchen.util.*;
 
 /*
  * this sketch demonstrates how to use `ParticleTrail` to make particles leave a trail.
+ *
+ * press mouse to respawn particles. move mouse to change attractor position.
  */
 Physics mPhysics;
 ArrayList<ParticleTrail> mTrails;
@@ -17,7 +19,6 @@ void settings() {
     size(640, 480, P3D);
 }
 void setup() {
-    frameRate(60);
     /* create a particle system */
     mPhysics = new Physics();
     /* create a gravitational force */
@@ -35,14 +36,16 @@ void setup() {
     mPhysics.add(mBox);
     /* create an attractor */
     mAttractor = new Attractor();
-    mAttractor.radius(200);
-    mAttractor.strength(-300);
+    mAttractor.radius(150);
+    mAttractor.strength(-500);
     mPhysics.add(mAttractor);
     /* create trails and particles */
     mTrails = new ArrayList<ParticleTrail>();
     for (int i = 0; i < 500; i++) {
         Particle mParticle = mPhysics.makeParticle();
-        mParticle.mass(2.0f);
+        mParticle.mass(random(1.5f, 3.0f));
+        /* note that if `ParticleTrail` receives the same `Physics` object as the particles,
+        also forces and contraints are shared. */
         ParticleTrail myParticleTrail = new ParticleTrail(mPhysics, mParticle, 0.2f, random(0.5f, 1));
         myParticleTrail.mass(0.5f);
         mTrails.add(myParticleTrail);
@@ -57,9 +60,22 @@ void draw() {
     }
     mPhysics.step(1f / frameRate);
     background(255);
+    /* draw trails */
     for (ParticleTrail myTrail : mTrails) {
         drawTrail(myTrail);
     }
+    /* draw attractor */
+    strokeWeight(1);
+    noFill();
+    stroke(0, 15);
+    ellipse(mAttractor.position().x, mAttractor.position().y, mAttractor.radius() * 2, mAttractor.radius() * 2);
+    stroke(0, 31);
+    ellipse(mAttractor.position().x, mAttractor.position().y, mAttractor.radius() * 1, mAttractor.radius() * 1);
+    stroke(0, 63);
+    ellipse(mAttractor.position().x,
+            mAttractor.position().y,
+            mAttractor.radius() * 0.5f,
+            mAttractor.radius() * 0.5f);
 }
 void mousePressed() {
     resetParticles(mouseX, mouseY);
@@ -74,22 +90,12 @@ void resetParticles(float x, float y) {
 void drawTrail(ParticleTrail theTrail) {
     final ArrayList<Particle> mFragments = theTrail.fragments();
     final Particle mParticle = theTrail.particle();
-    /* draw head */
-    if (mFragments.size() > 1) {
-        fill(255, 0, 127);
-        noStroke();
-        pushMatrix();
-        translate(mParticle.position().x, mParticle.position().y, mParticle.position().z);
-        sphereDetail(4);
-        sphere(3);
-        popMatrix();
-    }
     /* draw trail */
     for (int i = 0; i < mFragments.size() - 1; i++) {
         if (mFragments.get(i) instanceof ShortLivedParticle) {
             final float mRatio = 1.0f - ((ShortLivedParticle) mFragments.get(i)).ageRatio();
-            stroke(127, mRatio * 255);
-            strokeWeight(mRatio * 3);
+            stroke(0);
+            strokeWeight(mRatio * 5);
         }
         int j = (i + 1) % mFragments.size();
         line(mFragments.get(i).position().x,
@@ -99,6 +105,7 @@ void drawTrail(ParticleTrail theTrail) {
              mFragments.get(j).position().y,
              mFragments.get(j).position().z);
     }
+    /* draw connection from trail to head */
     if (!mFragments.isEmpty()) {
         line(mFragments.get(mFragments.size() - 1).position().x,
              mFragments.get(mFragments.size() - 1).position().y,
@@ -106,5 +113,14 @@ void drawTrail(ParticleTrail theTrail) {
              mParticle.position().x,
              mParticle.position().y,
              mParticle.position().z);
+    }
+    /* draw head */
+    if (mFragments.size() > 1) {
+        fill(0);
+        noStroke();
+        pushMatrix();
+        translate(mParticle.position().x, mParticle.position().y, mParticle.position().z);
+        ellipse(0, 0, 5, 5);
+        popMatrix();
     }
 }

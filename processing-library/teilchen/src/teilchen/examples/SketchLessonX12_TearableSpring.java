@@ -110,7 +110,7 @@ public class SketchLessonX12_TearableSpring extends PApplet {
     }
 
     public void mousePressed() {
-        mParticleSelected = findParticleByProximity(mouseX, mouseY, 20);
+        mParticleSelected = teilchen.util.Util.findParticleByProximity(mPhysics, mouseX, mouseY, 0, 20);
     }
 
     public void mouseReleased() {
@@ -124,15 +124,6 @@ public class SketchLessonX12_TearableSpring extends PApplet {
              s.b().position().x,
              s.b().position().y,
              s.b().position().z);
-    }
-
-    private Particle findParticleByProximity(float x, float y, float pSelectionRadius) {
-        for (Particle p : mPhysics.particles()) {
-            if (PVector.dist(new PVector().set(x, y), p.position()) < pSelectionRadius) {
-                return p;
-            }
-        }
-        return null;
     }
 
     private void createSpring(Particle p0, Particle p1) {

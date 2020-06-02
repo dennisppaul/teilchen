@@ -22,9 +22,6 @@ public class Sketch_NonIntersectingStructures extends PApplet {
     }
 
     public void setup() {
-        frameRate(60);
-        smooth();
-
         mPhysics = new Physics();
 
         /* we chose verlet integration as it integrates much more nicely with sticks ( and constraints in general ) */

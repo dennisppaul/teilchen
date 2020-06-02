@@ -10,6 +10,8 @@ import teilchen.util.*;
 /*
  * this sketch demonstrates how to create a `Spring` that connects two particles. it also
  * demonstrates how to create a `ViscousDrag` to slow down particle motion over time.
+ *
+ * drag mouse to move particle.
  */
 Physics mPhysics;
 Spring mSpring;
@@ -45,11 +47,11 @@ void draw() {
     /* draw particles and connecting line */
     background(255);
     noFill();
-    stroke(255, 0, 127, 64);
+    stroke(255, 127, 0, 64);
     line(mSpring.a().position().x, mSpring.a().position().y,
          mSpring.b().position().x, mSpring.b().position().y);
-    fill(245);
-    stroke(164);
-    ellipse(mSpring.a().position().x, mSpring.a().position().y, 12, 12);
-    ellipse(mSpring.b().position().x, mSpring.b().position().y, 12, 12);
+    fill(0);
+    noStroke();
+    ellipse(mSpring.a().position().x, mSpring.a().position().y, 5, 5);
+    ellipse(mSpring.b().position().x, mSpring.b().position().y, 5, 5);
 }

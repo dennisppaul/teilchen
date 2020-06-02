@@ -25,9 +25,9 @@ import teilchen.Physics;
 
 public interface IIntegrator {
 
-    void step(final float theDeltaTime, final Physics theParticleSystem);
+    void step(final float pDeltaTime, final Physics pParticleSystem);
 }
-/**
+/*
  * from paul bourke http://astronomy.swin.edu.au/~pbourke/modelling/solver/
  */
 

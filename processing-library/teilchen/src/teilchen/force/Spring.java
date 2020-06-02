@@ -26,6 +26,7 @@ import processing.core.PVector;
 import teilchen.IConnection;
 import teilchen.Particle;
 import teilchen.Physics;
+import teilchen.util.Util;
 
 import static teilchen.util.Util.distance;
 
@@ -120,69 +121,43 @@ public class Spring implements IForce, IConnection {
 
     public void apply(final float pDeltaTime, final Physics pParticleSystem) {
         if (!(mA.fixed() && mB.fixed())) {
-            // from http://paulbourke.net/miscellaneous/particle/
-            final float dx = mA.position().x - mB.position().x;
-            final float dy = mA.position().y - mB.position().y;
-            final float dz = mA.position().z - mB.position().z;
-            final float mLength = 1.0f / fastInverseSqrt(dx * dx + dy * dy + dz * dz);
-            PVector f = new PVector();
-            f.x = mSpringConstant * (mLength - mRestLength);
-            f.x += mSpringDamping * (mA.velocity().x - mB.velocity().x) * dx / mLength;
-            f.x *= -dx / mLength;
-            f.y = mSpringConstant * (mLength - mRestLength);
-            f.y += mSpringDamping * (mA.velocity().y - mB.velocity().y) * dy / mLength;
-            f.y *= -dy / mLength;
-            f.z = mSpringConstant * (mLength - mRestLength);
-            f.z += mSpringDamping * (mA.velocity().z - mB.velocity().z) * dz / mLength;
-            f.z *= -dz / mLength;
+            final PVector mAB = PVector.sub(mA.position(), mB.position());
+            final float mInvDistance;
+            final float mDistance;
+            if (USE_FAST_SQRT) {
+                final float mInvDistanceSquared = mAB.magSq();
+                if (mInvDistanceSquared == 0.0f) { return; /* prevent division by zero */ }
+                mInvDistance = Util.fastInverseSqrt(mInvDistanceSquared);
+                mDistance = 1.0f / mInvDistance;
+            } else {
+                mDistance = mAB.mag();
+                if (mDistance == 0.0f) { return; /* prevent division by zero */ }
+                mInvDistance = 1.0f / mDistance;
+            }
+            final float mSpringForce = -mSpringConstant * (mDistance - mRestLength); // Fspring = - k * x
+            final PVector mABV = PVector.sub(mA.velocity(), mB.velocity());
+            final PVector mForce = new PVector().set(-mSpringForce, -mSpringForce, -mSpringForce);
+            Util.scale(mABV, mAB);
+            mABV.mult(mInvDistance);
+            mABV.mult(mSpringDamping);
+            mForce.add(mABV);
+            mAB.mult(-mInvDistance);
+            Util.scale(mForce, mAB);
 
             if (mOneWay) {
                 if (!mB.fixed()) {
-                    f.mult(-2);
-                    mB.force().add(f);
+                    mForce.mult(-2);
+                    mB.force().add(mForce);
                 }
             } else {
                 if (!mA.fixed()) {
-                    mA.force().add(f);
+                    mA.force().add(mForce);
                 }
                 if (!mB.fixed()) {
-                    mB.force().sub(f);
+                    mB.force().sub(mForce);
                 }
             }
-
-//            final PVector mAB = PVector.sub(mA.position(), mB.position());
-//            final float mDistance;
-//            if (USE_FAST_SQRT) {
-//                mDistance = 1.0f / fastInverseSqrt(mAB.magSq());
-//            } else {
-//                mDistance = mAB.mag();
-//            }
-//            if (mDistance == 0.0f) { return; }
-//
-//            final float mSpringForce = -mSpringConstant * (mDistance - mRestLength); // Fspring = - k * x
-//
-//            PVector mABV = PVector.sub(mA.velocity(), mB.velocity());
-//            Util.scale(mABV, mAB);
-//            mABV.div(mDistance);
-//            mABV.mult(mSpringDamping);
-//            mAB.add(mABV);
-//
-//            mAB.div(mDistance); // normalize
-//            mAB.mult(mSpringForce);
-//
-//            if (mOneWay) {
-//                if (!mB.fixed()) {
-//                    mAB.mult(-2);
-//                    mB.force().add(mAB);
-//                }
-//            } else {
-//                if (!mA.fixed()) {
-//                    mA.force().add(mAB);
-//                }
-//                if (!mB.fixed()) {
-//                    mB.force().sub(mAB);
-//                }
-//            }
+            // see http://paulbourke.net/miscellaneous/particle/
 
 //            float a2bX = mA.position().x - mB.position().x;
 //            float a2bY = mA.position().y - mB.position().y;
@@ -235,13 +210,5 @@ public class Spring implements IForce, IConnection {
 
     public void active(boolean pActiveState) {
         mActive = pActiveState;
-    }
-
-    protected static float fastInverseSqrt(float v) {
-        final float half = 0.5f * v;
-        int i = Float.floatToIntBits(v);
-        i = 0x5f375a86 - (i >> 1);
-        v = Float.intBitsToFloat(i);
-        return v * (1.5f - half * v * v);
     }
 }

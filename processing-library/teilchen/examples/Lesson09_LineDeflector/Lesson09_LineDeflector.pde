@@ -10,6 +10,8 @@ import teilchen.util.*;
 /*
  * this sketch demonstrates how to create and use `LineDeflector2D` and how to use
  * `ShortLivedParticle` a particle that only exists for a defined period of time.
+ *
+ * press mouse to position deflector.
  */
 Physics mPhysics;
 LineDeflector2D mDeflector;

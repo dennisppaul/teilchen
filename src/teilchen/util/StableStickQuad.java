@@ -48,15 +48,15 @@ public class StableStickQuad {
 
     public Stick bd;
 
-    public StableStickQuad(final Physics theParticleSystem,
+    public StableStickQuad(final Physics pParticleSystem,
                            final PVector theA,
                            final PVector theB,
                            final PVector theC,
                            final PVector theD) {
-        a = theParticleSystem.makeParticle();
-        b = theParticleSystem.makeParticle();
-        c = theParticleSystem.makeParticle();
-        d = theParticleSystem.makeParticle();
+        a = pParticleSystem.makeParticle();
+        b = pParticleSystem.makeParticle();
+        c = pParticleSystem.makeParticle();
+        d = pParticleSystem.makeParticle();
 
         a.setPositionRef(theA);
         b.setPositionRef(theB);
@@ -68,15 +68,15 @@ public class StableStickQuad {
         bc = new Stick(b, c);
         cd = new Stick(c, d);
         da = new Stick(d, a);
-        theParticleSystem.add(ab);
-        theParticleSystem.add(bc);
-        theParticleSystem.add(cd);
-        theParticleSystem.add(da);
+        pParticleSystem.add(ab);
+        pParticleSystem.add(bc);
+        pParticleSystem.add(cd);
+        pParticleSystem.add(da);
 
         /* diagonals */
         ac = new Stick(a, c);
         bd = new Stick(b, d);
-        theParticleSystem.add(ac);
-        theParticleSystem.add(bd);
+        pParticleSystem.add(ac);
+        pParticleSystem.add(bd);
     }
 }

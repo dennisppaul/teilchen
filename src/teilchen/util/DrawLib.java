@@ -66,25 +66,25 @@ public class DrawLib {
     }
 
     public static void drawParticles(final PGraphics g,
-                                     final Physics theParticleSystem,
-                                     float theSize,
+                                     final Physics pParticleSystem,
+                                     float pSize,
                                      int pColor) {
         draw(g,
-             theParticleSystem.particles(),
-             theSize,
+             pParticleSystem.particles(),
+             pSize,
              pColor);
     }
 
     public static void drawParticles(final PGraphics g,
-                                     final Physics theParticleSystem,
-                                     float theSize,
-                                     int theStrokeColor,
-                                     int theFillColor) {
+                                     final Physics pParticleSystem,
+                                     float pSize,
+                                     int pStrokeColor,
+                                     int pFillColor) {
         draw(g,
-             theParticleSystem.particles(),
-             theSize,
-             theStrokeColor,
-             theFillColor);
+             pParticleSystem.particles(),
+             pSize,
+             pStrokeColor,
+             pFillColor);
     }
 
     public static void drawSprings(final PGraphics g,

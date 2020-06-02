@@ -9,6 +9,8 @@ import teilchen.util.*;
 
 /*
  * this sketch demonstrates how to create and use an `Attractor` and how to teleport particles.
+ *
+ * press mouse to toggle attractor between postive and *negative* attraction.
  */
 Physics mPhysics;
 Attractor mAttractor;
@@ -28,9 +30,10 @@ void setup() {
     mTeleporter.max().set(width, height);
     mPhysics.add(mTeleporter);
     /* create some particles */
-    for (int i = 0; i < 100; i++) {
-        Particle myParticle = mPhysics.makeParticle();
-        myParticle.position().set(random(width), random(height));
+    for (int i = 0; i < 1000; i++) {
+        Particle mParticle = mPhysics.makeParticle();
+        mParticle.position().set(random(width), random(height));
+        mParticle.mass(random(1.0f, 5.0f));
     }
     /* create an attractor */
     mAttractor = new Attractor();
@@ -47,18 +50,18 @@ void draw() {
     /* draw */
     background(255);
     /* draw all the particles in particle system */
-    fill(245);
-    stroke(164);
+    fill(0);
+    noStroke();
     for (int i = 0; i < mPhysics.particles().size(); i++) {
         Particle myParticle = mPhysics.particles(i);
-        ellipse(myParticle.position().x, myParticle.position().y, 12, 12);
+        ellipse(myParticle.position().x, myParticle.position().y, 5, 5);
     }
     /* draw attractor. green if it is attracting and red if it is repelling */
     noStroke();
     if (mAttractor.strength() < 0) {
-        fill(255, 0, 0, 50);
+        fill(255, 127, 0, 50);
     } else {
-        fill(0, 255, 0, 50);
+        fill(0, 127, 255, 50);
     }
     ellipse(mAttractor.position().x, mAttractor.position().y,
             mAttractor.radius(), mAttractor.radius());

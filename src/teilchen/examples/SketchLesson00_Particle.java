@@ -8,6 +8,8 @@ public class SketchLesson00_Particle extends PApplet {
 
     /*
      * this sketch demonstrates how to create a particle system with a single particle in it.
+     *
+     * drag mouse to fling particle.
      */
 
     private Physics mPhysics;
@@ -32,9 +34,9 @@ public class SketchLesson00_Particle extends PApplet {
 
         /* draw particle */
         background(255);
-        stroke(0, 127);
         fill(0, 32);
-        ellipse(mParticle.position().x, mParticle.position().y, 12, 12);
+        noStroke();
+        ellipse(mParticle.position().x, mParticle.position().y, 5, 5);
 
         /* reset particle s position and velocity */
         if (mousePressed) {

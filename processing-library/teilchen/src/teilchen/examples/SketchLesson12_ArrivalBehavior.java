@@ -10,6 +10,8 @@ public class SketchLesson12_ArrivalBehavior extends PApplet {
     /*
      * this sketch demonstrates how to use behaviors.  it appliies the `Arrival` behavior to make a
      * `BehaviorParticle` arrive at a certain location.
+     *
+     * press mouse to position arrival destination.
      */
 
     private Physics mPhysics;
@@ -21,9 +23,7 @@ public class SketchLesson12_ArrivalBehavior extends PApplet {
     }
 
     public void setup() {
-        frameRate(120);
         colorMode(RGB, 1.0f);
-        noFill();
 
         /* physics */
         mPhysics = new Physics();
@@ -31,6 +31,7 @@ public class SketchLesson12_ArrivalBehavior extends PApplet {
         /* create particles */
         mParticle = mPhysics.makeParticle(BehaviorParticle.class);
         mParticle.maximumInnerForce(100);
+        mParticle.radius(10);
 
         /* create behavior */
         mArrival = new Arrival();
@@ -40,7 +41,6 @@ public class SketchLesson12_ArrivalBehavior extends PApplet {
     }
 
     public void draw() {
-
         /* set the arrival position to the mouse position */
         mArrival.position().set(mouseX, mouseY);
 
@@ -49,25 +49,26 @@ public class SketchLesson12_ArrivalBehavior extends PApplet {
 
         /* draw behavior particle */
         background(1);
-        stroke(0, 0.5f);
+        fill(0);
         if (mArrival.arriving()) {
             /* color particle red while it is arriving */
-            stroke(1, 0, 0, 0.5f);
+            fill(1, 0.5f, 0);
         }
         if (mArrival.arrived()) {
             /* color particle green when it has arrived */
-            stroke(0, 1, 0, 0.5f);
+            fill(0, 0.5f, 1);
+            // @TODO("particle drifts after arriving.")
         }
-
+        noStroke();
+        ellipse(mParticle.position().x, mParticle.position().y, mParticle.radius() * 2, mParticle.radius() * 2);
+        stroke(0);
         line(mParticle.position().x,
              mParticle.position().y,
              mParticle.position().x + mParticle.velocity().x,
              mParticle.position().y + mParticle.velocity().y);
-        fill(1);
-        ellipse(mParticle.position().x, mParticle.position().y, 12, 12);
 
-        /* draw arrival */
-        stroke(0, 0.25f);
+        /* draw arrival destination */
+        stroke(0);
         noFill();
         ellipse(mArrival.position().x,
                 mArrival.position().y,

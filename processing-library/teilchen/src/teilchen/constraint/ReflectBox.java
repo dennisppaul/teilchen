@@ -87,11 +87,11 @@ public class ReflectBox implements IConstraint {
         return _myCoefficientOfRestitution;
     }
 
-    public void apply(final Physics theParticleSystem) {
-        if (!(theParticleSystem.getIntegrator() instanceof Verlet)) {
+    public void apply(final Physics pParticleSystem) {
+        if (!(pParticleSystem.getIntegrator() instanceof Verlet)) {
             System.out.println("### WARNING @ " + getClass().getSimpleName() + " / only works with verlet integrator.");
         }
-        apply(theParticleSystem.particles());
+        apply(pParticleSystem.particles());
     }
 
     public void apply(final ArrayList<Particle> theParticles) {

@@ -90,13 +90,13 @@ public class Box
         return _myCoefficientOfRestitution;
     }
 
-    public void apply(final Physics theParticleSystem) {
+    public void apply(final Physics pParticleSystem) {
 
         if (!mActive) {
             return;
         }
 
-        for (final Particle myParticle : theParticleSystem.particles()) {
+        for (final Particle myParticle : pParticleSystem.particles()) {
             if (_myTeleport) {
                 if (myParticle.position().x > _myMax.x) {
                     myParticle.position().x = _myMin.x;
@@ -149,7 +149,7 @@ public class Box
                 }
                 if (myTag >= 0) {
                     if (_myReflectFlag) {
-                        if (theParticleSystem.getIntegrator() instanceof Verlet) {
+                        if (pParticleSystem.getIntegrator() instanceof Verlet) {
                             final PVector myDiff = sub(myPosition, myParticle.position());
                             teilchen.util.Util.reflect(myDiff, NORMALS[myTag], _myCoefficientOfRestitution);
 //                            System.out.println("### reflect " + _myNormals[myTag]);

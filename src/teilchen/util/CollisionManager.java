@@ -50,14 +50,15 @@ public class CollisionManager {
     public boolean HINT_IGNORE_STILL_OR_FIXED = false;
     private final Physics mCollisionPhysics;
     private final Random mRandom;
+    private final PVector mResolveSamePosition;
     private float mCollisionSpringConstant;
     private float mCollisionSpringDamping;
     private float mMinimumDistance;
-    private final PVector mResolveSamePosition;
     private ResolverType mResolverType;
     private float mCollisionResolverIntervalCounter = 1;
     private float mCollisionResolverInterval = 0;
     private int mDistanceMode = DISTANCE_MODE_FIXED;
+
     public CollisionManager() {
         this(new Physics());
     }
@@ -230,8 +231,7 @@ public class CollisionManager {
 
         final ArrayList<ICubicleEntity> myNeigbors = theWorld.getLocalEntities(theParticle);
         if (myNeigbors.size() > 1) {
-            for (int j = 0; j < myNeigbors.size(); j++) {
-                final ICubicleEntity myEntity = myNeigbors.get(j);
+            for (final ICubicleEntity myEntity : myNeigbors) {
                 if (myEntity instanceof Particle) {
                     final Particle myOtherParticle = (Particle) myEntity;
                     if (theParticle != myOtherParticle) {
@@ -241,7 +241,7 @@ public class CollisionManager {
                             if (theParticle.fixed() && myOtherParticle.fixed()) {
                                 continue;
                             }
-                            /**
+                            /*
                              * because of the way we handle the collision
                              * resolver creation there is no need to check for
                              * multiple spring connections.
@@ -328,11 +328,12 @@ public class CollisionManager {
         }
 
         public void apply(final float pDeltaTime, final Physics pParticleSystem) {
+            //@TODO("why is this semi-redundant to `Spring`?")
             if (!mA.fixed() || !mB.fixed()) {
                 float a2bX = mA.position().x - mB.position().x;
                 float a2bY = mA.position().y - mB.position().y;
                 float a2bZ = mA.position().z - mB.position().z;
-                final float myInversDistance = fastInverseSqrt(a2bX * a2bX + a2bY * a2bY + a2bZ * a2bZ);
+                final float myInversDistance = Util.fastInverseSqrt(a2bX * a2bX + a2bY * a2bY + a2bZ * a2bZ);
                 final float myDistance = 1.0F / myInversDistance;
 
                 if (myDistance < mRestLength) {
@@ -380,7 +381,8 @@ public class CollisionManager {
             super(theA, theB, theRestLength);
         }
 
-        public void apply(Physics theParticleSystem) {
+        public void apply(Physics pParticleSystem) {
+            //@TODO("why is this semi-redundant to `Stick`?")
             if (!mA.fixed() || !mB.fixed()) {
                 PVector.sub(mA.position(), mB.position(), mTempDistanceVector);
                 final float myDistanceSquared = lengthSquared(mTempDistanceVector);

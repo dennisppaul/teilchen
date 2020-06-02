@@ -19,29 +19,29 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.constraint;
 
 import processing.core.PVector;
 import teilchen.IConnection;
 import teilchen.Particle;
 import teilchen.Physics;
+import teilchen.util.Util;
+
 import static teilchen.Physics.EPSILON;
-import static teilchen.util.Util.*;
+import static teilchen.util.Util.distance;
+import static teilchen.util.Util.lengthSquared;
 
 public class Stick
         implements IConstraint,
-                   IConnection {
+        IConnection {
 
     protected final Particle mA;
 
     protected final Particle mB;
-
-    protected float mRestLength;
-
     protected final PVector mTempDistanceVector;
-
     protected final PVector mTempVector;
-
+    protected float mRestLength;
     protected boolean mOneWay;
 
     protected float mDamping;
@@ -98,7 +98,7 @@ public class Stick
         mOneWay = theOneWayState;
     }
 
-    public void apply(Physics theParticleSystem) {
+    public void apply(Physics pParticleSystem) {
         if (!mActive) {
             return;
         }
@@ -108,7 +108,8 @@ public class Stick
         PVector.sub(mA.position(), mB.position(), mTempDistanceVector);
         final float myDistanceSquared = lengthSquared(mTempDistanceVector);
         if (myDistanceSquared > 0) {
-            final float myDistance = (float) Math.sqrt(myDistanceSquared);
+            final float myInvDistance = Util.fastInverseSqrt(myDistanceSquared);
+            final float myDistance = 1.0f / myInvDistance;
             final float myDifference = mRestLength - myDistance;
             if (myDifference > EPSILON || myDifference < -EPSILON) {
                 if (!mOneWay) {
@@ -126,7 +127,7 @@ public class Stick
                         mB.position().sub(mTempVector);
                     }
                 } else {
-                    final float myDifferenceScale = myDifference / myDistance;
+                    final float myDifferenceScale = myDifference * myInvDistance;
                     PVector.mult(mTempDistanceVector, myDifferenceScale, mTempVector);
                     mB.position().sub(mTempVector);
                 }

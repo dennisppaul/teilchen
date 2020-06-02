@@ -10,6 +10,8 @@ import teilchen.util.*;
 /*
  * this sketch demonstrates how to create a particle system with a single particle in it and a
  * gravity force pulling it downward.
+ *
+ * drag mouse to fling particle.
  */
 Physics mPhysics;
 Particle mParticle;
@@ -35,9 +37,9 @@ void draw() {
     mPhysics.step(mDeltaTime);
     /* draw particle */
     background(255);
-    stroke(0, 127);
-    fill(0, 32);
-    ellipse(mParticle.position().x, mParticle.position().y, 12, 12);
+    fill(0);
+    noStroke();
+    ellipse(mParticle.position().x, mParticle.position().y, 5, 5);
     /* reset particle s position and velocity */
     if (mousePressed) {
         mParticle.position().set(mouseX, mouseY);

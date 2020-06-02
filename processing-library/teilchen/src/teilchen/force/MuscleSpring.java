@@ -19,46 +19,48 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.force;
 
+import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
-import static teilchen.util.Util.*;
+
+import static processing.core.PConstants.TWO_PI;
+import static teilchen.util.Util.distance;
 
 public class MuscleSpring
         extends Spring {
 
-    private float mAmplitude = 1;
-
-    private float mOffset = 0;
-
-    private float mFrequency = 1;
-
+    private final boolean mPaused;
+    private float mAmplitude = 1.0f;
+    private float mPhaseShift = 0.0f;
+    private float mFrequency = TWO_PI;
     private float mInitialRestLength;
-
     private float mCurrentTime;
 
-    private final boolean mAutomaticContraction = true;
-
-    public MuscleSpring(Particle theA, Particle theB) {
-        super(theA, theB);
+    public MuscleSpring(Particle pA, Particle pB) {
+        super(pA, pB);
         mInitialRestLength = mRestLength;
+        mPaused = false;
     }
 
-    public MuscleSpring(final Particle theA,
-                        final Particle theB,
-                        final float theSpringConstant,
-                        final float theSpringDamping,
-                        final float theRestLength) {
-        super(theA,
-              theB,
-              theSpringConstant,
-              theSpringDamping,
-              theRestLength);
+    public MuscleSpring(final Particle pA,
+                        final Particle pB,
+                        final float pSpringConstant,
+                        final float pSpringDamping,
+                        final float pRestLength) {
+        super(pA,
+              pB,
+              pSpringConstant,
+              pSpringDamping,
+              pRestLength);
         mInitialRestLength = mRestLength;
+        mPaused = false;
     }
 
     public void setRestLengthByPosition() {
+        PVector.dist(mA.position(), mB.position());
         mInitialRestLength = distance(mA.position(), mB.position());
     }
 
@@ -70,44 +72,37 @@ public class MuscleSpring
         mInitialRestLength = pRestLength;
     }
 
-    public void frequency(final float theFrequency) {
-        mFrequency = theFrequency;
+    public void apply(final float pDeltaTime, final Physics pParticleSystem) {
+        if (!mPaused) {
+            mCurrentTime += pDeltaTime;
+
+            final float myOffset = (float) Math.sin(mCurrentTime * mFrequency + mPhaseShift) * mAmplitude;
+            mRestLength = mInitialRestLength + myOffset;
+        }
+        super.apply(pDeltaTime, pParticleSystem);
+    }
+
+    public void frequency(final float pFrequency) {
+        mFrequency = pFrequency;
     }
 
     public float frequency() {
         return mFrequency;
     }
 
-    public void amplitude(final float theAmplitude) {
-        mAmplitude = theAmplitude;
+    public void amplitude(final float pAmplitude) {
+        mAmplitude = pAmplitude;
     }
 
     public float amplitude() {
         return mAmplitude;
     }
 
-    /**
-     * set the offset of the contraction in radians.
-     *
-     * @param theOffset float
-     */
-    public void offset(final float theOffset) {
-        mOffset = theOffset;
+    public void phaseshift(final float pPhaseShift) {
+        mPhaseShift = pPhaseShift;
     }
 
-    public float offset() {
-        return mOffset;
-    }
-
-    public void apply(final float pDeltaTime, final Physics pParticleSystem) {
-
-        if (mAutomaticContraction) {
-            mCurrentTime += pDeltaTime;
-
-            final float myOffset = (float) Math.sin(mCurrentTime * mFrequency + mOffset) * mAmplitude;
-            mRestLength = mInitialRestLength + myOffset;
-        }
-
-        super.apply(pDeltaTime, pParticleSystem);
+    public float phaseshift() {
+        return mPhaseShift;
     }
 }

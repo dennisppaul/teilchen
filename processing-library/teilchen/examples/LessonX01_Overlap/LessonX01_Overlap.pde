@@ -10,6 +10,8 @@ import teilchen.util.*;
 /*
  * this sketch is exactly like `Lesson06_Springs` except that it also shows how to resolve
  * overlaps of particles by moving particles apart manipulating their position directly.
+ *
+ * press mouse to create new particles.
  */
 static final float PARTICLE_RADIUS = 13;
 Physics mPhysics;
@@ -31,10 +33,7 @@ void draw() {
     if (mousePressed) {
         Particle mParticle = mPhysics.makeParticle(mouseX, mouseY, 0);
         mPhysics.makeSpring(mRoot, mParticle);
-        /*
-         * we define a radius for the particle so the particle has
-         * dimensions
-         */
+        /* define a radius for the particle so it has dimensions */
         mParticle.radius(random(PARTICLE_RADIUS / 2) + PARTICLE_RADIUS);
     }
     /* move overlapping particles away from each other */
@@ -43,13 +42,12 @@ void draw() {
         Overlap.resolveOverlap(mPhysics.particles());
     }
     /* update the particle system */
-    final float mDeltaTime = 1.0f / frameRate;
-    mPhysics.step(mDeltaTime);
+    mPhysics.step(1.0f / frameRate);
     /* draw particles and connecting line */
     background(255);
     /* draw springs */
     noFill();
-    stroke(255, 0, 127, 64);
+    stroke(255, 127, 0, 64);
     for (int i = 0; i < mPhysics.forces().size(); i++) {
         if (mPhysics.forces().get(i) instanceof Spring) {
             Spring mSSpring = (Spring) mPhysics.forces().get(i);

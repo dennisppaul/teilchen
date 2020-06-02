@@ -50,6 +50,8 @@ public interface Particle
 
     boolean dead();
 
+    void dead(boolean pDead);
+
     boolean tagged();
 
     void tag(boolean pTag);

@@ -27,7 +27,6 @@ public class SketchLessonX04_StickMan extends PApplet {
     }
 
     public void setup() {
-        frameRate(60);
         noFill();
 
         mPhysics = new Physics();

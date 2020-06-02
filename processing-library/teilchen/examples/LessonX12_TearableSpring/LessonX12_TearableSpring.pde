@@ -90,7 +90,7 @@ void draw() {
     }
 }
 void mousePressed() {
-    mParticleSelected = findParticleByProximity(mouseX, mouseY, 20);
+    mParticleSelected = teilchen.util.Util.findParticleByProximity(mPhysics, mouseX, mouseY, 0, 20);
 }
 void mouseReleased() {
     mParticleSelected = null;
@@ -102,14 +102,6 @@ void drawSpring(Spring s) {
          s.b().position().x,
          s.b().position().y,
          s.b().position().z);
-}
-Particle findParticleByProximity(float x, float y, float pSelectionRadius) {
-    for (Particle p : mPhysics.particles()) {
-        if (PVector.dist(new PVector().set(x, y), p.position()) < pSelectionRadius) {
-            return p;
-        }
-    }
-    return null;
 }
 void createSpring(Particle p0, Particle p1) {
     TearableSpring s = new TearableSpring(p0, p1);

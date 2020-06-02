@@ -38,6 +38,7 @@ public class BasicParticle implements Particle, Serializable {
     private PVector mPosition;
     private boolean mTagged;
     private boolean mStill;
+    private boolean mDead;
     private float mRadius;
 
     public BasicParticle() {
@@ -51,6 +52,7 @@ public class BasicParticle implements Particle, Serializable {
         mTagged = false;
         mStill = false;
         mRadius = 0;
+        mDead = false;
     }
 
     public boolean fixed() {
@@ -94,7 +96,11 @@ public class BasicParticle implements Particle, Serializable {
     }
 
     public boolean dead() {
-        return false;
+        return mDead;
+    }
+
+    public void dead(boolean pDead) {
+        mDead = pDead;
     }
 
     public boolean tagged() {

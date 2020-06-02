@@ -15,6 +15,8 @@ public class SketchLessonX06_Ducklings extends PApplet {
     /*
      * this sketch demonstrates how to use `Arrival` behaviors with particles to create a group of
      * ducklings.
+     *
+     * move mouse to change target position. press mouse to set to *over steering*.
      */
 
     private Physics mPhysics;
@@ -53,7 +55,6 @@ public class SketchLessonX06_Ducklings extends PApplet {
 
     public void draw() {
         final float mDeltaTime = 1.0f / frameRate;
-        background(1);
 
         /* update particles */
         mCollision.createCollisionResolvers();
@@ -67,6 +68,7 @@ public class SketchLessonX06_Ducklings extends PApplet {
         mDucklings.get(0).arrival.position().set(mouseX, mouseY);
 
         /* draw */
+        background(1);
         for (Duckling mDuckling : mDucklings) {
             drawParticle(mDuckling);
         }

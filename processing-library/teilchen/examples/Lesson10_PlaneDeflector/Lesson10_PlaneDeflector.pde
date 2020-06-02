@@ -10,6 +10,8 @@ import teilchen.util.*;
 /*
  * this sketch demonstrates how to create and use ``PlaneDeflector` and how to use
  * `ShortLivedParticle` a particle that only exists for a defined period of time.
+ *
+ * drag mouse to tilt deflector.
  */
 Physics mPhysics;
 PlaneDeflector mDeflector;
@@ -34,9 +36,9 @@ void setup() {
     mDeflector.coefficientofrestitution(0.7f);
     mPhysics.add(mDeflector);
     /* create gravity */
-    Gravity myGravity = new Gravity();
-    myGravity.force().y = 50;
-    mPhysics.add(myGravity);
+    Gravity mGravity = new Gravity();
+    mGravity.force().y = 50;
+    mPhysics.add(mGravity);
     /* create drag */
     ViscousDrag myViscousDrag = new ViscousDrag();
     myViscousDrag.coefficient = 0.1f;
@@ -49,13 +51,13 @@ void draw() {
         mDeflector.plane().normal.set(sin(myAngle), -cos(myAngle), 0);
     }
     /* create a special particle */
-    ShortLivedParticle myNewParticle = new ShortLivedParticle();
-    myNewParticle.position().set(mouseX, mouseY);
-    myNewParticle.velocity().set(0, random(100) + 50);
+    ShortLivedParticle mNewParticle = new ShortLivedParticle();
+    mNewParticle.position().set(mouseX, mouseY);
+    mNewParticle.velocity().set(0, random(100) + 50);
     /* this particle is removed after a specific interval */
-    myNewParticle.setMaxAge(4);
+    mNewParticle.setMaxAge(4);
     /* add particle manually to the particle system */
-    mPhysics.add(myNewParticle);
+    mPhysics.add(mNewParticle);
     /* update physics */
     final float mDeltaTime = 1.0f / frameRate;
     mPhysics.step(mDeltaTime);
@@ -66,15 +68,14 @@ void draw() {
         /* this special particle can tell you how much time it has to live.
          * we map this information to its transparency.
          */
-        float myRatio = 1 - ((ShortLivedParticle) mParticle).ageRatio();
-        stroke(0, 127);
-        stroke(0, 64 * myRatio);
+        float mRatio = 1 - ((ShortLivedParticle) mParticle).ageRatio();
+        noStroke();
         if (mParticle.tagged()) {
-            fill(255, 127, 0, 127 * myRatio);
+            fill(255, 127, 0, 191 * mRatio);
         } else {
-            fill(0, 32 * myRatio);
+            fill(0, 127 * mRatio);
         }
-        ellipse(mParticle.position().x, mParticle.position().y, 12, 12);
+        ellipse(mParticle.position().x, mParticle.position().y, 5, 5);
     }
     /* draw deflector */
     stroke(0, 127);
@@ -82,7 +83,7 @@ void draw() {
          mDeflector.plane().origin.y + mDeflector.plane().normal.x * -width,
          mDeflector.plane().origin.x - mDeflector.plane().normal.y * width,
          mDeflector.plane().origin.y + mDeflector.plane().normal.x * width);
-    stroke(255, 0, 0, 127);
+    stroke(255, 127, 0, 127);
     line(mDeflector.plane().origin.x,
          mDeflector.plane().origin.y,
          mDeflector.plane().origin.x + mDeflector.plane().normal.x * 20,

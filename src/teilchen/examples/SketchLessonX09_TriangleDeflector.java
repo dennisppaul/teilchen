@@ -17,6 +17,8 @@ public class SketchLessonX09_TriangleDeflector extends PApplet {
      * this sketch demonstrates how to use `TriangleDeflectors` to make particles bounce off two
      * triangles. it also demonstrates how to use `MortalParticle` to remove particles
      * automatically once they leave the screen.
+     *
+     * press mouse to create particles. move mouse to rotate view.
      */
 
     private Physics mPhysics;
@@ -81,7 +83,7 @@ public class SketchLessonX09_TriangleDeflector extends PApplet {
         /* draw deflectors */
         noFill();
         for (TriangleDeflector mTriangleDeflector : mTriangleDeflectors) {
-            DrawLib.draw(g, mTriangleDeflector, color(0), color(255, 0, 0), color(0, 255, 0));
+            DrawLib.draw(g, mTriangleDeflector, color(0), color(255, 127, 0), color(0, 127, 255));
         }
 
         /* finally remove the collision tag */

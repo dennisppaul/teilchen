@@ -38,16 +38,16 @@ public class Euler
         mTemp2 = new PVector();
     }
 
-    public void step(final float theDeltaTime, final Physics theParticleSystem) {
+    public void step(final float pDeltaTime, final Physics pParticleSystem) {
 
-        theParticleSystem.applyForces(theDeltaTime);
+        pParticleSystem.applyForces(pDeltaTime);
 
-        synchronized (theParticleSystem.particles()) {
-            final Iterator<Particle> myIterator = theParticleSystem.particles().iterator();
+        synchronized (pParticleSystem.particles()) {
+            final Iterator<Particle> myIterator = pParticleSystem.particles().iterator();
             while (myIterator.hasNext()) {
                 final Particle myParticle = myIterator.next();
                 if (!myParticle.fixed()) {
-                    integrate(theDeltaTime, myParticle);
+                    integrate(pDeltaTime, myParticle);
                 }
             }
         }
@@ -77,14 +77,14 @@ public class Euler
 //
 //    private final Vector<Derivate3f> myK1 = new Vector<Derivate3f> ();
 //
-//    public void step(final float theDeltaTime, final ParticleSystem theParticleSystem) {
+//    public void step(final float theDeltaTime, final ParticleSystem pParticleSystem) {
 //
-//        IntegrationUtil.checkContainerSize(theParticleSystem.particles().size(), myK1, Derivate3f.class);
+//        IntegrationUtil.checkContainerSize(pParticleSystem.particles().size(), myK1, Derivate3f.class);
 //
-//        theParticleSystem.applyForces(theDeltaTime);
-//        IntegrationUtil.calculateDerivatives(theParticleSystem.particles(), myK1);
-//        for (int i = 0; i < theParticleSystem.particles().size(); i++) {
-//            Particle myParticle = theParticleSystem.particles().get(i);
+//        pParticleSystem.applyForces(theDeltaTime);
+//        IntegrationUtil.calculateDerivatives(pParticleSystem.particles(), myK1);
+//        for (int i = 0; i < pParticleSystem.particles().size(); i++) {
+//            Particle myParticle = pParticleSystem.particles().get(i);
 //            if (!myParticle.fixed()) {
 //                myParticle.position().x += myK1.get(i).px * theDeltaTime;
 //                myParticle.position().y += myK1.get(i).py * theDeltaTime;

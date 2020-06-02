@@ -24,8 +24,6 @@ public class SketchLesson11_WanderBehavior extends PApplet {
     }
 
     public void setup() {
-        frameRate(120);
-
         /* physics */
         mPhysics = new Physics();
         mPhysics.add(new ViscousDrag());
@@ -57,12 +55,13 @@ public class SketchLesson11_WanderBehavior extends PApplet {
         /* draw behavior particle */
         background(255);
 
-        fill(1);
         stroke(0, 127);
         line(mParticle.position().x,
              mParticle.position().y,
              mParticle.position().x + mParticle.velocity().x,
              mParticle.position().y + mParticle.velocity().y);
+        fill(0);
+        noStroke();
         ellipse(mParticle.position().x, mParticle.position().y,
                 mParticle.radius() * 2, mParticle.radius() * 2);
     }

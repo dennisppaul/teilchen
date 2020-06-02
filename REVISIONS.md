@@ -2,6 +2,7 @@
 
 ## v0.4 (pre-release)
 
+- particles can now be marked `dead` and are automatically disposed when calling `Physics.step()`
 - added example for `TearableSpring`
 - added example for `VectorField`
 - added *anatomy of a particle* tutorial

@@ -43,11 +43,9 @@ public class Physics {
     public boolean HINT_OPTIMIZE_STILL = true;
     public boolean HINT_RECOVER_NAN = true;
     public boolean HINT_REMOVE_DEAD = true;
-    public int constrain_iterations_per_steps = 1;
     private final ArrayList<Particle> mParticles;
     private final ArrayList<IForce> mForces;
     private final ArrayList<IConstraint> mConstraints;
-    private int integrations_per_steps = 1;
     private IIntegrator mIntegrator;
 
     public Physics() {
@@ -58,16 +56,16 @@ public class Physics {
     }
 
     /* particles */
-    public void add(Particle theParticle) {
-        mParticles.add(theParticle);
+    public void add(Particle pParticle) {
+        mParticles.add(pParticle);
     }
 
     public void add(Collection<? extends Particle> pParticles) {
         mParticles.addAll(pParticles);
     }
 
-    public void remove(Particle theParticle) {
-        mParticles.remove(theParticle);
+    public void remove(Particle pParticle) {
+        mParticles.remove(pParticle);
     }
 
     public void remove(Collection<? extends Particle> pParticles) {
@@ -118,9 +116,9 @@ public class Physics {
         return myParticle;
     }
 
-    public BasicParticle makeParticle(final PVector thePosition, final float pMass) {
+    public BasicParticle makeParticle(final PVector pPosition, final float pMass) {
         BasicParticle myParticle = makeParticle();
-        myParticle.setPositionRef(thePosition);
+        myParticle.setPositionRef(pPosition);
         myParticle.old_position().set(myParticle.position());
         myParticle.mass(pMass);
         return myParticle;
@@ -146,38 +144,37 @@ public class Physics {
     }
 
     /* forces */
-    public void add(IForce theForce) {
-        if (theForce instanceof ViscousDrag && mIntegrator instanceof Verlet) {
-            System.err.println(
-                    "### WARNING / 'viscous drag' might have no effect with 'verlet' integration. use 'Verlet" + "" +
-                    ".damping" + "(float theDamping)' instead.");
+    public void add(IForce pForce) {
+        if (pForce instanceof ViscousDrag && mIntegrator instanceof Verlet) {
+            System.err.println("### WARNING / `ViscousDrag` has no effect with `Verlet` " +
+                               "integration. use `Verlet.damping(float pDamping)` instead.");
         }
-        mForces.add(theForce);
+        mForces.add(pForce);
     }
 
     public void addForces(final ArrayList<? extends IForce> pForces) {
         mForces.addAll(pForces);
     }
 
-    public void remove(IForce theForce) {
-        mForces.remove(theForce);
+    public void remove(IForce pForce) {
+        mForces.remove(pForce);
     }
 
     public ArrayList<IForce> forces() {
         return mForces;
     }
 
-    public IForce forces(final int theIndex) {
-        return mForces.get(theIndex);
+    public IForce forces(final int pIndex) {
+        return mForces.get(pIndex);
     }
 
-    public void applyForces(final float theDeltaTime) {
+    public void applyForces(final float pDeltaTime) {
         /* accumulate inner forces */
         synchronized (mParticles) {
             for (Particle myParticle : mParticles) {
                 if (!myParticle.fixed()) {
                     /* accumulate inner forces */
-                    myParticle.accumulateInnerForce(theDeltaTime);
+                    myParticle.accumulateInnerForce(pDeltaTime);
                 }
             }
         }
@@ -186,7 +183,7 @@ public class Physics {
         synchronized (mForces) {
             for (IForce mForce : mForces) {
                 if (mForce.active()) {
-                    mForce.apply(theDeltaTime, this);
+                    mForce.apply(pDeltaTime, this);
                 }
             }
         }
@@ -279,17 +276,15 @@ public class Physics {
     }
 
     protected synchronized void integrate(float pDeltaTime) {
-        for (int j = 0; j < integrations_per_steps; j++) {
-            mIntegrator.step(pDeltaTime / integrations_per_steps, this);
-        }
+        mIntegrator.step(pDeltaTime, this);
     }
 
     protected synchronized void handleForces() {
         synchronized (mForces) {
             final Iterator<IForce> i = mForces.iterator();
             while (i.hasNext()) {
-                final IForce myForce = i.next();
-                if (myForce.dead()) {
+                final IForce mForce = i.next();
+                if (mForce.dead()) {
                     i.remove();
                 }
             }
@@ -298,10 +293,8 @@ public class Physics {
 
     protected synchronized void handleConstraints() {
         synchronized (mConstraints) {
-            for (int i = 0; i < constrain_iterations_per_steps; i++) {
-                for (IConstraint myConstraint : mConstraints) {
-                    myConstraint.apply(this);
-                }
+            for (IConstraint mConstraint : mConstraints) {
+                mConstraint.apply(this);
             }
         }
     }

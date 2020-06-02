@@ -15,6 +15,8 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
 
     /*
      * this sketch demonstrates how to contraint the angle between two springs or two sticks.
+     *
+     * drag mouse to move particle.
      */
 
     private Physics mPhysics;
@@ -120,13 +122,13 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
                 if (mSpring instanceof AngleConstraintSpring) {
                     strokeWeight(1);
                     if (mSpring.active()) {
-                        stroke(255, 0, 0, 64);
+                        stroke(255, 127, 0, 191);
                     } else {
-                        stroke(255, 0, 0, 16);
+                        stroke(255, 127, 0, 31);
                     }
                 } else {
                     strokeWeight(3);
-                    stroke(0, 128);
+                    stroke(0);
                 }
                 line(mSpring.a(), mSpring.b());
             }
@@ -141,13 +143,13 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
                 if (mStick instanceof AngleConstraintStick) {
                     strokeWeight(1);
                     if (mStick.active()) {
-                        stroke(0, 127, 255, 64);
+                        stroke(0, 127, 255, 191);
                     } else {
-                        stroke(0, 127, 255, 16);
+                        stroke(0, 127, 255, 31);
                     }
                 } else {
-                    strokeWeight(3);
-                    stroke(0, 128);
+                    strokeWeight(2);
+                    stroke(0);
                 }
                 line(mStick.a(), mStick.b());
             }
@@ -156,14 +158,11 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
     }
 
     private void drawParticles() {
-        stroke(0);
-        fill(92);
+        noStroke();
+        fill(0);
         drawParticle(mParticleA);
-        fill(127);
         drawParticle(mParticleB);
-        fill(192);
         drawParticle(mParticleC);
-        fill(64);
         drawParticle(mParticleD);
     }
 

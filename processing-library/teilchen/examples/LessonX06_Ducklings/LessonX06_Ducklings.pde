@@ -10,6 +10,8 @@ import teilchen.util.*;
 /*
  * this sketch demonstrates how to use `Arrival` behaviors with particles to create a group of
  * ducklings.
+ *
+ * move mouse to change target position. press mouse to set to *over steering*.
  */
 Physics mPhysics;
 ArrayList<Duckling> mDucklings;
@@ -40,7 +42,6 @@ void setup() {
 }
 void draw() {
     final float mDeltaTime = 1.0f / frameRate;
-    background(1);
     /* update particles */
     mCollision.createCollisionResolvers();
     mCollision.loop(mDeltaTime);
@@ -50,6 +51,7 @@ void draw() {
     mDucklings.get(0).arrival.oversteer(!mousePressed);
     mDucklings.get(0).arrival.position().set(mouseX, mouseY);
     /* draw */
+    background(1);
     for (Duckling mDuckling : mDucklings) {
         drawParticle(mDuckling);
     }

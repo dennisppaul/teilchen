@@ -11,6 +11,8 @@ import teilchen.util.*;
  * this sketch demonstrates how to use `TriangleDeflectors` in a 2D context to make particles
  * bounce off a triangle ( that looks like a line ). it also demonstrates how to use
  * `MortalParticle` to remove particles automatically once they leave the screen.
+ *
+ * press mouse to spawn particles.
  */
 Physics mPhysics;
 TriangleDeflector mTriangleDeflector;
@@ -32,24 +34,26 @@ void setup() {
     mPhysics.add(mTriangleDeflector);
 }
 void draw() {
-    final float mDeltaTime = 1.0f / frameRate;
-    mPhysics.step(mDeltaTime);
+    mPhysics.step(1.0f / frameRate);
     /* draw particles */
     background(255);
+    strokeWeight(2);
     for (int i = 0; i < mPhysics.particles().size(); i++) {
         Particle mParticle = mPhysics.particles(i);
-        stroke(0, 127);
         if (mParticle.tagged()) {
-            fill(255, 127, 64);
+            stroke(255, 127, 0);
+            fill(0);
         } else {
-            fill(0, 32);
+            noStroke();
+            fill(0);
         }
         pushMatrix();
         translate(mParticle.position().x, mParticle.position().y);
-        ellipse(0, 0, 10, 10);
+        ellipse(0, 0, 5, 5);
         popMatrix();
     }
     /* draw deflectors */
+    strokeWeight(1);
     noFill();
     stroke(0);
     line(mTriangleDeflector.a().x, mTriangleDeflector.a().y, mTriangleDeflector.b().x, mTriangleDeflector.b().y);
