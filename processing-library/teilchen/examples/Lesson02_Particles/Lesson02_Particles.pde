@@ -10,6 +10,8 @@ import teilchen.util.*;
 /*
  * this sketch demonstrates how to create and handle multiple particles and remove individual
  * particles.
+ *
+ * drag mouse to spawn particles.
  */
 Physics mPhysics;
 void settings() {
@@ -49,4 +51,8 @@ void draw() {
         Particle mParticle = mPhysics.particles(i);
         ellipse(mParticle.position().x, mParticle.position().y, 5, 5);
     }
+    /* draw edge */
+    stroke(0);
+    line(0, height * 0.9f, 20, height * 0.9f);
+    line(width - 20, height * 0.9f, width, height * 0.9f);
 }
