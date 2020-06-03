@@ -18,7 +18,6 @@ public class StickMan {
     private final BasicParticle mRightHand;
 
     public StickMan(Physics pParticleSystem, float pOffset, float pScale) {
-
         mScale = pScale;
 
         /* body */
@@ -73,11 +72,22 @@ public class StickMan {
         myMuscleSpring.amplitude(20 * pScale);
         myMuscleSpring.strength(100);
         myMuscleSpring.phaseshift((float) Math.random() * 2 * PApplet.PI);
+        myMuscleSpring.frequency(1);
         pParticleSystem.add(myMuscleSpring);
     }
 
-    public void draw(PGraphics g) {
+    public void translate(PVector p) {
+        mLeftFoot.position().add(p);
+        mRightFoot.position().add(p);
+        mLeftHand.position().add(p);
+        mRightHand.position().add(p);
+        mQuad.a.position().add(p);
+        mQuad.b.position().add(p);
+        mQuad.c.position().add(p);
+        mQuad.d.position().add(p);
+    }
 
+    public void draw(PGraphics g) {
         g.stroke(255, 0, 0, 127);
 
         /* draw arms */

@@ -18,7 +18,7 @@ public class SketchLessonX07_CubicleWorld extends PApplet {
      * to avoid decrease the in demand for computational resources in particle systems with large
      * numbers of particles.
      *
-     * move or draw mouse to rotate view.
+     * move or drag mouse to rotate view.
      */
 
     private final int WORLD_NUMBER_OF_CUBICLES = 15;

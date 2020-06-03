@@ -45,7 +45,7 @@ void draw() {
     myNewParticle.velocity().set(0, random(100) + 50);
     /* this particle is removed after a specific interval */
     myNewParticle.setMaxAge(4);
-    myNewParticle.radius(5);
+    myNewParticle.radius(2.5f);
     /* add particle manually to the particle system */
     mPhysics.add(myNewParticle);
     /* update physics */
@@ -55,16 +55,15 @@ void draw() {
     background(255);
     for (int i = 0; i < mPhysics.particles().size(); i++) {
         Particle mParticle = mPhysics.particles(i);
-        /* this special particle can tell you how much time it has to live.
-         * we map this information to its transparency.
-         */
-        float myRatio = 1 - ((ShortLivedParticle) mParticle).ageRatio();
+        /* this special particle has a limited life time. in this case this information is
+        mapped to its transparency. */
+        float mRatio = 1 - ((ShortLivedParticle) mParticle).ageRatio();
         stroke(0, 127);
-        stroke(0, 64 * myRatio);
+        stroke(0, 64 * mRatio);
         if (mParticle.tagged()) {
-            fill(255, 127, 0, 127 * myRatio);
+            fill(255, 127, 0, 255 * mRatio);
         } else {
-            fill(0, 32 * myRatio);
+            fill(0, 255 * mRatio);
         }
         ellipse(mParticle.position().x, mParticle.position().y, mParticle.radius() * 2, mParticle.radius() * 2);
     }

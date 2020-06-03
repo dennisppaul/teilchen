@@ -34,7 +34,7 @@ public class SketchLesson00_Particle extends PApplet {
 
         /* draw particle */
         background(255);
-        fill(0, 32);
+        fill(0);
         noStroke();
         ellipse(mParticle.position().x, mParticle.position().y, 5, 5);
 

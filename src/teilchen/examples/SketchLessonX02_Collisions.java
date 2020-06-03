@@ -15,9 +15,11 @@ public class SketchLessonX02_Collisions extends PApplet {
     /*
      * this sketch demonstrates how to use `CollisionManager` to resolve particle collisions by
      * applying temporary springs pushing 2 colliding particles appart.
+     *
+     * press mouse to create particles.
      */
 
-    private static final float PARTICLE_SIZE = 12;
+    private static final float PARTICLE_SIZE = 5;
     private CollisionManager mCollision;
     private Physics mPhysics;
 
@@ -43,10 +45,6 @@ public class SketchLessonX02_Collisions extends PApplet {
         myBox.coefficientofrestitution(0.7f);
         myBox.reflect(true);
         mPhysics.add(myBox);
-
-        /* create a first particle */
-        final Particle myParticle = mPhysics.makeParticle(new PVector(mouseX, mouseY, 0), 10);
-        mCollision.collision().add(myParticle);
     }
 
     public void draw() {
@@ -72,7 +70,7 @@ public class SketchLessonX02_Collisions extends PApplet {
     private void drawThings() {
         /* collision springs */
         noFill();
-        stroke(255, 0, 127, 64);
+        stroke(255, 127, 0, 63);
         for (int i = 0; i < mCollision.collision().forces().size(); ++i) {
             if (mCollision.collision().forces().get(i) instanceof Spring) {
                 Spring mySpring = (Spring) mCollision.collision_forces().get(i);
@@ -86,8 +84,8 @@ public class SketchLessonX02_Collisions extends PApplet {
         }
 
         /* particles */
-        fill(245);
-        stroke(164);
+        fill(0);
+        noStroke();
         for (int i = 0; i < mPhysics.particles().size(); ++i) {
             Particle myParticle = mPhysics.particles().get(i);
             pushMatrix();

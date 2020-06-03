@@ -10,6 +10,8 @@ import teilchen.util.*;
 /*
  * this sketch demonstratwa some advanced use of particles, springs ( e.g `MuscleSpring` )
  * and attractors to create a group of `StickMan`.
+ *
+ * press mouse to grab and fling stickmen.
  */
 Physics mPhysics;
 Attractor mAttractor;
@@ -29,13 +31,14 @@ void setup() {
     mViscousDrag.coefficient = 0.85f;
     mPhysics.add(mViscousDrag);
     mAttractor = new Attractor();
-    mAttractor.radius(500);
+    mAttractor.radius(5000);
     mAttractor.strength(0);
     mAttractor.position().set(width / 2.0f, height / 2.0f);
     mPhysics.add(mAttractor);
     mMyStickMan = new StickMan[20];
     for (int i = 0; i < mMyStickMan.length; i++) {
         mMyStickMan[i] = new StickMan(mPhysics, random(0, width), random(0.3f, 0.6f));
+        mMyStickMan[i].translate(new PVector().set(0, height / 2.0f, 0));
     }
 }
 void draw() {
@@ -67,7 +70,7 @@ void draw() {
         mAttractor.strength(0);
     }
     if (keyPressed) {
-        mGravity.force().y = -10;
+        mGravity.force().y = -20;
     } else {
         mGravity.force().y = 20;
     }

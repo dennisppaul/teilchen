@@ -15,6 +15,8 @@ public class SketchLessonX12_TearableSpring extends PApplet {
     /*
      * this sketch demonstrates how to use `TearableSprings` a variation of the normal spring that
      * tears if stretched beyond a certain length. drag particles to tear spring mesh.
+     *
+     * press mouse to drag particle and tear spring.
      */
 
     private static final int GRID_WIDTH = 32;

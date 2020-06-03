@@ -29,7 +29,7 @@ void draw() {
     mPhysics.step(mDeltaTime);
     /* draw particle */
     background(255);
-    fill(0, 32);
+    fill(0);
     noStroke();
     ellipse(mParticle.position().x, mParticle.position().y, 5, 5);
     /* reset particle s position and velocity */

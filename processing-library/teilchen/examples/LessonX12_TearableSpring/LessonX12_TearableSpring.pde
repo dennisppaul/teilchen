@@ -10,6 +10,8 @@ import teilchen.util.*;
 /*
  * this sketch demonstrates how to use `TearableSprings` a variation of the normal spring that
  * tears if stretched beyond a certain length. drag particles to tear spring mesh.
+ *
+ * press mouse to drag particle and tear spring.
  */
 static final int GRID_WIDTH = 32;
 static final int GRID_HEIGHT = 24;

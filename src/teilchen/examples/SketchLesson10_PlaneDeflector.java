@@ -84,9 +84,9 @@ public class SketchLesson10_PlaneDeflector extends PApplet {
             float mRatio = 1 - ((ShortLivedParticle) mParticle).ageRatio();
             noStroke();
             if (mParticle.tagged()) {
-                fill(255, 127, 0, 191 * mRatio);
+                fill(255, 127, 0, 255 * mRatio);
             } else {
-                fill(0, 127 * mRatio);
+                fill(0, 255 * mRatio);
             }
             ellipse(mParticle.position().x, mParticle.position().y, 5, 5);
         }
