@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10,"i32":10,"i33":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10,"i32":10,"i33":10,"i34":10,"i35":10,"i36":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -143,6 +143,10 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#HINT_REMOVE_DEAD">HINT_REMOVE_DEAD</a></span></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#HINT_SET_VELOCITY_FROM_PREVIOUS_POSTION">HINT_SET_VELOCITY_FROM_PREVIOUS_POSTION</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#HINT_UPDATE_OLD_POSITION">HINT_UPDATE_OLD_POSITION</a></span></code>&nbsp;</td>
 </tr>
@@ -195,95 +199,105 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#add-teilchen.Particle-">add</a></span>(<a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;pParticle)</code>&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#addConstraints-java.util.ArrayList-">addConstraints</a></span>(java.util.ArrayList&lt;? extends <a href="../teilchen/constraint/IConstraint.html" title="interface in teilchen.constraint">IConstraint</a>&gt;&nbsp;pConstraints)</code>&nbsp;</td>
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#add-teilchen.Particle-boolean-">add</a></span>(<a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;pParticle,
+   boolean&nbsp;pPreventDuplicates)</code>&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#addForces-java.util.ArrayList-">addForces</a></span>(java.util.ArrayList&lt;? extends <a href="../teilchen/force/IForce.html" title="interface in teilchen.force">IForce</a>&gt;&nbsp;pForces)</code>&nbsp;</td>
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#add-teilchen.force.Spring-boolean-">add</a></span>(<a href="../teilchen/force/Spring.html" title="class in teilchen.force">Spring</a>&nbsp;pSpring,
+   boolean&nbsp;pPreventDuplicates)</code>&nbsp;</td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#applyForces-float-">applyForces</a></span>(float&nbsp;pDeltaTime)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#addConstraints-java.util.ArrayList-">addConstraints</a></span>(java.util.ArrayList&lt;? extends <a href="../teilchen/constraint/IConstraint.html" title="interface in teilchen.constraint">IConstraint</a>&gt;&nbsp;pConstraints)</code>&nbsp;</td>
 </tr>
 <tr id="i7" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#addForces-java.util.ArrayList-">addForces</a></span>(java.util.ArrayList&lt;? extends <a href="../teilchen/force/IForce.html" title="interface in teilchen.force">IForce</a>&gt;&nbsp;pForces)</code>&nbsp;</td>
+</tr>
+<tr id="i8" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#applyForces-float-">applyForces</a></span>(float&nbsp;pDeltaTime)</code>&nbsp;</td>
+</tr>
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>java.util.ArrayList&lt;<a href="../teilchen/constraint/IConstraint.html" title="interface in teilchen.constraint">IConstraint</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#constraints--">constraints</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code><a href="../teilchen/constraint/IConstraint.html" title="interface in teilchen.constraint">IConstraint</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#constraints-int-">constraints</a></span>(int&nbsp;pIndex)</code>&nbsp;</td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>java.util.ArrayList&lt;<a href="../teilchen/force/IForce.html" title="interface in teilchen.force">IForce</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#forces--">forces</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="../teilchen/force/IForce.html" title="interface in teilchen.force">IForce</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#forces-int-">forces</a></span>(int&nbsp;pIndex)</code>&nbsp;</td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="../teilchen/integration/IIntegrator.html" title="interface in teilchen.integration">IIntegrator</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#getIntegrator--">getIntegrator</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>&lt;T extends <a href="../teilchen/force/IForce.html" title="interface in teilchen.force">IForce</a>&gt;<br>T</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#makeForce-java.lang.Class-">makeForce</a></span>(java.lang.Class&lt;T&gt;&nbsp;pForceClass)</code>&nbsp;</td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="../teilchen/BasicParticle.html" title="class in teilchen">BasicParticle</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#makeParticle--">makeParticle</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>&lt;T extends <a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a>&gt;<br>T</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#makeParticle-java.lang.Class-">makeParticle</a></span>(java.lang.Class&lt;T&gt;&nbsp;pParticleClass)</code>&nbsp;</td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code><a href="../teilchen/BasicParticle.html" title="class in teilchen">BasicParticle</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#makeParticle-float-float-">makeParticle</a></span>(float&nbsp;x,
             float&nbsp;y)</code>&nbsp;</td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code><a href="../teilchen/BasicParticle.html" title="class in teilchen">BasicParticle</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#makeParticle-float-float-float-">makeParticle</a></span>(float&nbsp;x,
             float&nbsp;y,
             float&nbsp;z)</code>&nbsp;</td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code><a href="../teilchen/BasicParticle.html" title="class in teilchen">BasicParticle</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#makeParticle-float-float-float-float-">makeParticle</a></span>(float&nbsp;x,
             float&nbsp;y,
             float&nbsp;z,
             float&nbsp;pMass)</code>&nbsp;</td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code><a href="../teilchen/BasicParticle.html" title="class in teilchen">BasicParticle</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#makeParticle-processing.core.PVector-">makeParticle</a></span>(processing.core.PVector&nbsp;pPosition)</code>&nbsp;</td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code><a href="../teilchen/BasicParticle.html" title="class in teilchen">BasicParticle</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#makeParticle-processing.core.PVector-float-">makeParticle</a></span>(processing.core.PVector&nbsp;pPosition,
             float&nbsp;pMass)</code>&nbsp;</td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><code><a href="../teilchen/force/Spring.html" title="class in teilchen.force">Spring</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#makeSpring-teilchen.Particle-teilchen.Particle-">makeSpring</a></span>(<a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;pA,
           <a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;pB)</code>&nbsp;</td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i23" class="rowColor">
 <td class="colFirst"><code><a href="../teilchen/force/Spring.html" title="class in teilchen.force">Spring</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#makeSpring-teilchen.Particle-teilchen.Particle-float-">makeSpring</a></span>(<a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;pA,
           <a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;pB,
           float&nbsp;pRestLength)</code>&nbsp;</td>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i24" class="altColor">
 <td class="colFirst"><code><a href="../teilchen/force/Spring.html" title="class in teilchen.force">Spring</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#makeSpring-teilchen.Particle-teilchen.Particle-float-float-">makeSpring</a></span>(<a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;pA,
           <a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;pB,
           float&nbsp;pSpringConstant,
           float&nbsp;pSpringDamping)</code>&nbsp;</td>
 </tr>
-<tr id="i23" class="rowColor">
+<tr id="i25" class="rowColor">
 <td class="colFirst"><code><a href="../teilchen/force/Spring.html" title="class in teilchen.force">Spring</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#makeSpring-teilchen.Particle-teilchen.Particle-float-float-float-">makeSpring</a></span>(<a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;pA,
           <a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;pB,
@@ -291,43 +305,47 @@ extends java.lang.Object</pre>
           float&nbsp;pSpringDamping,
           float&nbsp;pRestLength)</code>&nbsp;</td>
 </tr>
-<tr id="i24" class="altColor">
+<tr id="i26" class="altColor">
 <td class="colFirst"><code>java.util.ArrayList&lt;<a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#particles--">particles</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i25" class="rowColor">
+<tr id="i27" class="rowColor">
 <td class="colFirst"><code><a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#particles-int-">particles</a></span>(int&nbsp;pIndex)</code>&nbsp;</td>
 </tr>
-<tr id="i26" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#remove-java.util.Collection-">remove</a></span>(java.util.Collection&lt;? extends <a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a>&gt;&nbsp;pParticles)</code>&nbsp;</td>
-</tr>
-<tr id="i27" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#remove-teilchen.constraint.IConstraint-">remove</a></span>(<a href="../teilchen/constraint/IConstraint.html" title="interface in teilchen.constraint">IConstraint</a>&nbsp;pConstraint)</code>&nbsp;</td>
-</tr>
 <tr id="i28" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#remove-teilchen.force.IForce-">remove</a></span>(<a href="../teilchen/force/IForce.html" title="interface in teilchen.force">IForce</a>&nbsp;pForce)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#purge--">purge</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i29" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#remove-teilchen.Particle-">remove</a></span>(<a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;pParticle)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#remove-java.util.Collection-">remove</a></span>(java.util.Collection&lt;? extends <a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a>&gt;&nbsp;pParticles)</code>&nbsp;</td>
 </tr>
 <tr id="i30" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#removeTags--">removeTags</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#remove-teilchen.constraint.IConstraint-">remove</a></span>(<a href="../teilchen/constraint/IConstraint.html" title="interface in teilchen.constraint">IConstraint</a>&nbsp;pConstraint)</code>&nbsp;</td>
 </tr>
 <tr id="i31" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#setIntegratorRef-teilchen.integration.IIntegrator-">setIntegratorRef</a></span>(<a href="../teilchen/integration/IIntegrator.html" title="interface in teilchen.integration">IIntegrator</a>&nbsp;pIntegrator)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#remove-teilchen.force.IForce-">remove</a></span>(<a href="../teilchen/force/IForce.html" title="interface in teilchen.force">IForce</a>&nbsp;pForce)</code>&nbsp;</td>
 </tr>
 <tr id="i32" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#step-float-">step</a></span>(float&nbsp;pDeltaTime)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#remove-teilchen.Particle-">remove</a></span>(<a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;pParticle)</code>&nbsp;</td>
 </tr>
 <tr id="i33" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#removeTags--">removeTags</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i34" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#setIntegratorRef-teilchen.integration.IIntegrator-">setIntegratorRef</a></span>(<a href="../teilchen/integration/IIntegrator.html" title="interface in teilchen.integration">IIntegrator</a>&nbsp;pIntegrator)</code>&nbsp;</td>
+</tr>
+<tr id="i35" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#step-float-">step</a></span>(float&nbsp;pDeltaTime)</code>&nbsp;</td>
+</tr>
+<tr id="i36" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/Physics.html#step-float-int-">step</a></span>(float&nbsp;pDeltaTime,
     int&nbsp;pIterations)</code>&nbsp;</td>
@@ -392,6 +410,15 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>HINT_REMOVE_DEAD</h4>
 <pre>public&nbsp;boolean HINT_REMOVE_DEAD</pre>
+</li>
+</ul>
+<a name="HINT_SET_VELOCITY_FROM_PREVIOUS_POSTION">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>HINT_SET_VELOCITY_FROM_PREVIOUS_POSTION</h4>
+<pre>public&nbsp;boolean HINT_SET_VELOCITY_FROM_PREVIOUS_POSTION</pre>
 </li>
 </ul>
 <a name="HINT_UPDATE_OLD_POSITION">
@@ -462,6 +489,26 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>add</h4>
 <pre>public&nbsp;void&nbsp;add(<a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;pParticle)</pre>
+</li>
+</ul>
+<a name="add-teilchen.Particle-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>add</h4>
+<pre>public&nbsp;boolean&nbsp;add(<a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;pParticle,
+                   boolean&nbsp;pPreventDuplicates)</pre>
+</li>
+</ul>
+<a name="add-teilchen.force.Spring-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>add</h4>
+<pre>public&nbsp;boolean&nbsp;add(<a href="../teilchen/force/Spring.html" title="class in teilchen.force">Spring</a>&nbsp;pSpring,
+                   boolean&nbsp;pPreventDuplicates)</pre>
 </li>
 </ul>
 <a name="addConstraints-java.util.ArrayList-">
@@ -677,6 +724,15 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>particles</h4>
 <pre>public&nbsp;<a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;particles(int&nbsp;pIndex)</pre>
+</li>
+</ul>
+<a name="purge--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>purge</h4>
+<pre>public&nbsp;void&nbsp;purge()</pre>
 </li>
 </ul>
 <a name="remove-java.util.Collection-">
