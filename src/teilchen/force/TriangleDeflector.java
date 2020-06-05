@@ -36,6 +36,7 @@ public class TriangleDeflector implements IForce {
     private boolean mGotHit = false;
 
     private boolean mActive;
+    private boolean mDead;
 
     public TriangleDeflector() {
         a = new PVector();
@@ -58,6 +59,7 @@ public class TriangleDeflector implements IForce {
         mWorldAxisAlignedBoundingBox = new WorldAxisAlignedBoundingBox();
 
         mActive = true;
+        mDead = false;
     }
 
     public PVector a() {
@@ -179,7 +181,11 @@ public class TriangleDeflector implements IForce {
     }
 
     public boolean dead() {
-        return false;
+        return mDead;
+    }
+
+    public void dead(boolean pDead) {
+        mDead = pDead;
     }
 
     public boolean active() {

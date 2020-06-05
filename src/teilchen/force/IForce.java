@@ -19,6 +19,7 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.force;
 
 import teilchen.Physics;
@@ -28,6 +29,8 @@ public interface IForce {
     void apply(final float pDeltaTime, final Physics pParticleSystem);
 
     boolean dead();
+
+    void dead(boolean pDead);
 
     boolean active();
 

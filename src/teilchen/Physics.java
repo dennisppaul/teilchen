@@ -43,6 +43,7 @@ public class Physics {
     public boolean HINT_OPTIMIZE_STILL = true;
     public boolean HINT_RECOVER_NAN = true;
     public boolean HINT_REMOVE_DEAD = true;
+    public boolean HINT_SET_VELOCITY_FROM_PREVIOUS_POSTION = true;
     private final ArrayList<Particle> mParticles;
     private final ArrayList<IForce> mForces;
     private final ArrayList<IConstraint> mConstraints;
@@ -56,6 +57,18 @@ public class Physics {
     }
 
     /* particles */
+    public boolean add(Particle pParticle, boolean pPreventDuplicates) {
+        if (pPreventDuplicates) {
+            for (Particle p : mParticles) {
+                if (p == pParticle) {
+                    return false;
+                }
+            }
+            mParticles.add(pParticle);
+        }
+        return true;
+    }
+
     public void add(Particle pParticle) {
         mParticles.add(pParticle);
     }
@@ -69,7 +82,6 @@ public class Physics {
     }
 
     public void remove(Collection<? extends Particle> pParticles) {
-
         mParticles.removeAll(pParticles);
     }
 
@@ -144,6 +156,23 @@ public class Physics {
     }
 
     /* forces */
+    public boolean add(Spring pSpring, boolean pPreventDuplicates) {
+        if (pPreventDuplicates) {
+            for (IForce f : mForces) {
+                if (f instanceof Spring) {
+                    Spring s = (Spring) f;
+                    if (s == pSpring ||
+                        (s.a() == pSpring.a() && s.b() == pSpring.b()) ||
+                        (s.b() == pSpring.a() && s.a() == pSpring.b())) {
+                        return false;
+                    }
+                }
+            }
+            mForces.add(pSpring);
+        }
+        return true;
+    }
+
     public void add(IForce pForce) {
         if (pForce instanceof ViscousDrag && mIntegrator instanceof Verlet) {
             System.err.println("### WARNING / `ViscousDrag` has no effect with `Verlet` " +
@@ -270,9 +299,30 @@ public class Physics {
     public void step(final float pDeltaTime) {
         handleForces();
         integrate(pDeltaTime);
-        advance(pDeltaTime);
+        handleParticles(pDeltaTime);
         handleConstraints();
-        post(pDeltaTime);
+        postHandleParticles(pDeltaTime);
+    }
+
+    public void purge() {
+        synchronized (mForces) {
+            final Iterator<IForce> i = mForces.iterator();
+            while (i.hasNext()) {
+                final IForce mForce = i.next();
+                if (mForce.dead()) {
+                    i.remove();
+                }
+            }
+        }
+        synchronized (mParticles) {
+            final Iterator<Particle> i = mParticles.iterator();
+            while (i.hasNext()) {
+                final Particle mParticle = i.next();
+                if (mParticle.dead()) {
+                    i.remove();
+                }
+            }
+        }
     }
 
     protected synchronized void integrate(float pDeltaTime) {
@@ -280,12 +330,14 @@ public class Physics {
     }
 
     protected synchronized void handleForces() {
-        synchronized (mForces) {
-            final Iterator<IForce> i = mForces.iterator();
-            while (i.hasNext()) {
-                final IForce mForce = i.next();
-                if (mForce.dead()) {
-                    i.remove();
+        if (HINT_REMOVE_DEAD) {
+            synchronized (mForces) {
+                final Iterator<IForce> i = mForces.iterator();
+                while (i.hasNext()) {
+                    final IForce mForce = i.next();
+                    if (mForce.dead()) {
+                        i.remove();
+                    }
                 }
             }
         }
@@ -299,7 +351,7 @@ public class Physics {
         }
     }
 
-    protected synchronized void advance(float pDeltaTime) {
+    protected synchronized void handleParticles(float pDeltaTime) {
         synchronized (mParticles) {
             final Iterator<Particle> i = mParticles.iterator();
             while (i.hasNext()) {
@@ -336,14 +388,18 @@ public class Physics {
         }
     }
 
-    protected synchronized void post(float pDeltaTime) {
-        synchronized (mParticles) {
-            for (Particle mParticle : mParticles) {
-                if (mParticle.fixed()) {
-                    mParticle.velocity().set(PVector.sub(mParticle.position(), mParticle.old_position()));
-                }
-                if (HINT_UPDATE_OLD_POSITION) {
-                    mParticle.old_position().set(mParticle.position());
+    protected synchronized void postHandleParticles(float pDeltaTime) {
+        if (HINT_SET_VELOCITY_FROM_PREVIOUS_POSTION || HINT_UPDATE_OLD_POSITION) {
+            synchronized (mParticles) {
+                for (Particle mParticle : mParticles) {
+                    if (HINT_SET_VELOCITY_FROM_PREVIOUS_POSTION) {
+                        if (mParticle.fixed()) {
+                            mParticle.velocity().set(PVector.sub(mParticle.position(), mParticle.old_position()));
+                        }
+                    }
+                    if (HINT_UPDATE_OLD_POSITION) {
+                        mParticle.old_position().set(mParticle.position());
+                    }
                 }
             }
         }

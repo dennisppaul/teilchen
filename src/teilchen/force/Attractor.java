@@ -19,26 +19,25 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.force;
 
 import processing.core.PVector;
-import static processing.core.PVector.sub;
 import teilchen.Particle;
 import teilchen.Physics;
+
+import static processing.core.PVector.sub;
 import static teilchen.util.Util.lengthSquared;
 
 public class Attractor
         implements IForce {
 
-    protected PVector _myPosition;
-
-    protected float _myStrength;
-
-    protected float _myRadius;
-
     protected final PVector myTemp = new PVector();
-
+    protected PVector _myPosition;
+    protected float _myStrength;
+    protected float _myRadius;
     private boolean _myActive;
+    private boolean mDead = false;
 
     public Attractor() {
         _myPosition = new PVector();
@@ -91,16 +90,12 @@ public class Attractor
         }
     }
 
-    protected static float fastInverseSqrt(float v) {
-        final float half = 0.5f * v;
-        int i = Float.floatToIntBits(v);
-        i = 0x5f375a86 - (i >> 1);
-        v = Float.intBitsToFloat(i);
-        return v * (1.5f - half * v * v);
+    public boolean dead() {
+        return mDead;
     }
 
-    public boolean dead() {
-        return false;
+    public void dead(boolean pDead) {
+        mDead = pDead;
     }
 
     public boolean active() {
@@ -109,5 +104,13 @@ public class Attractor
 
     public void active(boolean pActiveState) {
         _myActive = pActiveState;
+    }
+
+    protected static float fastInverseSqrt(float v) {
+        final float half = 0.5f * v;
+        int i = Float.floatToIntBits(v);
+        i = 0x5f375a86 - (i >> 1);
+        v = Float.intBitsToFloat(i);
+        return v * (1.5f - half * v * v);
     }
 }

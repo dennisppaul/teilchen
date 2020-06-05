@@ -28,10 +28,11 @@ import teilchen.Physics;
 
 public class Pulse implements IForce {
 
-    private boolean mActive;
     private final Particle mParticle;
     private final PVector mForce;
+    private boolean mActive;
     private float mDamping;
+    private boolean mDead = false;
 
     public Pulse(final Particle pParticle) {
         mActive = true;
@@ -58,7 +59,12 @@ public class Pulse implements IForce {
 
     @Override
     public boolean dead() {
-        return false;
+        return mDead;
+    }
+
+    @Override
+    public void dead(boolean pDead) {
+        mDead = pDead;
     }
 
     @Override

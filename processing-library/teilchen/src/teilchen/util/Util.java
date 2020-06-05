@@ -602,12 +602,28 @@ public class Util {
                                                    float y,
                                                    float z,
                                                    float pSelectionRadius) {
-        return findParticleByProximity(pPhysics, new PVector().set(x, y, z), pSelectionRadius);
+        return findParticleByProximity(pPhysics.particles(), new PVector().set(x, y, z), pSelectionRadius);
     }
 
-    public static Particle findParticleByProximity(Physics pPhysics, PVector pPosition, float pSelectionRadius) {
-        ArrayList<Particle> mCloseParticles = new ArrayList<>();
-        for (Particle p : pPhysics.particles()) {
+    public static Particle findParticleByProximity(Physics pPhysics,
+                                                   PVector pPosition,
+                                                   float pSelectionRadius) {
+        return findParticleByProximity(pPhysics.particles(), pPosition, pSelectionRadius);
+    }
+
+    public static Particle findParticleByProximity(ArrayList<Particle> pParticles,
+                                                   float x,
+                                                   float y,
+                                                   float z,
+                                                   float pSelectionRadius) {
+        return findParticleByProximity(pParticles, new PVector().set(x, y, z), pSelectionRadius);
+    }
+
+    public static Particle findParticleByProximity(ArrayList<Particle> pParticles,
+                                                   PVector pPosition,
+                                                   float pSelectionRadius) {
+        final ArrayList<Particle> mCloseParticles = new ArrayList<>();
+        for (Particle p : pParticles) {
             if (PVector.dist(pPosition, p.position()) < pSelectionRadius) {
                 mCloseParticles.add(p);
             }

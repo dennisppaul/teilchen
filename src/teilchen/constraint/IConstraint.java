@@ -30,4 +30,6 @@ public interface IConstraint {
     boolean active();
 
     void active(boolean theActiveState);
+
+    // @TODO("consider adding `dead` mechanism here as well. see `IForce` + `Particle` )
 }

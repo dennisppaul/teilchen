@@ -28,9 +28,9 @@ import teilchen.Physics;
 
 public class Gravity implements IForce {
 
-    private boolean mActive;
-
     private final PVector mForce;
+    private boolean mActive;
+    private boolean mDead = false;
 
     public Gravity() {
         this(new PVector(0, 9.81f, 0));
@@ -58,7 +58,11 @@ public class Gravity implements IForce {
     }
 
     public boolean dead() {
-        return false;
+        return mDead;
+    }
+
+    public void dead(boolean pDead) {
+        mDead = pDead;
     }
 
     public boolean active() {

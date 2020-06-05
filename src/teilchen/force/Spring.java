@@ -40,6 +40,7 @@ public class Spring implements IForce, IConnection {
     protected Particle mB;
     protected boolean mOneWay;
     protected boolean mActive;
+    protected boolean mDead;
 
     public Spring(Particle pA, Particle pB) {
         this(pA, pB, 2.0f, 0.1f, distance(pA.position(), pB.position()));
@@ -57,6 +58,7 @@ public class Spring implements IForce, IConnection {
         mB = pB;
         mOneWay = false;
         mActive = true;
+        mDead = false;
     }
 
     public Spring(Particle pA, Particle pB, float pRestLength) {
@@ -68,7 +70,7 @@ public class Spring implements IForce, IConnection {
     }
 
     public void setRestLengthByPosition() {
-        mRestLength = distance(mA.position(), mB.position());
+        restlength(distance(mA.position(), mB.position()));
     }
 
     public float restlength() {
@@ -201,7 +203,11 @@ public class Spring implements IForce, IConnection {
     }
 
     public boolean dead() {
-        return mA.dead() || mB.dead();
+        return mA.dead() || mB.dead() || mDead;
+    }
+
+    public void dead(boolean pDead) {
+        mDead = pDead;
     }
 
     public boolean active() {

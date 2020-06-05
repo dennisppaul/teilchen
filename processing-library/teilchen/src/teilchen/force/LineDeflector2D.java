@@ -12,6 +12,7 @@ public class LineDeflector2D implements IForce {
     private PVector b = new PVector();
     private boolean mActive = true;
     private float mCoefficientOfRestitution = 1.0f;
+    private boolean mDead = false;
 
     public PVector normal() {
         PVector mNormal = PVector.sub(b, a);
@@ -35,7 +36,8 @@ public class LineDeflector2D implements IForce {
         //            mForward.add(PVector.mult(pParticle.velocity(), pParticle.radius() / pParticle.velocity().mag()));
         //            PVector mFuturePosition = PVector.add(pParticle.position(), mForward);
         //            PVector mPointOfIntersection = new PVector();
-        //            int mIntersectionResult = Intersection.lineLineIntersect(pParticle.position(), mFuturePosition, a, b,
+        //            int mIntersectionResult = Intersection.lineLineIntersect(pParticle.position(), mFuturePosition,
+        //            a, b,
         // mPointOfIntersection);
         //            if (mIntersectionResult == Intersection.INTERESECTING) {
         //                PVector mReflection = Util.calculateReflectionVector(pParticle, normal());
@@ -79,7 +81,12 @@ public class LineDeflector2D implements IForce {
 
     @Override
     public boolean dead() {
-        return false;
+        return mDead;
+    }
+
+    @Override
+    public void dead(boolean pDead) {
+        mDead = pDead;
     }
 
     @Override

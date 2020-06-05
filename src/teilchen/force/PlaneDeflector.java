@@ -40,6 +40,7 @@ public class PlaneDeflector implements IForce {
     private final PVector mTempTangentComponent;
     private float mCoefficientOfRestitution;
     private boolean mActive;
+    private boolean mDead = false;
 
     public PlaneDeflector() {
         mPlane = new Plane3f();
@@ -66,7 +67,10 @@ public class PlaneDeflector implements IForce {
                      * the particle. though less correct it seems to be more
                      * stable.
                      */
-                    final float myIntersectionResult = intersectLinePlane(mParticle.position(), mPlane.normal, mPlane, myResult);
+                    final float myIntersectionResult = intersectLinePlane(mParticle.position(),
+                                                                          mPlane.normal,
+                                                                          mPlane,
+                                                                          myResult);
 
                     /* remove particle from collision */
                     if (myIntersectionResult != Float.NEGATIVE_INFINITY && !isNaN(myResult)) {
@@ -85,7 +89,11 @@ public class PlaneDeflector implements IForce {
     }
 
     public boolean dead() {
-        return false;
+        return mDead;
+    }
+
+    public void dead(boolean pDead) {
+        mDead = pDead;
     }
 
     public boolean active() {

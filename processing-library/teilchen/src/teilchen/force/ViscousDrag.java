@@ -31,6 +31,7 @@ public class ViscousDrag implements IForce {
     public float coefficient;
 
     private boolean mActive;
+    private boolean mDead = false;
 
     public ViscousDrag(float pCoefficient) {
         coefficient = pCoefficient;
@@ -57,7 +58,11 @@ public class ViscousDrag implements IForce {
     }
 
     public boolean dead() {
-        return false;
+        return mDead;
+    }
+
+    public void dead(boolean pDead) {
+        mDead = pDead;
     }
 
     public boolean active() {
