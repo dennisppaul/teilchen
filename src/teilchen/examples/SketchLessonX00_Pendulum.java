@@ -7,7 +7,7 @@ import teilchen.force.Gravity;
 import teilchen.force.Pulse;
 import teilchen.force.Spring;
 
-public class SketchLessonX11_Pendulum extends PApplet {
+public class SketchLessonX00_Pendulum extends PApplet {
 
     /*
      * this sketch demonstrates how to create a pendulum from two particles, a spring and a pulse
@@ -68,6 +68,6 @@ public class SketchLessonX11_Pendulum extends PApplet {
     }
 
     public static void main(String[] args) {
-        PApplet.main(SketchLessonX11_Pendulum.class.getName());
+        PApplet.main(SketchLessonX00_Pendulum.class.getName());
     }
 }
