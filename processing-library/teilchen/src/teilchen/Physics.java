@@ -308,8 +308,8 @@ public class Physics {
         synchronized (mForces) {
             final Iterator<IForce> i = mForces.iterator();
             while (i.hasNext()) {
-                final IForce mForce = i.next();
-                if (mForce.dead()) {
+                final IForce f = i.next();
+                if (f.dead()) {
                     i.remove();
                 }
             }
@@ -317,8 +317,17 @@ public class Physics {
         synchronized (mParticles) {
             final Iterator<Particle> i = mParticles.iterator();
             while (i.hasNext()) {
-                final Particle mParticle = i.next();
-                if (mParticle.dead()) {
+                final Particle p = i.next();
+                if (p.dead()) {
+                    i.remove();
+                }
+            }
+        }
+        synchronized (mConstraints) {
+            final Iterator<IConstraint> i = mConstraints.iterator();
+            while (i.hasNext()) {
+                final IConstraint c = i.next();
+                if (c.dead()) {
                     i.remove();
                 }
             }
@@ -345,8 +354,15 @@ public class Physics {
 
     protected synchronized void handleConstraints() {
         synchronized (mConstraints) {
-            for (IConstraint mConstraint : mConstraints) {
+            final Iterator<IConstraint> i = mConstraints.iterator();
+            while (i.hasNext()) {
+                final IConstraint mConstraint = i.next();
                 mConstraint.apply(this);
+                if (HINT_REMOVE_DEAD) {
+                    if (mConstraint.dead()) {
+                        i.remove();
+                    }
+                }
             }
         }
     }

@@ -32,34 +32,30 @@ import static teilchen.Physics.EPSILON;
 import static teilchen.util.Util.distance;
 import static teilchen.util.Util.lengthSquared;
 
-public class Stick
-        implements IConstraint,
-        IConnection {
+public class Stick implements IConstraint, IConnection {
 
     protected final Particle mA;
-
     protected final Particle mB;
     protected final PVector mTempDistanceVector;
     protected final PVector mTempVector;
     protected float mRestLength;
     protected boolean mOneWay;
-
     protected float mDamping;
-
     protected boolean mActive = true;
+    private boolean mDead = false;
 
-    public Stick(Particle theA, Particle theB) {
-        this(theA,
-             theB,
-             distance(theA.position(), theB.position()));
+    public Stick(Particle pA, Particle pB) {
+        this(pA,
+             pB,
+             distance(pA.position(), pB.position()));
     }
 
-    public Stick(final Particle theA,
-                 final Particle theB,
-                 final float theRestLength) {
-        mRestLength = theRestLength;
-        mA = theA;
-        mB = theB;
+    public Stick(final Particle pA,
+                 final Particle pB,
+                 final float pRestLength) {
+        mRestLength = pRestLength;
+        mA = pA;
+        mB = pB;
         mTempDistanceVector = new PVector();
         mTempVector = new PVector();
         mOneWay = false;
@@ -74,16 +70,16 @@ public class Stick
         return mDamping;
     }
 
-    public void damping(float theDamping) {
-        mDamping = theDamping;
+    public void damping(float pDamping) {
+        mDamping = pDamping;
     }
 
     public float restlength() {
         return mRestLength;
     }
 
-    public void restlength(float theRestLength) {
-        mRestLength = theRestLength;
+    public void restlength(float pRestLength) {
+        mRestLength = pRestLength;
     }
 
     public final Particle a() {
@@ -94,8 +90,8 @@ public class Stick
         return mB;
     }
 
-    public void setOneWay(boolean theOneWayState) {
-        mOneWay = theOneWayState;
+    public void setOneWay(boolean pOneWayState) {
+        mOneWay = pOneWayState;
     }
 
     public void apply(Physics pParticleSystem) {
@@ -149,7 +145,11 @@ public class Stick
         return mActive;
     }
 
-    public void active(boolean theActiveState) {
-        mActive = theActiveState;
+    public void active(boolean pActiveState) {
+        mActive = pActiveState;
     }
+
+    public boolean dead() { return mDead; }
+
+    public void dead(boolean pDead) { mDead = pDead; }
 }

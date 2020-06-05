@@ -32,8 +32,7 @@ import static teilchen.Physics.EPSILON;
 import static teilchen.util.Util.isNaN;
 import static teilchen.util.Util.rotatePoint;
 
-public class Angular
-        implements IConstraint {
+public class Angular implements IConstraint {
 
     /*
      * @todo it probably pays off to check if we deal with a 2D or 3D constraint.
@@ -49,6 +48,7 @@ public class Angular
     private final PVector _myTempB = new PVector();
     private final PVector _myTempNormal;
     protected boolean mActive = true;
+    private boolean mDead = false;
     private float _myMinimumAngle;
     private float _myMaximumAngle;
 
@@ -161,6 +161,10 @@ public class Angular
     public void active(boolean theActiveState) {
         mActive = theActiveState;
     }
+
+    public boolean dead() { return mDead; }
+
+    public void dead(boolean pDead) { mDead = pDead; }
 
     private void sortAngles() {
         final float myMaximumAngle = _myMaximumAngle;

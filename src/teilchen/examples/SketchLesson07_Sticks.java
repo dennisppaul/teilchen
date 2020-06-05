@@ -67,7 +67,7 @@ public class SketchLesson07_Sticks extends PApplet {
 
         /* draw sticks with descending stroke weight */
         background(255);
-        stroke(0, 192);
+        stroke(0, 191);
         for (int x = 1; x < mParticles.length; x++) {
             Particle p1 = mParticles[x - 1];
             Particle p2 = mParticles[x];

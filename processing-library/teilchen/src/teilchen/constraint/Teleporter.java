@@ -19,6 +19,7 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.constraint;
 
 import processing.core.PVector;
@@ -26,14 +27,12 @@ import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.util.Util;
 
-public class Teleporter
-        implements IConstraint {
-
-    protected boolean mActive = true;
+public class Teleporter implements IConstraint {
 
     private final PVector mMin;
-
     private final PVector mMax;
+    protected boolean mActive = true;
+    private boolean mDead = false;
 
     public Teleporter() {
         this(new PVector(), new PVector());
@@ -83,7 +82,11 @@ public class Teleporter
         return mActive;
     }
 
-    public void active(boolean theActiveState) {
-        mActive = theActiveState;
+    public void active(boolean pActiveState) {
+        mActive = pActiveState;
     }
+
+    public boolean dead() { return mDead; }
+
+    public void dead(boolean pDead) { mDead = pDead; }
 }

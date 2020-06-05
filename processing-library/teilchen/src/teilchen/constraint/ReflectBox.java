@@ -32,59 +32,60 @@ import java.util.ArrayList;
 
 public class ReflectBox implements IConstraint {
 
-    private static final PVector[] _myNormals;
+    private static final PVector[] mNormals;
 
     static {
-        _myNormals = new PVector[6];
-        _myNormals[0] = new PVector(-1, 0, 0);
-        _myNormals[1] = new PVector(0, -1, 0);
-        _myNormals[2] = new PVector(0, 0, -1);
-        _myNormals[3] = new PVector(1, 0, 0);
-        _myNormals[4] = new PVector(0, 1, 0);
-        _myNormals[5] = new PVector(0, 0, 1);
+        mNormals = new PVector[6];
+        mNormals[0] = new PVector(-1, 0, 0);
+        mNormals[1] = new PVector(0, -1, 0);
+        mNormals[2] = new PVector(0, 0, -1);
+        mNormals[3] = new PVector(1, 0, 0);
+        mNormals[4] = new PVector(0, 1, 0);
+        mNormals[5] = new PVector(0, 0, 1);
     }
 
-    private final PVector _myMin;
-    private final PVector _myMax;
     public boolean NEGATIVE_X = true;
     public boolean NEGATIVE_Y = true;
     public boolean NEGATIVE_Z = true;
     public boolean POSITIV_X = true;
     public boolean POSITIV_Y = true;
     public boolean POSITIV_Z = true;
+    private final PVector mMin;
+    private final PVector mMax;
     protected boolean mActive = true;
-    private float _myCoefficientOfRestitution;
-    private float _myEpsilon;
+    private boolean mDead = false;
+    private float mCoefficientOfRestitution;
+    private float mEpsilon;
 
-    public ReflectBox(final PVector theMin, final PVector theMax) {
-        _myMin = theMin;
-        _myMax = theMax;
-        _myCoefficientOfRestitution = 1.0f;
-        _myEpsilon = 0.001f;
+    public ReflectBox(final PVector pMin, final PVector pMax) {
+        mMin = pMin;
+        mMax = pMax;
+        mCoefficientOfRestitution = 1.0f;
+        mEpsilon = 0.001f;
     }
 
     public ReflectBox() {
         this(new PVector(), new PVector());
     }
 
-    public void epsilon(final float theEpsilon) {
-        _myEpsilon = theEpsilon;
+    public void epsilon(final float pEpsilon) {
+        mEpsilon = pEpsilon;
     }
 
     public PVector min() {
-        return _myMin;
+        return mMin;
     }
 
     public PVector max() {
-        return _myMax;
+        return mMax;
     }
 
-    public void coefficientofrestitution(float theCoefficientOfRestitution) {
-        _myCoefficientOfRestitution = theCoefficientOfRestitution;
+    public void coefficientofrestitution(float pCoefficientOfRestitution) {
+        mCoefficientOfRestitution = pCoefficientOfRestitution;
     }
 
     public float coefficientofrestitution() {
-        return _myCoefficientOfRestitution;
+        return mCoefficientOfRestitution;
     }
 
     public void apply(final Physics pParticleSystem) {
@@ -94,16 +95,28 @@ public class ReflectBox implements IConstraint {
         apply(pParticleSystem.particles());
     }
 
-    public void apply(final ArrayList<Particle> theParticles) {
-        apply(theParticles, null);
+    public boolean active() {
+        return mActive;
     }
 
-    public void apply(final ArrayList<Particle> theParticles, final ArrayList<Particle> theCollisionParticles) {
+    public void active(boolean pActiveState) {
+        mActive = pActiveState;
+    }
+
+    public boolean dead() { return mDead; }
+
+    public void dead(boolean pDead) { mDead = pDead; }
+
+    public void apply(final ArrayList<Particle> pParticles) {
+        apply(pParticles, null);
+    }
+
+    public void apply(final ArrayList<Particle> pParticles, final ArrayList<Particle> theCollisionParticles) {
         if (!mActive) {
             return;
         }
 
-        for (final Particle myParticle : theParticles) {
+        for (final Particle myParticle : pParticles) {
             final PVector myPositionBeforeCollision = Util.clone(myParticle.position());
             final PVector p = myParticle.position();
             final PVector p_old = myParticle.old_position();
@@ -111,59 +124,59 @@ public class ReflectBox implements IConstraint {
             /**
              * @todo we should weight the deflection normal
              */
-            if (p.x + r > _myMax.x || p.y + r > _myMax.y || p.z + r > _myMax.z || p.x - r < _myMin.x || p.y - r < _myMin.y || p.z - r < _myMin.z) {
+            if (p.x + r > mMax.x || p.y + r > mMax.y || p.z + r > mMax.z || p.x - r < mMin.x || p.y - r < mMin.y || p.z - r < mMin.z) {
                 int myNumberOfCollisions = 0;
                 final PVector myDeflectionNormal = new PVector();
                 if (POSITIV_X) {
-                    if (p.x + r > _myMax.x) {
-                        final float myBorderDiff = _myMax.x - p_old.x - r;
+                    if (p.x + r > mMax.x) {
+                        final float myBorderDiff = mMax.x - p_old.x - r;
                         p.x = p_old.x + myBorderDiff;
-                        myDeflectionNormal.add(_myNormals[0]);
+                        myDeflectionNormal.add(mNormals[0]);
                         myNumberOfCollisions++;
                     }
                 }
 
                 if (POSITIV_Y) {
-                    if (p.y + r > _myMax.y) {
-                        final float myBorderDiff = _myMax.y - p_old.y - r;
+                    if (p.y + r > mMax.y) {
+                        final float myBorderDiff = mMax.y - p_old.y - r;
                         p.y = p_old.y + myBorderDiff;
-                        myDeflectionNormal.add(_myNormals[1]);
+                        myDeflectionNormal.add(mNormals[1]);
                         myNumberOfCollisions++;
                     }
                 }
 
                 if (POSITIV_Z) {
-                    if (p.z + r > _myMax.z) {
-                        final float myBorderDiff = _myMax.z - p_old.z - r;
+                    if (p.z + r > mMax.z) {
+                        final float myBorderDiff = mMax.z - p_old.z - r;
                         p.z = p_old.z + myBorderDiff;
-                        myDeflectionNormal.add(_myNormals[2]);
+                        myDeflectionNormal.add(mNormals[2]);
                         myNumberOfCollisions++;
                     }
                 }
 
                 if (NEGATIVE_X) {
-                    if (p.x - r < _myMin.x) {
-                        final float myBorderDiff = _myMin.x - p_old.x + r;
+                    if (p.x - r < mMin.x) {
+                        final float myBorderDiff = mMin.x - p_old.x + r;
                         p.x = p_old.x + myBorderDiff;
-                        myDeflectionNormal.add(_myNormals[3]);
+                        myDeflectionNormal.add(mNormals[3]);
                         myNumberOfCollisions++;
                     }
                 }
 
                 if (NEGATIVE_Y) {
-                    if (p.y - r < _myMin.y) {
-                        final float myBorderDiff = _myMin.y - p_old.y + r;
+                    if (p.y - r < mMin.y) {
+                        final float myBorderDiff = mMin.y - p_old.y + r;
                         p.y = p_old.y + myBorderDiff;
-                        myDeflectionNormal.add(_myNormals[4]);
+                        myDeflectionNormal.add(mNormals[4]);
                         myNumberOfCollisions++;
                     }
                 }
 
                 if (NEGATIVE_Z) {
-                    if (p.z - r < _myMin.z) {
-                        final float myBorderDiff = _myMin.z - p_old.z + r;
+                    if (p.z - r < mMin.z) {
+                        final float myBorderDiff = mMin.z - p_old.z + r;
                         p.z = p_old.z + myBorderDiff;
-                        myDeflectionNormal.add(_myNormals[5]);
+                        myDeflectionNormal.add(mNormals[5]);
                         myNumberOfCollisions++;
                     }
                 }
@@ -175,7 +188,7 @@ public class ReflectBox implements IConstraint {
                     }
                     /* room for optimization / we don t need to reflect twice. */
                     final float mySpeed = Util.distanceSquared(myPositionBeforeCollision, myParticle.old_position());
-                    if (mySpeed > _myEpsilon) {
+                    if (mySpeed > mEpsilon) {
                         final PVector myDiffAfterCollision = PVector.sub(myPositionBeforeCollision,
                                                                          myParticle.position());
                         final PVector myDiffBeforeCollision = PVector.sub(myParticle.old_position(),
@@ -183,7 +196,7 @@ public class ReflectBox implements IConstraint {
                         myDeflectionNormal.mult(1.0f / (float) myNumberOfCollisions);
                         teilchen.util.Util.reflect(myDiffAfterCollision,
                                                    myDeflectionNormal,
-                                                   _myCoefficientOfRestitution);
+                                                   mCoefficientOfRestitution);
                         teilchen.util.Util.reflect(myDiffBeforeCollision, myDeflectionNormal, 1);
 
                         if (!Util.isNaN(myParticle.old_position()) && !Util.isNaN(myParticle.position())) {
@@ -194,13 +207,5 @@ public class ReflectBox implements IConstraint {
                 }
             }
         }
-    }
-
-    public boolean active() {
-        return mActive;
-    }
-
-    public void active(boolean theActiveState) {
-        mActive = theActiveState;
     }
 }

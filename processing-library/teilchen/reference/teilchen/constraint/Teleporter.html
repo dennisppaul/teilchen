@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -158,17 +158,25 @@ implements <a href="../../teilchen/constraint/IConstraint.html" title="interface
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/constraint/Teleporter.html#active-boolean-">active</a></span>(boolean&nbsp;theActiveState)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/constraint/Teleporter.html#active-boolean-">active</a></span>(boolean&nbsp;pActiveState)</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/constraint/Teleporter.html#apply-teilchen.Physics-">apply</a></span>(<a href="../../teilchen/Physics.html" title="class in teilchen">Physics</a>&nbsp;pParticleSystem)</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/constraint/Teleporter.html#dead--">dead</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/constraint/Teleporter.html#dead-boolean-">dead</a></span>(boolean&nbsp;pDead)</code>&nbsp;</td>
+</tr>
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>processing.core.PVector</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/constraint/Teleporter.html#max--">max</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>processing.core.PVector</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/constraint/Teleporter.html#min--">min</a></span>()</code>&nbsp;</td>
 </tr>
@@ -240,7 +248,7 @@ implements <a href="../../teilchen/constraint/IConstraint.html" title="interface
 <ul class="blockList">
 <li class="blockList">
 <h4>active</h4>
-<pre>public&nbsp;void&nbsp;active(boolean&nbsp;theActiveState)</pre>
+<pre>public&nbsp;void&nbsp;active(boolean&nbsp;pActiveState)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../teilchen/constraint/IConstraint.html#active-boolean-">active</a></code>&nbsp;in interface&nbsp;<code><a href="../../teilchen/constraint/IConstraint.html" title="interface in teilchen.constraint">IConstraint</a></code></dd>
@@ -257,6 +265,32 @@ implements <a href="../../teilchen/constraint/IConstraint.html" title="interface
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../teilchen/constraint/IConstraint.html#apply-teilchen.Physics-">apply</a></code>&nbsp;in interface&nbsp;<code><a href="../../teilchen/constraint/IConstraint.html" title="interface in teilchen.constraint">IConstraint</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="dead--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>dead</h4>
+<pre>public&nbsp;boolean&nbsp;dead()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../teilchen/constraint/IConstraint.html#dead--">dead</a></code>&nbsp;in interface&nbsp;<code><a href="../../teilchen/constraint/IConstraint.html" title="interface in teilchen.constraint">IConstraint</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="dead-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>dead</h4>
+<pre>public&nbsp;void&nbsp;dead(boolean&nbsp;pDead)</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../teilchen/constraint/IConstraint.html#dead-boolean-">dead</a></code>&nbsp;in interface&nbsp;<code><a href="../../teilchen/constraint/IConstraint.html" title="interface in teilchen.constraint">IConstraint</a></code></dd>
 </dl>
 </li>
 </ul>

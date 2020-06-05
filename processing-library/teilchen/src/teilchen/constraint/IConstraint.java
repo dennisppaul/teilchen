@@ -19,6 +19,7 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.constraint;
 
 import teilchen.Physics;
@@ -31,5 +32,7 @@ public interface IConstraint {
 
     void active(boolean theActiveState);
 
-    // @TODO("consider adding `dead` mechanism here as well. see `IForce` + `Particle` )
+    boolean dead();
+
+    void dead(boolean pDead);
 }

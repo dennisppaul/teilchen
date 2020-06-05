@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -173,18 +173,26 @@ implements <a href="../../teilchen/constraint/IConstraint.html" title="interface
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/constraint/Box.html#coefficientofrestitution-float-">coefficientofrestitution</a></span>(float&nbsp;theCoefficientOfRestitution)</code>&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/constraint/Box.html#dead--">dead</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/constraint/Box.html#dead-boolean-">dead</a></span>(boolean&nbsp;pDead)</code>&nbsp;</td>
+</tr>
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>processing.core.PVector</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/constraint/Box.html#max--">max</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>processing.core.PVector</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/constraint/Box.html#min--">min</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/constraint/Box.html#reflect-boolean-">reflect</a></span>(boolean&nbsp;theReflectState)</code>&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/constraint/Box.html#telelport-boolean-">telelport</a></span>(boolean&nbsp;theTeleportState)</code>&nbsp;</td>
 </tr>
@@ -292,6 +300,32 @@ implements <a href="../../teilchen/constraint/IConstraint.html" title="interface
 <li class="blockList">
 <h4>coefficientofrestitution</h4>
 <pre>public&nbsp;void&nbsp;coefficientofrestitution(float&nbsp;theCoefficientOfRestitution)</pre>
+</li>
+</ul>
+<a name="dead--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>dead</h4>
+<pre>public&nbsp;boolean&nbsp;dead()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../teilchen/constraint/IConstraint.html#dead--">dead</a></code>&nbsp;in interface&nbsp;<code><a href="../../teilchen/constraint/IConstraint.html" title="interface in teilchen.constraint">IConstraint</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="dead-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>dead</h4>
+<pre>public&nbsp;void&nbsp;dead(boolean&nbsp;pDead)</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../teilchen/constraint/IConstraint.html#dead-boolean-">dead</a></code>&nbsp;in interface&nbsp;<code><a href="../../teilchen/constraint/IConstraint.html" title="interface in teilchen.constraint">IConstraint</a></code></dd>
+</dl>
 </li>
 </ul>
 <a name="max--">

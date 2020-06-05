@@ -37,9 +37,9 @@ public class LineIntersectionConstraint implements IConstraint {
 
     public PGraphics DEBUG_VIEW = null;
     private final Particle mParticle;
+    private boolean mDead = false;
     private ArrayList<IConnection> mPotentialLineIntersections;
     private float mProxScale = 1.0f;
-
     public LineIntersectionConstraint(Particle pParticle) {
         mParticle = pParticle;
         mPotentialLineIntersections = new ArrayList<>();
@@ -101,6 +101,10 @@ public class LineIntersectionConstraint implements IConstraint {
 
     public void active(boolean theActiveState) {
     }
+
+    public boolean dead() { return mDead; }
+
+    public void dead(boolean pDead) { mDead = pDead; }
 
     public ArrayList<IConnection> intersecting_lines() {
         return mPotentialLineIntersections;

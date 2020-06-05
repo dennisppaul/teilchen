@@ -19,30 +19,38 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.constraint;
 
 import processing.core.PVector;
-import static processing.core.PVector.sub;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.integration.Verlet;
 import teilchen.util.Util;
 
-public class Box
-        implements IConstraint {
+import static processing.core.PVector.sub;
 
-    protected boolean mActive = true;
+public class Box implements IConstraint {
+
+    private static final PVector[] NORMALS;
+
+    static {
+        NORMALS = new PVector[6];
+        NORMALS[0] = new PVector(-1, 0, 0);
+        NORMALS[1] = new PVector(0, -1, 0);
+        NORMALS[2] = new PVector(0, 0, -1);
+        NORMALS[3] = new PVector(1, 0, 0);
+        NORMALS[4] = new PVector(0, 1, 0);
+        NORMALS[5] = new PVector(0, 0, 1);
+    }
 
     private final PVector _myMin;
-
     private final PVector _myMax;
-
+    protected boolean mActive = true;
+    private boolean mDead = false;
     private boolean _myReflectFlag;
-
     private float _myCoefficientOfRestitution;
-
     private boolean _myTeleport;
-
     public Box(final PVector theMin, final PVector theMax) {
         _myMin = theMin;
         _myMax = theMax;
@@ -50,7 +58,6 @@ public class Box
         _myCoefficientOfRestitution = 1.0f;
         _myTeleport = false;
     }
-
     public Box() {
         this(new PVector(), new PVector());
     }
@@ -69,17 +76,6 @@ public class Box
 
     public PVector max() {
         return _myMax;
-    }
-    private static final PVector[] NORMALS;
-
-    static {
-        NORMALS = new PVector[6];
-        NORMALS[0] = new PVector(-1, 0, 0);
-        NORMALS[1] = new PVector(0, -1, 0);
-        NORMALS[2] = new PVector(0, 0, -1);
-        NORMALS[3] = new PVector(1, 0, 0);
-        NORMALS[4] = new PVector(0, 1, 0);
-        NORMALS[5] = new PVector(0, 0, 1);
     }
 
     public void coefficientofrestitution(float theCoefficientOfRestitution) {
@@ -175,4 +171,8 @@ public class Box
     public void active(boolean theActiveState) {
         mActive = theActiveState;
     }
+
+    public boolean dead() { return mDead; }
+
+    public void dead(boolean pDead) { mDead = pDead; }
 }
