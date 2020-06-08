@@ -1,4 +1,4 @@
-package teilchen.wip;
+package teilchen.examples;
 
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -12,7 +12,8 @@ import teilchen.force.MuscleSpring;
 
 public class SketchLessonX11_MuscleSprings extends PApplet {
 
-    /* this sketch demonstrates how to use `MuscleSpring`, a spring that contracts and relaxes over
+    /*
+     * this sketch demonstrates how to use `MuscleSpring`, a spring that contracts and relaxes over
      * time; like a muscle. this sketch is also a tip of the hat to the famouse
      * [Soda Constructor](https://en.wikipedia.org/wiki/Soda_Constructor).
      *

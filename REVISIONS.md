@@ -2,7 +2,7 @@
 
 ## v0.4 (pre-release)
 
-- particles can now be marked `dead` and are automatically disposed when calling `Physics.step()`
+- particles, contraints and forces can now be marked `dead` and are automatically disposed when calling `Physics.step()` or `Physics.purge()`
 - added example for `MuscleSpring`
 - added example for `TearableSpring`
 - added example for `VectorField`
