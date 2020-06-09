@@ -88,8 +88,6 @@ public class StickMan {
     }
 
     public void draw(PGraphics g) {
-        g.stroke(255, 0, 0, 127);
-
         /* draw arms */
         g.line(mRightHand.position().x, mRightHand.position().y,
                mQuad.c.position().x, mQuad.c.position().y);

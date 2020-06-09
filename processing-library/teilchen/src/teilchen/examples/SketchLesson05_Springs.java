@@ -10,14 +10,14 @@ public class SketchLesson05_Springs extends PApplet {
     /*
      * this sketch demonstrates how to connect multiple particles with springs.
      *
-     * press mouse to create springs and particles.
+     * move close to particle and press mouse to create springs and particles.
      */
 
     private Physics mPhysics;
     private Particle mRoot;
 
     public void settings() {
-        size(640, 480, P3D);
+        size(640, 480);
     }
 
     public void setup() {

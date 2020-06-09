@@ -16,7 +16,7 @@ BehaviorParticle mParticle;
 Wander mWander;
 Motor mMotor;
 void settings() {
-    size(640, 480, P3D);
+    size(640, 480);
 }
 void setup() {
     /* physics */

@@ -16,7 +16,7 @@ public class SketchLesson00_Particle extends PApplet {
     private Particle mParticle;
 
     public void settings() {
-        size(640, 480, P3D);
+        size(640, 480);
     }
 
     public void setup() {

@@ -61,14 +61,7 @@ public class LineDeflector2D implements IForce {
         }
     }
 
-    public void draw(PGraphics g) {
-        PVector mMid = mid();
-        PVector mNormal = PVector.add(mMid, PVector.mult(normal(), 10));
-        g.stroke(255, 0, 0);
-        g.line(mMid.x, mMid.y, mNormal.x, mNormal.y);
-        g.stroke(0);
-        g.line(a.x, a.y, b.x, b.y);
-    }
+
 
     @Override
     public void apply(float pDeltaTime, Physics pParticleSystem) {

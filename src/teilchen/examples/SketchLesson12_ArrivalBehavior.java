@@ -19,12 +19,10 @@ public class SketchLesson12_ArrivalBehavior extends PApplet {
     private Arrival mArrival;
 
     public void settings() {
-        size(640, 480, P3D);
+        size(640, 480);
     }
 
     public void setup() {
-        colorMode(RGB, 1.0f);
-
         /* physics */
         mPhysics = new Physics();
 
@@ -41,34 +39,36 @@ public class SketchLesson12_ArrivalBehavior extends PApplet {
     }
 
     public void draw() {
-        /* set the arrival position to the mouse position */
+        /* set the arrival position to mouse position */
         mArrival.position().set(mouseX, mouseY);
 
         /* update particle system */
         mPhysics.step(1.0f / frameRate);
 
         /* draw behavior particle */
-        background(1);
-        fill(0);
+        background(255);
+        noFill();
+        stroke(0, 191);
         if (mArrival.arriving()) {
-            /* color particle red while it is arriving */
-            fill(1, 0.5f, 0);
+            ellipse(mParticle.position().x, mParticle.position().y, mParticle.radius() * 4, mParticle.radius() * 4);
         }
         if (mArrival.arrived()) {
-            /* color particle green when it has arrived */
-            fill(0, 0.5f, 1);
+            ellipse(mParticle.position().x, mParticle.position().y, mParticle.radius() * 3, mParticle.radius() * 3);
             // @TODO("particle drifts after arriving.")
         }
+        fill(0);
         noStroke();
         ellipse(mParticle.position().x, mParticle.position().y, mParticle.radius() * 2, mParticle.radius() * 2);
-        stroke(0);
+
+        /* draw velocity */
+        stroke(0, 191);
         line(mParticle.position().x,
              mParticle.position().y,
              mParticle.position().x + mParticle.velocity().x,
              mParticle.position().y + mParticle.velocity().y);
 
         /* draw arrival destination */
-        stroke(0);
+        stroke(0, 191);
         noFill();
         ellipse(mArrival.position().x,
                 mArrival.position().y,

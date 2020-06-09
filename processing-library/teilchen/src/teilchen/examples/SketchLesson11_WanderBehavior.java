@@ -20,7 +20,7 @@ public class SketchLesson11_WanderBehavior extends PApplet {
     private Motor mMotor;
 
     public void settings() {
-        size(640, 480, P3D);
+        size(640, 480);
     }
 
     public void setup() {

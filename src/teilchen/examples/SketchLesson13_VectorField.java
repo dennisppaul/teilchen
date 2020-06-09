@@ -58,12 +58,19 @@ public class SketchLesson13_VectorField extends PApplet {
 
         /* draw particles - as point or as lines */
         if (!mDrawParticlesAsLines) {
+            /* draw border */
+            noStroke();
+            fill(0);
+            rect(0, 0, width, 40);
+            rect(0, height - 40, width, 40);
+            rect(0, 40, 40, height - 80);
+            rect(width - 40, 40, 40, height - 80);
+            /* particles inside the vector field are colored black and outside white */
             for (Particle p : mPhysics.particles()) {
-                /* particles inside the vector field are colored black and outside blue */
                 if (mVectorField.inside(p.position())) {
                     stroke(0, 127);
                 } else {
-                    stroke(0, 127, 255, 63);
+                    stroke(255, 127);
                 }
                 point(p.position().x, p.position().y);
             }
@@ -95,7 +102,7 @@ public class SketchLesson13_VectorField extends PApplet {
 
     private void spawnParticles() {
         mPhysics.particles().clear();
-        final int mNumOfParticles = (int) random(400, 40000);
+        final int mNumOfParticles = (int) random(4000, 40000);
         for (int i = 0; i < mNumOfParticles; i++) {
             final float mMass = random(0.5f, 2.0f);
             /* spawn particles - distributed on a grid or randomly */

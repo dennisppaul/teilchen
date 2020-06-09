@@ -15,7 +15,7 @@ import teilchen.util.*;
  */
 Physics mPhysics;
 void settings() {
-    size(640, 480, P3D);
+    size(640, 480);
 }
 void setup() {
     /* create a particle system */
@@ -41,7 +41,7 @@ void draw() {
         }
     }
     /* update the particle system */
-    final float mDeltaTime = 1.0f / frameRate;
+    float mDeltaTime = 1.0f / frameRate;
     mPhysics.step(mDeltaTime);
     /* draw all the particles in the system */
     background(255);
@@ -52,7 +52,7 @@ void draw() {
         ellipse(mParticle.position().x, mParticle.position().y, 5, 5);
     }
     /* draw edge */
-    stroke(0);
+    stroke(0, 63);
     line(0, height * 0.9f, 20, height * 0.9f);
     line(width - 20, height * 0.9f, width, height * 0.9f);
 }

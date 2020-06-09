@@ -122,9 +122,9 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
                 if (mSpring instanceof AngleConstraintSpring) {
                     strokeWeight(1);
                     if (mSpring.active()) {
-                        stroke(255, 127, 0, 191);
+                        stroke(0, 191);
                     } else {
-                        stroke(255, 127, 0, 31);
+                        stroke(0, 31);
                     }
                 } else {
                     strokeWeight(3);
@@ -143,9 +143,9 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
                 if (mStick instanceof AngleConstraintStick) {
                     strokeWeight(1);
                     if (mStick.active()) {
-                        stroke(0, 127, 255, 191);
+                        stroke(0, 191);
                     } else {
-                        stroke(0, 127, 255, 31);
+                        stroke(0, 31);
                     }
                 } else {
                     strokeWeight(2);

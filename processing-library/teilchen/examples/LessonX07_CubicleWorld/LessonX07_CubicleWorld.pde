@@ -65,19 +65,19 @@ void draw() {
     }
     /* draw entities */
     int mNumberOfPointsSelected = 0;
-    strokeWeight(0.5f);
-    stroke(0, 127, 255, 127);
     noFill();
     if (mEntities != null) {
         mNumberOfPointsSelected = mEntities.size();
         for (ICubicleEntity mEntity : mEntities) {
             MCubicleEntity m = (MCubicleEntity) mEntity;
-            stroke(m.mColor);
-            DrawLib.cross3(g, mEntity.position(), 5.0f);
+            strokeWeight(m.weight);
+            stroke(0, 127);
+            DrawLib.cross3(g, mEntity.position(), 10.0f);
         }
     }
     /* draw crosshair */
-    stroke(255, 0, 0, 63);
+    strokeWeight(3);
+    stroke(0, 63);
     noFill();
     beginShape(LINES);
     vertex(mPosition.x, -WORLD_SCALE / 2, 0);
@@ -86,7 +86,8 @@ void draw() {
     vertex(WORLD_SCALE / 2, mPosition.y, 0);
     endShape();
     /* draw selection sphere */
-    stroke(255, 0, 0, 63);
+    strokeWeight(1);
+    stroke(0, 63);
     noFill();
     translate(mPosition.x, mPosition.y, 0);
     box(WORLD_CUBICLE_SCALE);
@@ -109,7 +110,7 @@ void addRandomEntities(int pNumberParticles) {
 class MCubicleEntity implements ICubicleEntity {
     final Vector3i mCubiclePosition;
     final PVector mPosition;
-    int mColor = color(0, 127, random(0, 255), 127);
+    float weight = random(1, 5);
     MCubicleEntity() {
         mCubiclePosition = new Vector3i();
         mPosition = new PVector();

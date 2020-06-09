@@ -17,7 +17,7 @@ import teilchen.util.*;
 Physics mPhysics;
 TriangleDeflector mTriangleDeflector;
 void settings() {
-    size(640, 480, P3D);
+    size(640, 480);
 }
 void setup() {
     /* physics */
@@ -37,30 +37,26 @@ void draw() {
     mPhysics.step(1.0f / frameRate);
     /* draw particles */
     background(255);
-    strokeWeight(2);
+    fill(0);
+    strokeWeight(3);
     for (int i = 0; i < mPhysics.particles().size(); i++) {
         Particle mParticle = mPhysics.particles(i);
         if (mParticle.tagged()) {
-            stroke(255, 127, 0);
-            fill(0);
+            stroke(0);
         } else {
             noStroke();
-            fill(0);
         }
-        pushMatrix();
-        translate(mParticle.position().x, mParticle.position().y);
-        ellipse(0, 0, 5, 5);
-        popMatrix();
+        ellipse(mParticle.position().x, mParticle.position().y, 5, 5);
     }
     /* draw deflectors */
-    strokeWeight(1);
     noFill();
     stroke(0);
+    strokeWeight(3);
     line(mTriangleDeflector.a().x, mTriangleDeflector.a().y, mTriangleDeflector.b().x, mTriangleDeflector.b().y);
     /* finally remove the collision tag */
     mPhysics.removeTags();
+    /* create and add a particle to the system */
     if (mousePressed) {
-        /* create and add a particle to the system */
         MyMortalParticle mParticle = new MyMortalParticle();
         mPhysics.add(mParticle);
         /* set particle to mouse position with random velocity */

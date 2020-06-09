@@ -17,7 +17,7 @@ Physics mPhysics;
 ArrayList<Duckling> mDucklings;
 CollisionManager mCollision;
 void settings() {
-    size(640, 480, P3D);
+    size(640, 480);
 }
 void setup() {
     colorMode(RGB, 1.0f);
@@ -34,7 +34,6 @@ void setup() {
         final Duckling mDuckling = new Duckling();
         if (!mDucklings.isEmpty()) {
             mDuckling.arrival.setPositionRef(mDucklings.get(mDucklings.size() - 1).particle.position());
-            System.out.println(mDuckling.arrival.position());
         }
         mCollision.collision().add(mDuckling.particle);
         mDucklings.add(mDuckling);
@@ -46,59 +45,60 @@ void draw() {
     mCollision.createCollisionResolvers();
     mCollision.loop(mDeltaTime);
     mPhysics.step(mDeltaTime);
-    drawCollisionSprings();
-    mCollision.removeCollisionResolver();
     mDucklings.get(0).arrival.oversteer(!mousePressed);
     mDucklings.get(0).arrival.position().set(mouseX, mouseY);
     /* draw */
     background(1);
+    drawCollisionSprings();
     for (Duckling mDuckling : mDucklings) {
         drawParticle(mDuckling);
     }
     /* draw arrival */
-    stroke(0, 0.25f);
+    stroke(0, 0.75f);
     noFill();
-    ellipse(mDucklings.get(mDucklings.size() - 1).arrival.position().x,
-            mDucklings.get(mDucklings.size() - 1).arrival.position().y,
-            20,
-            20);
+    ellipse(mDucklings.get(0).arrival.position().x,
+            mDucklings.get(0).arrival.position().y,
+            50,
+            50);
+    /* clean up */
+    mCollision.removeCollisionResolver();
 }
 void drawParticle(Duckling pDuckling) {
     final BehaviorParticle mParticle = pDuckling.particle;
     final Arrival mArrival = pDuckling.arrival;
     /* draw particle */
-    stroke(0, 0.5f);
+    stroke(0, 0.75f);
     noFill();
     if (mArrival.arriving()) {
-        stroke(1, 0, 0, 0.5f);
+        ellipse(mParticle.position().x, mParticle.position().y, mParticle.radius() * 4, mParticle.radius() * 4);
     }
     if (mArrival.arrived()) {
-        stroke(0, 1, 0, 0.5f);
+        ellipse(mParticle.position().x, mParticle.position().y, mParticle.radius() * 3, mParticle.radius() * 3);
     }
+    fill(0);
+    noStroke();
     ellipse(mParticle.position().x, mParticle.position().y, mParticle.radius() * 2, mParticle.radius() * 2);
     /* - */
     pushMatrix();
     translate(mParticle.position().x, mParticle.position().y);
     /* draw velocity */
-    stroke(1, 0, 0, 0.5f);
+    stroke(0, 0.75f);
     line(0, 0, mParticle.velocity().x, mParticle.velocity().y);
     /* draw break force */
-    stroke(0, 0.5f, 1, 0.5f);
+    stroke(0, 0.5f);
     line(0, 0, mArrival.force().x, mArrival.force().y);
     /* - */
     popMatrix();
 }
 void drawCollisionSprings() {
-    stroke(0, 1, 0, 0.25f);
+    stroke(0, 0.5f);
     for (int i = 0; i < mCollision.collision().forces().size(); ++i) {
         if (mCollision.collision().forces().get(i) instanceof Spring) {
             Spring mySpring = (Spring) mCollision.collision_forces().get(i);
             line(mySpring.a().position().x,
                  mySpring.a().position().y,
-                 mySpring.a().position().z,
                  mySpring.b().position().x,
-                 mySpring.b().position().y,
-                 mySpring.b().position().z);
+                 mySpring.b().position().y);
         }
     }
 }

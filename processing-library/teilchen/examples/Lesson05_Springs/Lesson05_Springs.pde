@@ -10,12 +10,12 @@ import teilchen.util.*;
 /*
  * this sketch demonstrates how to connect multiple particles with springs.
  *
- * press mouse to create springs and particles.
+ * move close to particle and press mouse to create springs and particles.
  */
 Physics mPhysics;
 Particle mRoot;
 void settings() {
-    size(640, 480, P3D);
+    size(640, 480);
 }
 void setup() {
     /* create a particle system */

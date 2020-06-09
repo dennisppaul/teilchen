@@ -15,7 +15,7 @@ import teilchen.util.*;
 Physics mPhysics;
 Particle mParticle;
 void settings() {
-    size(640, 480, P3D);
+    size(640, 480);
 }
 void setup() {
     /* create a particle system. */

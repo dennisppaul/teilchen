@@ -37,7 +37,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
     private boolean mPauseSimulation;
 
     public void settings() {
-        size(640, 480, P3D);
+        size(640, 480);
     }
 
     public void setup() {
@@ -118,11 +118,11 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
 
     private void drawSimulationState() {
         noStroke();
-        fill(255, 127, 0);
+        fill(0);
         if (mPauseSimulation) {
-            rect(10, 10, 20, 20);
+            rect(10, 10, 30, 30);
         } else {
-            ellipse(20, 20, 20, 20);
+            ellipse(25, 25, 30, 30);
         }
     }
 
@@ -130,16 +130,18 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
         /* draw temporary particle */
         if (mTemporaryParticle != null) {
             noStroke();
-            fill(0, 127, 255);
-            ellipse(mTemporaryParticle.position().x, mTemporaryParticle.position().y, 5, 5);
+            fill(0);
+            ellipse(mTemporaryParticle.position().x, mTemporaryParticle.position().y, 10, 10);
         }
 
         /* draw temporary spring */
         if (mTemporarySpring != null) {
-            stroke(0, 127, 255);
+            stroke(0);
             noFill();
+            strokeWeight(3.0f);
             line(mTemporarySpring.a().position().x, mTemporarySpring.a().position().y,
                  mTemporarySpring.b().position().x, mTemporarySpring.b().position().y);
+            strokeWeight(1.0f);
         }
     }
 
@@ -156,13 +158,13 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
         }
         /* draw particles */
         noStroke();
+        fill(0);
         for (Particle p : mPhysics.particles()) {
             if (p.fixed()) {
-                fill(255, 127, 0);
+                rect(p.position().x - 5f, p.position().y - 5f, 10, 10);
             } else {
-                fill(0);
+                ellipse(p.position().x, p.position().y, 5, 5);
             }
-            ellipse(p.position().x, p.position().y, 5, 5);
         }
     }
 

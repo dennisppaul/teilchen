@@ -16,7 +16,7 @@ import teilchen.util.*;
 Physics mPhysics;
 PlaneDeflector mDeflector;
 void settings() {
-    size(640, 480, P3D);
+    size(640, 480);
 }
 void setup() {
     /* create a particle system */
@@ -65,25 +65,28 @@ void draw() {
     background(255);
     for (int i = 0; i < mPhysics.particles().size(); i++) {
         Particle mParticle = mPhysics.particles(i);
-        /* this special particle can tell you how much time it has to live.
-         * we map this information to its transparency.
+        /* `ShortLivedParticle` keeps track of much it has to *live*.
+         * in this case the live time is mapped to its transparency.
          */
         float mRatio = 1 - ((ShortLivedParticle) mParticle).ageRatio();
+        fill(0, 255 * mRatio);
         noStroke();
+        float mDiameter;
         if (mParticle.tagged()) {
-            fill(255, 127, 0, 255 * mRatio);
+            mDiameter = 10;
         } else {
-            fill(0, 255 * mRatio);
+            mDiameter = 5;
         }
-        ellipse(mParticle.position().x, mParticle.position().y, 5, 5);
+        ellipse(mParticle.position().x, mParticle.position().y, mDiameter, mDiameter);
     }
     /* draw deflector */
-    stroke(0, 127);
+    stroke(0);
+    strokeWeight(3.0f);
     line(mDeflector.plane().origin.x - mDeflector.plane().normal.y * -width,
          mDeflector.plane().origin.y + mDeflector.plane().normal.x * -width,
          mDeflector.plane().origin.x - mDeflector.plane().normal.y * width,
          mDeflector.plane().origin.y + mDeflector.plane().normal.x * width);
-    stroke(255, 127, 0, 127);
+    strokeWeight(1.0f);
     line(mDeflector.plane().origin.x,
          mDeflector.plane().origin.y,
          mDeflector.plane().origin.x + mDeflector.plane().normal.x * 20,

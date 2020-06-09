@@ -105,7 +105,7 @@ public class SketchLessonX12_TearableSpring extends PApplet {
 
         if (mParticleSelected != null) {
             noFill();
-            stroke(255, 127, 0);
+            stroke(0);
             final float mParticleSize = 5 * 3;
             ellipse(mParticleSelected.position().x, mParticleSelected.position().y, mParticleSize, mParticleSize);
         }

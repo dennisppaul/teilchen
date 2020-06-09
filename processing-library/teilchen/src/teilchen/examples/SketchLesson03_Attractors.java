@@ -19,7 +19,7 @@ public class SketchLesson03_Attractors extends PApplet {
     private Attractor mAttractor;
 
     public void settings() {
-        size(640, 480, P3D);
+        size(640, 480);
     }
 
     public void setup() {
@@ -70,15 +70,19 @@ public class SketchLesson03_Attractors extends PApplet {
             ellipse(myParticle.position().x, myParticle.position().y, 5, 5);
         }
 
-        /* draw attractor. green if it is attracting and red if it is repelling */
-        noStroke();
+        /* draw attractor */
+        noFill();
+        stroke(0, 63);
+        strokeWeight(1.0f);
+        ellipse(mAttractor.position().x, mAttractor.position().y, mAttractor.radius() * 2, mAttractor.radius() * 2);
         if (mAttractor.strength() < 0) {
-            fill(255, 127, 0, 50);
+            noStroke();
+            fill(0);
         } else {
-            fill(0, 127, 255, 50);
+            stroke(0);
+            strokeWeight(4.0f);
         }
-        ellipse(mAttractor.position().x, mAttractor.position().y,
-                mAttractor.radius(), mAttractor.radius());
+        ellipse(mAttractor.position().x, mAttractor.position().y, mAttractor.radius() / 2, mAttractor.radius() / 2);
     }
 
     public void mousePressed() {

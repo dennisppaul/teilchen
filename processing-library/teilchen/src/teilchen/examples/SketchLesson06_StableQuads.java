@@ -14,9 +14,11 @@ public class SketchLesson06_StableQuads extends PApplet {
 
     /*
      * this sketch demonstrates how to connect four particles and six springs to form a
-     * `StableSpringQuad` a construct that allows to emulate something similar to a *body*.
+     * stable quad made from springs, this a construct that allows to emulate something
+     * similar to a *body*. this sketch also demonstrates how to use `StableSpringQuad`
+     * to achieve the same result.
      *
-     * press mouse to drag corner.
+     * press mouse to drag corner of stable quad.
      */
 
     private Physics mPhysics;
@@ -50,8 +52,6 @@ public class SketchLesson06_StableQuads extends PApplet {
         Particle c = mPhysics.makeParticle(100, 100);
         Particle d = mPhysics.makeParticle(0, 100);
 
-        new StableSpringQuad(mPhysics, d, c, mPhysics.makeParticle(100, 200), mPhysics.makeParticle(0, 200));
-
         /* create stable quad from springs */
         /* first the edge-springs ... */
         final float mSpringConstant = 100;
@@ -67,10 +67,13 @@ public class SketchLesson06_StableQuads extends PApplet {
         /* define 'a' as root particle for mouse interaction */
         mRoot = a;
         mRoot.fixed(true);
+        mRoot.radius(10);
+
+        /* create stable quad with `StableSpringQuad` */
+        new StableSpringQuad(mPhysics, d, c, mPhysics.makeParticle(100, 200), mPhysics.makeParticle(0, 200));
     }
 
     public void draw() {
-
         /* handle particles */
         if (mousePressed) {
             mRoot.fixed(true);
@@ -81,10 +84,19 @@ public class SketchLesson06_StableQuads extends PApplet {
 
         mPhysics.step(1.0f / frameRate);
 
-        /* draw */
+        /* draw particles *manually* and springs using `DrawLib` */
         background(255);
-        DrawLib.drawSprings(g, mPhysics, color(255, 127, 0, 64));
-        DrawLib.drawParticles(g, mPhysics, 12, color(164), color(245));
+        noStroke();
+        fill(0);
+        for (Particle p : mPhysics.particles()) {
+            ellipse(p.position().x, p.position().y, 5, 5);
+        }
+        DrawLib.drawSprings(g, mPhysics, color(0, 63));
+
+        /* highlight root particle */
+        noStroke();
+        fill(0);
+        ellipse(mRoot.position().x, mRoot.position().y, 15, 15);
     }
 
     public static void main(String[] args) {

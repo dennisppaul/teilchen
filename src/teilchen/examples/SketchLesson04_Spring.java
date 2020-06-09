@@ -19,7 +19,7 @@ public class SketchLesson04_Spring extends PApplet {
     private Spring mSpring;
 
     public void settings() {
-        size(640, 480, P3D);
+        size(640, 480);
     }
 
     public void setup() {
@@ -58,13 +58,13 @@ public class SketchLesson04_Spring extends PApplet {
         /* draw particles and connecting line */
         background(255);
         noFill();
-        stroke(255, 127, 0, 64);
+        stroke(0, 63);
         line(mSpring.a().position().x, mSpring.a().position().y,
              mSpring.b().position().x, mSpring.b().position().y);
         fill(0);
         noStroke();
         ellipse(mSpring.a().position().x, mSpring.a().position().y, 5, 5);
-        ellipse(mSpring.b().position().x, mSpring.b().position().y, 5, 5);
+        ellipse(mSpring.b().position().x, mSpring.b().position().y, 15, 15);
     }
 
     public static void main(String[] args) {

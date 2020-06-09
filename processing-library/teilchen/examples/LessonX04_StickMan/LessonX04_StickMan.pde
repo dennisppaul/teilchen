@@ -16,12 +16,11 @@ import teilchen.util.*;
 Physics mPhysics;
 Attractor mAttractor;
 Gravity mGravity;
-StickMan[] mMyStickMan;
+StickMan[] mStickMan;
 void settings() {
-    size(640, 480, P3D);
+    size(640, 480);
 }
 void setup() {
-    noFill();
     mPhysics = new Physics();
     mPhysics.setIntegratorRef(new RungeKutta());
     mGravity = new Gravity();
@@ -35,10 +34,10 @@ void setup() {
     mAttractor.strength(0);
     mAttractor.position().set(width / 2.0f, height / 2.0f);
     mPhysics.add(mAttractor);
-    mMyStickMan = new StickMan[20];
-    for (int i = 0; i < mMyStickMan.length; i++) {
-        mMyStickMan[i] = new StickMan(mPhysics, random(0, width), random(0.3f, 0.6f));
-        mMyStickMan[i].translate(new PVector().set(0, height / 2.0f, 0));
+    mStickMan = new StickMan[20];
+    for (int i = 0; i < mStickMan.length; i++) {
+        mStickMan[i] = new StickMan(mPhysics, random(0, width), random(0.3f, 0.6f));
+        mStickMan[i].translate(new PVector().set(0, height / 2.0f, 0));
     }
 }
 void draw() {
@@ -69,11 +68,6 @@ void draw() {
     } else {
         mAttractor.strength(0);
     }
-    if (keyPressed) {
-        mGravity.force().y = -20;
-    } else {
-        mGravity.force().y = 20;
-    }
     /* draw */
     background(255);
     /* draw springs */
@@ -88,11 +82,21 @@ void draw() {
         }
     }
     /* draw particles */
+    fill(0);
+    noStroke();
     for (int i = 0; i < mPhysics.particles().size(); i++) {
-        ellipse(mPhysics.particles(i).position().x, mPhysics.particles(i).position().y, 5, 5);
+        ellipse(mPhysics.particles(i).position().x, mPhysics.particles(i).position().y, 2, 2);
     }
     /* draw man */
-    for (StickMan mMyStickMan1 : mMyStickMan) {
-        mMyStickMan1.draw(g);
+    noFill();
+    g.stroke(0, 127);
+    for (StickMan s : mStickMan) {
+        s.draw(g);
+    }
+    /* draw attractor */
+    if (mousePressed) {
+        noFill();
+        stroke(0, 191);
+        ellipse(mAttractor.position().x, mAttractor.position().y, 50, 50);
     }
 }

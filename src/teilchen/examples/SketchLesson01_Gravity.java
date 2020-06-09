@@ -18,7 +18,7 @@ public class SketchLesson01_Gravity extends PApplet {
     private Particle mParticle;
 
     public void settings() {
-        size(640, 480, P3D);
+        size(640, 480);
     }
 
     public void setup() {
@@ -28,7 +28,7 @@ public class SketchLesson01_Gravity extends PApplet {
         /* create a gravitational force */
         Gravity mGravity = new Gravity();
         /* the direction of the gravity is defined by the 'force' vector */
-        mGravity.force().set(0, 30, 0);
+        mGravity.force().set(0, 30);
         /* forces, like gravity or any other force, can be added to the system. they will be automatically applied to
          all particles */
         mPhysics.add(mGravity);
