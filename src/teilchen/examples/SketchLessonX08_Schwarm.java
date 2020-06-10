@@ -65,7 +65,7 @@ public class SketchLessonX08_Schwarm extends PApplet {
 
         /* entities */
         for (SwarmEntity s : mSwarmEntities) {
-            s.update(mDeltaTime);
+            s.update();
         }
 
         /* draw */
@@ -111,7 +111,7 @@ public class SketchLessonX08_Schwarm extends PApplet {
             behaviors().add(motor);
         }
 
-        public void update(float theDeltaTime) {
+        public void update() {
             separation.neighbors(mSwarmEntities);
             alignment.neighbors(mSwarmEntities);
             cohesion.neighbors(mSwarmEntities);

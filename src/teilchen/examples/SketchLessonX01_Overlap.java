@@ -23,10 +23,11 @@ public class SketchLessonX01_Overlap extends PApplet {
     private Particle mRoot;
 
     public void settings() {
-        size(640, 480, P3D);
+        size(640, 480, P2D);
     }
 
     public void setup() {
+        hint(ENABLE_DEPTH_SORT);
         mPhysics = new Physics();
 
         /* create drag */
@@ -63,7 +64,7 @@ public class SketchLessonX01_Overlap extends PApplet {
 
         /* draw springs */
         noFill();
-        stroke(255, 127, 0, 64);
+        stroke(0, 31);
         for (int i = 0; i < mPhysics.forces().size(); i++) {
             if (mPhysics.forces().get(i) instanceof Spring) {
                 Spring mSSpring = (Spring) mPhysics.forces().get(i);
@@ -74,13 +75,11 @@ public class SketchLessonX01_Overlap extends PApplet {
             }
         }
         /* draw particles */
-        fill(255, 127);
-        stroke(164);
+        fill(255);
         for (int i = 0; i < mPhysics.particles().size(); i++) {
-            ellipse(mPhysics.particles().get(i).position().x,
-                    mPhysics.particles().get(i).position().y,
-                    mPhysics.particles().get(i).radius() * 2,
-                    mPhysics.particles().get(i).radius() * 2);
+            Particle p = mPhysics.particles().get(i);
+            stroke(0, 191);
+            ellipse(p.position().x, p.position().y, p.radius() * 2, p.radius() * 2);
         }
     }
 

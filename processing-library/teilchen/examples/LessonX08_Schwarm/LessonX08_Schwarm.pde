@@ -44,7 +44,7 @@ void draw() {
     mPhysics.step(mDeltaTime);
     /* entities */
     for (SwarmEntity s : mSwarmEntities) {
-        s.update(mDeltaTime);
+        s.update();
     }
     /* draw */
     background(255);
@@ -80,7 +80,7 @@ class SwarmEntity extends BehaviorParticle {
         motor.strength(20.0f);
         behaviors().add(motor);
     }
-    void update(float theDeltaTime) {
+    void update() {
         separation.neighbors(mSwarmEntities);
         alignment.neighbors(mSwarmEntities);
         cohesion.neighbors(mSwarmEntities);

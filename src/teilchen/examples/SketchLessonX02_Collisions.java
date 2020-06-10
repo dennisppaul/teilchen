@@ -70,7 +70,7 @@ public class SketchLessonX02_Collisions extends PApplet {
     private void drawThings() {
         /* collision springs */
         noFill();
-        stroke(255, 127, 0, 63);
+        stroke(0, 63);
         for (int i = 0; i < mCollision.collision().forces().size(); ++i) {
             if (mCollision.collision().forces().get(i) instanceof Spring) {
                 Spring mySpring = (Spring) mCollision.collision_forces().get(i);
