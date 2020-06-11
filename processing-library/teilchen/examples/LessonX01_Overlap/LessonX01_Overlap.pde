@@ -17,7 +17,7 @@ static final float PARTICLE_RADIUS = 13;
 Physics mPhysics;
 Particle mRoot;
 void settings() {
-    size(640, 480, P2D);
+    size(640, 480);
 }
 void setup() {
     hint(ENABLE_DEPTH_SORT);

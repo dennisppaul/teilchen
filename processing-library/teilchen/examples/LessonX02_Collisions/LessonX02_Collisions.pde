@@ -17,7 +17,7 @@ static final float PARTICLE_SIZE = 5;
 CollisionManager mCollision;
 Physics mPhysics;
 void settings() {
-    size(640, 480, P3D);
+    size(640, 480);
 }
 void setup() {
     noFill();
@@ -60,10 +60,8 @@ void drawThings() {
             Spring mySpring = (Spring) mCollision.collision_forces().get(i);
             line(mySpring.a().position().x,
                  mySpring.a().position().y,
-                 mySpring.a().position().z,
                  mySpring.b().position().x,
-                 mySpring.b().position().y,
-                 mySpring.b().position().z);
+                 mySpring.b().position().y);
         }
     }
     /* particles */
@@ -72,7 +70,7 @@ void drawThings() {
     for (int i = 0; i < mPhysics.particles().size(); ++i) {
         Particle myParticle = mPhysics.particles().get(i);
         pushMatrix();
-        translate(myParticle.position().x, myParticle.position().y, myParticle.position().z);
+        translate(myParticle.position().x, myParticle.position().y);
         ellipse(0, 0, PARTICLE_SIZE, PARTICLE_SIZE);
         popMatrix();
     }

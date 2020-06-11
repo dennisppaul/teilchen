@@ -24,7 +24,7 @@ public class SketchLesson13_VectorField extends PApplet {
     private VectorField mVectorField;
 
     public void settings() {
-        size(640, 480, P2D);
+        size(640, 480);
     }
 
     public void setup() {

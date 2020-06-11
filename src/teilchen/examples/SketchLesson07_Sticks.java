@@ -21,7 +21,7 @@ public class SketchLesson07_Sticks extends PApplet {
     private Particle[] mParticles;
 
     public void settings() {
-        size(640, 480, P3D);
+        size(640, 480);
     }
 
     public void setup() {
@@ -73,8 +73,7 @@ public class SketchLesson07_Sticks extends PApplet {
             Particle p2 = mParticles[x];
             final float mStrokeWeight = 4.0f * (1.0f - (float) x / mParticles.length);
             strokeWeight(mStrokeWeight);
-            line(p1.position().x, p1.position().y, p1.position().z,
-                 p2.position().x, p2.position().y, p2.position().z);
+            line(p1.position().x, p1.position().y, p2.position().x, p2.position().y);
         }
     }
 

@@ -24,7 +24,7 @@ public class SketchLessonX02_Collisions extends PApplet {
     private Physics mPhysics;
 
     public void settings() {
-        size(640, 480, P3D);
+        size(640, 480);
     }
 
     public void setup() {
@@ -76,10 +76,8 @@ public class SketchLessonX02_Collisions extends PApplet {
                 Spring mySpring = (Spring) mCollision.collision_forces().get(i);
                 line(mySpring.a().position().x,
                      mySpring.a().position().y,
-                     mySpring.a().position().z,
                      mySpring.b().position().x,
-                     mySpring.b().position().y,
-                     mySpring.b().position().z);
+                     mySpring.b().position().y);
             }
         }
 
@@ -89,7 +87,7 @@ public class SketchLessonX02_Collisions extends PApplet {
         for (int i = 0; i < mPhysics.particles().size(); ++i) {
             Particle myParticle = mPhysics.particles().get(i);
             pushMatrix();
-            translate(myParticle.position().x, myParticle.position().y, myParticle.position().z);
+            translate(myParticle.position().x, myParticle.position().y);
             ellipse(0, 0, PARTICLE_SIZE, PARTICLE_SIZE);
             popMatrix();
         }

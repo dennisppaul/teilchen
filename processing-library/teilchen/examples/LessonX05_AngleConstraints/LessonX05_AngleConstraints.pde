@@ -20,7 +20,7 @@ Particle mParticleD;
 AngleConstraintSpring mAngleConstraintABC;
 AngleConstraintStick mAngleConstraintBCD;
 void settings() {
-    size(640, 480, P3D);
+    size(640, 480);
 }
 void setup() {
     mPhysics = new Physics();

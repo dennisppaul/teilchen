@@ -26,7 +26,7 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
     private Attractor mAttractor;
 
     public void settings() {
-        size(640, 480, P3D);
+        size(640, 480);
     }
 
     public void setup() {
@@ -126,26 +126,22 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
             int j = (i + 1) % mFragments.size();
             line(mFragments.get(i).position().x,
                  mFragments.get(i).position().y,
-                 mFragments.get(i).position().z,
                  mFragments.get(j).position().x,
-                 mFragments.get(j).position().y,
-                 mFragments.get(j).position().z);
+                 mFragments.get(j).position().y);
         }
         /* draw connection from trail to head */
         if (!mFragments.isEmpty()) {
             line(mFragments.get(mFragments.size() - 1).position().x,
                  mFragments.get(mFragments.size() - 1).position().y,
-                 mFragments.get(mFragments.size() - 1).position().z,
                  mParticle.position().x,
-                 mParticle.position().y,
-                 mParticle.position().z);
+                 mParticle.position().y);
         }
         /* draw head */
         if (mFragments.size() > 1) {
             fill(0);
             noStroke();
             pushMatrix();
-            translate(mParticle.position().x, mParticle.position().y, mParticle.position().z);
+            translate(mParticle.position().x, mParticle.position().y);
             ellipse(0, 0, 5, 5);
             popMatrix();
         }

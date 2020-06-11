@@ -21,7 +21,7 @@ boolean mDrawGrid = false;
 Physics mPhysics;
 VectorField mVectorField;
 void settings() {
-    size(640, 480, P2D);
+    size(640, 480);
 }
 void setup() {
     mPhysics = new Physics();

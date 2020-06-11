@@ -1,6 +1,6 @@
 # teilchen
 
-![LessonX04_StickMan](https://raw.githubusercontent.com/dennisppaul/teilchen/master/img/LessonX04_StickMan.png)
+![teilchen showreel](https://raw.githubusercontent.com/dennisppaul/teilchen/master/img/teilchen.gif)
 
 - *teilchen* is a simple physics library based on particles, forces, constraints and behaviors. 
 - *teilchen* is also a collection of a variety of concepts useful for modeling with virtual physics and behaviors. nothing new, nothing fancy, except maybe for the combination of forces ( *external forces* ) and behavior ( *internal forces* ).
