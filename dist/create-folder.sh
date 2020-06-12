@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/zsh
 
 LIB_NAME=$1
 ROOT=$(pwd)
