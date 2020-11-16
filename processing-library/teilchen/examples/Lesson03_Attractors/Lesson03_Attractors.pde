@@ -5,18 +5,20 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
-
-
 /*
  * this sketch demonstrates how to create and use an `Attractor` and how to teleport particles.
  *
  * press mouse to toggle attractor between postive and *negative* attraction.
  */
+
 Physics mPhysics;
+
 Attractor mAttractor;
+
 void settings() {
     size(640, 480);
 }
+
 void setup() {
     /* create a particle system */
     mPhysics = new Physics();
@@ -41,6 +43,7 @@ void setup() {
     mAttractor.strength(150);
     mPhysics.add(mAttractor);
 }
+
 void draw() {
     /* set attractor to mouse position */
     mAttractor.position().set(mouseX, mouseY);
@@ -70,6 +73,7 @@ void draw() {
     }
     ellipse(mAttractor.position().x, mAttractor.position().y, mAttractor.radius() / 2, mAttractor.radius() / 2);
 }
+
 void mousePressed() {
     /* flip the direction of the attractors strength. */
     float myInvertedStrength = -1 * mAttractor.strength();

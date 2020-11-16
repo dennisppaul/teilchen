@@ -5,18 +5,19 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
-
-
 /*
  * this sketch demonstrates how to create and handle multiple particles and remove individual
  * particles.
  *
  * drag mouse to spawn particles.
  */
+
 Physics mPhysics;
+
 void settings() {
     size(640, 480);
 }
+
 void setup() {
     /* create a particle system */
     mPhysics = new Physics();
@@ -24,6 +25,7 @@ void setup() {
     Gravity myGravity = new Gravity(0, 30, 0);
     mPhysics.add(myGravity);
 }
+
 void draw() {
     if (mousePressed) {
         /* create and add a particle to the system */

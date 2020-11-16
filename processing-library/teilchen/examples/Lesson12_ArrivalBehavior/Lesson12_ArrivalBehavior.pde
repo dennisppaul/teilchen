@@ -5,20 +5,23 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
-
-
 /*
  * this sketch demonstrates how to use behaviors.  it appliies the `Arrival` behavior to make a
  * `BehaviorParticle` arrive at a certain location.
  *
  * press mouse to position arrival destination.
  */
+
 Physics mPhysics;
+
 BehaviorParticle mParticle;
+
 Arrival mArrival;
+
 void settings() {
     size(640, 480);
 }
+
 void setup() {
     /* physics */
     mPhysics = new Physics();
@@ -32,6 +35,7 @@ void setup() {
     mArrival.breakradius(mParticle.maximumInnerForce() * 0.25f);
     mParticle.behaviors().add(mArrival);
 }
+
 void draw() {
     /* set the arrival position to mouse position */
     mArrival.position().set(mouseX, mouseY);

@@ -5,22 +5,27 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
-
-
 /*
  * this sketch demonstrates how to use `TearableSprings` a variation of the normal spring that
  * tears if stretched beyond a certain length. drag particles to tear spring mesh.
  *
  * press mouse to drag particle and tear spring.
  */
+
 static final int GRID_WIDTH = 32;
+
 static final int GRID_HEIGHT = 24;
+
 final Particle[][] mParticles = new Particle[GRID_WIDTH][GRID_HEIGHT];
+
 Physics mPhysics;
+
 Particle mParticleSelected = null;
+
 void settings() {
     size(640, 480, P3D);
 }
+
 void setup() {
     mPhysics = new Physics();
     /* select `RungeKutta` for integration as it can handle multiple connected springs better */
@@ -59,6 +64,7 @@ void setup() {
     mParticles[0][GRID_HEIGHT - 1].fixed(true);
     mParticles[GRID_WIDTH - 1][GRID_HEIGHT - 1].fixed(true);
 }
+
 void draw() {
     if (mParticleSelected != null) {
         /* not that it is better to perform all *direct* particle manipulations before `step`
@@ -91,12 +97,15 @@ void draw() {
         ellipse(mParticleSelected.position().x, mParticleSelected.position().y, mParticleSize, mParticleSize);
     }
 }
+
 void mousePressed() {
     mParticleSelected = teilchen.util.Util.findParticleByProximity(mPhysics, mouseX, mouseY, 0, 20);
 }
+
 void mouseReleased() {
     mParticleSelected = null;
 }
+
 void drawSpring(Spring s) {
     line(s.a().position().x,
          s.a().position().y,
@@ -105,6 +114,7 @@ void drawSpring(Spring s) {
          s.b().position().y,
          s.b().position().z);
 }
+
 void createSpring(Particle p0, Particle p1) {
     TearableSpring s = new TearableSpring(p0, p1);
     s.tear_distance(40);

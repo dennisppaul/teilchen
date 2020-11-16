@@ -209,34 +209,34 @@ implements java.io.Serializable</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>static float</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Intersection.html#intersectLinePlane-teilchen.util.Ray3f-teilchen.util.Plane3f-processing.core.PVector-">intersectLinePlane</a></span>(<a href="../../teilchen/util/Ray3f.html" title="class in teilchen.util">Ray3f</a>&nbsp;theRay,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Intersection.html#intersectLinePlane-teilchen.util.Ray3f-teilchen.util.Plane3f-PVector-">intersectLinePlane</a></span>(<a href="../../teilchen/util/Ray3f.html" title="class in teilchen.util">Ray3f</a>&nbsp;theRay,
                   <a href="../../teilchen/util/Plane3f.html" title="class in teilchen.util">Plane3f</a>&nbsp;thePlane,
-                  processing.core.PVector&nbsp;theIntersectionPoint)</code>
+                  PVector&nbsp;theIntersectionPoint)</code>
 <div class="block">intersect line with plane ( grabbed from Xith )</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Intersection.html#intersectRayPlane-teilchen.util.Ray3f-teilchen.util.Plane3f-processing.core.PVector-boolean-boolean-">intersectRayPlane</a></span>(<a href="../../teilchen/util/Ray3f.html" title="class in teilchen.util">Ray3f</a>&nbsp;theRay,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Intersection.html#intersectRayPlane-teilchen.util.Ray3f-teilchen.util.Plane3f-PVector-boolean-boolean-">intersectRayPlane</a></span>(<a href="../../teilchen/util/Ray3f.html" title="class in teilchen.util">Ray3f</a>&nbsp;theRay,
                  <a href="../../teilchen/util/Plane3f.html" title="class in teilchen.util">Plane3f</a>&nbsp;thePlane,
-                 processing.core.PVector&nbsp;theResult,
+                 PVector&nbsp;theResult,
                  boolean&nbsp;doPlanar,
                  boolean&nbsp;quad)</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>static processing.core.PVector[]</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Intersection.html#intersectRaySpherePoints-processing.core.PVector-float-processing.core.PVector-processing.core.PVector-">intersectRaySpherePoints</a></span>(processing.core.PVector&nbsp;pSphereCenter,
+<td class="colFirst"><code>static PVector[]</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Intersection.html#intersectRaySpherePoints-PVector-float-PVector-PVector-">intersectRaySpherePoints</a></span>(PVector&nbsp;pSphereCenter,
                         float&nbsp;pSphereRadius,
-                        processing.core.PVector&nbsp;pRayDirection,
-                        processing.core.PVector&nbsp;pRayOrigin)</code>&nbsp;</td>
+                        PVector&nbsp;pRayDirection,
+                        PVector&nbsp;pRayOrigin)</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Intersection.html#intersectRayTriangle-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-teilchen.util.Intersection.IntersectionResult-boolean-">intersectRayTriangle</a></span>(processing.core.PVector&nbsp;pRayOrigin,
-                    processing.core.PVector&nbsp;pRayDirection,
-                    processing.core.PVector&nbsp;v0,
-                    processing.core.PVector&nbsp;v1,
-                    processing.core.PVector&nbsp;v2,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Intersection.html#intersectRayTriangle-PVector-PVector-PVector-PVector-PVector-teilchen.util.Intersection.IntersectionResult-boolean-">intersectRayTriangle</a></span>(PVector&nbsp;pRayOrigin,
+                    PVector&nbsp;pRayDirection,
+                    PVector&nbsp;v0,
+                    PVector&nbsp;v1,
+                    PVector&nbsp;v2,
                     <a href="../../teilchen/util/Intersection.IntersectionResult.html" title="class in teilchen.util">Intersection.IntersectionResult</a>&nbsp;pResult,
                     boolean&nbsp;pCullingFlag)</code>
 <div class="block">Fast, Minimum Storage Ray-Triangle Intersection by Tomas Moeller &amp; Ben
@@ -245,38 +245,38 @@ implements java.io.Serializable</pre>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Intersection.html#intersectRayTriangle-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-">intersectRayTriangle</a></span>(processing.core.PVector&nbsp;pRayOrigin,
-                    processing.core.PVector&nbsp;pRayDirection,
-                    processing.core.PVector&nbsp;v0,
-                    processing.core.PVector&nbsp;v1,
-                    processing.core.PVector&nbsp;v2,
-                    processing.core.PVector&nbsp;pIntersectionPoint)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Intersection.html#intersectRayTriangle-PVector-PVector-PVector-PVector-PVector-PVector-">intersectRayTriangle</a></span>(PVector&nbsp;pRayOrigin,
+                    PVector&nbsp;pRayDirection,
+                    PVector&nbsp;v0,
+                    PVector&nbsp;v1,
+                    PVector&nbsp;v2,
+                    PVector&nbsp;pIntersectionPoint)</code>&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>static int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Intersection.html#lineLineIntersect-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-">lineLineIntersect</a></span>(processing.core.PVector&nbsp;aBegin,
-                 processing.core.PVector&nbsp;aEnd,
-                 processing.core.PVector&nbsp;bBegin,
-                 processing.core.PVector&nbsp;bEnd,
-                 processing.core.PVector&nbsp;theIntersection)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Intersection.html#lineLineIntersect-PVector-PVector-PVector-PVector-PVector-">lineLineIntersect</a></span>(PVector&nbsp;aBegin,
+                 PVector&nbsp;aEnd,
+                 PVector&nbsp;bBegin,
+                 PVector&nbsp;bEnd,
+                 PVector&nbsp;theIntersection)</code>&nbsp;</td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Intersection.html#lineLineIntersect-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-">lineLineIntersect</a></span>(processing.core.PVector&nbsp;pP1,
-                 processing.core.PVector&nbsp;pP2,
-                 processing.core.PVector&nbsp;pP3,
-                 processing.core.PVector&nbsp;pP4,
-                 processing.core.PVector&nbsp;pPa,
-                 processing.core.PVector&nbsp;pPb)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Intersection.html#lineLineIntersect-PVector-PVector-PVector-PVector-PVector-PVector-">lineLineIntersect</a></span>(PVector&nbsp;pP1,
+                 PVector&nbsp;pP2,
+                 PVector&nbsp;pP3,
+                 PVector&nbsp;pP4,
+                 PVector&nbsp;pPa,
+                 PVector&nbsp;pPb)</code>
 <div class="block">from paul bourke (
  http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline3d/ )</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Intersection.html#RaySphere-processing.core.PVector-processing.core.PVector-processing.core.PVector-float-">RaySphere</a></span>(processing.core.PVector&nbsp;pP1,
-         processing.core.PVector&nbsp;pP2,
-         processing.core.PVector&nbsp;pSphereCenter,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Intersection.html#RaySphere-PVector-PVector-PVector-float-">RaySphere</a></span>(PVector&nbsp;pP1,
+         PVector&nbsp;pP2,
+         PVector&nbsp;pSphereCenter,
          float&nbsp;pSphereRadius)</code>
 <div class="block">http://local.wasp.uwa.edu.au/~pbourke/geometry/sphereline/raysphere.c
  Calculate the intersection of a ray and a sphere The line segment is
@@ -387,7 +387,7 @@ implements java.io.Serializable</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="intersectLinePlane-teilchen.util.Ray3f-teilchen.util.Plane3f-processing.core.PVector-">
+<a name="intersectLinePlane-teilchen.util.Ray3f-teilchen.util.Plane3f-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -395,7 +395,7 @@ implements java.io.Serializable</pre>
 <h4>intersectLinePlane</h4>
 <pre>public static&nbsp;float&nbsp;intersectLinePlane(<a href="../../teilchen/util/Ray3f.html" title="class in teilchen.util">Ray3f</a>&nbsp;theRay,
                                        <a href="../../teilchen/util/Plane3f.html" title="class in teilchen.util">Plane3f</a>&nbsp;thePlane,
-                                       processing.core.PVector&nbsp;theIntersectionPoint)</pre>
+                                       PVector&nbsp;theIntersectionPoint)</pre>
 <div class="block">intersect line with plane ( grabbed from Xith )</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -407,7 +407,7 @@ implements java.io.Serializable</pre>
 </dl>
 </li>
 </ul>
-<a name="intersectRayPlane-teilchen.util.Ray3f-teilchen.util.Plane3f-processing.core.PVector-boolean-boolean-">
+<a name="intersectRayPlane-teilchen.util.Ray3f-teilchen.util.Plane3f-PVector-boolean-boolean-">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -415,34 +415,34 @@ implements java.io.Serializable</pre>
 <h4>intersectRayPlane</h4>
 <pre>public static&nbsp;boolean&nbsp;intersectRayPlane(<a href="../../teilchen/util/Ray3f.html" title="class in teilchen.util">Ray3f</a>&nbsp;theRay,
                                         <a href="../../teilchen/util/Plane3f.html" title="class in teilchen.util">Plane3f</a>&nbsp;thePlane,
-                                        processing.core.PVector&nbsp;theResult,
+                                        PVector&nbsp;theResult,
                                         boolean&nbsp;doPlanar,
                                         boolean&nbsp;quad)</pre>
 </li>
 </ul>
-<a name="intersectRaySpherePoints-processing.core.PVector-float-processing.core.PVector-processing.core.PVector-">
+<a name="intersectRaySpherePoints-PVector-float-PVector-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>intersectRaySpherePoints</h4>
-<pre>public static&nbsp;processing.core.PVector[]&nbsp;intersectRaySpherePoints(processing.core.PVector&nbsp;pSphereCenter,
-                                                                 float&nbsp;pSphereRadius,
-                                                                 processing.core.PVector&nbsp;pRayDirection,
-                                                                 processing.core.PVector&nbsp;pRayOrigin)</pre>
+<pre>public static&nbsp;PVector[]&nbsp;intersectRaySpherePoints(PVector&nbsp;pSphereCenter,
+                                                 float&nbsp;pSphereRadius,
+                                                 PVector&nbsp;pRayDirection,
+                                                 PVector&nbsp;pRayOrigin)</pre>
 </li>
 </ul>
-<a name="intersectRayTriangle-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-teilchen.util.Intersection.IntersectionResult-boolean-">
+<a name="intersectRayTriangle-PVector-PVector-PVector-PVector-PVector-teilchen.util.Intersection.IntersectionResult-boolean-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>intersectRayTriangle</h4>
-<pre>public static&nbsp;boolean&nbsp;intersectRayTriangle(processing.core.PVector&nbsp;pRayOrigin,
-                                           processing.core.PVector&nbsp;pRayDirection,
-                                           processing.core.PVector&nbsp;v0,
-                                           processing.core.PVector&nbsp;v1,
-                                           processing.core.PVector&nbsp;v2,
+<pre>public static&nbsp;boolean&nbsp;intersectRayTriangle(PVector&nbsp;pRayOrigin,
+                                           PVector&nbsp;pRayDirection,
+                                           PVector&nbsp;v0,
+                                           PVector&nbsp;v1,
+                                           PVector&nbsp;v2,
                                            <a href="../../teilchen/util/Intersection.IntersectionResult.html" title="class in teilchen.util">Intersection.IntersectionResult</a>&nbsp;pResult,
                                            boolean&nbsp;pCullingFlag)</pre>
 <div class="block">Fast, Minimum Storage Ray-Triangle Intersection by Tomas Moeller &amp; Ben
@@ -461,45 +461,45 @@ implements java.io.Serializable</pre>
 </dl>
 </li>
 </ul>
-<a name="intersectRayTriangle-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-">
+<a name="intersectRayTriangle-PVector-PVector-PVector-PVector-PVector-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>intersectRayTriangle</h4>
-<pre>public static&nbsp;boolean&nbsp;intersectRayTriangle(processing.core.PVector&nbsp;pRayOrigin,
-                                           processing.core.PVector&nbsp;pRayDirection,
-                                           processing.core.PVector&nbsp;v0,
-                                           processing.core.PVector&nbsp;v1,
-                                           processing.core.PVector&nbsp;v2,
-                                           processing.core.PVector&nbsp;pIntersectionPoint)</pre>
+<pre>public static&nbsp;boolean&nbsp;intersectRayTriangle(PVector&nbsp;pRayOrigin,
+                                           PVector&nbsp;pRayDirection,
+                                           PVector&nbsp;v0,
+                                           PVector&nbsp;v1,
+                                           PVector&nbsp;v2,
+                                           PVector&nbsp;pIntersectionPoint)</pre>
 </li>
 </ul>
-<a name="lineLineIntersect-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-">
+<a name="lineLineIntersect-PVector-PVector-PVector-PVector-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>lineLineIntersect</h4>
-<pre>public static&nbsp;int&nbsp;lineLineIntersect(processing.core.PVector&nbsp;aBegin,
-                                    processing.core.PVector&nbsp;aEnd,
-                                    processing.core.PVector&nbsp;bBegin,
-                                    processing.core.PVector&nbsp;bEnd,
-                                    processing.core.PVector&nbsp;theIntersection)</pre>
+<pre>public static&nbsp;int&nbsp;lineLineIntersect(PVector&nbsp;aBegin,
+                                    PVector&nbsp;aEnd,
+                                    PVector&nbsp;bBegin,
+                                    PVector&nbsp;bEnd,
+                                    PVector&nbsp;theIntersection)</pre>
 </li>
 </ul>
-<a name="lineLineIntersect-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-">
+<a name="lineLineIntersect-PVector-PVector-PVector-PVector-PVector-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>lineLineIntersect</h4>
-<pre>public static&nbsp;boolean&nbsp;lineLineIntersect(processing.core.PVector&nbsp;pP1,
-                                        processing.core.PVector&nbsp;pP2,
-                                        processing.core.PVector&nbsp;pP3,
-                                        processing.core.PVector&nbsp;pP4,
-                                        processing.core.PVector&nbsp;pPa,
-                                        processing.core.PVector&nbsp;pPb)</pre>
+<pre>public static&nbsp;boolean&nbsp;lineLineIntersect(PVector&nbsp;pP1,
+                                        PVector&nbsp;pP2,
+                                        PVector&nbsp;pP3,
+                                        PVector&nbsp;pP4,
+                                        PVector&nbsp;pPa,
+                                        PVector&nbsp;pPb)</pre>
 <div class="block">from paul bourke (
  http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline3d/ )
  <p>
@@ -520,15 +520,15 @@ implements java.io.Serializable</pre>
 </dl>
 </li>
 </ul>
-<a name="RaySphere-processing.core.PVector-processing.core.PVector-processing.core.PVector-float-">
+<a name="RaySphere-PVector-PVector-PVector-float-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>RaySphere</h4>
-<pre>public static&nbsp;boolean&nbsp;RaySphere(processing.core.PVector&nbsp;pP1,
-                                processing.core.PVector&nbsp;pP2,
-                                processing.core.PVector&nbsp;pSphereCenter,
+<pre>public static&nbsp;boolean&nbsp;RaySphere(PVector&nbsp;pP1,
+                                PVector&nbsp;pP2,
+                                PVector&nbsp;pSphereCenter,
                                 float&nbsp;pSphereRadius)</pre>
 <div class="block">http://local.wasp.uwa.edu.au/~pbourke/geometry/sphereline/raysphere.c
  Calculate the intersection of a ray and a sphere The line segment is

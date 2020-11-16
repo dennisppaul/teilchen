@@ -5,23 +5,30 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
-
-
 /*
  * this sketch demonstrates how to contraint the angle between two springs or two sticks.
  *
  * drag mouse to move particle.
  */
+
 Physics mPhysics;
+
 Particle mParticleA;
+
 Particle mParticleB;
+
 Particle mParticleC;
+
 Particle mParticleD;
+
 AngleConstraintSpring mAngleConstraintABC;
+
 AngleConstraintStick mAngleConstraintBCD;
+
 void settings() {
     size(640, 480);
 }
+
 void setup() {
     mPhysics = new Physics();
     mPhysics.setIntegratorRef(new RungeKutta());
@@ -68,6 +75,7 @@ void setup() {
     mAngleConstraintBCD.damping(0.5f);
     mPhysics.add(mAngleConstraintBCD);
 }
+
 void draw() {
     /* attach particle to mouse */
     if (mousePressed) {
@@ -82,12 +90,14 @@ void draw() {
     mAngleConstraintABC.post_step();
     mAngleConstraintBCD.post_step();
 }
+
 void draw_physics() {
     background(255);
     drawSprings();
     drawSticks();
     drawParticles();
 }
+
 void drawSprings() {
     for (int i = 0; i < mPhysics.forces().size(); i++) {
         if (mPhysics.forces(i) instanceof Spring) {
@@ -108,6 +118,7 @@ void drawSprings() {
     }
     strokeWeight(1);
 }
+
 void drawSticks() {
     for (int i = 0; i < mPhysics.constraints().size(); i++) {
         if (mPhysics.constraints(i) instanceof Stick) {
@@ -128,6 +139,7 @@ void drawSticks() {
     }
     strokeWeight(1);
 }
+
 void drawParticles() {
     noStroke();
     fill(0);
@@ -136,9 +148,11 @@ void drawParticles() {
     drawParticle(mParticleC);
     drawParticle(mParticleD);
 }
+
 void drawParticle(Particle p) {
     ellipse(p.position().x, p.position().y, p.radius() * 2, p.radius() * 2);
 }
+
 void line(Particle p1, Particle p2) {
     line(p1.position().x, p1.position().y, p2.position().x, p2.position().y);
 }

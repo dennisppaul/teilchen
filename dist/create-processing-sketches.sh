@@ -46,9 +46,9 @@ do
 			# remove empty lines
 			/^$/ d
 			# remove 'private' + 'protected' + 'public'
-			s/private //
-			s/protected //
-			s/public //
+			s/private /\n/
+			s/protected /\n/
+			s/public /\n/
 			# simplify generics
 			s/new ArrayList<>()/new ArrayList()/
 			# remove main method
@@ -58,7 +58,7 @@ do
 			# remove add-comment
 			s/\/\/@add//
 			# remove first and last line
-			/^class/ d
+			/^\nclass/ d
 			/^}/ d
 			# remove trailing space
 			s/    //
@@ -68,9 +68,7 @@ do
 		cat /tmp/tmp.pde | \
 		sed '
 			1 i\
-			 '"$M_IMPORTS"'\
-			 \
-		'\
+'"$M_IMPORTS"''\
 		> $OUTPUT_DIR/$SKETCHNAME/$SKETCHFILE_NAME
 
 done

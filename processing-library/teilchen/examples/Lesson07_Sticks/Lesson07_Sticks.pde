@@ -5,8 +5,6 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
-
-
 /*
  * this sketch demonstrates how to use a stick to connect two particles. `Stick` is similar to
  * `Spring` except that it does not use forces to move particles which results in a more
@@ -14,11 +12,15 @@ import teilchen.util.*;
  *
  * move mouse to drag sticks.
  */
+
 Physics mPhysics;
+
 Particle[] mParticles;
+
 void settings() {
     size(640, 480);
 }
+
 void setup() {
     mPhysics = new Physics();
     /* add gravity for extra fun */
@@ -45,6 +47,7 @@ void setup() {
     /* fix root particle so it can stick to the mouse later */
     mParticles[0].fixed(true);
 }
+
 void draw() {
     /* stick root particle to mouse */
     mParticles[0].position().set(mouseX, mouseY);

@@ -5,8 +5,6 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
-
-
 /*
  * this sketch demonstrate how to use particles and sticks to emulate a piece of cloth.
  * note that a similar effect can also be achieved with springs, however the result is
@@ -14,14 +12,21 @@ import teilchen.util.*;
  *
  * press mouse to wrinkle cloth.
  */
+
 static final int GRID_WIDTH = 32;
+
 static final int GRID_HEIGHT = 32;
+
 final float mAttractorStrength = 15000;
+
 Physics mPhysics;
+
 Attractor mAttractor;
+
 void settings() {
     size(640, 480, P3D);
 }
+
 void setup() {
     mPhysics = new Physics();
     Verlet myVerlet = new Verlet();
@@ -82,6 +87,7 @@ void setup() {
         mParticle[0].fixed(true);
     }
 }
+
 void draw() {
     /* update */
     if (mousePressed) {

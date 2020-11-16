@@ -5,20 +5,23 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
-
-
 /*
  * this sketch demonstrates how to use `CollisionManager` to resolve particle collisions by
  * applying temporary springs pushing 2 colliding particles appart.
  *
  * press mouse to create particles.
  */
+
 static final float PARTICLE_SIZE = 5;
+
 CollisionManager mCollision;
+
 Physics mPhysics;
+
 void settings() {
     size(640, 480);
 }
+
 void setup() {
     noFill();
     ellipseMode(CENTER);
@@ -35,6 +38,7 @@ void setup() {
     myBox.reflect(true);
     mPhysics.add(myBox);
 }
+
 void draw() {
     /* create particles */
     if (mousePressed) {
@@ -51,6 +55,7 @@ void draw() {
     drawThings();
     mCollision.removeCollisionResolver();
 }
+
 void drawThings() {
     /* collision springs */
     noFill();

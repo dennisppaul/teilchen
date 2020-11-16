@@ -5,8 +5,6 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
-
-
 /*
  * this sketch demonstrates how to connect four particles and six springs to form a
  * stable quad made from springs, this a construct that allows to emulate something
@@ -15,11 +13,15 @@ import teilchen.util.*;
  *
  * press mouse to drag corner of stable quad.
  */
+
 Physics mPhysics;
+
 Particle mRoot;
+
 void settings() {
     size(640, 480);
 }
+
 void setup() {
     mPhysics = new Physics();
     /* use `RungeKutta` as it produces more stable results in applications like these */
@@ -57,6 +59,7 @@ void setup() {
     /* create stable quad with `StableSpringQuad` */
     new StableSpringQuad(mPhysics, d, c, mPhysics.makeParticle(100, 200), mPhysics.makeParticle(0, 200));
 }
+
 void draw() {
     /* handle particles */
     if (mousePressed) {

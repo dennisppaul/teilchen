@@ -5,19 +5,23 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
-
-
 /*
  * this sketch demonstrates how to use behaviors.  it combines `Wander` and `Motor` behaviors
  * to turn a `BehaviorParticle` into an autonomously moving *agent*.
  */
+
 Physics mPhysics;
+
 BehaviorParticle mParticle;
+
 Wander mWander;
+
 Motor mMotor;
+
 void settings() {
     size(640, 480);
 }
+
 void setup() {
     /* physics */
     mPhysics = new Physics();
@@ -38,6 +42,7 @@ void setup() {
     mMotor.strength(25);
     mParticle.behaviors().add(mMotor);
 }
+
 void draw() {
     /* update particle system */
     mPhysics.step(1.0f / frameRate);

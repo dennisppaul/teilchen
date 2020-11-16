@@ -5,8 +5,6 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
-
-
 /*
  * this sketch demonstrates how to use `MuscleSpring`, a spring that contracts and relaxes over
  * time; like a muscle. this sketch is also a tip of the hat to the famouse
@@ -18,20 +16,33 @@ import teilchen.util.*;
  * press `D`, hover over particle and drag mouse to drag particle.
  * press `SPACE` to toggle simulation on/off.
  */
+
 static final float MUSCLE_CONTRACTION_LENGTH = 0.3f;
+
 static final float MUSCLE_CONTRACTION_SPEED = 1.5f;
+
 static final float MUSCLE_PHASE_SHIFT_SCALE = PI;
+
 static final float PARTICAL_MASS = 0.25f;
+
 static final float SELECTION_RADIUS = 10;
+
 static final float SPRING_STRENGTH = 1.0f;
+
 Physics mPhysics;
+
 Gravity mGravity;
+
 Particle mTemporaryParticle;
+
 MuscleSpring mTemporarySpring;
+
 boolean mPauseSimulation;
+
 void settings() {
     size(640, 480);
 }
+
 void setup() {
     mPhysics = new Physics();
     mGravity = new Gravity();
@@ -45,6 +56,7 @@ void setup() {
     mPhysics.add(mBox);
     mPauseSimulation = true;
 }
+
 void draw() {
     /* move selected particle */
     if (mTemporaryParticle != null) {
@@ -61,12 +73,15 @@ void draw() {
     drawTemporaryParticleSpring();
     drawHighlightParticleNearby();
 }
+
 void mousePressed() {
     beginCreateParticleSpring();
 }
+
 void mouseReleased() {
     endCreateParticleSpring();
 }
+
 void keyPressed() {
     switch (key) {
         case ' ':
@@ -86,6 +101,7 @@ void keyPressed() {
             break;
     }
 }
+
 void drawHighlightParticleNearby() {
     Particle mSelectedParticle = getParticleCloseToMouse();
     if (mSelectedParticle != null) {
@@ -97,6 +113,7 @@ void drawHighlightParticleNearby() {
                 SELECTION_RADIUS * 2);
     }
 }
+
 void drawSimulationState() {
     noStroke();
     fill(0);
@@ -106,6 +123,7 @@ void drawSimulationState() {
         ellipse(25, 25, 30, 30);
     }
 }
+
 void drawTemporaryParticleSpring() {
     /* draw temporary particle */
     if (mTemporaryParticle != null) {
@@ -123,6 +141,7 @@ void drawTemporaryParticleSpring() {
         strokeWeight(1.0f);
     }
 }
+
 void drawParticlesSpings() {
     /* draw connecting springs */
     stroke(0);
@@ -145,9 +164,11 @@ void drawParticlesSpings() {
         }
     }
 }
+
 void invertGravity() {
     mGravity.force().y *= -1;
 }
+
 void toggleParticleFixed() {
     Particle mSelectedParticle = getParticleCloseToMouse();
     /*  toggle particle fixed */
@@ -155,6 +176,7 @@ void toggleParticleFixed() {
         mSelectedParticle.fixed(!mSelectedParticle.fixed());
     }
 }
+
 void beginCreateParticleSpring() {
     Particle mSelectedParticle = getParticleCloseToMouse();
     if (mSelectedParticle != null) {
@@ -168,16 +190,19 @@ void beginCreateParticleSpring() {
         mTemporaryParticle = createParticle();
     }
 }
+
 MuscleSpring createSpring(Particle a, Particle b) {
     MuscleSpring s = new MuscleSpring(a, b);
     s.strength(SPRING_STRENGTH);
     return s;
 }
+
 BasicParticle createParticle() {
     BasicParticle p = new BasicParticle();
     p.mass(PARTICAL_MASS);
     return p;
 }
+
 void endCreateParticleSpring() {
     Particle mSelectedParticle = getParticleCloseToMouse();
     /* add temporary particle */
@@ -214,6 +239,7 @@ void endCreateParticleSpring() {
         }
     }
 }
+
 void updateConnectedSprings(Particle mTemporaryParticle) {
     // @TODO("update length of connected springs")
     for (IForce f : mPhysics.forces()) {
@@ -225,6 +251,7 @@ void updateConnectedSprings(Particle mTemporaryParticle) {
         }
     }
 }
+
 void deleteParticleAndSpring() {
     Particle mSelectedParticle = getParticleCloseToMouse();
     /*  mark particle for deletion */
@@ -245,6 +272,7 @@ void deleteParticleAndSpring() {
         mPhysics.purge();
     }
 }
+
 Particle getParticleCloseToMouse() {
     return teilchen.util.Util.findParticleByProximity(mPhysics.particles(),
                                                       mouseX,

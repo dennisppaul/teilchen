@@ -5,18 +5,20 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
-
-
 /*
  * this sketch demonstrates how to connect multiple particles with springs.
  *
  * move close to particle and press mouse to create springs and particles.
  */
+
 Physics mPhysics;
+
 Particle mRoot;
+
 void settings() {
     size(640, 480);
 }
+
 void setup() {
     /* create a particle system */
     mPhysics = new Physics();
@@ -25,6 +27,7 @@ void setup() {
     /* we give the root particle a higher mass so it doesn t move as easily */
     mRoot.mass(30);
 }
+
 void draw() {
     /* create a particle at mouse position and connect it to the root particle through a spring */
     if (mousePressed) {

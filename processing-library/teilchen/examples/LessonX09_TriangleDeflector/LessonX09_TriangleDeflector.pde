@@ -5,8 +5,6 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
-
-
 /*
  * this sketch demonstrates how to use `TriangleDeflectors` to make particles bounce off two
  * triangles. it also demonstrates how to use `MortalParticle` to remove particles
@@ -14,11 +12,15 @@ import teilchen.util.*;
  *
  * press mouse to create particles. move mouse to rotate view.
  */
+
 Physics mPhysics;
+
 ArrayList<TriangleDeflector> mTriangleDeflectors;
+
 void settings() {
     size(640, 480, P3D);
 }
+
 void setup() {
     /* physics */
     mPhysics = new Physics();
@@ -34,6 +36,7 @@ void setup() {
     mTriangleDeflectors = teilchen.util.Util.createTriangleDeflectors(mVertices, 1.0f);
     mPhysics.addForces(mTriangleDeflectors);
 }
+
 void draw() {
     if (mousePressed) {
         spawnParticle();
@@ -77,6 +80,7 @@ void draw() {
     /* finally remove the collision tag */
     mPhysics.removeTags();
 }
+
 void spawnParticle() {
     /* create and add a particle to the system */
     MyMortalParticle mParticle = new MyMortalParticle();
@@ -85,11 +89,14 @@ void spawnParticle() {
     mParticle.position().set(random(width), random(height), height / 2.0f);
     mParticle.velocity().set(random(-20, 20), 0, random(20));
 }
+
 void vertex(PVector a) {
     vertex(a.x, a.y, a.z);
 }
+
 class MyMortalParticle extends MortalParticle {
-    boolean isDead() {
+    
+boolean isDead() {
         return position().z < -height;
     }
 }

@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -172,7 +172,7 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/cubicle/CubicleWorld.html#add-teilchen.cubicle.ICubicleEntity-">add</a></span>(<a href="../../teilchen/cubicle/ICubicleEntity.html" title="interface in teilchen.cubicle">ICubicleEntity</a>&nbsp;theEntity)</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>processing.core.PVector</code></td>
+<td class="colFirst"><code>PVector</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/cubicle/CubicleWorld.html#cellscale--">cellscale</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
@@ -204,58 +204,47 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>java.util.ArrayList&lt;<a href="../../teilchen/cubicle/ICubicleEntity.html" title="interface in teilchen.cubicle">ICubicleEntity</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/cubicle/CubicleWorld.html#getLocalEntities-teilchen.cubicle.ICubicleEntity-">getLocalEntities</a></span>(<a href="../../teilchen/cubicle/ICubicleEntity.html" title="interface in teilchen.cubicle">ICubicleEntity</a>&nbsp;theEntity)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/cubicle/CubicleWorld.html#getLocalEntities-PVector-">getLocalEntities</a></span>(PVector&nbsp;thePosition)</code>&nbsp;</td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>java.util.ArrayList&lt;<a href="../../teilchen/cubicle/ICubicleEntity.html" title="interface in teilchen.cubicle">ICubicleEntity</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/cubicle/CubicleWorld.html#getLocalEntities-teilchen.cubicle.ICubicleEntity-int-int-int-">getLocalEntities</a></span>(<a href="../../teilchen/cubicle/ICubicleEntity.html" title="interface in teilchen.cubicle">ICubicleEntity</a>&nbsp;theEntity,
-                int&nbsp;theXRadius,
-                int&nbsp;theYRadius,
-                int&nbsp;theZRadius)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/cubicle/CubicleWorld.html#getLocalEntities-PVector-int-">getLocalEntities</a></span>(PVector&nbsp;thePosition,
+                int&nbsp;pExtraRadius)</code>&nbsp;</td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>java.util.ArrayList&lt;<a href="../../teilchen/cubicle/ICubicleEntity.html" title="interface in teilchen.cubicle">ICubicleEntity</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/cubicle/CubicleWorld.html#getLocalEntities-processing.core.PVector-">getLocalEntities</a></span>(processing.core.PVector&nbsp;thePosition)</code>&nbsp;</td>
-</tr>
-<tr id="i10" class="altColor">
-<td class="colFirst"><code>java.util.ArrayList&lt;<a href="../../teilchen/cubicle/ICubicleEntity.html" title="interface in teilchen.cubicle">ICubicleEntity</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/cubicle/CubicleWorld.html#getLocalEntities-processing.core.PVector-int-">getLocalEntities</a></span>(processing.core.PVector&nbsp;thePosition,
-                int&nbsp;pExtraRadius)</code>&nbsp;</td>
-</tr>
-<tr id="i11" class="rowColor">
-<td class="colFirst"><code>java.util.ArrayList&lt;<a href="../../teilchen/cubicle/ICubicleEntity.html" title="interface in teilchen.cubicle">ICubicleEntity</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/cubicle/CubicleWorld.html#getLocalEntities-processing.core.PVector-int-int-int-">getLocalEntities</a></span>(processing.core.PVector&nbsp;thePosition,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/cubicle/CubicleWorld.html#getLocalEntities-PVector-int-int-int-">getLocalEntities</a></span>(PVector&nbsp;thePosition,
                 int&nbsp;theXRadius,
                 int&nbsp;theYRadius,
                 int&nbsp;theZRadius)</code>&nbsp;</td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code><a href="../../teilchen/cubicle/CubicleAtom.html" title="class in teilchen.cubicle">CubicleAtom</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/cubicle/CubicleWorld.html#getOffWorldAtom--">getOffWorldAtom</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/cubicle/CubicleWorld.html#handleEntity-teilchen.cubicle.ICubicleEntity-">handleEntity</a></span>(<a href="../../teilchen/cubicle/ICubicleEntity.html" title="interface in teilchen.cubicle">ICubicleEntity</a>&nbsp;theEntity)</code>&nbsp;</td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/cubicle/CubicleWorld.html#remove-teilchen.cubicle.ICubicleEntity-">remove</a></span>(<a href="../../teilchen/cubicle/ICubicleEntity.html" title="interface in teilchen.cubicle">ICubicleEntity</a>&nbsp;theEntity)</code>&nbsp;</td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/cubicle/CubicleWorld.html#removeAll--">removeAll</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="../../teilchen/util/TransformMatrix4f.html" title="class in teilchen.util">TransformMatrix4f</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/cubicle/CubicleWorld.html#transform--">transform</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/cubicle/CubicleWorld.html#update--">update</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code><a href="../../teilchen/util/Vector3i.html" title="class in teilchen.util">Vector3i</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/cubicle/CubicleWorld.html#worldposition2index-processing.core.PVector-">worldposition2index</a></span>(processing.core.PVector&nbsp;thePosition)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/cubicle/CubicleWorld.html#worldposition2index-PVector-">worldposition2index</a></span>(PVector&nbsp;thePosition)</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -343,7 +332,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>cellscale</h4>
-<pre>public&nbsp;processing.core.PVector&nbsp;cellscale()</pre>
+<pre>public&nbsp;PVector&nbsp;cellscale()</pre>
 </li>
 </ul>
 <a name="entities--">
@@ -398,53 +387,32 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;java.util.ArrayList&lt;<a href="../../teilchen/cubicle/ICubicleEntity.html" title="interface in teilchen.cubicle">ICubicleEntity</a>&gt;&nbsp;getEntities()</pre>
 </li>
 </ul>
-<a name="getLocalEntities-teilchen.cubicle.ICubicleEntity-">
+<a name="getLocalEntities-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>getLocalEntities</h4>
-<pre>public&nbsp;java.util.ArrayList&lt;<a href="../../teilchen/cubicle/ICubicleEntity.html" title="interface in teilchen.cubicle">ICubicleEntity</a>&gt;&nbsp;getLocalEntities(<a href="../../teilchen/cubicle/ICubicleEntity.html" title="interface in teilchen.cubicle">ICubicleEntity</a>&nbsp;theEntity)</pre>
+<pre>public&nbsp;java.util.ArrayList&lt;<a href="../../teilchen/cubicle/ICubicleEntity.html" title="interface in teilchen.cubicle">ICubicleEntity</a>&gt;&nbsp;getLocalEntities(PVector&nbsp;thePosition)</pre>
 </li>
 </ul>
-<a name="getLocalEntities-teilchen.cubicle.ICubicleEntity-int-int-int-">
+<a name="getLocalEntities-PVector-int-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>getLocalEntities</h4>
-<pre>public&nbsp;java.util.ArrayList&lt;<a href="../../teilchen/cubicle/ICubicleEntity.html" title="interface in teilchen.cubicle">ICubicleEntity</a>&gt;&nbsp;getLocalEntities(<a href="../../teilchen/cubicle/ICubicleEntity.html" title="interface in teilchen.cubicle">ICubicleEntity</a>&nbsp;theEntity,
-                                                            int&nbsp;theXRadius,
-                                                            int&nbsp;theYRadius,
-                                                            int&nbsp;theZRadius)</pre>
-</li>
-</ul>
-<a name="getLocalEntities-processing.core.PVector-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getLocalEntities</h4>
-<pre>public&nbsp;java.util.ArrayList&lt;<a href="../../teilchen/cubicle/ICubicleEntity.html" title="interface in teilchen.cubicle">ICubicleEntity</a>&gt;&nbsp;getLocalEntities(processing.core.PVector&nbsp;thePosition)</pre>
-</li>
-</ul>
-<a name="getLocalEntities-processing.core.PVector-int-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getLocalEntities</h4>
-<pre>public&nbsp;java.util.ArrayList&lt;<a href="../../teilchen/cubicle/ICubicleEntity.html" title="interface in teilchen.cubicle">ICubicleEntity</a>&gt;&nbsp;getLocalEntities(processing.core.PVector&nbsp;thePosition,
+<pre>public&nbsp;java.util.ArrayList&lt;<a href="../../teilchen/cubicle/ICubicleEntity.html" title="interface in teilchen.cubicle">ICubicleEntity</a>&gt;&nbsp;getLocalEntities(PVector&nbsp;thePosition,
                                                             int&nbsp;pExtraRadius)</pre>
 </li>
 </ul>
-<a name="getLocalEntities-processing.core.PVector-int-int-int-">
+<a name="getLocalEntities-PVector-int-int-int-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>getLocalEntities</h4>
-<pre>public&nbsp;java.util.ArrayList&lt;<a href="../../teilchen/cubicle/ICubicleEntity.html" title="interface in teilchen.cubicle">ICubicleEntity</a>&gt;&nbsp;getLocalEntities(processing.core.PVector&nbsp;thePosition,
+<pre>public&nbsp;java.util.ArrayList&lt;<a href="../../teilchen/cubicle/ICubicleEntity.html" title="interface in teilchen.cubicle">ICubicleEntity</a>&gt;&nbsp;getLocalEntities(PVector&nbsp;thePosition,
                                                             int&nbsp;theXRadius,
                                                             int&nbsp;theYRadius,
                                                             int&nbsp;theZRadius)</pre>
@@ -504,13 +472,13 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;void&nbsp;update()</pre>
 </li>
 </ul>
-<a name="worldposition2index-processing.core.PVector-">
+<a name="worldposition2index-PVector-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>worldposition2index</h4>
-<pre>public&nbsp;<a href="../../teilchen/util/Vector3i.html" title="class in teilchen.util">Vector3i</a>&nbsp;worldposition2index(processing.core.PVector&nbsp;thePosition)</pre>
+<pre>public&nbsp;<a href="../../teilchen/util/Vector3i.html" title="class in teilchen.util">Vector3i</a>&nbsp;worldposition2index(PVector&nbsp;thePosition)</pre>
 </li>
 </ul>
 </li>

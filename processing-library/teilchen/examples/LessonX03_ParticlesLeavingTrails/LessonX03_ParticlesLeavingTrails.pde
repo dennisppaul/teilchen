@@ -5,19 +5,22 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
-
-
 /*
  * this sketch demonstrates how to use `ParticleTrail` to make particles leave a trail.
  *
  * press mouse to respawn particles. move mouse to change attractor position.
  */
+
 Physics mPhysics;
+
 ArrayList<ParticleTrail> mTrails;
+
 Attractor mAttractor;
+
 void settings() {
     size(640, 480);
 }
+
 void setup() {
     /* create a particle system */
     mPhysics = new Physics();
@@ -52,6 +55,7 @@ void setup() {
     }
     resetParticles(width / 2.0f, height / 2.0f);
 }
+
 void draw() {
     /* set attractor to mouse position */
     mAttractor.position().set(mouseX, mouseY);
@@ -77,9 +81,11 @@ void draw() {
             mAttractor.radius() * 0.5f,
             mAttractor.radius() * 0.5f);
 }
+
 void mousePressed() {
     resetParticles(mouseX, mouseY);
 }
+
 void resetParticles(float x, float y) {
     for (ParticleTrail myTrails : mTrails) {
         myTrails.particle().position().set(x + random(-10, 10), y + random(-10, 10), 0);
@@ -87,6 +93,7 @@ void resetParticles(float x, float y) {
         myTrails.fragments().clear();
     }
 }
+
 void drawTrail(ParticleTrail theTrail) {
     final ArrayList<Particle> mFragments = theTrail.fragments();
     final Particle mParticle = theTrail.particle();

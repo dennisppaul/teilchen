@@ -185,7 +185,7 @@ implements <a href="../teilchen/Particle.html" title="interface in teilchen">Par
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/BasicParticle.html#fixed-boolean-">fixed</a></span>(boolean&nbsp;pFixed)</code>&nbsp;</td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code>processing.core.PVector</code></td>
+<td class="colFirst"><code>PVector</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/BasicParticle.html#force--">force</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i8" class="altColor">
@@ -197,11 +197,11 @@ implements <a href="../teilchen/Particle.html" title="interface in teilchen">Par
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/BasicParticle.html#mass-float-">mass</a></span>(float&nbsp;pMass)</code>&nbsp;</td>
 </tr>
 <tr id="i10" class="altColor">
-<td class="colFirst"><code>processing.core.PVector</code></td>
+<td class="colFirst"><code>PVector</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/BasicParticle.html#old_position--">old_position</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i11" class="rowColor">
-<td class="colFirst"><code>processing.core.PVector</code></td>
+<td class="colFirst"><code>PVector</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/BasicParticle.html#position--">position</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i12" class="altColor">
@@ -214,7 +214,7 @@ implements <a href="../teilchen/Particle.html" title="interface in teilchen">Par
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/BasicParticle.html#setPositionRef-processing.core.PVector-">setPositionRef</a></span>(processing.core.PVector&nbsp;pPosition)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/BasicParticle.html#setPositionRef-PVector-">setPositionRef</a></span>(PVector&nbsp;pPosition)</code>&nbsp;</td>
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
@@ -233,7 +233,7 @@ implements <a href="../teilchen/Particle.html" title="interface in teilchen">Par
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/BasicParticle.html#tagged--">tagged</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i19" class="rowColor">
-<td class="colFirst"><code>processing.core.PVector</code></td>
+<td class="colFirst"><code>PVector</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../teilchen/BasicParticle.html#velocity--">velocity</a></span>()</code>&nbsp;</td>
 </tr>
 </table>
@@ -372,7 +372,7 @@ implements <a href="../teilchen/Particle.html" title="interface in teilchen">Par
 <ul class="blockList">
 <li class="blockList">
 <h4>force</h4>
-<pre>public&nbsp;processing.core.PVector&nbsp;force()</pre>
+<pre>public&nbsp;PVector&nbsp;force()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../teilchen/Particle.html#force--">force</a></code>&nbsp;in interface&nbsp;<code><a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a></code></dd>
@@ -411,7 +411,7 @@ implements <a href="../teilchen/Particle.html" title="interface in teilchen">Par
 <ul class="blockList">
 <li class="blockList">
 <h4>old_position</h4>
-<pre>public&nbsp;processing.core.PVector&nbsp;old_position()</pre>
+<pre>public&nbsp;PVector&nbsp;old_position()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../teilchen/Particle.html#old_position--">old_position</a></code>&nbsp;in interface&nbsp;<code><a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a></code></dd>
@@ -424,7 +424,7 @@ implements <a href="../teilchen/Particle.html" title="interface in teilchen">Par
 <ul class="blockList">
 <li class="blockList">
 <h4>position</h4>
-<pre>public&nbsp;processing.core.PVector&nbsp;position()</pre>
+<pre>public&nbsp;PVector&nbsp;position()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../teilchen/Particle.html#position--">position</a></code>&nbsp;in interface&nbsp;<code><a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a></code></dd>
@@ -461,16 +461,16 @@ implements <a href="../teilchen/Particle.html" title="interface in teilchen">Par
 </dl>
 </li>
 </ul>
-<a name="setPositionRef-processing.core.PVector-">
+<a name="setPositionRef-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setPositionRef</h4>
-<pre>public&nbsp;void&nbsp;setPositionRef(processing.core.PVector&nbsp;pPosition)</pre>
+<pre>public&nbsp;void&nbsp;setPositionRef(PVector&nbsp;pPosition)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../teilchen/Particle.html#setPositionRef-processing.core.PVector-">setPositionRef</a></code>&nbsp;in interface&nbsp;<code><a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a></code></dd>
+<dd><code><a href="../teilchen/Particle.html#setPositionRef-PVector-">setPositionRef</a></code>&nbsp;in interface&nbsp;<code><a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -532,7 +532,7 @@ implements <a href="../teilchen/Particle.html" title="interface in teilchen">Par
 <ul class="blockListLast">
 <li class="blockList">
 <h4>velocity</h4>
-<pre>public&nbsp;processing.core.PVector&nbsp;velocity()</pre>
+<pre>public&nbsp;PVector&nbsp;velocity()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../teilchen/Particle.html#velocity--">velocity</a></code>&nbsp;in interface&nbsp;<code><a href="../teilchen/Particle.html" title="interface in teilchen">Particle</a></code></dd>

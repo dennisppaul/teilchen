@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9,"i17":9,"i18":9,"i19":9,"i20":9,"i21":9,"i22":9,"i23":9,"i24":9,"i25":9,"i26":9,"i27":9,"i28":9,"i29":9,"i30":9,"i31":9,"i32":9,"i33":9,"i34":9,"i35":9,"i36":9,"i37":9,"i38":9,"i39":9,"i40":9,"i41":9};
+var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9,"i17":9,"i18":9,"i19":9,"i20":9,"i21":9,"i22":9,"i23":9,"i24":9,"i25":9,"i26":9,"i27":9,"i28":9,"i29":9,"i30":9,"i31":9,"i32":9,"i33":9,"i34":9,"i35":9,"i36":9,"i37":9,"i38":9,"i39":9,"i40":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -145,55 +145,50 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#almost-float-float-">almost</a></span>(float&nbsp;a,
-      float&nbsp;b)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#almost-PVector-PVector-">almost</a></span>(PVector&nbsp;p0,
+      PVector&nbsp;p1)</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>static boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#almost-processing.core.PVector-processing.core.PVector-">almost</a></span>(processing.core.PVector&nbsp;p0,
-      processing.core.PVector&nbsp;p1)</code>&nbsp;</td>
+<td class="colFirst"><code>static float</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#angle-PVector-PVector-">angle</a></span>(PVector&nbsp;p,
+     PVector&nbsp;theVector)</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>static float</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#angle-processing.core.PVector-processing.core.PVector-">angle</a></span>(processing.core.PVector&nbsp;p,
-     processing.core.PVector&nbsp;theVector)</code>&nbsp;</td>
+<td class="colFirst"><code>static void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#calculateNormal-PVector-PVector-PVector-">calculateNormal</a></span>(PVector&nbsp;theVectorAB,
+               PVector&nbsp;theVectorBC,
+               PVector&nbsp;theResultNormal)</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#calculateNormal-processing.core.PVector-processing.core.PVector-processing.core.PVector-">calculateNormal</a></span>(processing.core.PVector&nbsp;theVectorAB,
-               processing.core.PVector&nbsp;theVectorBC,
-               processing.core.PVector&nbsp;theResultNormal)</code>&nbsp;</td>
-</tr>
-<tr id="i4" class="altColor">
-<td class="colFirst"><code>static void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#calculateNormal-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-">calculateNormal</a></span>(processing.core.PVector&nbsp;pointA,
-               processing.core.PVector&nbsp;pointB,
-               processing.core.PVector&nbsp;pointC,
-               processing.core.PVector&nbsp;theResultNormal)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#calculateNormal-PVector-PVector-PVector-PVector-">calculateNormal</a></span>(PVector&nbsp;pointA,
+               PVector&nbsp;pointB,
+               PVector&nbsp;pointC,
+               PVector&nbsp;theResultNormal)</code>
 <div class="block">calculate a normal from a set of three vectors.</div>
 </td>
 </tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>static PVector</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#calculateReflectionVector-teilchen.Particle-PVector-">calculateReflectionVector</a></span>(<a href="../../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;pParticle,
+                         PVector&nbsp;pNormal)</code>&nbsp;</td>
+</tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>static processing.core.PVector</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#calculateReflectionVector-teilchen.Particle-processing.core.PVector-">calculateReflectionVector</a></span>(<a href="../../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;pParticle,
-                         processing.core.PVector&nbsp;pNormal)</code>&nbsp;</td>
+<td class="colFirst"><code>static PVector</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#clone-PVector-">clone</a></span>(PVector&nbsp;p)</code>&nbsp;</td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code>static processing.core.PVector</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#clone-processing.core.PVector-">clone</a></span>(processing.core.PVector&nbsp;p)</code>&nbsp;</td>
-</tr>
-<tr id="i7" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#contains-float-float-float-">contains</a></span>(float&nbsp;theTestValue,
         float&nbsp;theContainerValue,
         float&nbsp;theRange)</code>&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#contains-processing.core.PVector-teilchen.util.WorldAxisAlignedBoundingBox-">contains</a></span>(processing.core.PVector&nbsp;thePosition,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#contains-PVector-teilchen.util.WorldAxisAlignedBoundingBox-">contains</a></span>(PVector&nbsp;thePosition,
         <a href="../../teilchen/util/WorldAxisAlignedBoundingBox.html" title="class in teilchen.util">WorldAxisAlignedBoundingBox</a>&nbsp;theWorldAlignedBox)</code>&nbsp;</td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>static <a href="../../teilchen/force/TriangleDeflector.html" title="class in teilchen.force">TriangleDeflector</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#createTriangleDeflector2D-float-float-float-float-float-">createTriangleDeflector2D</a></span>(float&nbsp;x1,
                          float&nbsp;y1,
@@ -201,46 +196,46 @@ extends java.lang.Object</pre>
                          float&nbsp;y2,
                          float&nbsp;mCoefficientOfRestitution)</code>&nbsp;</td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>static java.util.ArrayList&lt;<a href="../../teilchen/force/TriangleDeflector.html" title="class in teilchen.force">TriangleDeflector</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#createTriangleDeflectors-float:A-float-">createTriangleDeflectors</a></span>(float[]&nbsp;theVertices,
                         float&nbsp;theCoefficientOfRestitution)</code>&nbsp;</td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>static java.util.ArrayList&lt;<a href="../../teilchen/force/TriangleDeflector.html" title="class in teilchen.force">TriangleDeflector</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#createTriangleDeflectors-processing.core.PVector:A-float-">createTriangleDeflectors</a></span>(processing.core.PVector[]&nbsp;theVertices,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#createTriangleDeflectors-PVector:A-float-">createTriangleDeflectors</a></span>(PVector[]&nbsp;theVertices,
                         float&nbsp;theCoefficientOfRestitution)</code>&nbsp;</td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>static java.util.ArrayList&lt;<a href="../../teilchen/force/TriangleDeflector.html" title="class in teilchen.force">TriangleDeflector</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#createTriangleDeflectorsIndexed-float:A-float-">createTriangleDeflectorsIndexed</a></span>(float[]&nbsp;theVertices,
                                float&nbsp;theCoefficientOfRestitution)</code>&nbsp;</td>
 </tr>
+<tr id="i12" class="altColor">
+<td class="colFirst"><code>static PVector</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#cross-PVector-PVector-">cross</a></span>(PVector&nbsp;p1,
+     PVector&nbsp;p2)</code>&nbsp;</td>
+</tr>
 <tr id="i13" class="rowColor">
-<td class="colFirst"><code>static processing.core.PVector</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#cross-processing.core.PVector-processing.core.PVector-">cross</a></span>(processing.core.PVector&nbsp;p1,
-     processing.core.PVector&nbsp;p2)</code>&nbsp;</td>
+<td class="colFirst"><code>static float</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#distance-PVector-PVector-">distance</a></span>(PVector&nbsp;p1,
+        PVector&nbsp;p2)</code>&nbsp;</td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>static float</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#distance-processing.core.PVector-processing.core.PVector-">distance</a></span>(processing.core.PVector&nbsp;p1,
-        processing.core.PVector&nbsp;p2)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#distanceSquared-PVector-PVector-">distanceSquared</a></span>(PVector&nbsp;p0,
+               PVector&nbsp;p1)</code>&nbsp;</td>
 </tr>
 <tr id="i15" class="rowColor">
-<td class="colFirst"><code>static float</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#distanceSquared-processing.core.PVector-processing.core.PVector-">distanceSquared</a></span>(processing.core.PVector&nbsp;p0,
-               processing.core.PVector&nbsp;p1)</code>&nbsp;</td>
+<td class="colFirst"><code>static void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#divide-PVector-PVector-">divide</a></span>(PVector&nbsp;p,
+      PVector&nbsp;theVector)</code>&nbsp;</td>
 </tr>
 <tr id="i16" class="altColor">
-<td class="colFirst"><code>static void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#divide-processing.core.PVector-processing.core.PVector-">divide</a></span>(processing.core.PVector&nbsp;p,
-      processing.core.PVector&nbsp;theVector)</code>&nbsp;</td>
-</tr>
-<tr id="i17" class="rowColor">
 <td class="colFirst"><code>static float</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#fastInverseSqrt-float-">fastInverseSqrt</a></span>(float&nbsp;v)</code>&nbsp;</td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>static <a href="../../teilchen/Particle.html" title="interface in teilchen">Particle</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#findParticleByProximity-java.util.ArrayList-float-float-float-float-">findParticleByProximity</a></span>(java.util.ArrayList&lt;<a href="../../teilchen/Particle.html" title="interface in teilchen">Particle</a>&gt;&nbsp;pParticles,
                        float&nbsp;x,
@@ -248,13 +243,13 @@ extends java.lang.Object</pre>
                        float&nbsp;z,
                        float&nbsp;pSelectionRadius)</code>&nbsp;</td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>static <a href="../../teilchen/Particle.html" title="interface in teilchen">Particle</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#findParticleByProximity-java.util.ArrayList-processing.core.PVector-float-">findParticleByProximity</a></span>(java.util.ArrayList&lt;<a href="../../teilchen/Particle.html" title="interface in teilchen">Particle</a>&gt;&nbsp;pParticles,
-                       processing.core.PVector&nbsp;pPosition,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#findParticleByProximity-java.util.ArrayList-PVector-float-">findParticleByProximity</a></span>(java.util.ArrayList&lt;<a href="../../teilchen/Particle.html" title="interface in teilchen">Particle</a>&gt;&nbsp;pParticles,
+                       PVector&nbsp;pPosition,
                        float&nbsp;pSelectionRadius)</code>&nbsp;</td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>static <a href="../../teilchen/Particle.html" title="interface in teilchen">Particle</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#findParticleByProximity-teilchen.Physics-float-float-float-float-">findParticleByProximity</a></span>(<a href="../../teilchen/Physics.html" title="class in teilchen">Physics</a>&nbsp;pPhysics,
                        float&nbsp;x,
@@ -262,120 +257,120 @@ extends java.lang.Object</pre>
                        float&nbsp;z,
                        float&nbsp;pSelectionRadius)</code>&nbsp;</td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>static <a href="../../teilchen/Particle.html" title="interface in teilchen">Particle</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#findParticleByProximity-teilchen.Physics-processing.core.PVector-float-">findParticleByProximity</a></span>(<a href="../../teilchen/Physics.html" title="class in teilchen">Physics</a>&nbsp;pPhysics,
-                       processing.core.PVector&nbsp;pPosition,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#findParticleByProximity-teilchen.Physics-PVector-float-">findParticleByProximity</a></span>(<a href="../../teilchen/Physics.html" title="class in teilchen">Physics</a>&nbsp;pPhysics,
+                       PVector&nbsp;pPosition,
                        float&nbsp;pSelectionRadius)</code>&nbsp;</td>
+</tr>
+<tr id="i21" class="rowColor">
+<td class="colFirst"><code>static boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#inside2DPolygon-PVector-java.util.ArrayList-">inside2DPolygon</a></span>(PVector&nbsp;thePoint,
+               java.util.ArrayList&lt;PVector&gt;&nbsp;thePolygon)</code>&nbsp;</td>
 </tr>
 <tr id="i22" class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#inside2DPolygon-processing.core.PVector-java.util.ArrayList-">inside2DPolygon</a></span>(processing.core.PVector&nbsp;thePoint,
-               java.util.ArrayList&lt;processing.core.PVector&gt;&nbsp;thePolygon)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#insidePolygon-PVector-java.util.ArrayList-">insidePolygon</a></span>(PVector&nbsp;thePoint,
+             java.util.ArrayList&lt;PVector&gt;&nbsp;thePolygon)</code>&nbsp;</td>
 </tr>
 <tr id="i23" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#insidePolygon-processing.core.PVector-java.util.ArrayList-">insidePolygon</a></span>(processing.core.PVector&nbsp;thePoint,
-             java.util.ArrayList&lt;processing.core.PVector&gt;&nbsp;thePolygon)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#insidePolygon-PVector-PVector:A-">insidePolygon</a></span>(PVector&nbsp;thePoint,
+             PVector[]&nbsp;thePolygon)</code>&nbsp;</td>
 </tr>
 <tr id="i24" class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#insidePolygon-processing.core.PVector-processing.core.PVector:A-">insidePolygon</a></span>(processing.core.PVector&nbsp;thePoint,
-             processing.core.PVector[]&nbsp;thePolygon)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#isNaN-PVector-">isNaN</a></span>(PVector&nbsp;p)</code>&nbsp;</td>
 </tr>
 <tr id="i25" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#isNaN-processing.core.PVector-">isNaN</a></span>(processing.core.PVector&nbsp;p)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#isPointInTriangle-PVector-PVector-PVector-PVector-">isPointInTriangle</a></span>(PVector&nbsp;v0,
+                 PVector&nbsp;v1,
+                 PVector&nbsp;v2,
+                 PVector&nbsp;thePoint)</code>&nbsp;</td>
 </tr>
 <tr id="i26" class="altColor">
-<td class="colFirst"><code>static boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#isPointInTriangle-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-">isPointInTriangle</a></span>(processing.core.PVector&nbsp;v0,
-                 processing.core.PVector&nbsp;v1,
-                 processing.core.PVector&nbsp;v2,
-                 processing.core.PVector&nbsp;thePoint)</code>&nbsp;</td>
+<td class="colFirst"><code>static float</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#lengthSquared-PVector-">lengthSquared</a></span>(PVector&nbsp;p)</code>&nbsp;</td>
 </tr>
 <tr id="i27" class="rowColor">
-<td class="colFirst"><code>static float</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#lengthSquared-processing.core.PVector-">lengthSquared</a></span>(processing.core.PVector&nbsp;p)</code>&nbsp;</td>
+<td class="colFirst"><code>static PVector</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#mult-PVector-PVector-">mult</a></span>(PVector&nbsp;v1,
+    PVector&nbsp;v2)</code>&nbsp;</td>
 </tr>
 <tr id="i28" class="altColor">
-<td class="colFirst"><code>static processing.core.PVector</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#mult-processing.core.PVector-processing.core.PVector-">mult</a></span>(processing.core.PVector&nbsp;v1,
-    processing.core.PVector&nbsp;v2)</code>&nbsp;</td>
+<td class="colFirst"><code>static PVector</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#mult-PVector-PVector-PVector-">mult</a></span>(PVector&nbsp;v1,
+    PVector&nbsp;v2,
+    PVector&nbsp;target)</code>&nbsp;</td>
 </tr>
 <tr id="i29" class="rowColor">
-<td class="colFirst"><code>static processing.core.PVector</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#mult-processing.core.PVector-processing.core.PVector-processing.core.PVector-">mult</a></span>(processing.core.PVector&nbsp;v1,
-    processing.core.PVector&nbsp;v2,
-    processing.core.PVector&nbsp;target)</code>&nbsp;</td>
+<td class="colFirst"><code>static void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#pointAt-PMatrix3D-PVector-PVector-PVector-">pointAt</a></span>(PMatrix3D&nbsp;pResult,
+       PVector&nbsp;pPosition,
+       PVector&nbsp;pUpVector,
+       PVector&nbsp;pPointAtPosition)</code>&nbsp;</td>
 </tr>
 <tr id="i30" class="altColor">
-<td class="colFirst"><code>static void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#pointAt-processing.core.PMatrix3D-processing.core.PVector-processing.core.PVector-processing.core.PVector-">pointAt</a></span>(processing.core.PMatrix3D&nbsp;pResult,
-       processing.core.PVector&nbsp;pPosition,
-       processing.core.PVector&nbsp;pUpVector,
-       processing.core.PVector&nbsp;pPointAtPosition)</code>&nbsp;</td>
+<td class="colFirst"><code>static PVector</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#projectPointOnLineSegment-PVector-PVector-PVector-">projectPointOnLineSegment</a></span>(PVector&nbsp;v,
+                         PVector&nbsp;w,
+                         PVector&nbsp;p)</code>&nbsp;</td>
 </tr>
 <tr id="i31" class="rowColor">
-<td class="colFirst"><code>static processing.core.PVector</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#projectPointOnLineSegment-processing.core.PVector-processing.core.PVector-processing.core.PVector-">projectPointOnLineSegment</a></span>(processing.core.PVector&nbsp;v,
-                         processing.core.PVector&nbsp;w,
-                         processing.core.PVector&nbsp;p)</code>&nbsp;</td>
-</tr>
-<tr id="i32" class="altColor">
 <td class="colFirst"><code>static void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#randomize-processing.core.PVector-">randomize</a></span>(processing.core.PVector&nbsp;p)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#randomize-PVector-">randomize</a></span>(PVector&nbsp;p)</code>
 <div class="block">Sets a position randomly distributed inside a sphere of unit radius
  centered at the origin.</div>
 </td>
 </tr>
+<tr id="i32" class="altColor">
+<td class="colFirst"><code>static void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#randomize2D-PVector-">randomize2D</a></span>(PVector&nbsp;p)</code>&nbsp;</td>
+</tr>
 <tr id="i33" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#randomize2D-processing.core.PVector-">randomize2D</a></span>(processing.core.PVector&nbsp;p)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#reflect-PVector-PVector-">reflect</a></span>(PVector&nbsp;theVector,
+       PVector&nbsp;theNormal)</code>&nbsp;</td>
 </tr>
 <tr id="i34" class="altColor">
 <td class="colFirst"><code>static void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#reflect-processing.core.PVector-processing.core.PVector-">reflect</a></span>(processing.core.PVector&nbsp;theVector,
-       processing.core.PVector&nbsp;theNormal)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#reflect-PVector-PVector-float-">reflect</a></span>(PVector&nbsp;theVector,
+       PVector&nbsp;theNormal,
+       float&nbsp;theCoefficientOfRestitution)</code>&nbsp;</td>
 </tr>
 <tr id="i35" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#reflect-processing.core.PVector-processing.core.PVector-float-">reflect</a></span>(processing.core.PVector&nbsp;theVector,
-       processing.core.PVector&nbsp;theNormal,
-       float&nbsp;theCoefficientOfRestitution)</code>&nbsp;</td>
-</tr>
-<tr id="i36" class="altColor">
-<td class="colFirst"><code>static void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#reflectVelocity-teilchen.Particle-processing.core.PVector-float-">reflectVelocity</a></span>(<a href="../../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;theParticle,
-               processing.core.PVector&nbsp;theNormal,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#reflectVelocity-teilchen.Particle-PVector-float-">reflectVelocity</a></span>(<a href="../../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;theParticle,
+               PVector&nbsp;theNormal,
                float&nbsp;theCoefficientOfRestitution)</code>&nbsp;</td>
 </tr>
-<tr id="i37" class="rowColor">
-<td class="colFirst"><code>static processing.core.PVector</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#rotatePoint-processing.core.PVector-double-processing.core.PVector-processing.core.PVector-">rotatePoint</a></span>(processing.core.PVector&nbsp;p,
+<tr id="i36" class="altColor">
+<td class="colFirst"><code>static PVector</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#rotatePoint-PVector-double-PVector-PVector-">rotatePoint</a></span>(PVector&nbsp;p,
            double&nbsp;theta,
-           processing.core.PVector&nbsp;p1,
-           processing.core.PVector&nbsp;p2)</code>&nbsp;</td>
+           PVector&nbsp;p1,
+           PVector&nbsp;p2)</code>&nbsp;</td>
 </tr>
-<tr id="i38" class="altColor">
+<tr id="i37" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#satisfyNeighborConstraints-java.util.ArrayList-float-">satisfyNeighborConstraints</a></span>(java.util.ArrayList&lt;<a href="../../teilchen/Particle.html" title="interface in teilchen">Particle</a>&gt;&nbsp;theParticles,
                           float&nbsp;theRelaxedness)</code>&nbsp;</td>
 </tr>
+<tr id="i38" class="altColor">
+<td class="colFirst"><code>static void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#scale-PVector-PVector-">scale</a></span>(PVector&nbsp;v1,
+     PVector&nbsp;v2)</code>&nbsp;</td>
+</tr>
 <tr id="i39" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#scale-processing.core.PVector-processing.core.PVector-">scale</a></span>(processing.core.PVector&nbsp;v1,
-     processing.core.PVector&nbsp;v2)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#setVelocityAndOldPosition-teilchen.Particle-PVector-">setVelocityAndOldPosition</a></span>(<a href="../../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;pParticle,
+                         PVector&nbsp;pNewVelocity)</code>&nbsp;</td>
 </tr>
 <tr id="i40" class="altColor">
 <td class="colFirst"><code>static void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#setVelocityAndOldPosition-teilchen.Particle-processing.core.PVector-">setVelocityAndOldPosition</a></span>(<a href="../../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;pParticle,
-                         processing.core.PVector&nbsp;pNewVelocity)</code>&nbsp;</td>
-</tr>
-<tr id="i41" class="rowColor">
-<td class="colFirst"><code>static void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#updateBoundingBox-teilchen.util.WorldAxisAlignedBoundingBox-processing.core.PVector:A-">updateBoundingBox</a></span>(<a href="../../teilchen/util/WorldAxisAlignedBoundingBox.html" title="class in teilchen.util">WorldAxisAlignedBoundingBox</a>&nbsp;theWorldAxisAlignedBoundingBox,
-                 processing.core.PVector[]&nbsp;myVectors)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../teilchen/util/Util.html#updateBoundingBox-teilchen.util.WorldAxisAlignedBoundingBox-PVector:A-">updateBoundingBox</a></span>(<a href="../../teilchen/util/WorldAxisAlignedBoundingBox.html" title="class in teilchen.util">WorldAxisAlignedBoundingBox</a>&nbsp;theWorldAxisAlignedBoundingBox,
+                 PVector[]&nbsp;myVectors)</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -416,45 +411,35 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="almost-float-float-">
+<a name="almost-PVector-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>almost</h4>
-<pre>public static&nbsp;boolean&nbsp;almost(float&nbsp;a,
-                             float&nbsp;b)</pre>
+<pre>public static&nbsp;boolean&nbsp;almost(PVector&nbsp;p0,
+                             PVector&nbsp;p1)</pre>
 </li>
 </ul>
-<a name="almost-processing.core.PVector-processing.core.PVector-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>almost</h4>
-<pre>public static&nbsp;boolean&nbsp;almost(processing.core.PVector&nbsp;p0,
-                             processing.core.PVector&nbsp;p1)</pre>
-</li>
-</ul>
-<a name="angle-processing.core.PVector-processing.core.PVector-">
+<a name="angle-PVector-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>angle</h4>
-<pre>public static&nbsp;float&nbsp;angle(processing.core.PVector&nbsp;p,
-                          processing.core.PVector&nbsp;theVector)</pre>
+<pre>public static&nbsp;float&nbsp;angle(PVector&nbsp;p,
+                          PVector&nbsp;theVector)</pre>
 </li>
 </ul>
-<a name="calculateNormal-processing.core.PVector-processing.core.PVector-processing.core.PVector-">
+<a name="calculateNormal-PVector-PVector-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>calculateNormal</h4>
-<pre>public static&nbsp;void&nbsp;calculateNormal(processing.core.PVector&nbsp;theVectorAB,
-                                   processing.core.PVector&nbsp;theVectorBC,
-                                   processing.core.PVector&nbsp;theResultNormal)</pre>
+<pre>public static&nbsp;void&nbsp;calculateNormal(PVector&nbsp;theVectorAB,
+                                   PVector&nbsp;theVectorBC,
+                                   PVector&nbsp;theResultNormal)</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>theVectorAB</code> - vector AB</dd>
@@ -463,16 +448,16 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
-<a name="calculateNormal-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-">
+<a name="calculateNormal-PVector-PVector-PVector-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>calculateNormal</h4>
-<pre>public static&nbsp;void&nbsp;calculateNormal(processing.core.PVector&nbsp;pointA,
-                                   processing.core.PVector&nbsp;pointB,
-                                   processing.core.PVector&nbsp;pointC,
-                                   processing.core.PVector&nbsp;theResultNormal)</pre>
+<pre>public static&nbsp;void&nbsp;calculateNormal(PVector&nbsp;pointA,
+                                   PVector&nbsp;pointB,
+                                   PVector&nbsp;pointC,
+                                   PVector&nbsp;theResultNormal)</pre>
 <div class="block">calculate a normal from a set of three vectors.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -483,23 +468,23 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
-<a name="calculateReflectionVector-teilchen.Particle-processing.core.PVector-">
+<a name="calculateReflectionVector-teilchen.Particle-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>calculateReflectionVector</h4>
-<pre>public static&nbsp;processing.core.PVector&nbsp;calculateReflectionVector(<a href="../../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;pParticle,
-                                                                processing.core.PVector&nbsp;pNormal)</pre>
+<pre>public static&nbsp;PVector&nbsp;calculateReflectionVector(<a href="../../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;pParticle,
+                                                PVector&nbsp;pNormal)</pre>
 </li>
 </ul>
-<a name="clone-processing.core.PVector-">
+<a name="clone-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>clone</h4>
-<pre>public static&nbsp;processing.core.PVector&nbsp;clone(processing.core.PVector&nbsp;p)</pre>
+<pre>public static&nbsp;PVector&nbsp;clone(PVector&nbsp;p)</pre>
 </li>
 </ul>
 <a name="contains-float-float-float-">
@@ -513,13 +498,13 @@ extends java.lang.Object</pre>
                                float&nbsp;theRange)</pre>
 </li>
 </ul>
-<a name="contains-processing.core.PVector-teilchen.util.WorldAxisAlignedBoundingBox-">
+<a name="contains-PVector-teilchen.util.WorldAxisAlignedBoundingBox-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre>public static&nbsp;boolean&nbsp;contains(processing.core.PVector&nbsp;thePosition,
+<pre>public static&nbsp;boolean&nbsp;contains(PVector&nbsp;thePosition,
                                <a href="../../teilchen/util/WorldAxisAlignedBoundingBox.html" title="class in teilchen.util">WorldAxisAlignedBoundingBox</a>&nbsp;theWorldAlignedBox)</pre>
 </li>
 </ul>
@@ -546,13 +531,13 @@ extends java.lang.Object</pre>
                                                                               float&nbsp;theCoefficientOfRestitution)</pre>
 </li>
 </ul>
-<a name="createTriangleDeflectors-processing.core.PVector:A-float-">
+<a name="createTriangleDeflectors-PVector:A-float-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>createTriangleDeflectors</h4>
-<pre>public static&nbsp;java.util.ArrayList&lt;<a href="../../teilchen/force/TriangleDeflector.html" title="class in teilchen.force">TriangleDeflector</a>&gt;&nbsp;createTriangleDeflectors(processing.core.PVector[]&nbsp;theVertices,
+<pre>public static&nbsp;java.util.ArrayList&lt;<a href="../../teilchen/force/TriangleDeflector.html" title="class in teilchen.force">TriangleDeflector</a>&gt;&nbsp;createTriangleDeflectors(PVector[]&nbsp;theVertices,
                                                                               float&nbsp;theCoefficientOfRestitution)</pre>
 </li>
 </ul>
@@ -566,44 +551,44 @@ extends java.lang.Object</pre>
                                                                                      float&nbsp;theCoefficientOfRestitution)</pre>
 </li>
 </ul>
-<a name="cross-processing.core.PVector-processing.core.PVector-">
+<a name="cross-PVector-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>cross</h4>
-<pre>public static&nbsp;processing.core.PVector&nbsp;cross(processing.core.PVector&nbsp;p1,
-                                            processing.core.PVector&nbsp;p2)</pre>
+<pre>public static&nbsp;PVector&nbsp;cross(PVector&nbsp;p1,
+                            PVector&nbsp;p2)</pre>
 </li>
 </ul>
-<a name="distance-processing.core.PVector-processing.core.PVector-">
+<a name="distance-PVector-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>distance</h4>
-<pre>public static&nbsp;float&nbsp;distance(processing.core.PVector&nbsp;p1,
-                             processing.core.PVector&nbsp;p2)</pre>
+<pre>public static&nbsp;float&nbsp;distance(PVector&nbsp;p1,
+                             PVector&nbsp;p2)</pre>
 </li>
 </ul>
-<a name="distanceSquared-processing.core.PVector-processing.core.PVector-">
+<a name="distanceSquared-PVector-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>distanceSquared</h4>
-<pre>public static&nbsp;float&nbsp;distanceSquared(processing.core.PVector&nbsp;p0,
-                                    processing.core.PVector&nbsp;p1)</pre>
+<pre>public static&nbsp;float&nbsp;distanceSquared(PVector&nbsp;p0,
+                                    PVector&nbsp;p1)</pre>
 </li>
 </ul>
-<a name="divide-processing.core.PVector-processing.core.PVector-">
+<a name="divide-PVector-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>divide</h4>
-<pre>public static&nbsp;void&nbsp;divide(processing.core.PVector&nbsp;p,
-                          processing.core.PVector&nbsp;theVector)</pre>
+<pre>public static&nbsp;void&nbsp;divide(PVector&nbsp;p,
+                          PVector&nbsp;theVector)</pre>
 </li>
 </ul>
 <a name="fastInverseSqrt-float-">
@@ -628,14 +613,14 @@ extends java.lang.Object</pre>
                                                float&nbsp;pSelectionRadius)</pre>
 </li>
 </ul>
-<a name="findParticleByProximity-java.util.ArrayList-processing.core.PVector-float-">
+<a name="findParticleByProximity-java.util.ArrayList-PVector-float-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>findParticleByProximity</h4>
 <pre>public static&nbsp;<a href="../../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;findParticleByProximity(java.util.ArrayList&lt;<a href="../../teilchen/Particle.html" title="interface in teilchen">Particle</a>&gt;&nbsp;pParticles,
-                                               processing.core.PVector&nbsp;pPosition,
+                                               PVector&nbsp;pPosition,
                                                float&nbsp;pSelectionRadius)</pre>
 </li>
 </ul>
@@ -652,119 +637,119 @@ extends java.lang.Object</pre>
                                                float&nbsp;pSelectionRadius)</pre>
 </li>
 </ul>
-<a name="findParticleByProximity-teilchen.Physics-processing.core.PVector-float-">
+<a name="findParticleByProximity-teilchen.Physics-PVector-float-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>findParticleByProximity</h4>
 <pre>public static&nbsp;<a href="../../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;findParticleByProximity(<a href="../../teilchen/Physics.html" title="class in teilchen">Physics</a>&nbsp;pPhysics,
-                                               processing.core.PVector&nbsp;pPosition,
+                                               PVector&nbsp;pPosition,
                                                float&nbsp;pSelectionRadius)</pre>
 </li>
 </ul>
-<a name="inside2DPolygon-processing.core.PVector-java.util.ArrayList-">
+<a name="inside2DPolygon-PVector-java.util.ArrayList-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>inside2DPolygon</h4>
-<pre>public static&nbsp;boolean&nbsp;inside2DPolygon(processing.core.PVector&nbsp;thePoint,
-                                      java.util.ArrayList&lt;processing.core.PVector&gt;&nbsp;thePolygon)</pre>
+<pre>public static&nbsp;boolean&nbsp;inside2DPolygon(PVector&nbsp;thePoint,
+                                      java.util.ArrayList&lt;PVector&gt;&nbsp;thePolygon)</pre>
 </li>
 </ul>
-<a name="insidePolygon-processing.core.PVector-java.util.ArrayList-">
+<a name="insidePolygon-PVector-java.util.ArrayList-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>insidePolygon</h4>
-<pre>public static&nbsp;boolean&nbsp;insidePolygon(processing.core.PVector&nbsp;thePoint,
-                                    java.util.ArrayList&lt;processing.core.PVector&gt;&nbsp;thePolygon)</pre>
+<pre>public static&nbsp;boolean&nbsp;insidePolygon(PVector&nbsp;thePoint,
+                                    java.util.ArrayList&lt;PVector&gt;&nbsp;thePolygon)</pre>
 </li>
 </ul>
-<a name="insidePolygon-processing.core.PVector-processing.core.PVector:A-">
+<a name="insidePolygon-PVector-PVector:A-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>insidePolygon</h4>
-<pre>public static&nbsp;boolean&nbsp;insidePolygon(processing.core.PVector&nbsp;thePoint,
-                                    processing.core.PVector[]&nbsp;thePolygon)</pre>
+<pre>public static&nbsp;boolean&nbsp;insidePolygon(PVector&nbsp;thePoint,
+                                    PVector[]&nbsp;thePolygon)</pre>
 </li>
 </ul>
-<a name="isNaN-processing.core.PVector-">
+<a name="isNaN-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>isNaN</h4>
-<pre>public static&nbsp;boolean&nbsp;isNaN(processing.core.PVector&nbsp;p)</pre>
+<pre>public static&nbsp;boolean&nbsp;isNaN(PVector&nbsp;p)</pre>
 </li>
 </ul>
-<a name="isPointInTriangle-processing.core.PVector-processing.core.PVector-processing.core.PVector-processing.core.PVector-">
+<a name="isPointInTriangle-PVector-PVector-PVector-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>isPointInTriangle</h4>
-<pre>public static&nbsp;boolean&nbsp;isPointInTriangle(processing.core.PVector&nbsp;v0,
-                                        processing.core.PVector&nbsp;v1,
-                                        processing.core.PVector&nbsp;v2,
-                                        processing.core.PVector&nbsp;thePoint)</pre>
+<pre>public static&nbsp;boolean&nbsp;isPointInTriangle(PVector&nbsp;v0,
+                                        PVector&nbsp;v1,
+                                        PVector&nbsp;v2,
+                                        PVector&nbsp;thePoint)</pre>
 </li>
 </ul>
-<a name="lengthSquared-processing.core.PVector-">
+<a name="lengthSquared-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>lengthSquared</h4>
-<pre>public static&nbsp;float&nbsp;lengthSquared(processing.core.PVector&nbsp;p)</pre>
+<pre>public static&nbsp;float&nbsp;lengthSquared(PVector&nbsp;p)</pre>
 </li>
 </ul>
-<a name="mult-processing.core.PVector-processing.core.PVector-">
+<a name="mult-PVector-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>mult</h4>
-<pre>public static&nbsp;processing.core.PVector&nbsp;mult(processing.core.PVector&nbsp;v1,
-                                           processing.core.PVector&nbsp;v2)</pre>
+<pre>public static&nbsp;PVector&nbsp;mult(PVector&nbsp;v1,
+                           PVector&nbsp;v2)</pre>
 </li>
 </ul>
-<a name="mult-processing.core.PVector-processing.core.PVector-processing.core.PVector-">
+<a name="mult-PVector-PVector-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>mult</h4>
-<pre>public static&nbsp;processing.core.PVector&nbsp;mult(processing.core.PVector&nbsp;v1,
-                                           processing.core.PVector&nbsp;v2,
-                                           processing.core.PVector&nbsp;target)</pre>
+<pre>public static&nbsp;PVector&nbsp;mult(PVector&nbsp;v1,
+                           PVector&nbsp;v2,
+                           PVector&nbsp;target)</pre>
 </li>
 </ul>
-<a name="pointAt-processing.core.PMatrix3D-processing.core.PVector-processing.core.PVector-processing.core.PVector-">
+<a name="pointAt-PMatrix3D-PVector-PVector-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>pointAt</h4>
-<pre>public static&nbsp;void&nbsp;pointAt(processing.core.PMatrix3D&nbsp;pResult,
-                           processing.core.PVector&nbsp;pPosition,
-                           processing.core.PVector&nbsp;pUpVector,
-                           processing.core.PVector&nbsp;pPointAtPosition)</pre>
+<pre>public static&nbsp;void&nbsp;pointAt(PMatrix3D&nbsp;pResult,
+                           PVector&nbsp;pPosition,
+                           PVector&nbsp;pUpVector,
+                           PVector&nbsp;pPointAtPosition)</pre>
 </li>
 </ul>
-<a name="projectPointOnLineSegment-processing.core.PVector-processing.core.PVector-processing.core.PVector-">
+<a name="projectPointOnLineSegment-PVector-PVector-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>projectPointOnLineSegment</h4>
-<pre>public static&nbsp;processing.core.PVector&nbsp;projectPointOnLineSegment(processing.core.PVector&nbsp;v,
-                                                                processing.core.PVector&nbsp;w,
-                                                                processing.core.PVector&nbsp;p)</pre>
+<pre>public static&nbsp;PVector&nbsp;projectPointOnLineSegment(PVector&nbsp;v,
+                                                PVector&nbsp;w,
+                                                PVector&nbsp;p)</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>v</code> - line segment start</dd>
@@ -775,13 +760,13 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
-<a name="randomize-processing.core.PVector-">
+<a name="randomize-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>randomize</h4>
-<pre>public static&nbsp;void&nbsp;randomize(processing.core.PVector&nbsp;p)</pre>
+<pre>public static&nbsp;void&nbsp;randomize(PVector&nbsp;p)</pre>
 <div class="block">Sets a position randomly distributed inside a sphere of unit radius
  centered at the origin. Orientation will be random and length will range
  between 0 and 1</div>
@@ -791,57 +776,57 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
-<a name="randomize2D-processing.core.PVector-">
+<a name="randomize2D-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>randomize2D</h4>
-<pre>public static&nbsp;void&nbsp;randomize2D(processing.core.PVector&nbsp;p)</pre>
+<pre>public static&nbsp;void&nbsp;randomize2D(PVector&nbsp;p)</pre>
 </li>
 </ul>
-<a name="reflect-processing.core.PVector-processing.core.PVector-">
+<a name="reflect-PVector-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>reflect</h4>
-<pre>public static&nbsp;void&nbsp;reflect(processing.core.PVector&nbsp;theVector,
-                           processing.core.PVector&nbsp;theNormal)</pre>
+<pre>public static&nbsp;void&nbsp;reflect(PVector&nbsp;theVector,
+                           PVector&nbsp;theNormal)</pre>
 </li>
 </ul>
-<a name="reflect-processing.core.PVector-processing.core.PVector-float-">
+<a name="reflect-PVector-PVector-float-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>reflect</h4>
-<pre>public static&nbsp;void&nbsp;reflect(processing.core.PVector&nbsp;theVector,
-                           processing.core.PVector&nbsp;theNormal,
+<pre>public static&nbsp;void&nbsp;reflect(PVector&nbsp;theVector,
+                           PVector&nbsp;theNormal,
                            float&nbsp;theCoefficientOfRestitution)</pre>
 </li>
 </ul>
-<a name="reflectVelocity-teilchen.Particle-processing.core.PVector-float-">
+<a name="reflectVelocity-teilchen.Particle-PVector-float-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>reflectVelocity</h4>
 <pre>public static&nbsp;void&nbsp;reflectVelocity(<a href="../../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;theParticle,
-                                   processing.core.PVector&nbsp;theNormal,
+                                   PVector&nbsp;theNormal,
                                    float&nbsp;theCoefficientOfRestitution)</pre>
 </li>
 </ul>
-<a name="rotatePoint-processing.core.PVector-double-processing.core.PVector-processing.core.PVector-">
+<a name="rotatePoint-PVector-double-PVector-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>rotatePoint</h4>
-<pre>public static&nbsp;processing.core.PVector&nbsp;rotatePoint(processing.core.PVector&nbsp;p,
-                                                  double&nbsp;theta,
-                                                  processing.core.PVector&nbsp;p1,
-                                                  processing.core.PVector&nbsp;p2)</pre>
+<pre>public static&nbsp;PVector&nbsp;rotatePoint(PVector&nbsp;p,
+                                  double&nbsp;theta,
+                                  PVector&nbsp;p1,
+                                  PVector&nbsp;p2)</pre>
 </li>
 </ul>
 <a name="satisfyNeighborConstraints-java.util.ArrayList-float-">
@@ -854,34 +839,34 @@ extends java.lang.Object</pre>
                                               float&nbsp;theRelaxedness)</pre>
 </li>
 </ul>
-<a name="scale-processing.core.PVector-processing.core.PVector-">
+<a name="scale-PVector-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>scale</h4>
-<pre>public static&nbsp;void&nbsp;scale(processing.core.PVector&nbsp;v1,
-                         processing.core.PVector&nbsp;v2)</pre>
+<pre>public static&nbsp;void&nbsp;scale(PVector&nbsp;v1,
+                         PVector&nbsp;v2)</pre>
 </li>
 </ul>
-<a name="setVelocityAndOldPosition-teilchen.Particle-processing.core.PVector-">
+<a name="setVelocityAndOldPosition-teilchen.Particle-PVector-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setVelocityAndOldPosition</h4>
 <pre>public static&nbsp;void&nbsp;setVelocityAndOldPosition(<a href="../../teilchen/Particle.html" title="interface in teilchen">Particle</a>&nbsp;pParticle,
-                                             processing.core.PVector&nbsp;pNewVelocity)</pre>
+                                             PVector&nbsp;pNewVelocity)</pre>
 </li>
 </ul>
-<a name="updateBoundingBox-teilchen.util.WorldAxisAlignedBoundingBox-processing.core.PVector:A-">
+<a name="updateBoundingBox-teilchen.util.WorldAxisAlignedBoundingBox-PVector:A-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>updateBoundingBox</h4>
 <pre>public static&nbsp;void&nbsp;updateBoundingBox(<a href="../../teilchen/util/WorldAxisAlignedBoundingBox.html" title="class in teilchen.util">WorldAxisAlignedBoundingBox</a>&nbsp;theWorldAxisAlignedBoundingBox,
-                                     processing.core.PVector[]&nbsp;myVectors)</pre>
+                                     PVector[]&nbsp;myVectors)</pre>
 </li>
 </ul>
 </li>

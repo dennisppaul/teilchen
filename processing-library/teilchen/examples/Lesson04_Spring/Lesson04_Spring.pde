@@ -5,19 +5,21 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
-
-
 /*
  * this sketch demonstrates how to create a `Spring` that connects two particles. it also
  * demonstrates how to create a `ViscousDrag` to slow down particle motion over time.
  *
  * drag mouse to move particle.
  */
+
 Physics mPhysics;
+
 Spring mSpring;
+
 void settings() {
     size(640, 480);
 }
+
 void setup() {
     /* create a particle system */
     mPhysics = new Physics();
@@ -36,6 +38,7 @@ void setup() {
      */
     mSpring = mPhysics.makeSpring(myA, myB);
 }
+
 void draw() {
     /* set first particle to mouse position */
     if (mousePressed) {
