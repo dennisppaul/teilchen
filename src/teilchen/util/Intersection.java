@@ -31,14 +31,12 @@ import static processing.core.PVector.sub;
 import static teilchen.util.Util.lengthSquared;
 
 /**
- * beware this is not really in good shape. i ll read my linear algebra book and
- * fix this class. someday. hopefully.
+ * beware this is not really in good shape. i ll read my linear algebra book and fix this class. someday. hopefully.
  */
 public final class Intersection implements Serializable {
 
     /**
-     * from paul bourke (
-     * http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline2d/ )
+     * from paul bourke ( http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline2d/ )
      */
     public static final int COINCIDENT = 0;
     public static final int PARALLEL = 1;
@@ -56,24 +54,24 @@ public final class Intersection implements Serializable {
     private static final PVector T_VEC = new PVector();
     private static final PVector Q_VEC = new PVector();
 
-    public static boolean intersectRayPlane(final Ray3f theRay,
-                                            final Plane3f thePlane,
-                                            final PVector theResult,
+    public static boolean intersectRayPlane(final Ray3f pRay,
+                                            final Plane3f pPlane,
+                                            final PVector pResult,
                                             final boolean doPlanar,
                                             final boolean quad) {
-        PVector diff = PVector.sub(theRay.origin,
-                                   thePlane.origin); // mathematik.IntegrationUtil.sub(theRay.origin, v0);
-        PVector edge1 = thePlane.vectorA; // mathematik.IntegrationUtil.sub(v1, v0);
-        PVector edge2 = thePlane.vectorB; // mathematik.IntegrationUtil.sub(v2, v0);
+        PVector diff = PVector.sub(pRay.origin,
+                                   pPlane.origin); // mathematik.IntegrationUtil.sub(theRay.origin, v0);
+        PVector edge1 = pPlane.vectorA; // mathematik.IntegrationUtil.sub(v1, v0);
+        PVector edge2 = pPlane.vectorB; // mathematik.IntegrationUtil.sub(v2, v0);
 
-        PVector norm = thePlane.normal; //new PVector();
+        PVector norm = pPlane.normal; //new PVector();
 
-        if (thePlane.normal == null) {
-            thePlane.updateNormal();
-            norm = thePlane.normal;
+        if (pPlane.normal == null) {
+            pPlane.updateNormal();
+            norm = pPlane.normal;
         }
 
-        float dirDotNorm = theRay.direction.dot(norm);
+        float dirDotNorm = pRay.direction.dot(norm);
         float sign;
         if (dirDotNorm > EPSILON) {
             sign = 1;
@@ -85,28 +83,28 @@ public final class Intersection implements Serializable {
             return false;
         }
 
-        PVector myCross = new PVector();
-        cross(diff, edge2, myCross);
-        float dirDotDiffxEdge2 = sign * theRay.direction.dot(myCross);
+        PVector mCross = new PVector();
+        cross(diff, edge2, mCross);
+        float dirDotDiffxEdge2 = sign * pRay.direction.dot(mCross);
         if (dirDotDiffxEdge2 > 0.0f) {
-            myCross = new PVector();
-            cross(edge1, diff, myCross);
-            float dirDotEdge1xDiff = sign * theRay.direction.dot(myCross);
+            mCross = new PVector();
+            cross(edge1, diff, mCross);
+            float dirDotEdge1xDiff = sign * pRay.direction.dot(mCross);
             if (dirDotEdge1xDiff >= 0.0f) {
                 if (!quad ? dirDotDiffxEdge2 + dirDotEdge1xDiff <= dirDotNorm : dirDotEdge1xDiff <= dirDotNorm) {
                     float diffDotNorm = -sign * diff.dot(norm);
                     if (diffDotNorm >= 0.0f) {
                         // ray intersects triangle
                         // if storage vector is null, just return true,
-                        if (theResult == null) {
+                        if (pResult == null) {
                             return true;
                         }
                         // else fill in.
                         float inv = 1f / dirDotNorm;
                         float t = diffDotNorm * inv;
                         if (!doPlanar) {
-                            theResult.set(theRay.origin);
-                            theResult.add(theRay.direction.x * t, theRay.direction.y * t, theRay.direction.z * t);
+                            pResult.set(pRay.origin);
+                            pResult.add(pRay.direction.x * t, pRay.direction.y * t, pRay.direction.z * t);
                         } else {
                             // these weights can be used to determine
                             // interpolated values, such as texture coord.
@@ -116,7 +114,7 @@ public final class Intersection implements Serializable {
                             float w1 = dirDotDiffxEdge2 * inv;
                             float w2 = dirDotEdge1xDiff * inv;
                             //float w0 = 1.0f - w1 - w2;
-                            theResult.set(t, w1, w2);
+                            pResult.set(t, w1, w2);
                         }
                         return true;
                     }
@@ -254,39 +252,39 @@ public final class Intersection implements Serializable {
      * @param theIntersectionPoint PVector
      * @return float
      */
-    public static float intersectLinePlane(final Ray3f theRay,
-                                           final Plane3f thePlane,
-                                           final PVector theIntersectionPoint) {
+    public static float intersectLinePlane(final Ray3f pRay,
+                                           final Plane3f pPlane,
+                                           final PVector pIntersectionPoint) {
         /*
          * @todo not sure whether this is for ray-plane or line-plane intersection. but i think it s for the latter,
          *   hence the method name.
          */
 
         double time = 0;
-        cross(thePlane.vectorA, thePlane.vectorB, TMP_EDGE_NORMAL);
-        double denom = TMP_EDGE_NORMAL.dot(theRay.direction);
+        cross(pPlane.vectorA, pPlane.vectorB, TMP_EDGE_NORMAL);
+        double denom = TMP_EDGE_NORMAL.dot(pRay.direction);
 
         if (denom == 0) {
             System.err.println("### ERROR @ Intersection / NEGATIVE_INFINITY");
             return Float.NEGATIVE_INFINITY;
         }
 
-        double numer = TMP_EDGE_NORMAL.dot(theRay.origin);
-        double D = -(thePlane.origin.dot(TMP_EDGE_NORMAL));
+        double numer = TMP_EDGE_NORMAL.dot(pRay.origin);
+        double D = -(pPlane.origin.dot(TMP_EDGE_NORMAL));
         time = -((numer + D) / denom);
 
-        if (theIntersectionPoint != null) {
-            theIntersectionPoint.set(theRay.direction);
-            theIntersectionPoint.mult((float) time);
-            theIntersectionPoint.add(theRay.origin);
+        if (pIntersectionPoint != null) {
+            pIntersectionPoint.set(pRay.direction);
+            pIntersectionPoint.mult((float) time);
+            pIntersectionPoint.add(pRay.origin);
         }
 
         return (float) time;
     }
 
     /**
-     * Fast, Minimum Storage Ray-Triangle Intersection by Tomas Moeller &amp; Ben
-     * Trumbore http://jgt.akpeters.com/papers/MollerTrumbore97/code.html
+     * Fast, Minimum Storage Ray-Triangle Intersection by Tomas Moeller &amp; Ben Trumbore
+     * http://jgt.akpeters.com/papers/MollerTrumbore97/code.html
      *
      * @param pRayOrigin    ray origin
      * @param pRayDirection ray direction
@@ -396,12 +394,10 @@ public final class Intersection implements Serializable {
     //    }
 
     /**
-     * http://local.wasp.uwa.edu.au/~pbourke/geometry/sphereline/raysphere.c
-     * Calculate the intersection of a ray and a sphere The line segment is
-     * defined from p1 to p2 The sphere is of radius r and centered at sc There
-     * are potentially two points of intersection given by p = p1 + mu1 (p2 -
-     * p1) p = p1 + mu2 (p2 - p1) Return FALSE if the ray doesn't intersect the
-     * sphere.
+     * http://local.wasp.uwa.edu.au/~pbourke/geometry/sphereline/raysphere.c Calculate the intersection of a ray and a
+     * sphere The line segment is defined from p1 to p2 The sphere is of radius r and centered at sc There are
+     * potentially two points of intersection given by p = p1 + mu1 (p2 - p1) p = p1 + mu2 (p2 - p1) Return FALSE if the
+     * ray doesn't intersect the sphere.
      *
      * @param pP1           P1
      * @param pP2           P2
@@ -432,7 +428,7 @@ public final class Intersection implements Serializable {
                                         PVector aEnd,
                                         PVector bBegin,
                                         PVector bEnd,
-                                        PVector theIntersection) {
+                                        PVector pIntersection) {
         float denom = ((bEnd.y - bBegin.y) * (aEnd.x - aBegin.x)) - ((bEnd.x - bBegin.x) * (aEnd.y - aBegin.y));
 
         float nume_a = ((bEnd.x - bBegin.x) * (aBegin.y - bBegin.y)) - ((bEnd.y - bBegin.y) * (aBegin.x - bBegin.x));
@@ -450,10 +446,10 @@ public final class Intersection implements Serializable {
         float ub = nume_b / denom;
 
         if (ua >= 0.0f && ua <= 1.0f && ub >= 0.0f && ub <= 1.0f) {
-            if (theIntersection != null) {
+            if (pIntersection != null) {
                 // Get the intersection point.
-                theIntersection.x = aBegin.x + ua * (aEnd.x - aBegin.x);
-                theIntersection.y = aBegin.y + ua * (aEnd.y - aBegin.y);
+                pIntersection.x = aBegin.x + ua * (aEnd.x - aBegin.x);
+                pIntersection.y = aBegin.y + ua * (aEnd.y - aBegin.y);
             }
             return INTERSECTING;
         }
@@ -462,13 +458,10 @@ public final class Intersection implements Serializable {
     }
 
     /**
-     * from paul bourke (
-     * http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline3d/ )
+     * from paul bourke ( http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline3d/ )
      * <p>
-     * Calculate the line segment PaPb that is the shortest route between two
-     * lines P1P2 and P3P4. Calculate also the values of mua and mub where Pa =
-     * P1 + mua (P2 - P1) Pb = P3 + mub (P4 - P3) Return FALSE if no solution
-     * exists.
+     * Calculate the line segment PaPb that is the shortest route between two lines P1P2 and P3P4. Calculate also the
+     * values of mua and mub where Pa = P1 + mua (P2 - P1) Pb = P3 + mub (P4 - P3) Return FALSE if no solution exists.
      *
      * @param pP1 P1
      * @param pP2 P2

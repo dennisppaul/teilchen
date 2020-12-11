@@ -35,34 +35,34 @@ public class Random
 
     private static final long serialVersionUID = -5871934750136232555L;
 
-    private static final java.util.Random _mySeedGenerator = new java.util.Random(System.currentTimeMillis());
+    private static final java.util.Random mSeedGenerator = new java.util.Random(System.currentTimeMillis());
 
-    private final java.util.Random myRandomNumberGenerator;
+    private final java.util.Random mRandomNumberGenerator;
 
-    private static final Random _myInstance;
+    private static final Random mInstance;
 
     static {
-        _myInstance = new Random();
+        mInstance = new Random();
     }
 
-    public static float FLOAT(float theStart, float theEnd) {
-        return _myInstance.getFloat(theStart, theEnd);
+    public static float FLOAT(float pStart, float pEnd) {
+        return mInstance.getFloat(pStart, pEnd);
     }
 
-    public static float INT(int theStart, int theEnd) {
-        return _myInstance.getInt(theStart, theEnd);
+    public static float INT(int pStart, int pEnd) {
+        return mInstance.getInt(pStart, pEnd);
     }
 
     public Random() {
-        this(_mySeedGenerator.nextLong());
+        this(mSeedGenerator.nextLong());
     }
 
-    public Random(long theSeed) {
-        myRandomNumberGenerator = new java.util.Random(theSeed);
+    public Random(long pSeed) {
+        mRandomNumberGenerator = new java.util.Random(pSeed);
     }
 
-    public void setSeed(long theSeed) {
-        myRandomNumberGenerator.setSeed(theSeed);
+    public void setSeed(long pSeed) {
+        mRandomNumberGenerator.setSeed(pSeed);
     }
 
     /**
@@ -73,14 +73,14 @@ public class Random
      *
      * @return int
      */
-    public int getInt(int theStart,
-                      int theEnd) {
-        int myDiff = (theEnd + 1) - theStart;
-        return myRandomNumberGenerator.nextInt(myDiff) + theStart;
+    public int getInt(int pStart,
+                      int pEnd) {
+        int mDiff = (pEnd + 1) - pStart;
+        return mRandomNumberGenerator.nextInt(mDiff) + pStart;
     }
 
     public int getInt() {
-        return myRandomNumberGenerator.nextInt();
+        return mRandomNumberGenerator.nextInt();
     }
 
     /**
@@ -92,65 +92,65 @@ public class Random
      *
      * @return float
      */
-    public float getFloat(float theStart,
-                          float theEnd) {
-        final float myDiff = theEnd - theStart;
-        final float myRandomValue = myRandomNumberGenerator.nextFloat() * myDiff;
-        return myRandomValue + theStart;
+    public float getFloat(float pStart,
+                          float pEnd) {
+        final float mDiff = pEnd - pStart;
+        final float mRandomValue = mRandomNumberGenerator.nextFloat() * mDiff;
+        return mRandomValue + pStart;
     }
 
     public float getFloat() {
-        return myRandomNumberGenerator.nextFloat();
+        return mRandomNumberGenerator.nextFloat();
     }
 
 //    public static float getFloat(float theStart,
 //                                 float theEnd) {
-//        return _mySeedGenerator.getFloat(theStart, theEnd);
+//        return mSeedGenerator.getFloat(theStart, theEnd);
 //    }
-    public PVector getVector3f(float theStart, float theEnd) {
-        return new PVector(getFloat(theStart, theEnd),
-                           getFloat(theStart, theEnd),
-                           getFloat(theStart, theEnd));
+    public PVector getVector3f(float pStart, float pEnd) {
+        return new PVector(getFloat(pStart, pEnd),
+                           getFloat(pStart, pEnd),
+                           getFloat(pStart, pEnd));
     }
 
     public static void main(String[] args) {
-        long myTime;
-        Random myRandom;
+        long mTime;
+        Random mRandom;
 
-        myRandom = new Random();
-        System.out.println(myRandom.getFloat(20, 100));
-        System.out.println(myRandom.getFloat(20, 100));
-        System.out.println(myRandom.getFloat(20, 100));
-        System.out.println(myRandom.getFloat(20, 100));
+        mRandom = new Random();
+        System.out.println(mRandom.getFloat(20, 100));
+        System.out.println(mRandom.getFloat(20, 100));
+        System.out.println(mRandom.getFloat(20, 100));
+        System.out.println(mRandom.getFloat(20, 100));
         System.out.println("***");
 
-        myRandom = new Random();
-        System.out.println(myRandom.getFloat(20, 100));
-        System.out.println(myRandom.getInt(20, 100));
-        System.out.println(myRandom.getFloat(20, 100));
-        System.out.println(myRandom.getFloat(20, 100));
+        mRandom = new Random();
+        System.out.println(mRandom.getFloat(20, 100));
+        System.out.println(mRandom.getInt(20, 100));
+        System.out.println(mRandom.getFloat(20, 100));
+        System.out.println(mRandom.getFloat(20, 100));
         System.out.println("***");
 
         /* use this random generator */
-        myTime = System.currentTimeMillis();
-        myRandom = new Random(0);
+        mTime = System.currentTimeMillis();
+        mRandom = new Random(0);
         for (int i = 0; i < 50000000; i++) {
-            float myValue = myRandom.getFloat(20, 100);
-            if (myValue < 20 || myValue > 100) {
+            float mValue = mRandom.getFloat(20, 100);
+            if (mValue < 20 || mValue > 100) {
                 System.out.println(i + "ERROR");
             }
         }
-        System.out.println("DONE: " + (System.currentTimeMillis() - myTime));
+        System.out.println("DONE: " + (System.currentTimeMillis() - mTime));
 
         /* use maths random generator */
-        myTime = System.currentTimeMillis();
+        mTime = System.currentTimeMillis();
         for (int i = 0; i < 50000000; i++) {
-            float myValue = (float) Math.random() * (100 - 20) + 20;
-            if (myValue < 20 || myValue > 100) {
+            float mValue = (float) Math.random() * (100 - 20) + 20;
+            if (mValue < 20 || mValue > 100) {
                 System.out.println(i + "ERROR");
             }
         }
-        System.out.println("DONE: " + (System.currentTimeMillis() - myTime));
+        System.out.println("DONE: " + (System.currentTimeMillis() - mTime));
 
     }
 }

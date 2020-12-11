@@ -5,6 +5,7 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
+
 /*
  * this sketch demonstrates how to connect four particles and six springs to form a
  * stable quad made from springs, this a construct that allows to emulate something
@@ -26,16 +27,16 @@ void setup() {
     mPhysics = new Physics();
     /* use `RungeKutta` as it produces more stable results in applications like these */
     mPhysics.setIntegratorRef(new RungeKutta());
-    Gravity myGravity = new Gravity();
-    myGravity.force().y = 98.1f;
-    mPhysics.add(myGravity);
+    Gravity mGravity = new Gravity();
+    mGravity.force().y = 98.1f;
+    mPhysics.add(mGravity);
     /* add drag to smooth the spring interaction */
     mPhysics.add(new ViscousDrag(0.2f));
     /* add a container */
-    Box myBox = new Box();
-    myBox.min().set(0, 0, 0);
-    myBox.max().set(width, height, 0);
-    mPhysics.add(myBox);
+    Box mBox = new Box();
+    mBox.min().set(0, 0, 0);
+    mBox.max().set(width, height, 0);
+    mPhysics.add(mBox);
     /* create root */
     Particle a = mPhysics.makeParticle(0, 0);
     Particle b = mPhysics.makeParticle(100, 0);

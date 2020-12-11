@@ -47,19 +47,19 @@ public class CubicleWorld {
 
     private ArrayList<ICubicleEntity> mEntites;
 
-    public CubicleWorld(Vector3i theNumberOfAtoms) {
-        this(theNumberOfAtoms.x, theNumberOfAtoms.y, theNumberOfAtoms.z);
+    public CubicleWorld(Vector3i pNumberOfAtoms) {
+        this(pNumberOfAtoms.x, pNumberOfAtoms.y, pNumberOfAtoms.z);
     }
 
-    public CubicleWorld(int theNumberOfXAtoms, int theNumberOfYAtoms, int theNumberOfZAtoms) {
-        initializeAtoms(theNumberOfXAtoms, theNumberOfYAtoms, theNumberOfZAtoms);
+    public CubicleWorld(int pNumberOfXAtoms, int pNumberOfYAtoms, int pNumberOfZAtoms) {
+        initializeAtoms(pNumberOfXAtoms, pNumberOfYAtoms, pNumberOfZAtoms);
         mTransform = new TransformMatrix4f(TransformMatrix4f.IDENTITY);
         mScale = new PVector(1, 1, 1);
         mEntites = new ArrayList<>();
     }
 
-    private void initializeAtoms(int theNumberOfXAtoms, int theNumberOfYAtoms, int theNumberOfZAtoms) {
-        mWorld = new CubicleAtom[theNumberOfXAtoms][theNumberOfYAtoms][theNumberOfZAtoms];
+    private void initializeAtoms(int pNumberOfXAtoms, int pNumberOfYAtoms, int pNumberOfZAtoms) {
+        mWorld = new CubicleAtom[pNumberOfXAtoms][pNumberOfYAtoms][pNumberOfZAtoms];
         for (int x = 0; x < mWorld.length; x++) {
             for (int y = 0; y < mWorld[x].length; y++) {
                 for (int z = 0; z < mWorld[x][y].length; z++) {
@@ -71,84 +71,84 @@ public class CubicleWorld {
     }
 
     public void update() {
-        Iterator<ICubicleEntity> myIterator = mEntites.iterator();
-        while (myIterator.hasNext()) {
-            handleEntity(myIterator.next());
+        Iterator<ICubicleEntity> mIterator = mEntites.iterator();
+        while (mIterator.hasNext()) {
+            handleEntity(mIterator.next());
         }
     }
 
-    public void add(ICubicleEntity theEntity) {
-        mEntites.add(theEntity);
-        theEntity.cubicle().set(OFF_WORLD, OFF_WORLD, OFF_WORLD);
-        mOffWorld.add(theEntity);
+    public void add(ICubicleEntity pEntity) {
+        mEntites.add(pEntity);
+        pEntity.cubicle().set(OFF_WORLD, OFF_WORLD, OFF_WORLD);
+        mOffWorld.add(pEntity);
     }
 
-    public boolean remove(ICubicleEntity theEntity) {
-        return removeFromCubicle(theEntity) && mEntites.remove(theEntity);
+    public boolean remove(ICubicleEntity pEntity) {
+        return removeFromCubicle(pEntity) && mEntites.remove(pEntity);
     }
 
-    public void handleEntity(ICubicleEntity theEntity) {
-        if (theEntity.isActive()) {
+    public void handleEntity(ICubicleEntity pEntity) {
+        if (pEntity.isActive()) {
 
             /* transform entity position into cubicle world space */
-            final Vector3i myIndex = worldposition2index(theEntity.position());
+            final Vector3i mIndex = worldposition2index(pEntity.position());
 
             /* handle entites position in cubicle grid */
-            if (checkBounds(myIndex.x, myIndex.y, myIndex.z)) {
-                if (theEntity.leaving(myIndex.x, myIndex.y, myIndex.z)) {
+            if (checkBounds(mIndex.x, mIndex.y, mIndex.z)) {
+                if (pEntity.leaving(mIndex.x, mIndex.y, mIndex.z)) {
                     /* remove from previous cubicles */
-                    if (!removeFromCubicle(theEntity)) {
+                    if (!removeFromCubicle(pEntity)) {
                         System.err.println("### ERROR @ CubicleWorld / removing entity / inworld");
                     }
                     /* add to current cubicle */
-                    mWorld[myIndex.x][myIndex.y][myIndex.z].add(theEntity);
+                    mWorld[mIndex.x][mIndex.y][mIndex.z].add(pEntity);
                     /* store cubicle */
-                    theEntity.cubicle().set(myIndex.x, myIndex.y, myIndex.z);
+                    pEntity.cubicle().set(mIndex.x, mIndex.y, mIndex.z);
                 }
-            } else if (theEntity.leaving(OFF_WORLD, OFF_WORLD, OFF_WORLD)) {
+            } else if (pEntity.leaving(OFF_WORLD, OFF_WORLD, OFF_WORLD)) {
                 /* remove from cubicles */
-                if (!removeFromCubicle(theEntity)) {
+                if (!removeFromCubicle(pEntity)) {
                     System.err.println("### ERROR @ CubicleWorld / removing entity / offworld");
                 }
                 /* add to off world */
-                mOffWorld.add(theEntity);
+                mOffWorld.add(pEntity);
 
                 /* store cubicle */
-                theEntity.cubicle().set(OFF_WORLD, OFF_WORLD, OFF_WORLD);
+                pEntity.cubicle().set(OFF_WORLD, OFF_WORLD, OFF_WORLD);
             }
         }
     }
 
-    public ArrayList<ICubicleEntity> getLocalEntities(PVector thePosition) {
-        final Vector3i myIndex = worldposition2index(thePosition);
-        if (checkBounds(myIndex.x, myIndex.y, myIndex.z)) {
-            final CubicleAtom myCubicleAtom = getAtom(myIndex.x, myIndex.y, myIndex.z);
-            return myCubicleAtom.data();
+    public ArrayList<ICubicleEntity> getLocalEntities(PVector pPosition) {
+        final Vector3i mIndex = worldposition2index(pPosition);
+        if (checkBounds(mIndex.x, mIndex.y, mIndex.z)) {
+            final CubicleAtom mCubicleAtom = getAtom(mIndex.x, mIndex.y, mIndex.z);
+            return mCubicleAtom.data();
         }
         return null;
     }
 
-    public ArrayList<ICubicleEntity> getLocalEntities(ICubicleEntity theEntity) {
-        final Vector3i myIndex = theEntity.cubicle();
-        return getAtom(myIndex.x, myIndex.y, myIndex.z).data();
+    public ArrayList<ICubicleEntity> getLocalEntities(ICubicleEntity pEntity) {
+        final Vector3i mIndex = pEntity.cubicle();
+        return getAtom(mIndex.x, mIndex.y, mIndex.z).data();
     }
 
-    public ArrayList<ICubicleEntity> getLocalEntities(PVector thePosition, int pExtraRadius) {
-        return getLocalEntities(thePosition, pExtraRadius, pExtraRadius, pExtraRadius);
+    public ArrayList<ICubicleEntity> getLocalEntities(PVector pPosition, int pExtraRadius) {
+        return getLocalEntities(pPosition, pExtraRadius, pExtraRadius, pExtraRadius);
     }
 
-    public ArrayList<ICubicleEntity> getLocalEntities(PVector thePosition,
-                                                      int theXRadius,
-                                                      int theYRadius,
-                                                      int theZRadius) {
-        final Vector3i myIndex = worldposition2index(thePosition);
-        if (checkBounds(myIndex.x, myIndex.y, myIndex.z)) {
-            final ArrayList<CubicleAtom> mAtoms = getAtoms(myIndex.x,
-                                                           myIndex.y,
-                                                           myIndex.z,
-                                                           theXRadius,
-                                                           theYRadius,
-                                                           theZRadius);
+    public ArrayList<ICubicleEntity> getLocalEntities(PVector pPosition,
+                                                      int pXRadius,
+                                                      int pYRadius,
+                                                      int pZRadius) {
+        final Vector3i mIndex = worldposition2index(pPosition);
+        if (checkBounds(mIndex.x, mIndex.y, mIndex.z)) {
+            final ArrayList<CubicleAtom> mAtoms = getAtoms(mIndex.x,
+                                                           mIndex.y,
+                                                           mIndex.z,
+                                                           pXRadius,
+                                                           pYRadius,
+                                                           pZRadius);
             final ArrayList<ICubicleEntity> mEntities = new ArrayList<>();
             for (CubicleAtom a : mAtoms) {
                 mEntities.addAll(a.data());
@@ -159,17 +159,17 @@ public class CubicleWorld {
         }
     }
 
-    public ArrayList<ICubicleEntity> getLocalEntities(ICubicleEntity theEntity,
-                                                      int theXRadius,
-                                                      int theYRadius,
-                                                      int theZRadius) {
-        final Vector3i myIndex = theEntity.cubicle();
-        final ArrayList<CubicleAtom> mAtoms = getAtoms(myIndex.x,
-                                                       myIndex.y,
-                                                       myIndex.z,
-                                                       theXRadius,
-                                                       theYRadius,
-                                                       theZRadius);
+    public ArrayList<ICubicleEntity> getLocalEntities(ICubicleEntity pEntity,
+                                                      int pXRadius,
+                                                      int pYRadius,
+                                                      int pZRadius) {
+        final Vector3i mIndex = pEntity.cubicle();
+        final ArrayList<CubicleAtom> mAtoms = getAtoms(mIndex.x,
+                                                       mIndex.y,
+                                                       mIndex.z,
+                                                       pXRadius,
+                                                       pYRadius,
+                                                       pZRadius);
         final ArrayList<ICubicleEntity> mEntities = new ArrayList<>();
         for (CubicleAtom a : mAtoms) {
             mEntities.addAll(a.data());
@@ -181,33 +181,33 @@ public class CubicleWorld {
         return mEntites;
     }
 
-    public Vector3i worldposition2index(PVector thePosition) {
+    public Vector3i worldposition2index(PVector pPosition) {
         /* get position */
-        final PVector myPosition = Util.clone(thePosition);
+        final PVector mPosition = Util.clone(pPosition);
 
         /* translation */
-        myPosition.sub(mTransform.translation);
+        mPosition.sub(mTransform.translation);
 
         /* rotation */
-        mTransform.rotation.transform(myPosition);
+        mTransform.rotation.transform(mPosition);
 
         /* scale */
-        Util.divide(myPosition, mScale);
+        Util.divide(mPosition, mScale);
 
         /* round off */
-        final Vector3i myIndex = new Vector3i((int) Math.floor(myPosition.x),
-                                              (int) Math.floor(myPosition.y),
-                                              (int) Math.floor(myPosition.z));
-        return myIndex;
+        final Vector3i mIndex = new Vector3i((int) Math.floor(mPosition.x),
+                                              (int) Math.floor(mPosition.y),
+                                              (int) Math.floor(mPosition.z));
+        return mIndex;
     }
 
-    private boolean removeFromCubicle(ICubicleEntity theEntity) {
-        if (theEntity.cubicle().x == OFF_WORLD && theEntity.cubicle().y == OFF_WORLD && theEntity.cubicle().z == OFF_WORLD) {
+    private boolean removeFromCubicle(ICubicleEntity pEntity) {
+        if (pEntity.cubicle().x == OFF_WORLD && pEntity.cubicle().y == OFF_WORLD && pEntity.cubicle().z == OFF_WORLD) {
             /* was stored in the offworld cubicle */
-            return mOffWorld.remove(theEntity);
-        } else if (checkBounds(theEntity.cubicle().x, theEntity.cubicle().y, theEntity.cubicle().z)) {
+            return mOffWorld.remove(pEntity);
+        } else if (checkBounds(pEntity.cubicle().x, pEntity.cubicle().y, pEntity.cubicle().z)) {
             /* was stored in a cubicle */
-            return mWorld[theEntity.cubicle().x][theEntity.cubicle().y][theEntity.cubicle().z].remove(theEntity);
+            return mWorld[pEntity.cubicle().x][pEntity.cubicle().y][pEntity.cubicle().z].remove(pEntity);
         } else {
             /* values were invalid */
             System.out.println("### WARNING @ CubicleWorld / couldn t remove entity");
@@ -215,10 +215,10 @@ public class CubicleWorld {
         }
     }
 
-    private boolean checkBounds(int theX, int theY, int theZ) {
-        if (theX < mWorld.length && theX >= 0) {
-            if (theY < mWorld[theX].length && theY >= 0) {
-                if (theZ < mWorld[theX][theY].length && theZ >= 0) {
+    private boolean checkBounds(int pX, int pY, int pZ) {
+        if (pX < mWorld.length && pX >= 0) {
+            if (pY < mWorld[pX].length && pY >= 0) {
+                if (pZ < mWorld[pX][pY].length && pZ >= 0) {
                     return true;
                 }
             }
@@ -226,34 +226,34 @@ public class CubicleWorld {
         return false;
     }
 
-    public CubicleAtom getAtom(int theX, int theY, int theZ) {
-        if (checkBounds(theX, theY, theZ)) {
-            return mWorld[theX][theY][theZ];
+    public CubicleAtom getAtom(int pX, int pY, int pZ) {
+        if (checkBounds(pX, pY, pZ)) {
+            return mWorld[pX][pY][pZ];
         } else {
             return mOffWorld;
         }
     }
 
-    public ArrayList<CubicleAtom> getAtoms(int theX,
-                                           int theY,
-                                           int theZ,
-                                           int theXRadius,
-                                           int theYRadius,
-                                           int theZRadius) {
-        ArrayList<CubicleAtom> myAtoms = new ArrayList<>();
-        for (int z = -theZRadius; z < theZRadius + 1; ++z) {
-            for (int y = -theYRadius; y < theYRadius + 1; ++y) {
-                for (int x = -theXRadius; x < theXRadius + 1; ++x) {
-                    int myX = theX + x;
-                    int myY = theY + y;
-                    int myZ = theZ + z;
-                    if (checkBounds(myX, myY, myZ) && mWorld[myX][myY][myZ].size() > 0) {
-                        myAtoms.add(mWorld[myX][myY][myZ]);
+    public ArrayList<CubicleAtom> getAtoms(int pX,
+                                           int pY,
+                                           int pZ,
+                                           int pXRadius,
+                                           int pYRadius,
+                                           int pZRadius) {
+        ArrayList<CubicleAtom> mAtoms = new ArrayList<>();
+        for (int z = -pZRadius; z < pZRadius + 1; ++z) {
+            for (int y = -pYRadius; y < pYRadius + 1; ++y) {
+                for (int x = -pXRadius; x < pXRadius + 1; ++x) {
+                    int mX = pX + x;
+                    int mY = pY + y;
+                    int mZ = pZ + z;
+                    if (checkBounds(mX, mY, mZ) && mWorld[mX][mY][mZ].size() > 0) {
+                        mAtoms.add(mWorld[mX][mY][mZ]);
                     }
                 }
             }
         }
-        return myAtoms;
+        return mAtoms;
     }
 
     public PVector cellscale() {

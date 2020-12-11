@@ -49,16 +49,16 @@ public class SketchLesson10_PlaneDeflector extends PApplet {
         mPhysics.add(mGravity);
 
         /* create drag */
-        ViscousDrag myViscousDrag = new ViscousDrag();
-        myViscousDrag.coefficient = 0.1f;
-        mPhysics.add(myViscousDrag);
+        ViscousDrag mViscousDrag = new ViscousDrag();
+        mViscousDrag.coefficient = 0.1f;
+        mPhysics.add(mViscousDrag);
     }
 
     public void draw() {
         /* rotate deflector plane */
         if (mousePressed) {
-            final float myAngle = 2 * PI * (float) mouseX / width - PI;
-            mDeflector.plane().normal.set(sin(myAngle), -cos(myAngle), 0);
+            final float mAngle = 2 * PI * (float) mouseX / width - PI;
+            mDeflector.plane().normal.set(sin(mAngle), -cos(mAngle), 0);
         }
 
         /* create a special particle */

@@ -25,9 +25,9 @@ public class Sketch_NonIntersectingStructures extends PApplet {
         mPhysics = new Physics();
 
         /* we chose verlet integration as it integrates much more nicely with sticks ( and constraints in general ) */
-        Verlet myVerlet = new Verlet();
-        myVerlet.damping(0.99f);
-        mPhysics.setIntegratorRef(myVerlet);
+        Verlet mVerlet = new Verlet();
+        mVerlet.damping(0.99f);
+        mPhysics.setIntegratorRef(mVerlet);
 
         Gravity mGravity = new Gravity(0, 100, 0);
         mPhysics.add(mGravity);

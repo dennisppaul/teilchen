@@ -58,21 +58,21 @@ public class Seek
         return mSeekPosition;
     }
 
-    public void setPositionRef(final PVector thePoint) {
-        mSeekPosition = thePoint;
+    public void setPositionRef(final PVector pPoint) {
+        mSeekPosition = pPoint;
     }
 
     public float distancetopoint() {
         return mDistanceToPoint;
     }
 
-    public void update(float theDeltaTime, IBehaviorParticle theParent) {
-        sub(mSeekPosition, theParent.position(), mForce);
+    public void update(float pDeltaTime, IBehaviorParticle pParent) {
+        sub(mSeekPosition, pParent.position(), mForce);
         mDistanceToPoint = mForce.mag();
         if (mDistanceToPoint > SMALLEST_ACCEPTABLE_DISTANCE) {
-            mForce.mult(theParent.maximumInnerForce() / mDistanceToPoint);
+            mForce.mult(pParent.maximumInnerForce() / mDistanceToPoint);
             if (mOverSteer) {
-                sub(mForce, theParent.velocity(), mForce);
+                sub(mForce, pParent.velocity(), mForce);
             }
             mForce.mult(weight());
         } else {
@@ -88,7 +88,7 @@ public class Seek
         return mWeight;
     }
 
-    public void weight(float theWeight) {
-        mWeight = theWeight;
+    public void weight(float pWeight) {
+        mWeight = pWeight;
     }
 }

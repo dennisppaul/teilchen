@@ -5,6 +5,7 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
+
 /*
  * this sketch demonstratwa some advanced use of particles, springs ( e.g `MuscleSpring` )
  * and attractors to create a group of `StickMan`.
@@ -79,11 +80,11 @@ void draw() {
     stroke(0, 20);
     for (int i = 0; i < mPhysics.forces().size(); i++) {
         if (mPhysics.forces(i) instanceof Spring) {
-            Spring mySpring = (Spring) mPhysics.forces(i);
-            line(mySpring.a().position().x,
-                 mySpring.a().position().y,
-                 mySpring.b().position().x,
-                 mySpring.b().position().y);
+            Spring mSpring = (Spring) mPhysics.forces(i);
+            line(mSpring.a().position().x,
+                 mSpring.a().position().y,
+                 mSpring.b().position().x,
+                 mSpring.b().position().y);
         }
     }
     /* draw particles */

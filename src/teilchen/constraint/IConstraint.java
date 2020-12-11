@@ -30,9 +30,11 @@ public interface IConstraint {
 
     boolean active();
 
-    void active(boolean theActiveState);
+    void active(boolean pActiveState);
 
     boolean dead();
 
     void dead(boolean pDead);
+
+    long ID();
 }

@@ -41,6 +41,7 @@ public class Spring implements IForce, IConnection {
     protected boolean mOneWay;
     protected boolean mActive;
     protected boolean mDead;
+    private final long mID;
 
     public Spring(Particle pA, Particle pB) {
         this(pA, pB, 2.0f, 0.1f, distance(pA.position(), pB.position()));
@@ -51,6 +52,7 @@ public class Spring implements IForce, IConnection {
                   final float pSpringConstant,
                   final float pSpringDamping,
                   final float pRestLength) {
+        mID = Physics.getUniqueID();
         mSpringConstant = pSpringConstant;
         mSpringDamping = pSpringDamping;
         mRestLength = pRestLength;
@@ -216,5 +218,9 @@ public class Spring implements IForce, IConnection {
 
     public void active(boolean pActiveState) {
         mActive = pActiveState;
+    }
+
+    public long ID() {
+        return mID;
     }
 }

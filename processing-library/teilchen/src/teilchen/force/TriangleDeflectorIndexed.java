@@ -9,14 +9,14 @@ public class TriangleDeflectorIndexed
 
     private final int c_index;
 
-    private final float[] _myVertices;
+    private final float[] mVertices;
 
-    public TriangleDeflectorIndexed(float[] theVertices, int theA, int theB, int theC) {
+    public TriangleDeflectorIndexed(float[] pVertices, int pA, int pB, int pC) {
         super();
-        _myVertices = theVertices;
-        a_index = theA;
-        b_index = theB;
-        c_index = theC;
+        mVertices = pVertices;
+        a_index = pA;
+        b_index = pB;
+        c_index = pC;
         updateProperties();
     }
 
@@ -26,14 +26,14 @@ public class TriangleDeflectorIndexed
     }
 
     private void updateVertices() {
-        a().set(_myVertices[a_index + 0],
-                _myVertices[a_index + 1],
-                _myVertices[a_index + 2]);
-        b().set(_myVertices[b_index + 0],
-                _myVertices[b_index + 1],
-                _myVertices[b_index + 2]);
-        c().set(_myVertices[c_index + 0],
-                _myVertices[c_index + 1],
-                _myVertices[c_index + 2]);
+        a().set(mVertices[a_index + 0],
+                mVertices[a_index + 1],
+                mVertices[a_index + 2]);
+        b().set(mVertices[b_index + 0],
+                mVertices[b_index + 1],
+                mVertices[b_index + 2]);
+        c().set(mVertices[c_index + 0],
+                mVertices[c_index + 1],
+                mVertices[c_index + 2]);
     }
 }

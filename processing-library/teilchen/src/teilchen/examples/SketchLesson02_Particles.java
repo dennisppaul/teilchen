@@ -25,8 +25,8 @@ public class SketchLesson02_Particles extends PApplet {
         mPhysics = new Physics();
 
         /* create a gravitational force and add it to the particle system */
-        Gravity myGravity = new Gravity(0, 30, 0);
-        mPhysics.add(myGravity);
+        Gravity mGravity = new Gravity(0, 30, 0);
+        mPhysics.add(mGravity);
     }
 
     public void draw() {

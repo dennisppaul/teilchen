@@ -35,13 +35,13 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
         mPhysics = new Physics();
         mPhysics.setIntegratorRef(new RungeKutta());
 
-        ViscousDrag myViscousDrag = new ViscousDrag();
-        myViscousDrag.coefficient = 1f;
-        mPhysics.add(myViscousDrag);
+        ViscousDrag mViscousDrag = new ViscousDrag();
+        mViscousDrag.coefficient = 1f;
+        mPhysics.add(mViscousDrag);
 
-        Gravity myGravity = new Gravity();
-        myGravity.force().y = 50;
-        mPhysics.add(myGravity);
+        Gravity mGravity = new Gravity();
+        mGravity.force().y = 50;
+        mPhysics.add(mGravity);
 
         /* particles */
         mParticleA = mPhysics.makeParticle();

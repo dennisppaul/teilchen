@@ -26,6 +26,8 @@ import teilchen.Physics;
 
 public interface IForce {
 
+    long ID = Physics.getUniqueID();
+
     void apply(final float pDeltaTime, final Physics pParticleSystem);
 
     boolean dead();
@@ -35,4 +37,6 @@ public interface IForce {
     boolean active();
 
     void active(boolean pActiveState);
+
+    long ID();
 }

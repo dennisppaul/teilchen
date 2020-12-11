@@ -28,7 +28,7 @@ import teilchen.IBehaviorParticle;
 public interface IBehavior
         extends Serializable {
 
-    void update(float theDeltaTime, final IBehaviorParticle pParent);
+    void update(float pDeltaTime, final IBehaviorParticle pParent);
 
     PVector force();
 

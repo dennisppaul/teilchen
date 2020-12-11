@@ -49,19 +49,19 @@ public class StableStickQuad {
     public Stick bd;
 
     public StableStickQuad(final Physics pParticleSystem,
-                           final PVector theA,
-                           final PVector theB,
-                           final PVector theC,
-                           final PVector theD) {
+                           final PVector pA,
+                           final PVector pB,
+                           final PVector pC,
+                           final PVector pD) {
         a = pParticleSystem.makeParticle();
         b = pParticleSystem.makeParticle();
         c = pParticleSystem.makeParticle();
         d = pParticleSystem.makeParticle();
 
-        a.setPositionRef(theA);
-        b.setPositionRef(theB);
-        c.setPositionRef(theC);
-        d.setPositionRef(theD);
+        a.setPositionRef(pA);
+        b.setPositionRef(pB);
+        c.setPositionRef(pC);
+        d.setPositionRef(pD);
 
         /* edges */
         ab = new Stick(a, b);

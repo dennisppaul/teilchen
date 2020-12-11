@@ -50,6 +50,7 @@ public class ReflectBox implements IConstraint {
     public boolean POSITIV_X = true;
     public boolean POSITIV_Y = true;
     public boolean POSITIV_Z = true;
+    private final long mID;
     private final PVector mMin;
     private final PVector mMax;
     protected boolean mActive = true;
@@ -58,6 +59,7 @@ public class ReflectBox implements IConstraint {
     private float mEpsilon;
 
     public ReflectBox(final PVector pMin, final PVector pMax) {
+        mID = Physics.getUniqueID();
         mMin = pMin;
         mMax = pMax;
         mCoefficientOfRestitution = 1.0f;
@@ -107,101 +109,105 @@ public class ReflectBox implements IConstraint {
 
     public void dead(boolean pDead) { mDead = pDead; }
 
+    public long ID() {
+        return mID;
+    }
+
     public void apply(final ArrayList<Particle> pParticles) {
         apply(pParticles, null);
     }
 
-    public void apply(final ArrayList<Particle> pParticles, final ArrayList<Particle> theCollisionParticles) {
+    public void apply(final ArrayList<Particle> pParticles, final ArrayList<Particle> pCollisionParticles) {
         if (!mActive) {
             return;
         }
 
-        for (final Particle myParticle : pParticles) {
-            final PVector myPositionBeforeCollision = Util.clone(myParticle.position());
-            final PVector p = myParticle.position();
-            final PVector p_old = myParticle.old_position();
-            final float r = myParticle.radius();
+        for (final Particle mParticle : pParticles) {
+            final PVector mPositionBeforeCollision = Util.clone(mParticle.position());
+            final PVector p = mParticle.position();
+            final PVector p_old = mParticle.old_position();
+            final float r = mParticle.radius();
             /**
              * @todo we should weight the deflection normal
              */
             if (p.x + r > mMax.x || p.y + r > mMax.y || p.z + r > mMax.z || p.x - r < mMin.x || p.y - r < mMin.y || p.z - r < mMin.z) {
-                int myNumberOfCollisions = 0;
-                final PVector myDeflectionNormal = new PVector();
+                int mNumberOfCollisions = 0;
+                final PVector mDeflectionNormal = new PVector();
                 if (POSITIV_X) {
                     if (p.x + r > mMax.x) {
-                        final float myBorderDiff = mMax.x - p_old.x - r;
-                        p.x = p_old.x + myBorderDiff;
-                        myDeflectionNormal.add(mNormals[0]);
-                        myNumberOfCollisions++;
+                        final float mBorderDiff = mMax.x - p_old.x - r;
+                        p.x = p_old.x + mBorderDiff;
+                        mDeflectionNormal.add(mNormals[0]);
+                        mNumberOfCollisions++;
                     }
                 }
 
                 if (POSITIV_Y) {
                     if (p.y + r > mMax.y) {
-                        final float myBorderDiff = mMax.y - p_old.y - r;
-                        p.y = p_old.y + myBorderDiff;
-                        myDeflectionNormal.add(mNormals[1]);
-                        myNumberOfCollisions++;
+                        final float mBorderDiff = mMax.y - p_old.y - r;
+                        p.y = p_old.y + mBorderDiff;
+                        mDeflectionNormal.add(mNormals[1]);
+                        mNumberOfCollisions++;
                     }
                 }
 
                 if (POSITIV_Z) {
                     if (p.z + r > mMax.z) {
-                        final float myBorderDiff = mMax.z - p_old.z - r;
-                        p.z = p_old.z + myBorderDiff;
-                        myDeflectionNormal.add(mNormals[2]);
-                        myNumberOfCollisions++;
+                        final float mBorderDiff = mMax.z - p_old.z - r;
+                        p.z = p_old.z + mBorderDiff;
+                        mDeflectionNormal.add(mNormals[2]);
+                        mNumberOfCollisions++;
                     }
                 }
 
                 if (NEGATIVE_X) {
                     if (p.x - r < mMin.x) {
-                        final float myBorderDiff = mMin.x - p_old.x + r;
-                        p.x = p_old.x + myBorderDiff;
-                        myDeflectionNormal.add(mNormals[3]);
-                        myNumberOfCollisions++;
+                        final float mBorderDiff = mMin.x - p_old.x + r;
+                        p.x = p_old.x + mBorderDiff;
+                        mDeflectionNormal.add(mNormals[3]);
+                        mNumberOfCollisions++;
                     }
                 }
 
                 if (NEGATIVE_Y) {
                     if (p.y - r < mMin.y) {
-                        final float myBorderDiff = mMin.y - p_old.y + r;
-                        p.y = p_old.y + myBorderDiff;
-                        myDeflectionNormal.add(mNormals[4]);
-                        myNumberOfCollisions++;
+                        final float mBorderDiff = mMin.y - p_old.y + r;
+                        p.y = p_old.y + mBorderDiff;
+                        mDeflectionNormal.add(mNormals[4]);
+                        mNumberOfCollisions++;
                     }
                 }
 
                 if (NEGATIVE_Z) {
                     if (p.z - r < mMin.z) {
-                        final float myBorderDiff = mMin.z - p_old.z + r;
-                        p.z = p_old.z + myBorderDiff;
-                        myDeflectionNormal.add(mNormals[5]);
-                        myNumberOfCollisions++;
+                        final float mBorderDiff = mMin.z - p_old.z + r;
+                        p.z = p_old.z + mBorderDiff;
+                        mDeflectionNormal.add(mNormals[5]);
+                        mNumberOfCollisions++;
                     }
                 }
 
-                if (myNumberOfCollisions > 0) {
+                if (mNumberOfCollisions > 0) {
                     /* remember collided particles */
-                    if (theCollisionParticles != null) {
-                        theCollisionParticles.add(myParticle);
+                    if (pCollisionParticles != null) {
+                        pCollisionParticles.add(mParticle);
                     }
                     /* room for optimization / we don t need to reflect twice. */
-                    final float mySpeed = Util.distanceSquared(myPositionBeforeCollision, myParticle.old_position());
-                    if (mySpeed > mEpsilon) {
-                        final PVector myDiffAfterCollision = PVector.sub(myPositionBeforeCollision,
-                                                                         myParticle.position());
-                        final PVector myDiffBeforeCollision = PVector.sub(myParticle.old_position(),
-                                                                          myParticle.position());
-                        myDeflectionNormal.mult(1.0f / (float) myNumberOfCollisions);
-                        teilchen.util.Util.reflect(myDiffAfterCollision,
-                                                   myDeflectionNormal,
+                    final float mSpeed = Util.distanceSquared(mPositionBeforeCollision, mParticle.old_position());
+                    if (mSpeed > mEpsilon) {
+                        final PVector mDiffAfterCollision = PVector.sub(mPositionBeforeCollision,
+                                                                         mParticle.position());
+                        final PVector mDiffBeforeCollision = PVector.sub(mParticle.old_position(),
+                                                                          mParticle.position());
+                        mDeflectionNormal.mult(1.0f / (float) mNumberOfCollisions);
+                        teilchen.util.Util.reflect(mDiffAfterCollision,
+                                                   mDeflectionNormal,
                                                    mCoefficientOfRestitution);
-                        teilchen.util.Util.reflect(myDiffBeforeCollision, myDeflectionNormal, 1);
+                        teilchen.util.Util.reflect(mDiffBeforeCollision, mDeflectionNormal, 1);
 
-                        if (!Util.isNaN(myParticle.old_position()) && !Util.isNaN(myParticle.position())) {
-                            PVector.add(myParticle.position(), myDiffBeforeCollision, myParticle.old_position());
-                            myParticle.position().add(myDiffAfterCollision);
+                        if (!Util.isNaN(mParticle.old_position()) && !Util.isNaN(mParticle.position())) {
+                            PVector.add(mParticle.position(), mDiffBeforeCollision, mParticle.old_position());
+                            mParticle.position().add(mDiffAfterCollision);
                         }
                     }
                 }

@@ -36,8 +36,8 @@ public class SketchLesson13_VectorField extends PApplet {
         mVectorField.position().set(40, 40);
         mPhysics.add(mVectorField);
 
-        ViscousDrag myDrag = new ViscousDrag(0.75f);
-        mPhysics.add(myDrag);
+        ViscousDrag mDrag = new ViscousDrag(0.75f);
+        mPhysics.add(mDrag);
 
         mVectorField.randomize_forces(40);
         spawnParticles();

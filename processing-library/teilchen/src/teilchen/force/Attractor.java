@@ -32,57 +32,59 @@ import static teilchen.util.Util.lengthSquared;
 public class Attractor
         implements IForce {
 
-    protected final PVector myTemp = new PVector();
-    protected PVector _myPosition;
-    protected float _myStrength;
-    protected float _myRadius;
-    private boolean _myActive;
+    protected final PVector mTemp = new PVector();
+    protected PVector mPosition;
+    protected float mStrength;
+    protected float mRadius;
+    private boolean mActive;
     private boolean mDead = false;
+    private final long mID;
 
     public Attractor() {
-        _myPosition = new PVector();
-        _myRadius = 100;
-        _myStrength = 1;
-        _myActive = true;
+        mID = Physics.getUniqueID();
+        mPosition = new PVector();
+        mRadius = 100;
+        mStrength = 1;
+        mActive = true;
     }
 
     public PVector position() {
-        return _myPosition;
+        return mPosition;
     }
 
-    public void setPositionRef(PVector thePosition) {
-        _myPosition = thePosition;
+    public void setPositionRef(PVector pPosition) {
+        mPosition = pPosition;
     }
 
     public float strength() {
-        return _myStrength;
+        return mStrength;
     }
 
-    public void strength(float theStrength) {
-        _myStrength = theStrength;
+    public void strength(float pStrength) {
+        mStrength = pStrength;
     }
 
     public float radius() {
-        return _myRadius;
+        return mRadius;
     }
 
-    public void radius(float theRadius) {
-        _myRadius = theRadius;
+    public void radius(float pRadius) {
+        mRadius = pRadius;
     }
 
     public void apply(float pDeltaTime, Physics pParticleSystem) {
-        if (_myStrength != 0) {
-            for (final Particle myParticle : pParticleSystem.particles()) {
+        if (mStrength != 0) {
+            for (final Particle mParticle : pParticleSystem.particles()) {
                 /* each particle */
-                if (!myParticle.fixed()) {
-                    sub(_myPosition, myParticle.position(), myTemp);
-                    final float myDistance = fastInverseSqrt(1 / lengthSquared(myTemp));
-                    if (myDistance < _myRadius) {
-                        float myFallOff = 1f - myDistance / _myRadius;
-                        final float myForce = myFallOff * myFallOff * _myStrength;
-                        myTemp.mult(myForce / myDistance);
-                        if (!myParticle.fixed()) {
-                            myParticle.force().add(myTemp);
+                if (!mParticle.fixed()) {
+                    sub(mPosition, mParticle.position(), mTemp);
+                    final float mDistance = fastInverseSqrt(1 / lengthSquared(mTemp));
+                    if (mDistance < mRadius) {
+                        float mFallOff = 1f - mDistance / mRadius;
+                        final float mForce = mFallOff * mFallOff * mStrength;
+                        mTemp.mult(mForce / mDistance);
+                        if (!mParticle.fixed()) {
+                            mParticle.force().add(mTemp);
                         }
                     }
                 }
@@ -99,11 +101,15 @@ public class Attractor
     }
 
     public boolean active() {
-        return _myActive;
+        return mActive;
     }
 
     public void active(boolean pActiveState) {
-        _myActive = pActiveState;
+        mActive = pActiveState;
+    }
+
+    public long ID() {
+        return mID;
     }
 
     protected static float fastInverseSqrt(float v) {

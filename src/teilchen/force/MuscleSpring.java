@@ -76,8 +76,8 @@ public class MuscleSpring
         if (!mPaused) {
             mCurrentTime += pDeltaTime;
 
-            final float myOffset = (float) Math.sin(mCurrentTime * mFrequency + mPhaseShift) * mAmplitude;
-            mRestLength = mInitialRestLength + myOffset;
+            final float mOffset = (float) Math.sin(mCurrentTime * mFrequency + mPhaseShift) * mAmplitude;
+            mRestLength = mInitialRestLength + mOffset;
         }
         super.apply(pDeltaTime, pParticleSystem);
     }

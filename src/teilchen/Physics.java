@@ -40,6 +40,7 @@ public class Physics {
 
     public static final float EPSILON = 0.001f;
     public static boolean HINT_UPDATE_OLD_POSITION = true;
+    private static long oID = -1;
     public boolean HINT_OPTIMIZE_STILL = true;
     public boolean HINT_RECOVER_NAN = true;
     public boolean HINT_REMOVE_DEAD = true;
@@ -54,6 +55,11 @@ public class Physics {
         mForces = new ArrayList<>();
         mConstraints = new ArrayList<>();
         mIntegrator = new Midpoint();
+    }
+
+    public static long getUniqueID() {
+        oID++;
+        return oID;
     }
 
     /* particles */
@@ -94,64 +100,64 @@ public class Physics {
     }
 
     public BasicParticle makeParticle(final PVector pPosition) {
-        BasicParticle myParticle = makeParticle();
-        myParticle.setPositionRef(pPosition);
-        myParticle.old_position().set(myParticle.position());
-        return myParticle;
+        BasicParticle mParticle = makeParticle();
+        mParticle.setPositionRef(pPosition);
+        mParticle.old_position().set(mParticle.position());
+        return mParticle;
     }
 
     public BasicParticle makeParticle() {
-        BasicParticle myParticle = new BasicParticle();
-        mParticles.add(myParticle);
-        return myParticle;
+        BasicParticle mParticle = new BasicParticle();
+        mParticles.add(mParticle);
+        return mParticle;
     }
 
     public BasicParticle makeParticle(final float x, final float y) {
-        BasicParticle myParticle = makeParticle();
-        myParticle.position().set(x, y);
-        myParticle.old_position().set(myParticle.position());
-        return myParticle;
+        BasicParticle mParticle = makeParticle();
+        mParticle.position().set(x, y);
+        mParticle.old_position().set(mParticle.position());
+        return mParticle;
     }
 
     public BasicParticle makeParticle(final float x, final float y, final float z) {
-        BasicParticle myParticle = makeParticle();
-        myParticle.position().set(x, y, z);
-        myParticle.old_position().set(myParticle.position());
-        return myParticle;
+        BasicParticle mParticle = makeParticle();
+        mParticle.position().set(x, y, z);
+        mParticle.old_position().set(mParticle.position());
+        return mParticle;
     }
 
     public BasicParticle makeParticle(final float x, final float y, final float z, final float pMass) {
-        BasicParticle myParticle = makeParticle();
-        myParticle.position().set(x, y, z);
-        myParticle.mass(pMass);
-        myParticle.old_position().set(myParticle.position());
-        return myParticle;
+        BasicParticle mParticle = makeParticle();
+        mParticle.position().set(x, y, z);
+        mParticle.mass(pMass);
+        mParticle.old_position().set(mParticle.position());
+        return mParticle;
     }
 
     public BasicParticle makeParticle(final PVector pPosition, final float pMass) {
-        BasicParticle myParticle = makeParticle();
-        myParticle.setPositionRef(pPosition);
-        myParticle.old_position().set(myParticle.position());
-        myParticle.mass(pMass);
-        return myParticle;
+        BasicParticle mParticle = makeParticle();
+        mParticle.setPositionRef(pPosition);
+        mParticle.old_position().set(mParticle.position());
+        mParticle.mass(pMass);
+        return mParticle;
     }
 
     public <T extends Particle> T makeParticle(Class<T> pParticleClass) {
-        T myParticle;
+        T mParticle;
         try {
-            myParticle = pParticleClass.newInstance();
-            mParticles.add(myParticle);
+            mParticle = pParticleClass.newInstance();
+            mParticles.add(mParticle);
         } catch (Exception ex) {
             ex.printStackTrace();
             System.err.println(ex);
-            myParticle = null;
+            mParticle = null;
         }
-        return myParticle;
+        return mParticle;
     }
 
     public void removeTags() {
-        for (final Particle myParticle : mParticles) {
-            myParticle.tag(false);
+        for (final Particle mParticle : mParticles) {
+            mParticle.tag(false);
         }
     }
 
@@ -200,10 +206,10 @@ public class Physics {
     public void applyForces(final float pDeltaTime) {
         /* accumulate inner forces */
         synchronized (mParticles) {
-            for (Particle myParticle : mParticles) {
-                if (!myParticle.fixed()) {
+            for (Particle mParticle : mParticles) {
+                if (!mParticle.fixed()) {
                     /* accumulate inner forces */
-                    myParticle.accumulateInnerForce(pDeltaTime);
+                    mParticle.accumulateInnerForce(pDeltaTime);
                 }
             }
         }
@@ -219,35 +225,35 @@ public class Physics {
     }
 
     public <T extends IForce> T makeForce(Class<T> pForceClass) {
-        T myForce;
+        T mForce;
         try {
-            myForce = pForceClass.newInstance();
-            mForces.add(myForce);
+            mForce = pForceClass.newInstance();
+            mForces.add(mForce);
         } catch (Exception ex) {
-            myForce = null;
+            mForce = null;
         }
-        return myForce;
+        return mForce;
     }
 
     public Spring makeSpring(final Particle pA, final Particle pB) {
-        Spring mySpring = new Spring(pA, pB);
-        mForces.add(mySpring);
-        return mySpring;
+        Spring mSpring = new Spring(pA, pB);
+        mForces.add(mSpring);
+        return mSpring;
     }
 
     public Spring makeSpring(final Particle pA, final Particle pB, final float pRestLength) {
-        Spring mySpring = new Spring(pA, pB, pRestLength);
-        mForces.add(mySpring);
-        return mySpring;
+        Spring mSpring = new Spring(pA, pB, pRestLength);
+        mForces.add(mSpring);
+        return mSpring;
     }
 
     public Spring makeSpring(final Particle pA,
                              final Particle pB,
                              final float pSpringConstant,
                              final float pSpringDamping) {
-        Spring mySpring = new Spring(pA, pB, pSpringConstant, pSpringDamping);
-        mForces.add(mySpring);
-        return mySpring;
+        Spring mSpring = new Spring(pA, pB, pSpringConstant, pSpringDamping);
+        mForces.add(mSpring);
+        return mSpring;
     }
 
     public Spring makeSpring(final Particle pA,
@@ -255,9 +261,9 @@ public class Physics {
                              final float pSpringConstant,
                              final float pSpringDamping,
                              final float pRestLength) {
-        Spring mySpring = new Spring(pA, pB, pSpringConstant, pSpringDamping, pRestLength);
-        mForces.add(mySpring);
-        return mySpring;
+        Spring mSpring = new Spring(pA, pB, pSpringConstant, pSpringDamping, pRestLength);
+        mForces.add(mSpring);
+        return mSpring;
     }
 
     /* constraints */
@@ -397,8 +403,8 @@ public class Physics {
                 }
                 /* still */
                 if (HINT_OPTIMIZE_STILL) {
-                    final float mySpeed = Util.lengthSquared(mParticle.velocity());
-                    mParticle.still(mySpeed > -EPSILON && mySpeed < EPSILON);
+                    final float mSpeed = Util.lengthSquared(mParticle.velocity());
+                    mParticle.still(mSpeed > -EPSILON && mSpeed < EPSILON);
                 }
             }
         }

@@ -77,28 +77,28 @@ public class TransformMatrix4f
 
     private static final float ONE = 1;
 
-    private final float[] _myArrayRepresentation = new float[16];
+    private final float[] mArrayRepresentation = new float[16];
 
     public TransformMatrix4f() {
         translation = new PVector();
         rotation = new Matrix3f();
     }
 
-    public TransformMatrix4f(int theType) {
+    public TransformMatrix4f(int pType) {
         translation = new PVector();
-        rotation = new Matrix3f(theType);
+        rotation = new Matrix3f(pType);
         toArray();
     }
 
-    public TransformMatrix4f(TransformMatrix4f theMatrix4f) {
+    public TransformMatrix4f(TransformMatrix4f pMatrix4f) {
         this();
-        set(theMatrix4f);
+        set(pMatrix4f);
         toArray();
     }
 
-    public TransformMatrix4f(float[] theMatrixArray) {
+    public TransformMatrix4f(float[] pMatrixArray) {
         this();
-        set(theMatrixArray);
+        set(pMatrixArray);
         toArray();
     }
 
@@ -148,83 +148,83 @@ public class TransformMatrix4f
         translation.set(mat.translation);
     }
 
-    public final void set(float[] theArrayRepresentation) {
-        rotation.xx = theArrayRepresentation[0];
-        rotation.yx = theArrayRepresentation[1];
-        rotation.zx = theArrayRepresentation[2];
+    public final void set(float[] pArrayRepresentation) {
+        rotation.xx = pArrayRepresentation[0];
+        rotation.yx = pArrayRepresentation[1];
+        rotation.zx = pArrayRepresentation[2];
         /* 3 */
-        rotation.xy = theArrayRepresentation[4];
-        rotation.yy = theArrayRepresentation[5];
-        rotation.zy = theArrayRepresentation[6];
+        rotation.xy = pArrayRepresentation[4];
+        rotation.yy = pArrayRepresentation[5];
+        rotation.zy = pArrayRepresentation[6];
         /* 7 */
-        rotation.xz = theArrayRepresentation[8];
-        rotation.yz = theArrayRepresentation[9];
-        rotation.zz = theArrayRepresentation[10];
+        rotation.xz = pArrayRepresentation[8];
+        rotation.yz = pArrayRepresentation[9];
+        rotation.zz = pArrayRepresentation[10];
         /* 11 */
-        translation.x = theArrayRepresentation[12];
-        translation.y = theArrayRepresentation[13];
-        translation.z = theArrayRepresentation[14];
+        translation.x = pArrayRepresentation[12];
+        translation.y = pArrayRepresentation[13];
+        translation.z = pArrayRepresentation[14];
         /* 15 */
     }
 
-    public final void multiply(float theValue) {
-        rotation.xx *= theValue;
-        rotation.xy *= theValue;
-        rotation.xz *= theValue;
-        translation.x *= theValue;
-        rotation.yx *= theValue;
-        rotation.yy *= theValue;
-        rotation.yz *= theValue;
-        translation.y *= theValue;
-        rotation.zx *= theValue;
-        rotation.zy *= theValue;
-        rotation.zz *= theValue;
-        translation.z *= theValue;
+    public final void multiply(float pValue) {
+        rotation.xx *= pValue;
+        rotation.xy *= pValue;
+        rotation.xz *= pValue;
+        translation.x *= pValue;
+        rotation.yx *= pValue;
+        rotation.yy *= pValue;
+        rotation.yz *= pValue;
+        translation.y *= pValue;
+        rotation.zx *= pValue;
+        rotation.zy *= pValue;
+        rotation.zz *= pValue;
+        translation.z *= pValue;
     }
 
-    public final void multiply(float theValue,
-                               TransformMatrix4f theMatrix4f) {
-        rotation.xx = theMatrix4f.rotation.xx * theValue;
-        rotation.xy = theMatrix4f.rotation.xy * theValue;
-        rotation.xz = theMatrix4f.rotation.xz * theValue;
-        translation.x = theMatrix4f.translation.x * theValue;
-        rotation.yx = theMatrix4f.rotation.yx * theValue;
-        rotation.yy = theMatrix4f.rotation.yy * theValue;
-        rotation.yz = theMatrix4f.rotation.yz * theValue;
-        translation.y = theMatrix4f.translation.y * theValue;
-        rotation.zx = theMatrix4f.rotation.zx * theValue;
-        rotation.zy = theMatrix4f.rotation.zy * theValue;
-        rotation.zz = theMatrix4f.rotation.zz * theValue;
-        translation.z = theMatrix4f.translation.z * theValue;
+    public final void multiply(float pValue,
+                               TransformMatrix4f pMatrix4f) {
+        rotation.xx = pMatrix4f.rotation.xx * pValue;
+        rotation.xy = pMatrix4f.rotation.xy * pValue;
+        rotation.xz = pMatrix4f.rotation.xz * pValue;
+        translation.x = pMatrix4f.translation.x * pValue;
+        rotation.yx = pMatrix4f.rotation.yx * pValue;
+        rotation.yy = pMatrix4f.rotation.yy * pValue;
+        rotation.yz = pMatrix4f.rotation.yz * pValue;
+        translation.y = pMatrix4f.translation.y * pValue;
+        rotation.zx = pMatrix4f.rotation.zx * pValue;
+        rotation.zy = pMatrix4f.rotation.zy * pValue;
+        rotation.zz = pMatrix4f.rotation.zz * pValue;
+        translation.z = pMatrix4f.translation.z * pValue;
     }
 
-    public final void multiply(TransformMatrix4f theMatrix4f) {
-        float tmp1 = rotation.xx * theMatrix4f.rotation.xx + rotation.xy * theMatrix4f.rotation.yx
-                     + rotation.xz * theMatrix4f.rotation.zx + translation.x * TransformMatrix4f.ZERO;
-        float tmp2 = rotation.xx * theMatrix4f.rotation.xy + rotation.xy * theMatrix4f.rotation.yy
-                     + rotation.xz * theMatrix4f.rotation.zy + translation.x * TransformMatrix4f.ZERO;
-        float tmp3 = rotation.xx * theMatrix4f.rotation.xz + rotation.xy * theMatrix4f.rotation.yz
-                     + rotation.xz * theMatrix4f.rotation.zz + translation.x * TransformMatrix4f.ZERO;
-        float tmp4 = rotation.xx * theMatrix4f.translation.x + rotation.xy * theMatrix4f.translation.y
-                     + rotation.xz * theMatrix4f.translation.z + translation.x * TransformMatrix4f.ONE;
+    public final void multiply(TransformMatrix4f pMatrix4f) {
+        float tmp1 = rotation.xx * pMatrix4f.rotation.xx + rotation.xy * pMatrix4f.rotation.yx
+                     + rotation.xz * pMatrix4f.rotation.zx + translation.x * TransformMatrix4f.ZERO;
+        float tmp2 = rotation.xx * pMatrix4f.rotation.xy + rotation.xy * pMatrix4f.rotation.yy
+                     + rotation.xz * pMatrix4f.rotation.zy + translation.x * TransformMatrix4f.ZERO;
+        float tmp3 = rotation.xx * pMatrix4f.rotation.xz + rotation.xy * pMatrix4f.rotation.yz
+                     + rotation.xz * pMatrix4f.rotation.zz + translation.x * TransformMatrix4f.ZERO;
+        float tmp4 = rotation.xx * pMatrix4f.translation.x + rotation.xy * pMatrix4f.translation.y
+                     + rotation.xz * pMatrix4f.translation.z + translation.x * TransformMatrix4f.ONE;
 
-        float tmp5 = rotation.yx * theMatrix4f.rotation.xx + rotation.yy * theMatrix4f.rotation.yx
-                     + rotation.yz * theMatrix4f.rotation.zx + translation.y * TransformMatrix4f.ZERO;
-        float tmp6 = rotation.yx * theMatrix4f.rotation.xy + rotation.yy * theMatrix4f.rotation.yy
-                     + rotation.yz * theMatrix4f.rotation.zy + translation.y * TransformMatrix4f.ZERO;
-        float tmp7 = rotation.yx * theMatrix4f.rotation.xz + rotation.yy * theMatrix4f.rotation.yz
-                     + rotation.yz * theMatrix4f.rotation.zz + translation.y * TransformMatrix4f.ZERO;
-        float tmp8 = rotation.yx * theMatrix4f.translation.x + rotation.yy * theMatrix4f.translation.y
-                     + rotation.yz * theMatrix4f.translation.z + translation.y * TransformMatrix4f.ONE;
+        float tmp5 = rotation.yx * pMatrix4f.rotation.xx + rotation.yy * pMatrix4f.rotation.yx
+                     + rotation.yz * pMatrix4f.rotation.zx + translation.y * TransformMatrix4f.ZERO;
+        float tmp6 = rotation.yx * pMatrix4f.rotation.xy + rotation.yy * pMatrix4f.rotation.yy
+                     + rotation.yz * pMatrix4f.rotation.zy + translation.y * TransformMatrix4f.ZERO;
+        float tmp7 = rotation.yx * pMatrix4f.rotation.xz + rotation.yy * pMatrix4f.rotation.yz
+                     + rotation.yz * pMatrix4f.rotation.zz + translation.y * TransformMatrix4f.ZERO;
+        float tmp8 = rotation.yx * pMatrix4f.translation.x + rotation.yy * pMatrix4f.translation.y
+                     + rotation.yz * pMatrix4f.translation.z + translation.y * TransformMatrix4f.ONE;
 
-        float tmp9 = rotation.zx * theMatrix4f.rotation.xx + rotation.zy * theMatrix4f.rotation.yx
-                     + rotation.zz * theMatrix4f.rotation.zx + translation.z * TransformMatrix4f.ZERO;
-        float tmp10 = rotation.zx * theMatrix4f.rotation.xy + rotation.zy * theMatrix4f.rotation.yy
-                      + rotation.zz * theMatrix4f.rotation.zy + translation.z * TransformMatrix4f.ZERO;
-        float tmp11 = rotation.zx * theMatrix4f.rotation.xz + rotation.zy * theMatrix4f.rotation.yz
-                      + rotation.zz * theMatrix4f.rotation.zz + translation.z * TransformMatrix4f.ZERO;
-        float tmp12 = rotation.zx * theMatrix4f.translation.x + rotation.zy * theMatrix4f.translation.y
-                      + rotation.zz * theMatrix4f.translation.z + translation.z * TransformMatrix4f.ONE;
+        float tmp9 = rotation.zx * pMatrix4f.rotation.xx + rotation.zy * pMatrix4f.rotation.yx
+                     + rotation.zz * pMatrix4f.rotation.zx + translation.z * TransformMatrix4f.ZERO;
+        float tmp10 = rotation.zx * pMatrix4f.rotation.xy + rotation.zy * pMatrix4f.rotation.yy
+                      + rotation.zz * pMatrix4f.rotation.zy + translation.z * TransformMatrix4f.ZERO;
+        float tmp11 = rotation.zx * pMatrix4f.rotation.xz + rotation.zy * pMatrix4f.rotation.yz
+                      + rotation.zz * pMatrix4f.rotation.zz + translation.z * TransformMatrix4f.ZERO;
+        float tmp12 = rotation.zx * pMatrix4f.translation.x + rotation.zy * pMatrix4f.translation.y
+                      + rotation.zz * pMatrix4f.translation.z + translation.z * TransformMatrix4f.ONE;
 
         /*
          float temp13 = m30 * in2.m00 +
@@ -258,43 +258,43 @@ public class TransformMatrix4f
         translation.z = tmp12;
     }
 
-    public final void transform(PVector theResult) {
+    public final void transform(PVector pResult) {
         /**
          * @todo check if this is right...
          */
-        theResult.set(rotation.xx * theResult.x
-                      + rotation.xy * theResult.y
-                      + rotation.xz * theResult.z
+        pResult.set(rotation.xx * pResult.x
+                      + rotation.xy * pResult.y
+                      + rotation.xz * pResult.z
                       + translation.x,
-                      rotation.yx * theResult.x
-                      + rotation.yy * theResult.y
-                      + rotation.yz * theResult.z
+                      rotation.yx * pResult.x
+                      + rotation.yy * pResult.y
+                      + rotation.yz * pResult.z
                       + translation.y,
-                      rotation.zx * theResult.x
-                      + rotation.zy * theResult.y
-                      + rotation.zz * theResult.z
+                      rotation.zx * pResult.x
+                      + rotation.zy * pResult.y
+                      + rotation.zz * pResult.z
                       + translation.z);
     }
 
     public final float[] toArray() {
         /* so that opengl can understand it */
-        _myArrayRepresentation[0] = rotation.xx;
-        _myArrayRepresentation[1] = rotation.yx;
-        _myArrayRepresentation[2] = rotation.zx;
-        _myArrayRepresentation[3] = ZERO;
-        _myArrayRepresentation[4] = rotation.xy;
-        _myArrayRepresentation[5] = rotation.yy;
-        _myArrayRepresentation[6] = rotation.zy;
-        _myArrayRepresentation[7] = ZERO;
-        _myArrayRepresentation[8] = rotation.xz;
-        _myArrayRepresentation[9] = rotation.yz;
-        _myArrayRepresentation[10] = rotation.zz;
-        _myArrayRepresentation[11] = ZERO;
-        _myArrayRepresentation[12] = translation.x;
-        _myArrayRepresentation[13] = translation.y;
-        _myArrayRepresentation[14] = translation.z;
-        _myArrayRepresentation[15] = ONE;
-        return _myArrayRepresentation;
+        mArrayRepresentation[0] = rotation.xx;
+        mArrayRepresentation[1] = rotation.yx;
+        mArrayRepresentation[2] = rotation.zx;
+        mArrayRepresentation[3] = ZERO;
+        mArrayRepresentation[4] = rotation.xy;
+        mArrayRepresentation[5] = rotation.yy;
+        mArrayRepresentation[6] = rotation.zy;
+        mArrayRepresentation[7] = ZERO;
+        mArrayRepresentation[8] = rotation.xz;
+        mArrayRepresentation[9] = rotation.yz;
+        mArrayRepresentation[10] = rotation.zz;
+        mArrayRepresentation[11] = ZERO;
+        mArrayRepresentation[12] = translation.x;
+        mArrayRepresentation[13] = translation.y;
+        mArrayRepresentation[14] = translation.z;
+        mArrayRepresentation[15] = ONE;
+        return mArrayRepresentation;
     }
 
     public String toString() {
@@ -306,26 +306,26 @@ public class TransformMatrix4f
 
     public static void main(String[] args) {
         /* multiplying matrices */
-        TransformMatrix4f myScaleMatrix = new TransformMatrix4f(TransformMatrix4f.IDENTITY);
-        myScaleMatrix.rotation.setXAxis(new PVector(2, 0, 0));
-        myScaleMatrix.rotation.setYAxis(new PVector(0, 2, 0));
-        myScaleMatrix.rotation.setZAxis(new PVector(0, 0, 2));
+        TransformMatrix4f mScaleMatrix = new TransformMatrix4f(TransformMatrix4f.IDENTITY);
+        mScaleMatrix.rotation.setXAxis(new PVector(2, 0, 0));
+        mScaleMatrix.rotation.setYAxis(new PVector(0, 2, 0));
+        mScaleMatrix.rotation.setZAxis(new PVector(0, 0, 2));
 
-        TransformMatrix4f myTranslateMatrix = new TransformMatrix4f(TransformMatrix4f.IDENTITY);
-        myTranslateMatrix.translation.set(2,
+        TransformMatrix4f mTranslateMatrix = new TransformMatrix4f(TransformMatrix4f.IDENTITY);
+        mTranslateMatrix.translation.set(2,
                                           3,
                                           4);
 
-        myScaleMatrix.multiply(myScaleMatrix);
-        myScaleMatrix.multiply(myTranslateMatrix);
-        System.out.println(myScaleMatrix);
+        mScaleMatrix.multiply(mScaleMatrix);
+        mScaleMatrix.multiply(mTranslateMatrix);
+        System.out.println(mScaleMatrix);
 
         /* transform position */
         System.out.println("\n### translate");
-        System.out.println(myTranslateMatrix);
+        System.out.println(mTranslateMatrix);
         System.out.println();
-        PVector myVector = new PVector(10, 5, 7);
-        myTranslateMatrix.transform(myVector);
-        System.out.println(myVector);
+        PVector mVector = new PVector(10, 5, 7);
+        mTranslateMatrix.transform(mVector);
+        System.out.println(mVector);
     }
 }

@@ -65,9 +65,9 @@ public class Matrix3f
 
     public float zz;
 
-    private final float[] _myArrayRepresentation = new float[9];
+    private final float[] mArrayRepresentation = new float[9];
 
-    private final float[] _myArray4fRepresentation = new float[16];
+    private final float[] mArray4fRepresentation = new float[16];
 
     public Matrix3f() {
         xx = 0.0f;
@@ -81,12 +81,12 @@ public class Matrix3f
         zz = 0.0f;
     }
 
-    public Matrix3f(Matrix3f theMatrix) {
-        set(theMatrix);
+    public Matrix3f(Matrix3f pMatrix) {
+        set(pMatrix);
     }
 
-    public Matrix3f(int theType) {
-        switch (theType) {
+    public Matrix3f(int pType) {
+        switch (pType) {
             case IDENTITY:
                 setIdentity();
                 break;
@@ -113,28 +113,28 @@ public class Matrix3f
         this.zz = zz;
     }
 
-    public final void set(float[] _myArrayRepresentation) {
-        xx = _myArrayRepresentation[0];
-        yx = _myArrayRepresentation[1];
-        zx = _myArrayRepresentation[2];
-        xy = _myArrayRepresentation[3];
-        yy = _myArrayRepresentation[4];
-        zy = _myArrayRepresentation[5];
-        xz = _myArrayRepresentation[6];
-        yz = _myArrayRepresentation[7];
-        zz = _myArrayRepresentation[8];
+    public final void set(float[] mArrayRepresentation) {
+        xx = mArrayRepresentation[0];
+        yx = mArrayRepresentation[1];
+        zx = mArrayRepresentation[2];
+        xy = mArrayRepresentation[3];
+        yy = mArrayRepresentation[4];
+        zy = mArrayRepresentation[5];
+        xz = mArrayRepresentation[6];
+        yz = mArrayRepresentation[7];
+        zz = mArrayRepresentation[8];
     }
 
-    public final void set(Matrix3f theMatrix) {
-        xx = theMatrix.xx;
-        xy = theMatrix.xy;
-        xz = theMatrix.xz;
-        yx = theMatrix.yx;
-        yy = theMatrix.yy;
-        yz = theMatrix.yz;
-        zx = theMatrix.zx;
-        zy = theMatrix.zy;
-        zz = theMatrix.zz;
+    public final void set(Matrix3f pMatrix) {
+        xx = pMatrix.xx;
+        xy = pMatrix.xy;
+        xz = pMatrix.xz;
+        yx = pMatrix.yx;
+        yy = pMatrix.yy;
+        yz = pMatrix.yz;
+        zx = pMatrix.zx;
+        zy = pMatrix.zy;
+        zz = pMatrix.zz;
     }
 
     public void setIdentity() {
@@ -161,66 +161,66 @@ public class Matrix3f
         zz = 0.0f;
     }
 
-    public void add(float theValue) {
-        xx += theValue;
-        xy += theValue;
-        xz += theValue;
-        yx += theValue;
-        yy += theValue;
-        yz += theValue;
-        zx += theValue;
-        zy += theValue;
-        zz += theValue;
+    public void add(float pValue) {
+        xx += pValue;
+        xy += pValue;
+        xz += pValue;
+        yx += pValue;
+        yy += pValue;
+        yz += pValue;
+        zx += pValue;
+        zy += pValue;
+        zz += pValue;
     }
 
-    public void add(Matrix3f theMatrixA,
-                    Matrix3f theMatrixB) {
-        xx = theMatrixA.xx + theMatrixB.xx;
-        xy = theMatrixA.xy + theMatrixB.xy;
-        xz = theMatrixA.xz + theMatrixB.xz;
-        yx = theMatrixA.yx + theMatrixB.yx;
-        yy = theMatrixA.yy + theMatrixB.yy;
-        yz = theMatrixA.yz + theMatrixB.yz;
-        zx = theMatrixA.zx + theMatrixB.zx;
-        zy = theMatrixA.zy + theMatrixB.zy;
-        zz = theMatrixA.zz + theMatrixB.zz;
+    public void add(Matrix3f pMatrixA,
+                    Matrix3f pMatrixB) {
+        xx = pMatrixA.xx + pMatrixB.xx;
+        xy = pMatrixA.xy + pMatrixB.xy;
+        xz = pMatrixA.xz + pMatrixB.xz;
+        yx = pMatrixA.yx + pMatrixB.yx;
+        yy = pMatrixA.yy + pMatrixB.yy;
+        yz = pMatrixA.yz + pMatrixB.yz;
+        zx = pMatrixA.zx + pMatrixB.zx;
+        zy = pMatrixA.zy + pMatrixB.zy;
+        zz = pMatrixA.zz + pMatrixB.zz;
     }
 
-    public void add(Matrix3f theMatrix) {
-        xx += theMatrix.xx;
-        xy += theMatrix.xy;
-        xz += theMatrix.xz;
-        yx += theMatrix.yx;
-        yy += theMatrix.yy;
-        yz += theMatrix.yz;
-        zx += theMatrix.zx;
-        zy += theMatrix.zy;
-        zz += theMatrix.zz;
+    public void add(Matrix3f pMatrix) {
+        xx += pMatrix.xx;
+        xy += pMatrix.xy;
+        xz += pMatrix.xz;
+        yx += pMatrix.yx;
+        yy += pMatrix.yy;
+        yz += pMatrix.yz;
+        zx += pMatrix.zx;
+        zy += pMatrix.zy;
+        zz += pMatrix.zz;
     }
 
-    public void sub(Matrix3f theMatrixA,
-                    Matrix3f theMatrixB) {
-        xx = theMatrixA.xx - theMatrixB.xx;
-        xy = theMatrixA.xy - theMatrixB.xy;
-        xz = theMatrixA.xz - theMatrixB.xz;
-        yx = theMatrixA.yx - theMatrixB.yx;
-        yy = theMatrixA.yy - theMatrixB.yy;
-        yz = theMatrixA.yz - theMatrixB.yz;
-        zx = theMatrixA.zx - theMatrixB.zx;
-        zy = theMatrixA.zy - theMatrixB.zy;
-        zz = theMatrixA.zz - theMatrixB.zz;
+    public void sub(Matrix3f pMatrixA,
+                    Matrix3f pMatrixB) {
+        xx = pMatrixA.xx - pMatrixB.xx;
+        xy = pMatrixA.xy - pMatrixB.xy;
+        xz = pMatrixA.xz - pMatrixB.xz;
+        yx = pMatrixA.yx - pMatrixB.yx;
+        yy = pMatrixA.yy - pMatrixB.yy;
+        yz = pMatrixA.yz - pMatrixB.yz;
+        zx = pMatrixA.zx - pMatrixB.zx;
+        zy = pMatrixA.zy - pMatrixB.zy;
+        zz = pMatrixA.zz - pMatrixB.zz;
     }
 
-    public void sub(Matrix3f theMatrix) {
-        xx -= theMatrix.xx;
-        xy -= theMatrix.xy;
-        xz -= theMatrix.xz;
-        yx -= theMatrix.yx;
-        yy -= theMatrix.yy;
-        yz -= theMatrix.yz;
-        zx -= theMatrix.zx;
-        zy -= theMatrix.zy;
-        zz -= theMatrix.zz;
+    public void sub(Matrix3f pMatrix) {
+        xx -= pMatrix.xx;
+        xy -= pMatrix.xy;
+        xz -= pMatrix.xz;
+        yx -= pMatrix.yx;
+        yy -= pMatrix.yy;
+        yz -= pMatrix.yz;
+        zx -= pMatrix.zx;
+        zy -= pMatrix.zy;
+        zz -= pMatrix.zz;
     }
 
     public void transpose() {
@@ -229,28 +229,28 @@ public class Matrix3f
          * NOTE if the matrix is a rotation matrix ie the determinant is 1, the
          * transpose is equivalent to the invers of the matrix.
          */
-        float mySwap = yx;
+        float mSwap = yx;
         yx = xy;
-        xy = mySwap;
-        mySwap = zx;
+        xy = mSwap;
+        mSwap = zx;
         zx = xz;
-        xz = mySwap;
-        mySwap = zy;
+        xz = mSwap;
+        mSwap = zy;
         zy = yz;
-        yz = mySwap;
+        yz = mSwap;
     }
 
-    public void transpose(Matrix3f theMatrix) {
-        if (this != theMatrix) {
-            xx = theMatrix.xx;
-            xy = theMatrix.yx;
-            xz = theMatrix.zx;
-            yx = theMatrix.xy;
-            yy = theMatrix.yy;
-            yz = theMatrix.zy;
-            zx = theMatrix.xz;
-            zy = theMatrix.yz;
-            zz = theMatrix.zz;
+    public void transpose(Matrix3f pMatrix) {
+        if (this != pMatrix) {
+            xx = pMatrix.xx;
+            xy = pMatrix.yx;
+            xz = pMatrix.zx;
+            yx = pMatrix.xy;
+            yy = pMatrix.yy;
+            yz = pMatrix.zy;
+            zx = pMatrix.xz;
+            zy = pMatrix.yz;
+            zz = pMatrix.zz;
         } else {
             transpose();
         }
@@ -261,11 +261,11 @@ public class Matrix3f
     }
 
     public final void invert() {
-        float myDeterminant = determinant();
-        if (myDeterminant == 0.0) {
+        float mDeterminant = determinant();
+        if (mDeterminant == 0.0) {
             return;
         }
-        myDeterminant = 1 / myDeterminant;
+        mDeterminant = 1 / mDeterminant;
         set(yy * zz - zy * yz,
             zx * yz - yx * zz,
             yx * zy - zx * yy,
@@ -275,43 +275,43 @@ public class Matrix3f
             xy * yz - yy * xz,
             yx * xz - xx * yz,
             xx * yy - yx * xy);
-        multiply(myDeterminant);
+        multiply(mDeterminant);
     }
 
-    public final void setXAxis(PVector theVector) {
-        xx = theVector.x;
-        yx = theVector.y;
-        zx = theVector.z;
+    public final void setXAxis(PVector pVector) {
+        xx = pVector.x;
+        yx = pVector.y;
+        zx = pVector.z;
     }
 
-    public final void setYAxis(PVector theVector) {
-        xy = theVector.x;
-        yy = theVector.y;
-        zy = theVector.z;
+    public final void setYAxis(PVector pVector) {
+        xy = pVector.x;
+        yy = pVector.y;
+        zy = pVector.z;
     }
 
-    public final void setZAxis(PVector theVector) {
-        xz = theVector.x;
-        yz = theVector.y;
-        zz = theVector.z;
+    public final void setZAxis(PVector pVector) {
+        xz = pVector.x;
+        yz = pVector.y;
+        zz = pVector.z;
     }
 
-    public final void getXAxis(PVector theVector) {
-        theVector.x = xx;
-        theVector.y = yx;
-        theVector.z = zx;
+    public final void getXAxis(PVector pVector) {
+        pVector.x = xx;
+        pVector.y = yx;
+        pVector.z = zx;
     }
 
-    public final void getYAxis(PVector theVector) {
-        theVector.x = xy;
-        theVector.y = yy;
-        theVector.z = zy;
+    public final void getYAxis(PVector pVector) {
+        pVector.x = xy;
+        pVector.y = yy;
+        pVector.z = zy;
     }
 
-    public final void getZAxis(PVector theVector) {
-        theVector.x = xz;
-        theVector.y = yz;
-        theVector.z = zz;
+    public final void getZAxis(PVector pVector) {
+        pVector.x = xz;
+        pVector.y = yz;
+        pVector.z = zz;
     }
 
     public final PVector getXAxis() {
@@ -326,9 +326,9 @@ public class Matrix3f
         return new PVector(xz, yz, zz);
     }
 
-    public final void setXRotation(float theRadians) {
-        float sin = (float) Math.sin(theRadians);
-        float cos = (float) Math.cos(theRadians);
+    public final void setXRotation(float pRadians) {
+        float sin = (float) Math.sin(pRadians);
+        float cos = (float) Math.cos(pRadians);
 
         xx = 1.0f;
         yx = 0.0f;
@@ -343,7 +343,7 @@ public class Matrix3f
         zz = cos;
     }
 
-    public final void setYRotation(float theRadians) {
+    public final void setYRotation(float pRadians) {
 
         /**
          * @todo check why these differ from 'the matrix and quaternions faq'
@@ -351,8 +351,8 @@ public class Matrix3f
          * cos 0 sin(!) 0 1 0 -sin(!) 0 cos
          *
          */
-        float sin = (float) Math.sin(theRadians);
-        float cos = (float) Math.cos(theRadians);
+        float sin = (float) Math.sin(pRadians);
+        float cos = (float) Math.cos(pRadians);
 
         xx = cos;
         yx = 0.0f;
@@ -367,9 +367,9 @@ public class Matrix3f
         zz = cos;
     }
 
-    public final void setZRotation(float theRadians) {
-        float sin = (float) Math.sin(theRadians);
-        float cos = (float) Math.cos(theRadians);
+    public final void setZRotation(float pRadians) {
+        float sin = (float) Math.sin(pRadians);
+        float cos = (float) Math.cos(pRadians);
 
         xx = cos;
         yx = sin;
@@ -384,22 +384,22 @@ public class Matrix3f
         zz = 1.0f;
     }
 
-    public final void setXYZRotation(PVector theRotation) {
-        setXYZRotation(theRotation.x,
-                       theRotation.y,
-                       theRotation.z);
+    public final void setXYZRotation(PVector pRotation) {
+        setXYZRotation(pRotation.x,
+                       pRotation.y,
+                       pRotation.z);
     }
 
-    public final void setXYZRotation(float theX,
-                                     float theY,
-                                     float theZ) {
+    public final void setXYZRotation(float pX,
+                                     float pY,
+                                     float pZ) {
         /* using radiants */
-        final float a = (float) Math.cos(theX);
-        final float b = (float) Math.sin(theX);
-        final float c = (float) Math.cos(theY);
-        final float d = (float) Math.sin(theY);
-        final float e = (float) Math.cos(theZ);
-        final float f = (float) Math.sin(theZ);
+        final float a = (float) Math.cos(pX);
+        final float b = (float) Math.sin(pX);
+        final float c = (float) Math.cos(pY);
+        final float d = (float) Math.sin(pY);
+        final float e = (float) Math.cos(pZ);
+        final float f = (float) Math.sin(pZ);
 
         final float ad = a * d;
         final float bd = b * d;
@@ -417,13 +417,13 @@ public class Matrix3f
         zz = a * c;
     }
 
-    public final void setRotation(final Vector4f theRotation) {
-        final float u = theRotation.x;
-        final float v = theRotation.y;
-        final float w = theRotation.z;
+    public final void setRotation(final Vector4f pRotation) {
+        final float u = pRotation.x;
+        final float v = pRotation.y;
+        final float w = pRotation.z;
 
-        final float rcos = (float) Math.cos(theRotation.w);
-        final float rsin = (float) Math.sin(theRotation.w);
+        final float rcos = (float) Math.cos(pRotation.w);
+        final float rsin = (float) Math.sin(pRotation.w);
 
         xx = rcos + u * u * (1 - rcos);
         yx = w * rsin + v * u * (1 - rcos);
@@ -438,28 +438,28 @@ public class Matrix3f
         zz = rcos + w * w * (1 - rcos);
     }
 
-    public final void multiply(float theValue) {
-        xx *= theValue;
-        xy *= theValue;
-        xz *= theValue;
-        yx *= theValue;
-        yy *= theValue;
-        yz *= theValue;
-        zx *= theValue;
-        zy *= theValue;
-        zz *= theValue;
+    public final void multiply(float pValue) {
+        xx *= pValue;
+        xy *= pValue;
+        xz *= pValue;
+        yx *= pValue;
+        yy *= pValue;
+        yz *= pValue;
+        zx *= pValue;
+        zy *= pValue;
+        zz *= pValue;
     }
 
-    public final void multiply(Matrix3f theMatrix) {
-        float tmp1 = xx * theMatrix.xx + xy * theMatrix.yx + xz * theMatrix.zx;
-        float tmp2 = xx * theMatrix.xy + xy * theMatrix.yy + xz * theMatrix.zy;
-        float tmp3 = xx * theMatrix.xz + xy * theMatrix.yz + xz * theMatrix.zz;
-        float tmp4 = yx * theMatrix.xx + yy * theMatrix.yx + yz * theMatrix.zx;
-        float tmp5 = yx * theMatrix.xy + yy * theMatrix.yy + yz * theMatrix.zy;
-        float tmp6 = yx * theMatrix.xz + yy * theMatrix.yz + yz * theMatrix.zz;
-        float tmp7 = zx * theMatrix.xx + zy * theMatrix.yx + zz * theMatrix.zx;
-        float tmp8 = zx * theMatrix.xy + zy * theMatrix.yy + zz * theMatrix.zy;
-        float tmp9 = zx * theMatrix.xz + zy * theMatrix.yz + zz * theMatrix.zz;
+    public final void multiply(Matrix3f pMatrix) {
+        float tmp1 = xx * pMatrix.xx + xy * pMatrix.yx + xz * pMatrix.zx;
+        float tmp2 = xx * pMatrix.xy + xy * pMatrix.yy + xz * pMatrix.zy;
+        float tmp3 = xx * pMatrix.xz + xy * pMatrix.yz + xz * pMatrix.zz;
+        float tmp4 = yx * pMatrix.xx + yy * pMatrix.yx + yz * pMatrix.zx;
+        float tmp5 = yx * pMatrix.xy + yy * pMatrix.yy + yz * pMatrix.zy;
+        float tmp6 = yx * pMatrix.xz + yy * pMatrix.yz + yz * pMatrix.zz;
+        float tmp7 = zx * pMatrix.xx + zy * pMatrix.yx + zz * pMatrix.zx;
+        float tmp8 = zx * pMatrix.xy + zy * pMatrix.yy + zz * pMatrix.zy;
+        float tmp9 = zx * pMatrix.xz + zy * pMatrix.yz + zz * pMatrix.zz;
         xx = tmp1;
         xy = tmp2;
         xz = tmp3;
@@ -471,58 +471,58 @@ public class Matrix3f
         zz = tmp9;
     }
 
-    public final void transform(PVector theVector) {
-        theVector.set(xx * theVector.x + yx * theVector.y + zx * theVector.z,
-                      xy * theVector.x + yy * theVector.y + zy * theVector.z,
-                      theVector.z = xz * theVector.x + yz * theVector.y + zz * theVector.z);
+    public final void transform(PVector pVector) {
+        pVector.set(xx * pVector.x + yx * pVector.y + zx * pVector.z,
+                      xy * pVector.x + yy * pVector.y + zy * pVector.z,
+                      pVector.z = xz * pVector.x + yz * pVector.y + zz * pVector.z);
     }
 
-    public void setScale(PVector theScale) {
-        xx = theScale.x;
+    public void setScale(PVector pScale) {
+        xx = pScale.x;
         yx = 0.0f;
         zx = 0.0f;
 
         xy = 0.0f;
-        yy = theScale.y;
+        yy = pScale.y;
         zy = 0.0f;
 
         xz = 0.0f;
         yz = 0.0f;
-        zz = theScale.z;
+        zz = pScale.z;
     }
 
     public final float[] toArray() {
-        _myArrayRepresentation[0] = xx;
-        _myArrayRepresentation[1] = yx;
-        _myArrayRepresentation[2] = zx;
-        _myArrayRepresentation[3] = xy;
-        _myArrayRepresentation[4] = yy;
-        _myArrayRepresentation[5] = zy;
-        _myArrayRepresentation[6] = xz;
-        _myArrayRepresentation[7] = yz;
-        _myArrayRepresentation[8] = zz;
-        return _myArrayRepresentation;
+        mArrayRepresentation[0] = xx;
+        mArrayRepresentation[1] = yx;
+        mArrayRepresentation[2] = zx;
+        mArrayRepresentation[3] = xy;
+        mArrayRepresentation[4] = yy;
+        mArrayRepresentation[5] = zy;
+        mArrayRepresentation[6] = xz;
+        mArrayRepresentation[7] = yz;
+        mArrayRepresentation[8] = zz;
+        return mArrayRepresentation;
     }
 
     public final float[] toArray4f() {
         /* so that opengl can understand it */
-        _myArray4fRepresentation[0] = xx;
-        _myArray4fRepresentation[1] = yx;
-        _myArray4fRepresentation[2] = zx;
-        _myArray4fRepresentation[3] = 0;
-        _myArray4fRepresentation[4] = xy;
-        _myArray4fRepresentation[5] = yy;
-        _myArray4fRepresentation[6] = zy;
-        _myArray4fRepresentation[7] = 0;
-        _myArray4fRepresentation[8] = xz;
-        _myArray4fRepresentation[9] = yz;
-        _myArray4fRepresentation[10] = zz;
-        _myArray4fRepresentation[11] = 0;
-        _myArray4fRepresentation[12] = 0;
-        _myArray4fRepresentation[13] = 0;
-        _myArray4fRepresentation[14] = 0;
-        _myArray4fRepresentation[15] = 1;
-        return _myArray4fRepresentation;
+        mArray4fRepresentation[0] = xx;
+        mArray4fRepresentation[1] = yx;
+        mArray4fRepresentation[2] = zx;
+        mArray4fRepresentation[3] = 0;
+        mArray4fRepresentation[4] = xy;
+        mArray4fRepresentation[5] = yy;
+        mArray4fRepresentation[6] = zy;
+        mArray4fRepresentation[7] = 0;
+        mArray4fRepresentation[8] = xz;
+        mArray4fRepresentation[9] = yz;
+        mArray4fRepresentation[10] = zz;
+        mArray4fRepresentation[11] = 0;
+        mArray4fRepresentation[12] = 0;
+        mArray4fRepresentation[13] = 0;
+        mArray4fRepresentation[14] = 0;
+        mArray4fRepresentation[15] = 1;
+        return mArray4fRepresentation;
     }
 
     public String toString() {
@@ -530,85 +530,85 @@ public class Matrix3f
     }
 
     public static void main(String[] args) {
-        Matrix3f myMatrix;
+        Matrix3f mMatrix;
 
         {
             /* invert and transpose */
 
             System.out.println("### invert and transpose\n");
 
-            myMatrix = new Matrix3f(Matrix3f.IDENTITY);
-            myMatrix.setXYZRotation(new PVector(0.2f, 0.3f, 0.4f));
-            System.out.println(myMatrix);
+            mMatrix = new Matrix3f(Matrix3f.IDENTITY);
+            mMatrix.setXYZRotation(new PVector(0.2f, 0.3f, 0.4f));
+            System.out.println(mMatrix);
             System.out.println();
 
-            myMatrix.transpose();
-            System.out.println(myMatrix);
+            mMatrix.transpose();
+            System.out.println(mMatrix);
             System.out.println();
 
-            myMatrix.transpose();
-            System.out.println(myMatrix);
+            mMatrix.transpose();
+            System.out.println(mMatrix);
             System.out.println();
 
-            myMatrix = new Matrix3f(Matrix3f.IDENTITY);
-            myMatrix.setXYZRotation(new PVector(0.2f, 0.3f, 0.4f));
+            mMatrix = new Matrix3f(Matrix3f.IDENTITY);
+            mMatrix.setXYZRotation(new PVector(0.2f, 0.3f, 0.4f));
 
-            myMatrix.invert();
-            System.out.println(myMatrix);
+            mMatrix.invert();
+            System.out.println(mMatrix);
             System.out.println();
 
-            myMatrix.invert();
-            System.out.println(myMatrix);
+            mMatrix.invert();
+            System.out.println(mMatrix);
             System.out.println();
         }
 
         {
             /* x */
 
-            myMatrix = new Matrix3f(Matrix3f.IDENTITY);
+            mMatrix = new Matrix3f(Matrix3f.IDENTITY);
 
             System.out.println("### rotation x\n");
 
-            myMatrix.setXYZRotation(new PVector(0.2f, 0.0f, 0.0f));
-            System.out.println(myMatrix);
+            mMatrix.setXYZRotation(new PVector(0.2f, 0.0f, 0.0f));
+            System.out.println(mMatrix);
             System.out.println();
 
-            myMatrix.setXRotation(0.2f);
-            System.out.println(myMatrix);
+            mMatrix.setXRotation(0.2f);
+            System.out.println(mMatrix);
             System.out.println();
 
-            myMatrix.setRotation(new Vector4f(1, 0, 0, 0.2f));
-            System.out.println(myMatrix);
+            mMatrix.setRotation(new Vector4f(1, 0, 0, 0.2f));
+            System.out.println(mMatrix);
             System.out.println();
 
             /* y */
             System.out.println("### rotation y\n");
 
-            myMatrix.setXYZRotation(new PVector(0.0f, 0.3f, 0.0f));
-            System.out.println(myMatrix);
+            mMatrix.setXYZRotation(new PVector(0.0f, 0.3f, 0.0f));
+            System.out.println(mMatrix);
             System.out.println();
 
-            myMatrix.setYRotation(0.3f);
-            System.out.println(myMatrix);
+            mMatrix.setYRotation(0.3f);
+            System.out.println(mMatrix);
             System.out.println();
 
-            myMatrix.setRotation(new Vector4f(0, 1, 0, 0.3f));
-            System.out.println(myMatrix);
+            mMatrix.setRotation(new Vector4f(0, 1, 0, 0.3f));
+            System.out.println(mMatrix);
             System.out.println();
 
             /* z */
             System.out.println("### rotation z\n");
 
-            myMatrix.setXYZRotation(new PVector(0.0f, 0.0f, 0.4f));
-            System.out.println(myMatrix);
+            mMatrix.setXYZRotation(new PVector(0.0f, 0.0f, 0.4f));
+            System.out.println(mMatrix);
             System.out.println();
 
-            myMatrix.setZRotation(0.4f);
-            System.out.println(myMatrix);
+            mMatrix.setZRotation(0.4f);
+            System.out.println(mMatrix);
             System.out.println();
 
-            myMatrix.setRotation(new Vector4f(0, 0, 1, 0.4f));
-            System.out.println(myMatrix);
+            mMatrix.setRotation(new Vector4f(0, 0, 1, 0.4f));
+            System.out.println(mMatrix);
             System.out.println();
         }
     }

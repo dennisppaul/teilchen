@@ -40,34 +40,34 @@ public class Vector3i
         z = 0;
     }
 
-    public Vector3i(int theX, int theY, int theZ) {
-        set(theX, theY, theZ);
+    public Vector3i(int pX, int pY, int pZ) {
+        set(pX, pY, pZ);
     }
 
-    public Vector3i(Vector3i theVector) {
-        set(theVector);
+    public Vector3i(Vector3i pVector) {
+        set(pVector);
     }
 
-    public Vector3i(int[] theVector) {
-        set(theVector);
+    public Vector3i(int[] pVector) {
+        set(pVector);
     }
 
-    public void set(int theX, int theY, int theZ) {
-        x = theX;
-        y = theY;
-        z = theZ;
+    public void set(int pX, int pY, int pZ) {
+        x = pX;
+        y = pY;
+        z = pZ;
     }
 
-    public void set(Vector3i theVector) {
-        x = theVector.x;
-        y = theVector.y;
-        z = theVector.z;
+    public void set(Vector3i pVector) {
+        x = pVector.x;
+        y = pVector.y;
+        z = pVector.z;
     }
 
-    public void set(int[] theVector) {
-        x = theVector[0];
-        y = theVector[1];
-        z = theVector[2];
+    public void set(int[] pVector) {
+        x = pVector[0];
+        y = pVector[1];
+        z = pVector[2];
     }
 
     public final String toString() {
@@ -78,7 +78,7 @@ public class Vector3i
         return x * x + y * y + z * z;
     }
 
-    public int compareTo(Vector3i theVector3i) {
-        return (int) (lengthSquared() - theVector3i.lengthSquared());
+    public int compareTo(Vector3i pVector3i) {
+        return (int) (lengthSquared() - pVector3i.lengthSquared());
     }
 }

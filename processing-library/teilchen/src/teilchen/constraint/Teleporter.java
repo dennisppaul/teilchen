@@ -31,6 +31,7 @@ public class Teleporter implements IConstraint {
 
     private final PVector mMin;
     private final PVector mMax;
+    private final long mID;
     protected boolean mActive = true;
     private boolean mDead = false;
 
@@ -39,6 +40,7 @@ public class Teleporter implements IConstraint {
     }
 
     public Teleporter(final PVector pMin, final PVector pMax) {
+        mID = Physics.getUniqueID();
         mMin = Util.clone(pMin);
         mMax = Util.clone(pMax);
     }
@@ -89,4 +91,9 @@ public class Teleporter implements IConstraint {
     public boolean dead() { return mDead; }
 
     public void dead(boolean pDead) { mDead = pDead; }
+
+    public long ID() {
+        return mID;
+    }
+
 }

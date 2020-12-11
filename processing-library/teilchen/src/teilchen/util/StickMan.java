@@ -57,23 +57,23 @@ public class StickMan {
         mQuad.a.radius(7 * pScale);
         mQuad.a.radius(7 * pScale);
 
-        final float myMass = 2f;
-        mLeftFoot.mass(myMass * pScale);
-        mRightFoot.mass(myMass * pScale);
-        mLeftHand.mass(myMass * pScale);
-        mRightHand.mass(myMass * pScale);
-        mQuad.a.mass(myMass * pScale);
-        mQuad.b.mass(myMass * pScale);
-        mQuad.c.mass(myMass * pScale);
-        mQuad.d.mass(myMass * pScale);
+        final float mMass = 2f;
+        mLeftFoot.mass(mMass * pScale);
+        mRightFoot.mass(mMass * pScale);
+        mLeftHand.mass(mMass * pScale);
+        mRightHand.mass(mMass * pScale);
+        mQuad.a.mass(mMass * pScale);
+        mQuad.b.mass(mMass * pScale);
+        mQuad.c.mass(mMass * pScale);
+        mQuad.d.mass(mMass * pScale);
 
         /* make legs move */
-        MuscleSpring myMuscleSpring = new MuscleSpring(mLeftFoot, mRightFoot);
-        myMuscleSpring.amplitude(20 * pScale);
-        myMuscleSpring.strength(100);
-        myMuscleSpring.phaseshift((float) Math.random() * 2 * PApplet.PI);
-        myMuscleSpring.frequency(1);
-        pParticleSystem.add(myMuscleSpring);
+        MuscleSpring mMuscleSpring = new MuscleSpring(mLeftFoot, mRightFoot);
+        mMuscleSpring.amplitude(20 * pScale);
+        mMuscleSpring.strength(100);
+        mMuscleSpring.phaseshift((float) Math.random() * 2 * PApplet.PI);
+        mMuscleSpring.frequency(1);
+        pParticleSystem.add(mMuscleSpring);
     }
 
     public void translate(PVector p) {

@@ -77,8 +77,8 @@ public class Wander
         return mWeight;
     }
 
-    public void weight(float theWeight) {
-        mWeight = theWeight;
+    public void weight(float pWeight) {
+        mWeight = pWeight;
     }
 
     public void update(float pDeltaTime, IBehaviorParticle pParent) {
@@ -108,15 +108,15 @@ public class Wander
         return mSteeringStrength;
     }
 
-    public void steeringstrength(final float theSteeringStrength) {
-        mSteeringStrength = theSteeringStrength;
+    public void steeringstrength(final float pSteeringStrength) {
+        mSteeringStrength = pSteeringStrength;
     }
 
     public float steeringoffset() {
         return mSteeringOffset;
     }
 
-    public void steeringoffset(final float theSteeringOffset) {
-        mSteeringOffset = theSteeringOffset;
+    public void steeringoffset(final float pSteeringOffset) {
+        mSteeringOffset = pSteeringOffset;
     }
 }

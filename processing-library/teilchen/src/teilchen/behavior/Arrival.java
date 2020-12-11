@@ -98,12 +98,12 @@ public class Arrival
         return mBreakRadius;
     }
 
-    public void update(float theDeltaTime, IBehaviorParticle pParent) {
+    public void update(float pDeltaTime, IBehaviorParticle pParent) {
         sub(mSeekPosition, pParent.position(), mForce);
-        final float myDistanceToArrivalPoint = mForce.mag();
+        final float mDistanceToArrivalPoint = mForce.mag();
 
         /* get direction */
-        if (myDistanceToArrivalPoint < mBreakRadius) {
+        if (mDistanceToArrivalPoint < mBreakRadius) {
             mIsArriving = true;
             final float mSpeed = pParent.velocity().mag();
             final float MIN_ACCEPTABLE_SPEED = 10.0f;
@@ -115,14 +115,14 @@ public class Arrival
                 /* break */
                 final boolean USE_WEIGHTED_BREAK_FORCE = true;
                 if (USE_WEIGHTED_BREAK_FORCE) {
-                    final float mRatio = myDistanceToArrivalPoint / mBreakRadius;
+                    final float mRatio = mDistanceToArrivalPoint / mBreakRadius;
 
                     final PVector mBreakForceVector = Util.clone(pParent.velocity());
                     mBreakForceVector.mult(-mBreakForce);
                     mBreakForceVector.mult(1.0f - mRatio);
 
                     final PVector mSteerForce = Util.clone(mForce);
-                    mSteerForce.mult(pParent.maximumInnerForce() / myDistanceToArrivalPoint);
+                    mSteerForce.mult(pParent.maximumInnerForce() / mDistanceToArrivalPoint);
                     mSteerForce.mult(mRatio);
 
                     add(mBreakForceVector, mSteerForce, mForce);
@@ -135,7 +135,7 @@ public class Arrival
             }
         } else {
             /* outside of the outter radius continue 'seeking' */
-            mForce.mult(pParent.maximumInnerForce() / myDistanceToArrivalPoint);
+            mForce.mult(pParent.maximumInnerForce() / mDistanceToArrivalPoint);
             if (mOverSteer) {
                 sub(mForce, pParent.velocity(), mForce);
             }

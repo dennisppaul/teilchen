@@ -5,6 +5,7 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
+
 /*
  * this sketch demonstrates how to create a complex swarm behavior by combining the four simple
  * behaviors `Separation`, `Alignment`, `Cohesion` and `Wander` ( plus `Motor` ).
@@ -27,8 +28,8 @@ void setup() {
     mTeleporter.min().set(0, 0, height / -2.0f);
     mTeleporter.max().set(width, height, height / 2.0f);
     mPhysics.add(mTeleporter);
-    ViscousDrag myViscousDrag = new ViscousDrag();
-    mPhysics.add(myViscousDrag);
+    ViscousDrag mViscousDrag = new ViscousDrag();
+    mPhysics.add(mViscousDrag);
     /* setup entities */
     mSwarmEntities = new ArrayList();
     for (int i = 0; i < 60; i++) {

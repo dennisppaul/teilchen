@@ -43,7 +43,7 @@ public class Steering implements IBehavior,
         mWeight = 1;
     }
 
-    public void update(float theDeltaTime, IBehaviorParticle pParent) {
+    public void update(float pDeltaTime, IBehaviorParticle pParent) {
         if (mActive) {
             /* 2D warning -- ignoring z-axis for now */
             PVector mDirection = teilchen.util.Util.clone(pParent.velocity());

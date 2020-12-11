@@ -33,9 +33,9 @@ public class SketchLesson08_Cloth extends PApplet {
     public void setup() {
         mPhysics = new Physics();
 
-        Verlet myVerlet = new Verlet();
-        myVerlet.damping(0.9f);
-        mPhysics.setIntegratorRef(myVerlet);
+        Verlet mVerlet = new Verlet();
+        mVerlet.damping(0.9f);
+        mPhysics.setIntegratorRef(mVerlet);
         mPhysics.add(new Gravity(new PVector(0, 1000f, 0)));
 
         mAttractor = new Attractor();
@@ -71,11 +71,11 @@ public class SketchLesson08_Cloth extends PApplet {
                     mPhysics.add(mStick);
                 }
                 if (x > 0) {
-                    Stick myStick = new Stick(mParticles[x - 1][y],
+                    Stick mStick = new Stick(mParticles[x - 1][y],
                                               mParticles[x][y],
                                               mGridStepX);
-                    myStick.damping(DAMPING);
-                    mPhysics.add(myStick);
+                    mStick.damping(DAMPING);
+                    mPhysics.add(mStick);
                 }
                 if (x > 0 && y > 0) {
                     Stick mStickA = new Stick(mParticles[x - 1][y - 1],

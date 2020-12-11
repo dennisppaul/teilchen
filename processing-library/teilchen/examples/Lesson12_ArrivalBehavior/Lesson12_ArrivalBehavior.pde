@@ -5,6 +5,7 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
+
 /*
  * this sketch demonstrates how to use behaviors.  it appliies the `Arrival` behavior to make a
  * `BehaviorParticle` arrive at a certain location.

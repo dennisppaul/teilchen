@@ -33,9 +33,9 @@ public class SketchLessonX06_Ducklings extends PApplet {
         /* physics */
         mPhysics = new Physics();
 
-        ViscousDrag myViscousDrag = new ViscousDrag();
-        myViscousDrag.coefficient = 0.25f;
-        mPhysics.add(myViscousDrag);
+        ViscousDrag mViscousDrag = new ViscousDrag();
+        mViscousDrag.coefficient = 0.25f;
+        mPhysics.add(mViscousDrag);
 
         mCollision = new CollisionManager();
         mCollision.minimumDistance(25);
@@ -120,11 +120,11 @@ public class SketchLessonX06_Ducklings extends PApplet {
         stroke(0, 0.5f);
         for (int i = 0; i < mCollision.collision().forces().size(); ++i) {
             if (mCollision.collision().forces().get(i) instanceof Spring) {
-                Spring mySpring = (Spring) mCollision.collision_forces().get(i);
-                line(mySpring.a().position().x,
-                     mySpring.a().position().y,
-                     mySpring.b().position().x,
-                     mySpring.b().position().y);
+                Spring mSpring = (Spring) mCollision.collision_forces().get(i);
+                line(mSpring.a().position().x,
+                     mSpring.a().position().y,
+                     mSpring.b().position().x,
+                     mSpring.b().position().y);
             }
         }
     }

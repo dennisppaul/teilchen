@@ -1,6 +1,5 @@
 package teilchen.force;
 
-import processing.core.PGraphics;
 import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
@@ -8,11 +7,16 @@ import teilchen.util.Util;
 
 public class LineDeflector2D implements IForce {
 
-    private PVector a = new PVector();
-    private PVector b = new PVector();
+    private final long mID;
+    private final PVector a = new PVector();
+    private final PVector b = new PVector();
     private boolean mActive = true;
     private float mCoefficientOfRestitution = 1.0f;
     private boolean mDead = false;
+
+    public LineDeflector2D() {
+        mID = Physics.getUniqueID();
+    }
 
     public PVector normal() {
         PVector mNormal = PVector.sub(b, a);
@@ -61,8 +65,6 @@ public class LineDeflector2D implements IForce {
         }
     }
 
-
-
     @Override
     public void apply(float pDeltaTime, Physics pParticleSystem) {
         for (final Particle mParticle : pParticleSystem.particles()) {
@@ -90,6 +92,10 @@ public class LineDeflector2D implements IForce {
     @Override
     public void active(boolean pActiveState) {
         mActive = pActiveState;
+    }
+
+    public long ID() {
+        return mID;
     }
 
     public void coefficientofrestitution(float pCoefficientOfRestitution) {

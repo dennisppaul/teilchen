@@ -18,11 +18,12 @@ import static teilchen.util.Util.setVelocityAndOldPosition;
 import static teilchen.util.Util.updateBoundingBox;
 
 public class TriangleDeflector implements IForce {
+    private final long mID;
 
+    public boolean AUTO_UPDATE = true;
     private final PVector a;
     private final PVector b;
     private final PVector c;
-
     private final PVector mNormal;
     private final PVector mTempReflectionVector;
     private final PVector mTempNormalComponent;
@@ -31,7 +32,6 @@ public class TriangleDeflector implements IForce {
     private final PVector mTempPointOfIntersection = new PVector();
     private final WorldAxisAlignedBoundingBox mWorldAxisAlignedBoundingBox;
     private final PVector[] mVectorCollection;
-    public boolean AUTO_UPDATE = true;
     private float mCoefficientOfRestitution;
     private boolean mGotHit = false;
 
@@ -39,6 +39,7 @@ public class TriangleDeflector implements IForce {
     private boolean mDead;
 
     public TriangleDeflector() {
+        mID = Physics.getUniqueID();
         a = new PVector();
         b = new PVector();
         c = new PVector();
@@ -99,8 +100,8 @@ public class TriangleDeflector implements IForce {
 
                 final boolean IGNORE_BOUNDING_BOX = true;
                 /* adjust boundingbox width to particle velocity to avoid particle shooting through the boundingbox */
-                final PVector myTempBoundingBoxScale = new PVector();
-                myTempBoundingBoxScale.set(mWorldAxisAlignedBoundingBox.scale);
+                final PVector mTempBoundingBoxScale = new PVector();
+                mTempBoundingBoxScale.set(mWorldAxisAlignedBoundingBox.scale);
                 if (!IGNORE_BOUNDING_BOX) {
                     if (mParticle.velocity().x > mWorldAxisAlignedBoundingBox.scale.x) {
                         mWorldAxisAlignedBoundingBox.scale.x = mParticle.velocity().x;
@@ -174,7 +175,7 @@ public class TriangleDeflector implements IForce {
 
                 /* reset boundingbox scale */
                 if (!IGNORE_BOUNDING_BOX) {
-                    mWorldAxisAlignedBoundingBox.scale.set(myTempBoundingBoxScale);
+                    mWorldAxisAlignedBoundingBox.scale.set(mTempBoundingBoxScale);
                 }
             }
         }
@@ -196,8 +197,8 @@ public class TriangleDeflector implements IForce {
         mActive = pActiveState;
     }
 
-    protected void markParticle(Particle pParticle) {
-        pParticle.tag(true);
+    public long ID() {
+        return mID;
     }
 
     public boolean hit() {
@@ -212,6 +213,14 @@ public class TriangleDeflector implements IForce {
         return mCoefficientOfRestitution;
     }
 
+    public PVector normal() {
+        return mNormal;
+    }
+
+    protected void markParticle(Particle pParticle) {
+        pParticle.tag(true);
+    }
+
     private void separateComponents(Particle pParticle, PVector pNormal) {
         /* normal */
         mTempNormalComponent.set(pNormal);
@@ -222,9 +231,5 @@ public class TriangleDeflector implements IForce {
         mTempNormalComponent.mult(-mCoefficientOfRestitution);
         /* set reflection vector */
         add(mTempTangentComponent, mTempNormalComponent, mTempReflectionVector);
-    }
-
-    public PVector normal() {
-        return mNormal;
     }
 }

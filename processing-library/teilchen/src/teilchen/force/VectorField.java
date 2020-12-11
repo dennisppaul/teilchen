@@ -43,12 +43,14 @@ public class VectorField implements IForce {
     private final PVector mPosition;
     private boolean mActiveState;
     private boolean mDead;
+    private final long mID;
 
     public VectorField(int pNumCellsWidth, int pNumCellsHeight) {
         this(pNumCellsWidth, pNumCellsHeight, 1);
     }
 
     public VectorField(int pNumCellsWidth, int pNumCellsHeight, int pNumCellsDepth) {
+        mID = Physics.getUniqueID();
         mActiveState = true;
         mDead = false;
         width = pNumCellsWidth;
@@ -115,6 +117,10 @@ public class VectorField implements IForce {
         return mDead;
     }
 
+    public void dead(boolean pDead) {
+        mDead = pDead;
+    }
+
     @Override
     public boolean active() {
         return mActiveState;
@@ -126,10 +132,6 @@ public class VectorField implements IForce {
     }
 
     public PVector cell_size() { return mScale; }
-
-    public void dead(boolean pDead) {
-        mDead = pDead;
-    }
 
     public void randomize_forces(float pScaleWidth, float pScaleHeight) {
         randomize_forces(new PVector(pScaleWidth, pScaleHeight, 0));
@@ -157,6 +159,9 @@ public class VectorField implements IForce {
                 }
             }
         }
+    }
+    public long ID() {
+        return mID;
     }
 
     public void set_force_strength(float pForce) {

@@ -5,6 +5,7 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
+
 /*
  * this sketch demonstrates how to use a stick to connect two particles. `Stick` is similar to
  * `Spring` except that it does not use forces to move particles which results in a more
@@ -26,9 +27,9 @@ void setup() {
     /* add gravity for extra fun */
     mPhysics.add(new Gravity());
     /* choose verlet integration as it produces more stable results with sticks ( and constraints in general ) */
-    Verlet myVerlet = new Verlet();
-    myVerlet.damping(0.99f);
-    mPhysics.setIntegratorRef(myVerlet);
+    Verlet mVerlet = new Verlet();
+    mVerlet.damping(0.99f);
+    mPhysics.setIntegratorRef(mVerlet);
     /* setup sticks to form a whip */
     mParticles = new Particle[16];
     float mSegmentLength = 20.0f;
@@ -36,12 +37,12 @@ void setup() {
     for (int x = 0; x < mParticles.length; x++) {
         mParticles[x] = mPhysics.makeParticle(x * mSegmentLength, 0, 0, 0.1f);
         if (x > 0) {
-            Stick myStick = new Stick(mParticles[x - 1],
+            Stick mStick = new Stick(mParticles[x - 1],
                                       mParticles[x],
                                       mSegmentLength);
             /* damp the stick to release tensions from the system */
-            myStick.damping(0.99f);
-            mPhysics.add(myStick);
+            mStick.damping(0.99f);
+            mPhysics.add(mStick);
         }
     }
     /* fix root particle so it can stick to the mouse later */

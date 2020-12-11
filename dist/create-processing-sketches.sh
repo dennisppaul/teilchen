@@ -23,6 +23,8 @@ for j in ${SKETCH_IMPORTS[@]}; do
 	M_IMPORTS=$M_IMPORTS'import '$j'; \
 '
 done
+M_IMPORTS=$M_IMPORTS'
+'
 
 # transmogrify sketches
 for file in $SRC_PATH/*.java

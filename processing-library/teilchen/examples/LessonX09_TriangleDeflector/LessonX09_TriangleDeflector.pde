@@ -5,6 +5,7 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
+
 /*
  * this sketch demonstrates how to use `TriangleDeflectors` to make particles bounce off two
  * triangles. it also demonstrates how to use `MortalParticle` to remove particles
@@ -24,8 +25,8 @@ void settings() {
 void setup() {
     /* physics */
     mPhysics = new Physics();
-    Gravity myGravity = new Gravity(0, -3, -30);
-    mPhysics.add(myGravity);
+    Gravity mGravity = new Gravity(0, -3, -30);
+    mPhysics.add(mGravity);
     /* triangle deflectors */
     final PVector[] mVertices = new PVector[]{new PVector(0, 0, 0),
                                               new PVector(width, height, 0),

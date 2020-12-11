@@ -71,16 +71,16 @@ public class Motor
         return mStrength;
     }
 
-    public void strength(final float theStrength) {
-        mStrength = theStrength;
+    public void strength(final float pStrength) {
+        mStrength = pStrength;
     }
 
     public PVector direction() {
         return mDirection;
     }
 
-    public void setDirectionRef(final PVector theDirection) {
-        mDirection = theDirection;
+    public void setDirectionRef(final PVector pDirection) {
+        mDirection = pDirection;
     }
 
     public void auto_update_direction(boolean pAutoUpdateDirection) {
@@ -91,7 +91,7 @@ public class Motor
         mAutoNormalizeDirection = pAutoNormalizeDirection;
     }
 
-    public void update(float theDeltaTime, IBehaviorParticle pParent) {
+    public void update(float pDeltaTime, IBehaviorParticle pParent) {
         if (mActive) {
             if (mAutoUpdateDirection) {
                 if (pParent.velocity().mag() > 0.0f) {
@@ -118,7 +118,7 @@ public class Motor
         return mWeight;
     }
 
-    public void weight(float theWeight) {
-        mWeight = theWeight;
+    public void weight(float pWeight) {
+        mWeight = pWeight;
     }
 }

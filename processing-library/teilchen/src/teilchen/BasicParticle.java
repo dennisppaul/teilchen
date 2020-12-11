@@ -32,6 +32,7 @@ public class BasicParticle implements Particle, Serializable {
     private final PVector mOldPosition;
     private final PVector mVelocity;
     private final PVector mForce;
+    private final long mID;
     private boolean mFixed;
     private float mAge;
     private float mMass;
@@ -42,6 +43,7 @@ public class BasicParticle implements Particle, Serializable {
     private float mRadius;
 
     public BasicParticle() {
+        mID = Physics.getUniqueID();
         mPosition = new PVector();
         mOldPosition = new PVector();
         mVelocity = new PVector();
@@ -132,5 +134,9 @@ public class BasicParticle implements Particle, Serializable {
 
     public void still(boolean pStill) {
         mStill = pStill;
+    }
+
+    public long ID() {
+        return mID;
     }
 }

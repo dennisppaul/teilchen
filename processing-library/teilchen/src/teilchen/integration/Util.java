@@ -26,34 +26,34 @@ import teilchen.Particle;
 
 public final class Util {
 
-    public static <T> void checkContainerSize(final int theSize,
-                                              final List<T> theContainer,
-                                              Class<T> theClass) {
-        final int myDiff = theSize - theContainer.size();
-        if (myDiff > 0) {
-            for (int i = 0; i < myDiff; i++) {
+    public static <T> void checkContainerSize(final int pSize,
+                                              final List<T> pContainer,
+                                              Class<T> pClass) {
+        final int mDiff = pSize - pContainer.size();
+        if (mDiff > 0) {
+            for (int i = 0; i < mDiff; i++) {
                 try {
-                    theContainer.add(theClass.newInstance());
+                    pContainer.add(pClass.newInstance());
                 } catch (Exception ex) {
                     System.err.println(ex);
                 }
             }
-        } else if (myDiff < 0) {
-            for (int i = 0; i < myDiff; i++) {
-                theContainer.remove(myDiff + theSize);
+        } else if (mDiff < 0) {
+            for (int i = 0; i < mDiff; i++) {
+                pContainer.remove(mDiff + pSize);
             }
         }
     }
 
-    public static void calculateDerivatives(final List<Particle> theParticles,
-                                            final List<Derivate3f> theDerivates) {
-        for (int i = 0; i < theParticles.size(); i++) {
-            theDerivates.get(i).px = theParticles.get(i).velocity().x;
-            theDerivates.get(i).py = theParticles.get(i).velocity().y;
-            theDerivates.get(i).pz = theParticles.get(i).velocity().z;
-            theDerivates.get(i).vx = theParticles.get(i).force().x / theParticles.get(i).mass();
-            theDerivates.get(i).vy = theParticles.get(i).force().y / theParticles.get(i).mass();
-            theDerivates.get(i).vz = theParticles.get(i).force().z / theParticles.get(i).mass();
+    public static void calculateDerivatives(final List<Particle> pParticles,
+                                            final List<Derivate3f> pDerivates) {
+        for (int i = 0; i < pParticles.size(); i++) {
+            pDerivates.get(i).px = pParticles.get(i).velocity().x;
+            pDerivates.get(i).py = pParticles.get(i).velocity().y;
+            pDerivates.get(i).pz = pParticles.get(i).velocity().z;
+            pDerivates.get(i).vx = pParticles.get(i).force().x / pParticles.get(i).mass();
+            pDerivates.get(i).vy = pParticles.get(i).force().y / pParticles.get(i).mass();
+            pDerivates.get(i).vz = pParticles.get(i).force().z / pParticles.get(i).mass();
         }
     }
 }

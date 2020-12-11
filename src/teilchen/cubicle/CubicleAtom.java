@@ -44,12 +44,12 @@ public class CubicleAtom {
         return mPosition;
     }
 
-    public void add(ICubicleEntity theEntity) {
-        mContainer.add(theEntity);
+    public void add(ICubicleEntity pEntity) {
+        mContainer.add(pEntity);
     }
 
-    public boolean remove(ICubicleEntity theEntity) {
-        return mContainer.remove(theEntity);
+    public boolean remove(ICubicleEntity pEntity) {
+        return mContainer.remove(pEntity);
     }
 
     public void clear() {

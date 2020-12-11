@@ -28,60 +28,60 @@ public class Overlap {
 
     public static PVector RESOLVE_SAME_PLACE = new PVector(1, 0, 0);
 
-    public static <E extends SpatialEntity> void resolveOverlap(E theEntityA,
-                                                                E theEntityB) {
-        if (theEntityB == theEntityA) {
+    public static <E extends SpatialEntity> void resolveOverlap(E pEntityA,
+                                                                E pEntityB) {
+        if (pEntityB == pEntityA) {
             return;
         }
 
-        if (theEntityA.radius() == 0 || theEntityB.radius() == 0) {
+        if (pEntityA.radius() == 0 || pEntityB.radius() == 0) {
             return;
         }
 
-        final PVector mAB = PVector.sub(theEntityA.position(), theEntityB.position());
-        final float myDistance = mAB.mag();
+        final PVector mAB = PVector.sub(pEntityA.position(), pEntityB.position());
+        final float mDistance = mAB.mag();
 
-        if (myDistance > 0) {
-            float myOverlap = theEntityB.radius() + theEntityA.radius() - myDistance;
+        if (mDistance > 0) {
+            float mOverlap = pEntityB.radius() + pEntityA.radius() - mDistance;
 
-            if (myOverlap > 0) {
-                mAB.mult(0.5f * myOverlap / myDistance);
-                theEntityA.position().add(mAB);
-                theEntityB.position().sub(mAB);
+            if (mOverlap > 0) {
+                mAB.mult(0.5f * mOverlap / mDistance);
+                pEntityA.position().add(mAB);
+                pEntityB.position().sub(mAB);
             }
         } else if (RESOLVE_SAME_PLACE != null) {
-            final PVector myOffset = Util.clone(RESOLVE_SAME_PLACE);
-            myOffset.mult(theEntityB.radius() + theEntityA.radius());
-            myOffset.mult(0.5f);
-            theEntityA.position().add(myOffset);
-            theEntityB.position().sub(myOffset);
+            final PVector mOffset = Util.clone(RESOLVE_SAME_PLACE);
+            mOffset.mult(pEntityB.radius() + pEntityA.radius());
+            mOffset.mult(0.5f);
+            pEntityA.position().add(mOffset);
+            pEntityB.position().sub(mOffset);
         }
     }
 
-    public static <E extends SpatialEntity> void resolveOverlap(E theEntity,
-                                                                E[] theEntities) {
-        if (theEntities == null || theEntities.length < 1) {
+    public static <E extends SpatialEntity> void resolveOverlap(E pEntity,
+                                                                E[] pEntities) {
+        if (pEntities == null || pEntities.length < 1) {
             return;
         }
 
-        for (E theEntitie : theEntities) {
-            resolveOverlap(theEntitie, theEntity);
+        for (E pEntitie : pEntities) {
+            resolveOverlap(pEntitie, pEntity);
         }
     }
 
-    public static <E extends SpatialEntity> void resolveOverlap(E theEntity,
-                                                                List<E> theEntities) {
-        if (theEntities == null || theEntities.size() < 1) {
+    public static <E extends SpatialEntity> void resolveOverlap(E pEntity,
+                                                                List<E> pEntities) {
+        if (pEntities == null || pEntities.size() < 1) {
             return;
         }
 
-        for (int i = 0; i < theEntities.size(); i++) {
-            resolveOverlap(theEntities.get(i), theEntity);
+        for (int i = 0; i < pEntities.size(); i++) {
+            resolveOverlap(pEntities.get(i), pEntity);
         }
     }
 
-    public static <E extends SpatialEntity> void resolveOverlap(List<E> theEntities) {
-        if (theEntities == null || theEntities.isEmpty()) {
+    public static <E extends SpatialEntity> void resolveOverlap(List<E> pEntities) {
+        if (pEntities == null || pEntities.isEmpty()) {
             return;
         }
 
@@ -89,13 +89,13 @@ public class Overlap {
          * @todo room for improvement. there is some redundant testing going on
          * here.
          */
-        for (int i = 0; i < theEntities.size(); i++) {
-            for (int j = 0; j < theEntities.size(); j++) {
+        for (int i = 0; i < pEntities.size(); i++) {
+            for (int j = 0; j < pEntities.size(); j++) {
                 if (i == j) {
                     continue;
                 }
-//                final SpatialEntity myOtherEntity = theEntities.get(j);
-                resolveOverlap(theEntities.get(i), theEntities.get(j));
+//                final SpatialEntity mOtherEntity = theEntities.get(j);
+                resolveOverlap(pEntities.get(i), pEntities.get(j));
             }
         }
     }

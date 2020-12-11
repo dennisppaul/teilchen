@@ -39,14 +39,14 @@ public class Midpoint implements IIntegrator {
         pParticleSystem.applyForces(pDeltaTime);
         IntegrationUtil.calculateDerivatives(pParticleSystem.particles(), mK1);
         for (int i = 0; i < pParticleSystem.particles().size(); i++) {
-            Particle myParticle = pParticleSystem.particles().get(i);
-            if (!myParticle.fixed()) {
-                myParticle.position().x += mK1.get(i).px * pDeltaTime / 2;
-                myParticle.position().y += mK1.get(i).py * pDeltaTime / 2;
-                myParticle.position().z += mK1.get(i).pz * pDeltaTime / 2;
-                myParticle.position().x += mK1.get(i).vx * pDeltaTime / 2;
-                myParticle.position().y += mK1.get(i).vy * pDeltaTime / 2;
-                myParticle.position().z += mK1.get(i).vz * pDeltaTime / 2;
+            Particle mParticle = pParticleSystem.particles().get(i);
+            if (!mParticle.fixed()) {
+                mParticle.position().x += mK1.get(i).px * pDeltaTime / 2;
+                mParticle.position().y += mK1.get(i).py * pDeltaTime / 2;
+                mParticle.position().z += mK1.get(i).pz * pDeltaTime / 2;
+                mParticle.position().x += mK1.get(i).vx * pDeltaTime / 2;
+                mParticle.position().y += mK1.get(i).vy * pDeltaTime / 2;
+                mParticle.position().z += mK1.get(i).vz * pDeltaTime / 2;
             }
         }
 
@@ -54,14 +54,14 @@ public class Midpoint implements IIntegrator {
         pParticleSystem.applyForces(pDeltaTime);
         IntegrationUtil.calculateDerivatives(pParticleSystem.particles(), mK1);
         for (int i = 0; i < pParticleSystem.particles().size(); i++) {
-            Particle myParticle = pParticleSystem.particles().get(i);
-            if (!myParticle.fixed()) {
-                myParticle.position().x += mK1.get(i).px * pDeltaTime;
-                myParticle.position().y += mK1.get(i).py * pDeltaTime;
-                myParticle.position().z += mK1.get(i).pz * pDeltaTime;
-                myParticle.velocity().x += mK1.get(i).vx * pDeltaTime;
-                myParticle.velocity().y += mK1.get(i).vy * pDeltaTime;
-                myParticle.velocity().z += mK1.get(i).vz * pDeltaTime;
+            Particle mParticle = pParticleSystem.particles().get(i);
+            if (!mParticle.fixed()) {
+                mParticle.position().x += mK1.get(i).px * pDeltaTime;
+                mParticle.position().y += mK1.get(i).py * pDeltaTime;
+                mParticle.position().z += mK1.get(i).pz * pDeltaTime;
+                mParticle.velocity().x += mK1.get(i).vx * pDeltaTime;
+                mParticle.velocity().y += mK1.get(i).vy * pDeltaTime;
+                mParticle.velocity().z += mK1.get(i).vz * pDeltaTime;
             }
         }
     }

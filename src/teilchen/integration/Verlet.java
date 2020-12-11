@@ -34,24 +34,24 @@ public class Verlet
 
     private final PVector temp2;
 
-    private float _myDamping;
+    private float mDamping;
 
     public Verlet() {
         this(1.0f);
     }
 
-    public Verlet(final float theDamping) {
-        _myDamping = theDamping;
+    public Verlet(final float pDamping) {
+        mDamping = pDamping;
         temp1 = new PVector();
         temp2 = new PVector();
     }
 
     public float damping() {
-        return _myDamping;
+        return mDamping;
     }
 
-    public void damping(float theDamping) {
-        _myDamping = theDamping;
+    public void damping(float pDamping) {
+        mDamping = pDamping;
     }
 
     public void step(final float pDeltaTime, final Physics pParticleSystem) {
@@ -59,19 +59,19 @@ public class Verlet
         pParticleSystem.applyForces(pDeltaTime);
 
         synchronized (pParticleSystem.particles()) {
-            final Iterator<Particle> myIterator = pParticleSystem.particles().iterator();
-            while (myIterator.hasNext()) {
-                final Particle myParticle = myIterator.next();
-                if (!myParticle.fixed()) {
-                    integrate(pDeltaTime, myParticle);
+            final Iterator<Particle> mIterator = pParticleSystem.particles().iterator();
+            while (mIterator.hasNext()) {
+                final Particle mParticle = mIterator.next();
+                if (!mParticle.fixed()) {
+                    integrate(pDeltaTime, mParticle);
                 }
             }
         }
     }
 
-    private void integrate(float theDeltaTime, Particle theParticle) {
-        final PVector myOldPosition = new PVector();
-        myOldPosition.set(theParticle.position());
+    private void integrate(float pDeltaTime, Particle pParticle) {
+        final PVector mOldPosition = new PVector();
+        mOldPosition.set(pParticle.position());
 
         /*
          Physics simulation using Verlet integration
@@ -93,21 +93,21 @@ public class Verlet
          */
 
         /* v ~= (x - ox) / dt */
-        sub(theParticle.position(), theParticle.old_position(), theParticle.velocity());
-        theParticle.velocity().mult(1.0f / theDeltaTime);
+        sub(pParticle.position(), pParticle.old_position(), pParticle.velocity());
+        pParticle.velocity().mult(1.0f / pDeltaTime);
 
         /* x' = x + (x - ox) + a*dt^2 */
-        temp1.set(theParticle.force());
-        temp1.mult(1.0f / theParticle.mass());
-        temp1.mult(theDeltaTime * theDeltaTime);
-        sub(theParticle.position(), theParticle.old_position(), temp2);
+        temp1.set(pParticle.force());
+        temp1.mult(1.0f / pParticle.mass());
+        temp1.mult(pDeltaTime * pDeltaTime);
+        sub(pParticle.position(), pParticle.old_position(), temp2);
 
-        temp2.mult(_myDamping);
+        temp2.mult(mDamping);
 
-        theParticle.position().add(temp1);
-        theParticle.position().add(temp2);
+        pParticle.position().add(temp1);
+        pParticle.position().add(temp2);
 
         /* --- */
-        theParticle.old_position().set(myOldPosition);
+        pParticle.old_position().set(mOldPosition);
     }
 }

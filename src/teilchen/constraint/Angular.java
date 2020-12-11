@@ -41,45 +41,47 @@ public class Angular implements IConstraint {
 
     private static final double STRENGTH = 1;
     public boolean OK;
-    private final Particle _myA;
-    private final Particle _myB;
-    private final Particle _myC;
-    private final PVector _myTempA = new PVector();
-    private final PVector _myTempB = new PVector();
-    private final PVector _myTempNormal;
+    private final Particle mA;
+    private final Particle mB;
+    private final Particle mC;
+    private final PVector mTempA = new PVector();
+    private final PVector mTempB = new PVector();
+    private final PVector mTempNormal;
+    private final long mID;
     protected boolean mActive = true;
     private boolean mDead = false;
-    private float _myMinimumAngle;
-    private float _myMaximumAngle;
+    private float mMinimumAngle;
+    private float mMaximumAngle;
 
-    public Angular(Particle theA, Particle theB, Particle theC,
-                   float theMinimumAngle, float theMaximumAngle) {
-        _myA = theA;
-        _myB = theB;
-        _myC = theC;
-        _myTempNormal = new PVector();
-        range(theMinimumAngle, theMaximumAngle);
+    public Angular(Particle pA, Particle pB, Particle pC,
+                   float pMinimumAngle, float pMaximumAngle) {
+        mID = Physics.getUniqueID();
+        mA = pA;
+        mB = pB;
+        mC = pC;
+        mTempNormal = new PVector();
+        range(pMinimumAngle, pMaximumAngle);
     }
 
-    public Angular(Particle theA, Particle theB, Particle theC) {
-        this(theA,
-             theB,
-             theC,
+    public Angular(Particle pA, Particle pB, Particle pC) {
+        this(pA,
+             pB,
+             pC,
              0, 0);
     }
 
-    public void range(float theMinimumAngle, float theMaximumAngle) {
-        _myMinimumAngle = theMinimumAngle;
-        _myMaximumAngle = theMaximumAngle;
+    public void range(float pMinimumAngle, float pMaximumAngle) {
+        mMinimumAngle = pMinimumAngle;
+        mMaximumAngle = pMaximumAngle;
         sortAngles();
     }
 
     public float minimumAngle() {
-        return _myMinimumAngle;
+        return mMinimumAngle;
     }
 
     public float maximumAngle() {
-        return _myMaximumAngle;
+        return mMaximumAngle;
     }
 
     public void apply(Physics pParticleSystem) {
@@ -91,11 +93,11 @@ public class Angular implements IConstraint {
         /*
          * @todo test for special case: a and c are in the same place.
          */
-        sub(_myB.position(), _myA.position(), _myTempA);
-        sub(_myB.position(), _myC.position(), _myTempB);
+        sub(mB.position(), mA.position(), mTempA);
+        sub(mB.position(), mC.position(), mTempB);
 
-        _myTempA.normalize();
-        _myTempB.normalize();
+        mTempA.normalize();
+        mTempB.normalize();
 
         /*
          * @todo check for special cases! like angle being 0 etc.
@@ -103,23 +105,23 @@ public class Angular implements IConstraint {
         /*
          * @todo check if the range exceeds PI.
          */
-        if (_myMinimumAngle < Math.PI && _myMaximumAngle > Math.PI) {
+        if (mMinimumAngle < Math.PI && mMaximumAngle > Math.PI) {
             System.out.println("### WARNING split range and check twice.");
         }
 
-        float myCosinusAngle = _myTempA.dot(_myTempB);
+        float myCosinusAngle = mTempA.dot(mTempB);
         if (myCosinusAngle > 1) {
             System.out.println("### WARNING myCosinusAngle > 1: " + myCosinusAngle);
             myCosinusAngle = 1;
         }
 
-        final float myTempCosMaximumAngle = (float) Math.cos(_myMaximumAngle);
-        final float myTempCosMinimumAngle = (float) Math.cos(_myMinimumAngle);
+        final float myTempCosMaximumAngle = (float) Math.cos(mMaximumAngle);
+        final float myTempCosMinimumAngle = (float) Math.cos(mMinimumAngle);
         final float myCosMaximumAngle = Math.max(myTempCosMinimumAngle, myTempCosMaximumAngle);
         final float myCosMinimumAngle = Math.min(myTempCosMinimumAngle, myTempCosMaximumAngle);
 
-        calculateNormal(_myTempA, _myTempB);
-        final boolean myLeftSide = checkForHemisphere(_myTempA, _myTempB);
+        calculateNormal(mTempA, mTempB);
+        final boolean myLeftSide = checkForHemisphere(mTempA, mTempB);
         double myCurrentAngle = 0;
 
         /*
@@ -141,10 +143,10 @@ public class Angular implements IConstraint {
 
         if (!OK) {
             final double myTheta;
-            if (myCurrentAngle > _myMaximumAngle) {
-                myTheta = _myMaximumAngle - myCurrentAngle;
-            } else if (myCosinusAngle < _myMinimumAngle) {
-                myTheta = -1 * (myCurrentAngle - _myMinimumAngle);
+            if (myCurrentAngle > mMaximumAngle) {
+                myTheta = mMaximumAngle - myCurrentAngle;
+            } else if (myCosinusAngle < mMinimumAngle) {
+                myTheta = -1 * (myCurrentAngle - mMinimumAngle);
             } else {
                 System.out.println("### WARNING puzzled.");
                 myTheta = 0;
@@ -158,53 +160,58 @@ public class Angular implements IConstraint {
         return mActive;
     }
 
-    public void active(boolean theActiveState) {
-        mActive = theActiveState;
+    public void active(boolean pActiveState) {
+        mActive = pActiveState;
     }
 
     public boolean dead() { return mDead; }
 
     public void dead(boolean pDead) { mDead = pDead; }
 
+    @Override
+    public long ID() {
+        return mID;
+    }
+
     private void sortAngles() {
-        final float myMaximumAngle = _myMaximumAngle;
-        final float myMinimumAngle = _myMinimumAngle;
-        _myMaximumAngle = Math.max(myMaximumAngle, myMinimumAngle);
-        _myMinimumAngle = Math.min(myMaximumAngle, myMinimumAngle);
+        final float mTempMaximumAngle = mMaximumAngle;
+        final float mTempMinimumAngle = mMinimumAngle;
+        mMaximumAngle = Math.max(mTempMaximumAngle, mTempMinimumAngle);
+        mMinimumAngle = Math.min(mTempMaximumAngle, mTempMinimumAngle);
     }
 
     private void calculateNormal(PVector myVectorA, PVector myVectorB) {
-        _myTempNormal.cross(myVectorA, myVectorB);
-        _myTempNormal.normalize();
-        if (isNaN(_myTempNormal)) {
-            _myTempNormal.set(0, 0, 1);
+        mTempNormal.cross(myVectorA, myVectorB);
+        mTempNormal.normalize();
+        if (isNaN(mTempNormal)) {
+            mTempNormal.set(0, 0, 1);
             System.out.println("### WARNING can t find normal.");
         }
     }
 
-    private void correctAngle(double theTheta) {
-        if (theTheta < -EPSILON || theTheta > EPSILON) {
+    private void correctAngle(double pTheta) {
+        if (pTheta < -EPSILON || pTheta > EPSILON) {
 
-            PVector myOtherPointOnAxis = add(_myB.position(), _myTempNormal);
+            PVector myOprPointOnAxis = add(mB.position(), mTempNormal);
 
-            PVector myRotatedPointA = rotatePoint(_myA.position(), theTheta * -0.5 * STRENGTH,
-                                                  _myB.position(),
-                                                  myOtherPointOnAxis);
-            _myA.position().set(myRotatedPointA);
+            PVector myRotatedPointA = rotatePoint(mA.position(), pTheta * -0.5 * STRENGTH,
+                                                  mB.position(),
+                                                  myOprPointOnAxis);
+            mA.position().set(myRotatedPointA);
 
-            PVector myRotatedPointB = rotatePoint(_myC.position(), theTheta * 0.5 * STRENGTH,
-                                                  _myB.position(),
-                                                  myOtherPointOnAxis);
-            _myC.position().set(myRotatedPointB);
+            PVector myRotatedPointB = rotatePoint(mC.position(), pTheta * 0.5 * STRENGTH,
+                                                  mB.position(),
+                                                  myOprPointOnAxis);
+            mC.position().set(myRotatedPointB);
 
-            System.out.println("correct " + Math.toDegrees(theTheta) + " / " + _myTempNormal);
+            System.out.println("correct " + Math.toDegrees(pTheta) + " / " + mTempNormal);
         }
     }
 
     private boolean checkForHemisphere(PVector myVectorA, PVector myVectorB) {
         /* special case thus easy to find the direction */
         if (myVectorA.z == 0 && myVectorB.z == 0) {
-            return _myTempNormal.z > 0;
+            return mTempNormal.z > 0;
         } else {
             /*
              * @todo do it the hard way and create a matrix from the two vectors

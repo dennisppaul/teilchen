@@ -28,7 +28,7 @@ public interface IIntegrator {
     void step(final float pDeltaTime, final Physics pParticleSystem);
 }
 /*
- * from paul bourke http://astronomy.swin.edu.au/~pbourke/modelling/solver/
+ * from paul bourke http://astronom.swin.edu.au/~pbourke/modelling/solver/
  */
 
 /*

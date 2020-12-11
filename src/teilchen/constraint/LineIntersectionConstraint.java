@@ -40,7 +40,10 @@ public class LineIntersectionConstraint implements IConstraint {
     private boolean mDead = false;
     private ArrayList<IConnection> mPotentialLineIntersections;
     private float mProxScale = 1.0f;
+    private final long mID;
+
     public LineIntersectionConstraint(Particle pParticle) {
+        mID = Physics.getUniqueID();
         mParticle = pParticle;
         mPotentialLineIntersections = new ArrayList<>();
     }
@@ -99,12 +102,16 @@ public class LineIntersectionConstraint implements IConstraint {
         return true;
     }
 
-    public void active(boolean theActiveState) {
+    public void active(boolean pActiveState) {
     }
 
     public boolean dead() { return mDead; }
 
     public void dead(boolean pDead) { mDead = pDead; }
+
+    public long ID() {
+        return mID;
+    }
 
     public ArrayList<IConnection> intersecting_lines() {
         return mPotentialLineIntersections;

@@ -5,6 +5,7 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
+
 /*
  * this sketch demonstrates how to use `CollisionManager` to resolve particle collisions by
  * applying temporary springs pushing 2 colliding particles appart.
@@ -31,19 +32,19 @@ void setup() {
     mPhysics = new Physics();
     mPhysics.add(new ViscousDrag(0.85f));
     mPhysics.add(new Gravity());
-    Box myBox = new Box();
-    myBox.min().set(50, 50, 0);
-    myBox.max().set(width - 50, height - 50, 0);
-    myBox.coefficientofrestitution(0.7f);
-    myBox.reflect(true);
-    mPhysics.add(myBox);
+    Box mBox = new Box();
+    mBox.min().set(50, 50, 0);
+    mBox.max().set(width - 50, height - 50, 0);
+    mBox.coefficientofrestitution(0.7f);
+    mBox.reflect(true);
+    mPhysics.add(mBox);
 }
 
 void draw() {
     /* create particles */
     if (mousePressed) {
-        final Particle myParticle = mPhysics.makeParticle(new PVector(mouseX, mouseY, 0), 10);
-        mCollision.collision().add(myParticle);
+        final Particle mParticle = mPhysics.makeParticle(new PVector(mouseX, mouseY, 0), 10);
+        mCollision.collision().add(mParticle);
     }
     /* collision handler */
     final float mDeltaTime = 1.0f / frameRate;
@@ -62,21 +63,23 @@ void drawThings() {
     stroke(0, 63);
     for (int i = 0; i < mCollision.collision().forces().size(); ++i) {
         if (mCollision.collision().forces().get(i) instanceof Spring) {
-            Spring mySpring = (Spring) mCollision.collision_forces().get(i);
-            line(mySpring.a().position().x,
-                 mySpring.a().position().y,
-                 mySpring.b().position().x,
-                 mySpring.b().position().y);
+            Spring mSpring = (Spring) mCollision.collision_forces().get(i);
+            line(mSpring.a().position().x,
+                 mSpring.a().position().y,
+                 mSpring.b().position().x,
+                 mSpring.b().position().y);
         }
     }
     /* particles */
-    fill(0);
     noStroke();
+    fill(0);
     for (int i = 0; i < mPhysics.particles().size(); ++i) {
-        Particle myParticle = mPhysics.particles().get(i);
+        Particle mParticle = mPhysics.particles().get(i);
+        final float mCollisionScale = mParticle.tagged() ? 1.0f : 2.0f;
+        mParticle.tag(false);
         pushMatrix();
-        translate(myParticle.position().x, myParticle.position().y);
-        ellipse(0, 0, PARTICLE_SIZE, PARTICLE_SIZE);
+        translate(mParticle.position().x, mParticle.position().y);
+        ellipse(0, 0, PARTICLE_SIZE * mCollisionScale, PARTICLE_SIZE * mCollisionScale);
         popMatrix();
     }
 }

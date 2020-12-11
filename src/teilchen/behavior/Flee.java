@@ -45,16 +45,16 @@ public class Flee
         return mFleePosition;
     }
 
-    public void setPositionRef(final PVector thePoint) {
-        mFleePosition = thePoint;
+    public void setPositionRef(final PVector pPoint) {
+        mFleePosition = pPoint;
     }
 
-    public void update(float theDeltaTime, IBehaviorParticle theParent) {
-        sub(theParent.position(), mFleePosition, mForce);
-        final float myDistanceToPoint = mForce.mag();
-        if (myDistanceToPoint > SMALLEST_ACCEPTABLE_DISTANCE) {
-            mForce.mult(theParent.maximumInnerForce() / myDistanceToPoint);
-            sub(mForce, theParent.velocity(), mForce);
+    public void update(float pDeltaTime, IBehaviorParticle pParent) {
+        sub(pParent.position(), mFleePosition, mForce);
+        final float mDistanceToPoint = mForce.mag();
+        if (mDistanceToPoint > SMALLEST_ACCEPTABLE_DISTANCE) {
+            mForce.mult(pParent.maximumInnerForce() / mDistanceToPoint);
+            sub(mForce, pParent.velocity(), mForce);
             mForce.mult(weight());
         } else {
             mForce.set(0, 0, 0);
@@ -69,7 +69,7 @@ public class Flee
         return mWeight;
     }
 
-    public void weight(float theWeight) {
-        mWeight = theWeight;
+    public void weight(float pWeight) {
+        mWeight = pWeight;
     }
 }

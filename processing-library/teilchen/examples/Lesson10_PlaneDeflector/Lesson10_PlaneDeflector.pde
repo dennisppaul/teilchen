@@ -5,6 +5,7 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
+
 /*
  * this sketch demonstrates how to create and use ``PlaneDeflector` and how to use
  * `ShortLivedParticle` a particle that only exists for a defined period of time.
@@ -42,16 +43,16 @@ void setup() {
     mGravity.force().y = 50;
     mPhysics.add(mGravity);
     /* create drag */
-    ViscousDrag myViscousDrag = new ViscousDrag();
-    myViscousDrag.coefficient = 0.1f;
-    mPhysics.add(myViscousDrag);
+    ViscousDrag mViscousDrag = new ViscousDrag();
+    mViscousDrag.coefficient = 0.1f;
+    mPhysics.add(mViscousDrag);
 }
 
 void draw() {
     /* rotate deflector plane */
     if (mousePressed) {
-        final float myAngle = 2 * PI * (float) mouseX / width - PI;
-        mDeflector.plane().normal.set(sin(myAngle), -cos(myAngle), 0);
+        final float mAngle = 2 * PI * (float) mouseX / width - PI;
+        mDeflector.plane().normal.set(sin(mAngle), -cos(mAngle), 0);
     }
     /* create a special particle */
     ShortLivedParticle mNewParticle = new ShortLivedParticle();

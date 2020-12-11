@@ -28,21 +28,21 @@ import teilchen.util.Vector3i;
 public class CubicleParticle
         extends BasicParticle implements ICubicleEntity {
 
-    private final Vector3i _myCubiclePosition;
+    private final Vector3i mCubiclePosition;
 
-    private final PVector _myPosition;
+    private final PVector mPosition;
 
     public CubicleParticle() {
-        _myCubiclePosition = new Vector3i();
-        _myPosition = new PVector();
+        mCubiclePosition = new Vector3i();
+        mPosition = new PVector();
     }
 
     public Vector3i cubicle() {
-        return _myCubiclePosition;
+        return mCubiclePosition;
     }
 
     public PVector position() {
-        return _myPosition;
+        return mPosition;
     }
 
     public boolean leaving(int pX, int pY, int pZ) {

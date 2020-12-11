@@ -38,6 +38,7 @@ public class Stick implements IConstraint, IConnection {
     protected final Particle mB;
     protected final PVector mTempDistanceVector;
     protected final PVector mTempVector;
+    private final long mID;
     protected float mRestLength;
     protected boolean mOneWay;
     protected float mDamping;
@@ -53,6 +54,7 @@ public class Stick implements IConstraint, IConnection {
     public Stick(final Particle pA,
                  final Particle pB,
                  final float pRestLength) {
+        mID = Physics.getUniqueID();
         mRestLength = pRestLength;
         mA = pA;
         mB = pB;
@@ -102,15 +104,15 @@ public class Stick implements IConstraint, IConnection {
             return;
         }
         PVector.sub(mA.position(), mB.position(), mTempDistanceVector);
-        final float myDistanceSquared = lengthSquared(mTempDistanceVector);
-        if (myDistanceSquared > 0) {
-            final float myInvDistance = Util.fastInverseSqrt(myDistanceSquared);
-            final float myDistance = 1.0f / myInvDistance;
-            final float myDifference = mRestLength - myDistance;
-            if (myDifference > EPSILON || myDifference < -EPSILON) {
+        final float mDistanceSquared = lengthSquared(mTempDistanceVector);
+        if (mDistanceSquared > 0) {
+            final float mInvDistance = Util.fastInverseSqrt(mDistanceSquared);
+            final float mDistance = 1.0f / mInvDistance;
+            final float mDifference = mRestLength - mDistance;
+            if (mDifference > EPSILON || mDifference < -EPSILON) {
                 if (!mOneWay) {
-                    final float myDifferenceScale = mDamping * 0.5f * myDifference / myDistance;
-                    PVector.mult(mTempDistanceVector, myDifferenceScale, mTempVector);
+                    final float mDifferenceScale = mDamping * 0.5f * mDifference / mDistance;
+                    PVector.mult(mTempDistanceVector, mDifferenceScale, mTempVector);
 
                     if (mA.fixed()) {
                         mB.position().sub(mTempVector);
@@ -123,8 +125,8 @@ public class Stick implements IConstraint, IConnection {
                         mB.position().sub(mTempVector);
                     }
                 } else {
-                    final float myDifferenceScale = myDifference * myInvDistance;
-                    PVector.mult(mTempDistanceVector, myDifferenceScale, mTempVector);
+                    final float mDifferenceScale = mDifference * mInvDistance;
+                    PVector.mult(mTempDistanceVector, mDifferenceScale, mTempVector);
                     mB.position().sub(mTempVector);
                 }
             }
@@ -152,4 +154,8 @@ public class Stick implements IConstraint, IConnection {
     public boolean dead() { return mDead; }
 
     public void dead(boolean pDead) { mDead = pDead; }
+
+    public long ID() {
+        return mID;
+    }
 }

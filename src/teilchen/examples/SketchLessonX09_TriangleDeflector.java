@@ -30,8 +30,8 @@ public class SketchLessonX09_TriangleDeflector extends PApplet {
     public void setup() {
         /* physics */
         mPhysics = new Physics();
-        Gravity myGravity = new Gravity(0, -3, -30);
-        mPhysics.add(myGravity);
+        Gravity mGravity = new Gravity(0, -3, -30);
+        mPhysics.add(mGravity);
 
         /* triangle deflectors */
         final PVector[] mVertices = new PVector[]{new PVector(0, 0, 0),

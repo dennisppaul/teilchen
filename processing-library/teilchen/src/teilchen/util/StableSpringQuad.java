@@ -73,15 +73,15 @@ public class StableSpringQuad {
         d.setPositionRef(pD);
 
         /* edges */
-        final float mySpringConstant = 100;
-        final float mySpringDamping = 5;
-        ab = pParticleSystem.makeSpring(a, b, mySpringConstant, mySpringDamping);
-        bc = pParticleSystem.makeSpring(b, c, mySpringConstant, mySpringDamping);
-        cd = pParticleSystem.makeSpring(c, d, mySpringConstant, mySpringDamping);
-        da = pParticleSystem.makeSpring(d, a, mySpringConstant, mySpringDamping);
+        final float mSpringConstant = 100;
+        final float mSpringDamping = 5;
+        ab = pParticleSystem.makeSpring(a, b, mSpringConstant, mSpringDamping);
+        bc = pParticleSystem.makeSpring(b, c, mSpringConstant, mSpringDamping);
+        cd = pParticleSystem.makeSpring(c, d, mSpringConstant, mSpringDamping);
+        da = pParticleSystem.makeSpring(d, a, mSpringConstant, mSpringDamping);
         /* diagonals */
-        ac = pParticleSystem.makeSpring(a, c, mySpringConstant, mySpringDamping);
-        bd = pParticleSystem.makeSpring(b, d, mySpringConstant, mySpringDamping);
+        ac = pParticleSystem.makeSpring(a, c, mSpringConstant, mSpringDamping);
+        bd = pParticleSystem.makeSpring(b, d, mSpringConstant, mSpringDamping);
     }
 
     public StableSpringQuad(final Physics pParticleSystem,
@@ -95,14 +95,14 @@ public class StableSpringQuad {
         d = pD;
 
         /* edges */
-        final float mySpringConstant = 500;
-        final float mySpringDamping = 5;
-        ab = pParticleSystem.makeSpring(a, b, mySpringConstant, mySpringDamping);
-        bc = pParticleSystem.makeSpring(b, c, mySpringConstant, mySpringDamping);
-        cd = pParticleSystem.makeSpring(c, d, mySpringConstant, mySpringDamping);
-        da = pParticleSystem.makeSpring(d, a, mySpringConstant, mySpringDamping);
+        final float mSpringConstant = 500;
+        final float mSpringDamping = 5;
+        ab = pParticleSystem.makeSpring(a, b, mSpringConstant, mSpringDamping);
+        bc = pParticleSystem.makeSpring(b, c, mSpringConstant, mSpringDamping);
+        cd = pParticleSystem.makeSpring(c, d, mSpringConstant, mSpringDamping);
+        da = pParticleSystem.makeSpring(d, a, mSpringConstant, mSpringDamping);
         /* diagonals */
-        ac = pParticleSystem.makeSpring(a, c, mySpringConstant, mySpringDamping);
-        bd = pParticleSystem.makeSpring(b, d, mySpringConstant, mySpringDamping);
+        ac = pParticleSystem.makeSpring(a, c, mSpringConstant, mSpringDamping);
+        bd = pParticleSystem.makeSpring(b, d, mSpringConstant, mSpringDamping);
     }
 }

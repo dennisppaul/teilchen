@@ -27,9 +27,9 @@ public class SketchLesson03_Attractors extends PApplet {
         mPhysics = new Physics();
 
         /* create a viscous force that slows down all motion */
-        ViscousDrag myDrag = new ViscousDrag();
-        myDrag.coefficient = 0.75f;
-        mPhysics.add(myDrag);
+        ViscousDrag mDrag = new ViscousDrag();
+        mDrag.coefficient = 0.75f;
+        mPhysics.add(mDrag);
 
         /* teleport particles from one edge of the screen to the other */
         Teleporter mTeleporter = new Teleporter();
@@ -66,8 +66,8 @@ public class SketchLesson03_Attractors extends PApplet {
         fill(0);
         noStroke();
         for (int i = 0; i < mPhysics.particles().size(); i++) {
-            Particle myParticle = mPhysics.particles(i);
-            ellipse(myParticle.position().x, myParticle.position().y, 5, 5);
+            Particle mParticle = mPhysics.particles(i);
+            ellipse(mParticle.position().x, mParticle.position().y, 5, 5);
         }
 
         /* draw attractor */
@@ -87,9 +87,9 @@ public class SketchLesson03_Attractors extends PApplet {
 
     public void mousePressed() {
         /* flip the direction of the attractors strength. */
-        float myInvertedStrength = -1 * mAttractor.strength();
+        float mInvertedStrength = -1 * mAttractor.strength();
         /* a negative strength turns the attractor into a repulsor */
-        mAttractor.strength(myInvertedStrength);
+        mAttractor.strength(mInvertedStrength);
     }
 
     public static void main(String[] args) {

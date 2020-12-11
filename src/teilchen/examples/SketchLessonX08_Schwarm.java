@@ -42,8 +42,8 @@ public class SketchLessonX08_Schwarm extends PApplet {
         mTeleporter.max().set(width, height, height / 2.0f);
         mPhysics.add(mTeleporter);
 
-        ViscousDrag myViscousDrag = new ViscousDrag();
-        mPhysics.add(myViscousDrag);
+        ViscousDrag mViscousDrag = new ViscousDrag();
+        mPhysics.add(mViscousDrag);
 
         /* setup entities */
         mSwarmEntities = new ArrayList<>();

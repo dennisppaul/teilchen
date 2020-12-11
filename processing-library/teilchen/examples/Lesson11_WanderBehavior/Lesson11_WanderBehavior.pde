@@ -5,6 +5,7 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
+
 /*
  * this sketch demonstrates how to use behaviors.  it combines `Wander` and `Motor` behaviors
  * to turn a `BehaviorParticle` into an autonomously moving *agent*.

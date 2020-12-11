@@ -33,8 +33,10 @@ public class Pulse implements IForce {
     private boolean mActive;
     private float mDamping;
     private boolean mDead = false;
+    private final long mID;
 
     public Pulse(final Particle pParticle) {
+        mID = Physics.getUniqueID();
         mActive = true;
         mParticle = pParticle;
         mForce = new PVector();
@@ -75,6 +77,10 @@ public class Pulse implements IForce {
     @Override
     public void active(boolean pActiveState) {
         mActive = pActiveState;
+    }
+
+    public long ID() {
+        return mID;
     }
 
     public void damping(float pDamping) {

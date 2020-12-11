@@ -32,40 +32,40 @@ public class TearableSpring
 
     private float mTearDistance = -1;
 
-    public TearableSpring(Particle theA, Particle theB) {
-        super(theA,
-              theB,
+    public TearableSpring(Particle pA, Particle pB) {
+        super(pA,
+              pB,
               2.0f, 0.1f,
-              distance(theA.position(), theB.position()));
+              distance(pA.position(), pB.position()));
     }
 
-    public TearableSpring(final Particle theA,
-                          final Particle theB,
-                          final float theSpringConstant,
-                          final float theSpringDamping,
-                          final float theRestLength,
-                          final float theTearDistance) {
-        super(theA,
-              theB,
-              theSpringConstant,
-              theSpringDamping,
-              theRestLength);
-        mTearDistance = theTearDistance;
+    public TearableSpring(final Particle pA,
+                          final Particle pB,
+                          final float pSpringConstant,
+                          final float pSpringDamping,
+                          final float pRestLength,
+                          final float pTearDistance) {
+        super(pA,
+              pB,
+              pSpringConstant,
+              pSpringDamping,
+              pRestLength);
+        mTearDistance = pTearDistance;
     }
 
     public final float tear_distance() {
         return mTearDistance;
     }
 
-    public final void tear_distance(float theTearDistance) {
-        mTearDistance = theTearDistance;
+    public final void tear_distance(float pTearDistance) {
+        mTearDistance = pTearDistance;
     }
 
     public void apply(final float pDeltaTime, final Physics pParticleSystem) {
         /* check if spring will tear */
         if (mTearDistance > 0) {
-            final float myActualDistance = distance(a().position(), b().position());
-            if (myActualDistance > restlength() + mTearDistance) {
+            final float mActualDistance = distance(a().position(), b().position());
+            if (mActualDistance > restlength() + mTearDistance) {
                 mTorn = true;
             }
         }

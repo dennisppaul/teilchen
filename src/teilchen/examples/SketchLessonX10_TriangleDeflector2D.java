@@ -27,8 +27,8 @@ public class SketchLessonX10_TriangleDeflector2D extends PApplet {
     public void setup() {
         /* physics */
         mPhysics = new Physics();
-        Gravity myGravity = new Gravity(0, 20, 0);
-        mPhysics.add(myGravity);
+        Gravity mGravity = new Gravity(0, 20, 0);
+        mPhysics.add(mGravity);
 
         /* triangle deflector */
         final float mPadding = 50;

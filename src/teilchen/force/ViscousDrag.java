@@ -32,8 +32,10 @@ public class ViscousDrag implements IForce {
 
     private boolean mActive;
     private boolean mDead = false;
+    private final long mID;
 
     public ViscousDrag(float pCoefficient) {
+        mID = Physics.getUniqueID();
         coefficient = pCoefficient;
         mActive = true;
     }
@@ -47,11 +49,11 @@ public class ViscousDrag implements IForce {
             return;
         }
         if (coefficient != 0) {
-            for (final Particle myParticle : pParticleSystem.particles()) {
-                if (!myParticle.fixed()) {
-                    myParticle.force().add(myParticle.velocity().x * -coefficient,
-                                           myParticle.velocity().y * -coefficient,
-                                           myParticle.velocity().z * -coefficient);
+            for (final Particle mParticle : pParticleSystem.particles()) {
+                if (!mParticle.fixed()) {
+                    mParticle.force().add(mParticle.velocity().x * -coefficient,
+                                           mParticle.velocity().y * -coefficient,
+                                           mParticle.velocity().z * -coefficient);
                 }
             }
         }
@@ -71,5 +73,9 @@ public class ViscousDrag implements IForce {
 
     public void active(boolean pActiveState) {
         mActive = pActiveState;
+    }
+
+    public long ID() {
+        return mID;
     }
 }

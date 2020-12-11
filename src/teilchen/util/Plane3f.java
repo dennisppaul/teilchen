@@ -48,12 +48,12 @@ public class Plane3f
         vectorB = new PVector();
     }
 
-    public Plane3f(PVector theOrigin,
-                   PVector theVectorA,
-                   PVector theVectorB) {
-        origin = theOrigin;
-        vectorA = theVectorA;
-        vectorB = theVectorB;
+    public Plane3f(PVector pOrigin,
+                   PVector pVectorA,
+                   PVector pVectorB) {
+        origin = pOrigin;
+        vectorA = pVectorA;
+        vectorB = pVectorB;
     }
 
     public void updateNormal() {

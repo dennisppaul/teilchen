@@ -45,7 +45,7 @@ public class Cohesion<E extends IBehaviorParticle> implements IBehavior, Seriali
         mForce = new PVector();
     }
 
-    public void update(float theDeltaTime, IBehaviorParticle pParent) {
+    public void update(float pDeltaTime, IBehaviorParticle pParent) {
         mForce.set(0, 0, 0);
         if (mNeighbors != null) {
             ArrayList<ProximityStructure> mCloseNeighbors = ProximityStructure.findProximityEntities(pParent,
@@ -98,7 +98,7 @@ public class Cohesion<E extends IBehaviorParticle> implements IBehavior, Seriali
         return mProximity;
     }
 
-    public void proximity(float thePrivacyRadius) {
-        mProximity = thePrivacyRadius;
+    public void proximity(float pPrivacyRadius) {
+        mProximity = pPrivacyRadius;
     }
 }

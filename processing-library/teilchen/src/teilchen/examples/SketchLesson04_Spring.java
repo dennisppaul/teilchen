@@ -27,22 +27,22 @@ public class SketchLesson04_Spring extends PApplet {
         mPhysics = new Physics();
 
         /* create a viscous force that slows down all motion; 0 means no slowing down. */
-        ViscousDrag myDrag = new ViscousDrag(0.25f);
-        mPhysics.add(myDrag);
+        ViscousDrag mDrag = new ViscousDrag(0.25f);
+        mPhysics.add(mDrag);
 
         /* create two particles that we can connect with a spring */
-        Particle myA = mPhysics.makeParticle();
-        myA.position().set(width / 2.0f - 50, height / 2.0f);
+        Particle mA = mPhysics.makeParticle();
+        mA.position().set(width / 2.0f - 50, height / 2.0f);
 
-        Particle myB = mPhysics.makeParticle();
-        myB.position().set(width / 2.0f + 50, height / 2.0f);
+        Particle mB = mPhysics.makeParticle();
+        mB.position().set(width / 2.0f + 50, height / 2.0f);
 
         /* create a spring force that connects two particles.
          * note that there is more than one way to create a spring.
          * in our case the restlength of the spring is defined by the
          * particles current position.
          */
-        mSpring = mPhysics.makeSpring(myA, myB);
+        mSpring = mPhysics.makeSpring(mA, mB);
     }
 
     public void draw() {

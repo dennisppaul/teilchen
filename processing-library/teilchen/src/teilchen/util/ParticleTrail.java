@@ -28,34 +28,34 @@ import teilchen.ShortLivedParticle;
 
 public class ParticleTrail {
 
-    private final Physics _myTrailParticleSystem;
+    private final Physics mTrailParticleSystem;
 
-    private final Particle _myParticle;
+    private final Particle mParticle;
 
-    private final float _myInterval;
+    private final float mInterval;
 
-    private final ArrayList<Particle> _myFragments;
+    private final ArrayList<Particle> mFragments;
 
-    private final float _myFragmentLifetime;
+    private final float mFragmentLifetime;
 
-    private float _myCurrentTime;
+    private float mCurrentTime;
 
-    private boolean _myFixState;
+    private boolean mFixState;
 
-    private Class<? extends Particle> _myParticleClass = ShortLivedParticle.class;
+    private Class<? extends Particle> mParticleClass = ShortLivedParticle.class;
 
     private float mTrailParticleMass = 1.0f;
 
-    public ParticleTrail(final Physics theTrailParticleSystem,
-                         final Particle theParticle,
-                         float theInterval,
-                         float theFragmentLifetime) {
-        _myTrailParticleSystem = theTrailParticleSystem;
-        _myParticle = theParticle;
-        _myInterval = theInterval;
-        _myFragmentLifetime = theFragmentLifetime;
-        _myFragments = new ArrayList<>();
-        _myFixState = false;
+    public ParticleTrail(final Physics pTrailParticleSystem,
+                         final Particle pParticle,
+                         float pInterval,
+                         float pFragmentLifetime) {
+        mTrailParticleSystem = pTrailParticleSystem;
+        mParticle = pParticle;
+        mInterval = pInterval;
+        mFragmentLifetime = pFragmentLifetime;
+        mFragments = new ArrayList<>();
+        mFixState = false;
     }
 
     public void mass(float pMass) {
@@ -66,73 +66,73 @@ public class ParticleTrail {
         return mTrailParticleMass;
     }
 
-    public void fix(boolean theFixState) {
-        _myFixState = theFixState;
+    public void fix(boolean pFixState) {
+        mFixState = pFixState;
     }
 
     public Particle particle() {
-        return _myParticle;
+        return mParticle;
     }
 
     public void clear() {
-        _myFragments.clear();
+        mFragments.clear();
     }
 
     public ArrayList<Particle> fragments() {
-        return _myFragments;
+        return mFragments;
     }
 
     public void set() {
-        /* this would be more precise but has other issues -- _myCurrentTime -= _myInterval; */
-        _myCurrentTime = 0;
-        final Particle myParticle = makeParticle();
-        _myFragments.add(myParticle);
+        /* this would be more precise but has other issues -- mCurrentTime -= mInterval; */
+        mCurrentTime = 0;
+        final Particle mParticle = makeParticle();
+        mFragments.add(mParticle);
     }
 
-    public void loop(float theDeltaTime) {
-        _myCurrentTime += theDeltaTime;
+    public void loop(float pDeltaTime) {
+        mCurrentTime += pDeltaTime;
 
-        if (_myCurrentTime > _myInterval) {
+        if (mCurrentTime > mInterval) {
             set();
         }
 
-        for (int i = 0; i < _myFragments.size(); i++) {
-            Particle myTrailFragment = _myFragments.get(i);
-            if (myTrailFragment.dead()) {
-                _myFragments.remove(myTrailFragment);
+        for (int i = 0; i < mFragments.size(); i++) {
+            Particle mTrailFragment = mFragments.get(i);
+            if (mTrailFragment.dead()) {
+                mFragments.remove(mTrailFragment);
             }
         }
     }
 
-    public <T extends Particle> void setParticleClass(Class<T> theClass) {
-        _myParticleClass = theClass;
+    public <T extends Particle> void setParticleClass(Class<T> pClass) {
+        mParticleClass = pClass;
     }
 
-    private static <T extends Particle> T createParticle(Class<T> theParticleClass) {
-        T myParticle;
+    private static <T extends Particle> T createParticle(Class<T> pParticleClass) {
+        T mParticle;
         try {
-            myParticle = theParticleClass.newInstance();
+            mParticle = pParticleClass.newInstance();
         } catch (Exception ex) {
             System.err.println(ex);
-            myParticle = null;
+            mParticle = null;
         }
-        return myParticle;
+        return mParticle;
     }
 
     protected Particle makeParticle() {
-        final Particle myTrailFragment = createParticle(_myParticleClass);
-        myTrailFragment.mass(mTrailParticleMass);
+        final Particle mTrailFragment = createParticle(mParticleClass);
+        mTrailFragment.mass(mTrailParticleMass);
 
-        if (_myTrailParticleSystem != null) {
-            _myTrailParticleSystem.add(myTrailFragment);
+        if (mTrailParticleSystem != null) {
+            mTrailParticleSystem.add(mTrailFragment);
         }
 
-        if (myTrailFragment instanceof ShortLivedParticle) {
-            ((ShortLivedParticle) myTrailFragment).setMaxAge(_myFragmentLifetime);
+        if (mTrailFragment instanceof ShortLivedParticle) {
+            ((ShortLivedParticle) mTrailFragment).setMaxAge(mFragmentLifetime);
         }
 
-        myTrailFragment.position().set(_myParticle.position());
-        myTrailFragment.fixed(_myFixState);
-        return myTrailFragment;
+        mTrailFragment.position().set(mParticle.position());
+        mTrailFragment.fixed(mFixState);
+        return mTrailFragment;
     }
 }

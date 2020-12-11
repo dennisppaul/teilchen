@@ -35,14 +35,14 @@ public class SketchLesson09_LineDeflector extends PApplet {
         mPhysics.add(mDeflector);
 
         /* create gravity */
-        Gravity myGravity = new Gravity();
-        myGravity.force().y = 50;
-        mPhysics.add(myGravity);
+        Gravity mGravity = new Gravity();
+        mGravity.force().y = 50;
+        mPhysics.add(mGravity);
 
         /* create drag */
-        ViscousDrag myViscousDrag = new ViscousDrag();
-        myViscousDrag.coefficient = 0.1f;
-        mPhysics.add(myViscousDrag);
+        ViscousDrag mViscousDrag = new ViscousDrag();
+        mViscousDrag.coefficient = 0.1f;
+        mPhysics.add(mViscousDrag);
     }
 
     public void draw() {

@@ -5,6 +5,7 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
+
 /*
  * this sketch demonstrates how to create and handle multiple particles and remove individual
  * particles.
@@ -22,8 +23,8 @@ void setup() {
     /* create a particle system */
     mPhysics = new Physics();
     /* create a gravitational force and add it to the particle system */
-    Gravity myGravity = new Gravity(0, 30, 0);
-    mPhysics.add(myGravity);
+    Gravity mGravity = new Gravity(0, 30, 0);
+    mPhysics.add(mGravity);
 }
 
 void draw() {

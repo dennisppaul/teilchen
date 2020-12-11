@@ -5,6 +5,7 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
+
 /*
  * this sketch demonstrates how to contraint the angle between two springs or two sticks.
  *
@@ -32,12 +33,12 @@ void settings() {
 void setup() {
     mPhysics = new Physics();
     mPhysics.setIntegratorRef(new RungeKutta());
-    ViscousDrag myViscousDrag = new ViscousDrag();
-    myViscousDrag.coefficient = 1f;
-    mPhysics.add(myViscousDrag);
-    Gravity myGravity = new Gravity();
-    myGravity.force().y = 50;
-    mPhysics.add(myGravity);
+    ViscousDrag mViscousDrag = new ViscousDrag();
+    mViscousDrag.coefficient = 1f;
+    mPhysics.add(mViscousDrag);
+    Gravity mGravity = new Gravity();
+    mGravity.force().y = 50;
+    mPhysics.add(mGravity);
     /* particles */
     mParticleA = mPhysics.makeParticle();
     mParticleB = mPhysics.makeParticle();

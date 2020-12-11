@@ -44,46 +44,50 @@ public class Box implements IConstraint {
         NORMALS[5] = new PVector(0, 0, 1);
     }
 
-    private final PVector _myMin;
-    private final PVector _myMax;
+    private final long mID;
+    private final PVector mMin;
+    private final PVector mMax;
     protected boolean mActive = true;
     private boolean mDead = false;
-    private boolean _myReflectFlag;
-    private float _myCoefficientOfRestitution;
-    private boolean _myTeleport;
-    public Box(final PVector theMin, final PVector theMax) {
-        _myMin = theMin;
-        _myMax = theMax;
-        _myReflectFlag = true;
-        _myCoefficientOfRestitution = 1.0f;
-        _myTeleport = false;
+    private boolean mReflectFlag;
+    private float mCoefficientOfRestitution;
+    private boolean mTeleport;
+
+    public Box(final PVector pMin, final PVector pMax) {
+        mID = Physics.getUniqueID();
+        mMin = pMin;
+        mMax = pMax;
+        mReflectFlag = true;
+        mCoefficientOfRestitution = 1.0f;
+        mTeleport = false;
     }
+
     public Box() {
         this(new PVector(), new PVector());
     }
 
-    public void telelport(boolean theTeleportState) {
-        _myTeleport = theTeleportState;
+    public void telelport(boolean pTeleportState) {
+        mTeleport = pTeleportState;
     }
 
-    public void reflect(boolean theReflectState) {
-        _myReflectFlag = theReflectState;
+    public void reflect(boolean pReflectState) {
+        mReflectFlag = pReflectState;
     }
 
     public PVector min() {
-        return _myMin;
+        return mMin;
     }
 
     public PVector max() {
-        return _myMax;
+        return mMax;
     }
 
-    public void coefficientofrestitution(float theCoefficientOfRestitution) {
-        _myCoefficientOfRestitution = theCoefficientOfRestitution;
+    public void coefficientofrestitution(float pCoefficientOfRestitution) {
+        mCoefficientOfRestitution = pCoefficientOfRestitution;
     }
 
     public float coefficientofrestitution() {
-        return _myCoefficientOfRestitution;
+        return mCoefficientOfRestitution;
     }
 
     public void apply(final Physics pParticleSystem) {
@@ -93,24 +97,24 @@ public class Box implements IConstraint {
         }
 
         for (final Particle myParticle : pParticleSystem.particles()) {
-            if (_myTeleport) {
-                if (myParticle.position().x > _myMax.x) {
-                    myParticle.position().x = _myMin.x;
+            if (mTeleport) {
+                if (myParticle.position().x > mMax.x) {
+                    myParticle.position().x = mMin.x;
                 }
-                if (myParticle.position().y > _myMax.y) {
-                    myParticle.position().y = _myMin.y;
+                if (myParticle.position().y > mMax.y) {
+                    myParticle.position().y = mMin.y;
                 }
-                if (myParticle.position().z > _myMax.z) {
-                    myParticle.position().z = _myMin.z;
+                if (myParticle.position().z > mMax.z) {
+                    myParticle.position().z = mMin.z;
                 }
-                if (myParticle.position().x < _myMin.x) {
-                    myParticle.position().x = _myMax.x;
+                if (myParticle.position().x < mMin.x) {
+                    myParticle.position().x = mMax.x;
                 }
-                if (myParticle.position().y < _myMin.y) {
-                    myParticle.position().y = _myMax.y;
+                if (myParticle.position().y < mMin.y) {
+                    myParticle.position().y = mMax.y;
                 }
-                if (myParticle.position().z < _myMin.z) {
-                    myParticle.position().z = _myMax.z;
+                if (myParticle.position().z < mMin.z) {
+                    myParticle.position().z = mMax.z;
                 }
             } else {
                 /**
@@ -119,42 +123,42 @@ public class Box implements IConstraint {
                  */
                 int myTag = -1;
                 final PVector myPosition = Util.clone(myParticle.position());
-                if (myParticle.position().x > _myMax.x) {
-                    myParticle.position().x = _myMax.x;
+                if (myParticle.position().x > mMax.x) {
+                    myParticle.position().x = mMax.x;
                     myTag = 0;
                 }
-                if (myParticle.position().y > _myMax.y) {
-                    myParticle.position().y = _myMax.y;
+                if (myParticle.position().y > mMax.y) {
+                    myParticle.position().y = mMax.y;
                     myTag = 1;
                 }
-                if (myParticle.position().z > _myMax.z) {
-                    myParticle.position().z = _myMax.z;
+                if (myParticle.position().z > mMax.z) {
+                    myParticle.position().z = mMax.z;
                     myTag = 2;
                 }
-                if (myParticle.position().x < _myMin.x) {
-                    myParticle.position().x = _myMin.x;
+                if (myParticle.position().x < mMin.x) {
+                    myParticle.position().x = mMin.x;
                     myTag = 3;
                 }
-                if (myParticle.position().y < _myMin.y) {
-                    myParticle.position().y = _myMin.y;
+                if (myParticle.position().y < mMin.y) {
+                    myParticle.position().y = mMin.y;
                     myTag = 4;
                 }
-                if (myParticle.position().z < _myMin.z) {
-                    myParticle.position().z = _myMin.z;
+                if (myParticle.position().z < mMin.z) {
+                    myParticle.position().z = mMin.z;
                     myTag = 5;
                 }
                 if (myTag >= 0) {
-                    if (_myReflectFlag) {
+                    if (mReflectFlag) {
                         if (pParticleSystem.getIntegrator() instanceof Verlet) {
                             final PVector myDiff = sub(myPosition, myParticle.position());
-                            teilchen.util.Util.reflect(myDiff, NORMALS[myTag], _myCoefficientOfRestitution);
+                            teilchen.util.Util.reflect(myDiff, NORMALS[myTag], mCoefficientOfRestitution);
 //                            System.out.println("### reflect " + _myNormals[myTag]);
 //                            System.out.println("myDiff " + myDiff);
                             myParticle.old_position().sub(myDiff);
                         } else {
                             teilchen.util.Util.reflectVelocity(myParticle,
                                                                NORMALS[myTag],
-                                                               _myCoefficientOfRestitution);
+                                                               mCoefficientOfRestitution);
                         }
                     } else {
                         myParticle.velocity().set(0, 0, 0);
@@ -168,11 +172,15 @@ public class Box implements IConstraint {
         return mActive;
     }
 
-    public void active(boolean theActiveState) {
-        mActive = theActiveState;
+    public void active(boolean pActiveState) {
+        mActive = pActiveState;
     }
 
     public boolean dead() { return mDead; }
 
     public void dead(boolean pDead) { mDead = pDead; }
+
+    public long ID() {
+        return mID;
+    }
 }

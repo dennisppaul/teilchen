@@ -43,25 +43,25 @@ public class Euler
         pParticleSystem.applyForces(pDeltaTime);
 
         synchronized (pParticleSystem.particles()) {
-            final Iterator<Particle> myIterator = pParticleSystem.particles().iterator();
-            while (myIterator.hasNext()) {
-                final Particle myParticle = myIterator.next();
-                if (!myParticle.fixed()) {
-                    integrate(pDeltaTime, myParticle);
+            final Iterator<Particle> mIterator = pParticleSystem.particles().iterator();
+            while (mIterator.hasNext()) {
+                final Particle mParticle = mIterator.next();
+                if (!mParticle.fixed()) {
+                    integrate(pDeltaTime, mParticle);
                 }
             }
         }
     }
 
-    private void integrate(final float theDeltaTime, final Particle theParticle) {
-        mTemp1.set(theParticle.force());
-        mTemp1.mult(theDeltaTime / theParticle.mass());
+    private void integrate(final float pDeltaTime, final Particle pParticle) {
+        mTemp1.set(pParticle.force());
+        mTemp1.mult(pDeltaTime / pParticle.mass());
 
-        mTemp2.set(theParticle.velocity());
-        mTemp2.mult(theDeltaTime);
+        mTemp2.set(pParticle.velocity());
+        mTemp2.mult(pDeltaTime);
 
-        theParticle.velocity().add(mTemp1);
-        theParticle.position().add(mTemp2);
+        pParticle.velocity().add(mTemp1);
+        pParticle.position().add(mTemp2);
     }
 }
 
@@ -75,23 +75,23 @@ public class Euler
 //public class Euler
 //    implements IIntegrator {
 //
-//    private final Vector<Derivate3f> myK1 = new Vector<Derivate3f> ();
+//    private final Vector<Derivate3f> mK1 = new Vector<Derivate3f> ();
 //
 //    public void step(final float theDeltaTime, final ParticleSystem pParticleSystem) {
 //
-//        IntegrationUtil.checkContainerSize(pParticleSystem.particles().size(), myK1, Derivate3f.class);
+//        IntegrationUtil.checkContainerSize(pParticleSystem.particles().size(), mK1, Derivate3f.class);
 //
 //        pParticleSystem.applyForces(theDeltaTime);
-//        IntegrationUtil.calculateDerivatives(pParticleSystem.particles(), myK1);
+//        IntegrationUtil.calculateDerivatives(pParticleSystem.particles(), mK1);
 //        for (int i = 0; i < pParticleSystem.particles().size(); i++) {
-//            Particle myParticle = pParticleSystem.particles().get(i);
-//            if (!myParticle.fixed()) {
-//                myParticle.position().x += myK1.get(i).px * theDeltaTime;
-//                myParticle.position().y += myK1.get(i).py * theDeltaTime;
-//                myParticle.position().z += myK1.get(i).pz * theDeltaTime;
-//                myParticle.velocity().x += myK1.get(i).vx * theDeltaTime;
-//                myParticle.velocity().y += myK1.get(i).vy * theDeltaTime;
-//                myParticle.velocity().z += myK1.get(i).vz * theDeltaTime;
+//            Particle mParticle = pParticleSystem.particles().get(i);
+//            if (!mParticle.fixed()) {
+//                mParticle.position().x += mK1.get(i).px * theDeltaTime;
+//                mParticle.position().y += mK1.get(i).py * theDeltaTime;
+//                mParticle.position().z += mK1.get(i).pz * theDeltaTime;
+//                mParticle.velocity().x += mK1.get(i).vx * theDeltaTime;
+//                mParticle.velocity().y += mK1.get(i).vy * theDeltaTime;
+//                mParticle.velocity().z += mK1.get(i).vz * theDeltaTime;
 //            }
 //        }
 //    }

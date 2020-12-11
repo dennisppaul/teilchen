@@ -46,188 +46,188 @@ public class Vector4f
         w = 0;
     }
 
-    public Vector4f(float theX,
-                    float theY,
-                    float theZ,
-                    float theW) {
-        set(theX,
-            theY,
-            theZ,
-            theW);
+    public Vector4f(float pX,
+                    float pY,
+                    float pZ,
+                    float pW) {
+        set(pX,
+            pY,
+            pZ,
+            pW);
     }
 
-    public Vector4f(double theX,
-                    double theY,
-                    double theZ,
-                    double theW) {
-        set(theX,
-            theY,
-            theZ,
-            theW);
+    public Vector4f(double pX,
+                    double pY,
+                    double pZ,
+                    double pW) {
+        set(pX,
+            pY,
+            pZ,
+            pW);
     }
 
-    public Vector4f(float theX,
-                    float theY,
-                    float theZ) {
-        set(theX,
-            theY,
-            theZ);
+    public Vector4f(float pX,
+                    float pY,
+                    float pZ) {
+        set(pX,
+            pY,
+            pZ);
     }
 
-    public Vector4f(double theX,
-                    double theY,
-                    double theZ) {
-        set(theX,
-            theY,
-            theZ);
+    public Vector4f(double pX,
+                    double pY,
+                    double pZ) {
+        set(pX,
+            pY,
+            pZ);
     }
 
-    public Vector4f(float theX,
-                    float theY) {
-        set(theX,
-            theY);
+    public Vector4f(float pX,
+                    float pY) {
+        set(pX,
+            pY);
     }
 
-    public Vector4f(double theX,
-                    double theY) {
-        set(theX,
-            theY);
+    public Vector4f(double pX,
+                    double pY) {
+        set(pX,
+            pY);
     }
 
-    public Vector4f(float[] theVector) {
-        set(theVector);
+    public Vector4f(float[] pVector) {
+        set(pVector);
     }
 
-    public Vector4f(double[] theVector) {
-        set(theVector);
+    public Vector4f(double[] pVector) {
+        set(pVector);
     }
 
-    public Vector4f(Vector4f theVector) {
-        set(theVector);
+    public Vector4f(Vector4f pVector) {
+        set(pVector);
     }
 
-    public Vector4f(PVector theVector) {
-        set(theVector);
+    public Vector4f(PVector pVector) {
+        set(pVector);
     }
 
-    public final void set(float theX,
-                          float theY,
-                          float theZ,
-                          float theW) {
-        x = theX;
-        y = theY;
-        z = theZ;
-        w = theW;
+    public final void set(float pX,
+                          float pY,
+                          float pZ,
+                          float pW) {
+        x = pX;
+        y = pY;
+        z = pZ;
+        w = pW;
     }
 
-    public final void set(double theX,
-                          double theY,
-                          double theZ,
-                          double theW) {
-        x = (float) theX;
-        y = (float) theY;
-        z = (float) theZ;
-        w = (float) theW;
+    public final void set(double pX,
+                          double pY,
+                          double pZ,
+                          double pW) {
+        x = (float) pX;
+        y = (float) pY;
+        z = (float) pZ;
+        w = (float) pW;
     }
 
-    public final void set(float theX,
-                          float theY,
-                          float theZ) {
-        x = theX;
-        y = theY;
-        z = theZ;
+    public final void set(float pX,
+                          float pY,
+                          float pZ) {
+        x = pX;
+        y = pY;
+        z = pZ;
     }
 
-    public final void set(double theX,
-                          double theY,
-                          double theZ) {
-        x = (float) theX;
-        y = (float) theY;
-        z = (float) theZ;
+    public final void set(double pX,
+                          double pY,
+                          double pZ) {
+        x = (float) pX;
+        y = (float) pY;
+        z = (float) pZ;
     }
 
-    public final void set(float theX,
-                          float theY) {
-        x = theX;
-        y = theY;
+    public final void set(float pX,
+                          float pY) {
+        x = pX;
+        y = pY;
     }
 
-    public final void set(double theX,
-                          double theY) {
-        x = (float) theX;
-        y = (float) theY;
+    public final void set(double pX,
+                          double pY) {
+        x = (float) pX;
+        y = (float) pY;
     }
 
-    public final void set(float[] theVector) {
-        w = theVector[0];
-        x = theVector[1];
-        y = theVector[2];
-        z = theVector[3];
+    public final void set(float[] pVector) {
+        w = pVector[0];
+        x = pVector[1];
+        y = pVector[2];
+        z = pVector[3];
     }
 
-    public final void set(double[] theVector) {
-        w = (float) theVector[0];
-        x = (float) theVector[1];
-        y = (float) theVector[2];
-        z = (float) theVector[3];
+    public final void set(double[] pVector) {
+        w = (float) pVector[0];
+        x = (float) pVector[1];
+        y = (float) pVector[2];
+        z = (float) pVector[3];
     }
 
-    public final void set(Vector4f theVector) {
-        x = theVector.x;
-        y = theVector.y;
-        z = theVector.z;
-        w = theVector.w;
+    public final void set(Vector4f pVector) {
+        x = pVector.x;
+        y = pVector.y;
+        z = pVector.z;
+        w = pVector.w;
     }
 
-    public final void set(PVector theVector) {
-        x = theVector.x;
-        y = theVector.y;
-        z = theVector.z;
+    public final void set(PVector pVector) {
+        x = pVector.x;
+        y = pVector.y;
+        z = pVector.z;
     }
 
-    public final void add(Vector4f theVectorA,
-                          Vector4f theVectorB) {
-        w = theVectorA.w + theVectorB.w;
-        x = theVectorA.x + theVectorB.x;
-        y = theVectorA.y + theVectorB.y;
-        z = theVectorA.z + theVectorB.z;
+    public final void add(Vector4f pVectorA,
+                          Vector4f pVectorB) {
+        w = pVectorA.w + pVectorB.w;
+        x = pVectorA.x + pVectorB.x;
+        y = pVectorA.y + pVectorB.y;
+        z = pVectorA.z + pVectorB.z;
     }
 
-    public final void add(Vector4f theVector) {
-        w += theVector.w;
-        x += theVector.x;
-        y += theVector.y;
-        z += theVector.z;
+    public final void add(Vector4f pVector) {
+        w += pVector.w;
+        x += pVector.x;
+        y += pVector.y;
+        z += pVector.z;
     }
 
-    public final void sub(Vector4f theVectorA,
-                          Vector4f theVectorB) {
-        w = theVectorA.w - theVectorB.w;
-        x = theVectorA.x - theVectorB.x;
-        y = theVectorA.y - theVectorB.y;
-        z = theVectorA.z - theVectorB.z;
+    public final void sub(Vector4f pVectorA,
+                          Vector4f pVectorB) {
+        w = pVectorA.w - pVectorB.w;
+        x = pVectorA.x - pVectorB.x;
+        y = pVectorA.y - pVectorB.y;
+        z = pVectorA.z - pVectorB.z;
     }
 
-    public final void sub(Vector4f theVector) {
-        w -= theVector.w;
-        x -= theVector.x;
-        y -= theVector.y;
-        z -= theVector.z;
+    public final void sub(Vector4f pVector) {
+        w -= pVector.w;
+        x -= pVector.x;
+        y -= pVector.y;
+        z -= pVector.z;
     }
 
-    public final void scale(float theScalar,
-                            Vector4f theVector) {
-        w = theScalar * theVector.w;
-        x = theScalar * theVector.x;
-        y = theScalar * theVector.y;
-        z = theScalar * theVector.z;
+    public final void scale(float pScalar,
+                            Vector4f pVector) {
+        w = pScalar * pVector.w;
+        x = pScalar * pVector.x;
+        y = pScalar * pVector.y;
+        z = pScalar * pVector.z;
     }
 
-    public final void scale(float theScalar) {
-        w *= theScalar;
-        x *= theScalar;
-        y *= theScalar;
-        z *= theScalar;
+    public final void scale(float pScalar) {
+        w *= pScalar;
+        x *= pScalar;
+        y *= pScalar;
+        z *= pScalar;
     }
 
     public final float lengthSquared() {
@@ -238,12 +238,12 @@ public class Vector4f
         return (float) Math.sqrt(w * w + x * x + y * y + z * z);
     }
 
-    public final float dot(Vector4f theVector) {
-        return x * theVector.x + y * theVector.y + z * theVector.z + w * theVector.w;
+    public final float dot(Vector4f pVector) {
+        return x * pVector.x + y * pVector.y + z * pVector.z + w * pVector.w;
     }
 
-    public void normalize(Vector4f theVector) {
-        set(theVector);
+    public void normalize(Vector4f pVector) {
+        set(pVector);
         normalize();
     }
 
@@ -256,27 +256,27 @@ public class Vector4f
     }
 
     public final float[] toArray() {
-        final float[] _myArrayRepresentation = new float[4];
-        _myArrayRepresentation[0] = x;
-        _myArrayRepresentation[1] = y;
-        _myArrayRepresentation[2] = z;
-        _myArrayRepresentation[3] = w;
-        return _myArrayRepresentation;
+        final float[] mArrayRepresentation = new float[4];
+        mArrayRepresentation[0] = x;
+        mArrayRepresentation[1] = y;
+        mArrayRepresentation[2] = z;
+        mArrayRepresentation[3] = w;
+        return mArrayRepresentation;
     }
 
     public final boolean isNaN() {
         return Float.isNaN(x) || Float.isNaN(y) || Float.isNaN(z) || Float.isNaN(w);
     }
 
-    public final boolean equals(Vector4f theVector) {
-        return w == theVector.w && x == theVector.x && y == theVector.y && z == theVector.z;
+    public final boolean equals(Vector4f pVector) {
+        return w == pVector.w && x == pVector.x && y == pVector.y && z == pVector.z;
     }
 
-    public final boolean almost(Vector4f theVector) {
-        return Math.abs(w) - Math.abs(theVector.w) < ALMOST_THRESHOLD
-               && Math.abs(x) - Math.abs(theVector.x) < ALMOST_THRESHOLD
-               && Math.abs(y) - Math.abs(theVector.y) < ALMOST_THRESHOLD
-               && Math.abs(z) - Math.abs(theVector.z) < ALMOST_THRESHOLD;
+    public final boolean almost(Vector4f pVector) {
+        return Math.abs(w) - Math.abs(pVector.w) < ALMOST_THRESHOLD
+               && Math.abs(x) - Math.abs(pVector.x) < ALMOST_THRESHOLD
+               && Math.abs(y) - Math.abs(pVector.y) < ALMOST_THRESHOLD
+               && Math.abs(z) - Math.abs(pVector.z) < ALMOST_THRESHOLD;
     }
 
     public final String toString() {

@@ -29,32 +29,32 @@ import static teilchen.util.Util.lengthSquared;
 public class DirectedAttractor
         extends Attractor {
 
-    private final PVector myVectorA = new PVector();
+    private final PVector mVectorA = new PVector();
 
-    private final PVector myVectorB = new PVector();
+    private final PVector mVectorB = new PVector();
 
     public DirectedAttractor() {
         super();
     }
 
     public void apply(float pDeltaTime, Physics pParticleSystem) {
-        for (final Particle myParticle : pParticleSystem.particles()) {
+        for (final Particle mParticle : pParticleSystem.particles()) {
             /* each particle */
-            if (!myParticle.fixed()) {
-                PVector.sub(_myPosition, myParticle.position(), myTemp);
+            if (!mParticle.fixed()) {
+                PVector.sub(mPosition, mParticle.position(), mTemp);
 
-                final float myDistance = fastInverseSqrt(1 / lengthSquared(myTemp));
-                if (myDistance < _myRadius) {
+                final float mDistance = fastInverseSqrt(1 / lengthSquared(mTemp));
+                if (mDistance < mRadius) {
 
-                    myVectorA.set(myTemp);
-                    myVectorA.mult(1.0f / myDistance);
-                    myVectorB.normalize(myParticle.velocity());
-                    float myAngle = myVectorA.dot(myVectorB);
+                    mVectorA.set(mTemp);
+                    mVectorA.mult(1.0f / mDistance);
+                    mVectorB.normalize(mParticle.velocity());
+                    float mAngle = mVectorA.dot(mVectorB);
 
-                    float myFallOff = 1f - myDistance / _myRadius;
-                    final float myForce = myAngle * myFallOff * myFallOff * _myStrength;
-                    myTemp.mult(myForce / myDistance);
-                    myParticle.force().add(myTemp);
+                    float mFallOff = 1f - mDistance / mRadius;
+                    final float mForce = mAngle * mFallOff * mFallOff * mStrength;
+                    mTemp.mult(mForce / mDistance);
+                    mParticle.force().add(mTemp);
                 }
             }
         }

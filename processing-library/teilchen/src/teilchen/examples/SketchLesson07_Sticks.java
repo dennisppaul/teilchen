@@ -31,9 +31,9 @@ public class SketchLesson07_Sticks extends PApplet {
         mPhysics.add(new Gravity());
 
         /* choose verlet integration as it produces more stable results with sticks ( and constraints in general ) */
-        Verlet myVerlet = new Verlet();
-        myVerlet.damping(0.99f);
-        mPhysics.setIntegratorRef(myVerlet);
+        Verlet mVerlet = new Verlet();
+        mVerlet.damping(0.99f);
+        mPhysics.setIntegratorRef(mVerlet);
 
         /* setup sticks to form a whip */
         mParticles = new Particle[16];
@@ -42,12 +42,12 @@ public class SketchLesson07_Sticks extends PApplet {
         for (int x = 0; x < mParticles.length; x++) {
             mParticles[x] = mPhysics.makeParticle(x * mSegmentLength, 0, 0, 0.1f);
             if (x > 0) {
-                Stick myStick = new Stick(mParticles[x - 1],
+                Stick mStick = new Stick(mParticles[x - 1],
                                           mParticles[x],
                                           mSegmentLength);
                 /* damp the stick to release tensions from the system */
-                myStick.damping(0.99f);
-                mPhysics.add(myStick);
+                mStick.damping(0.99f);
+                mPhysics.add(mStick);
             }
         }
 

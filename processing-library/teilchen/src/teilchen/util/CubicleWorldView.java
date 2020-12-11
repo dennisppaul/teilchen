@@ -34,49 +34,49 @@ public class CubicleWorldView {
 
     public int color_empty = -8421505;
 
-    public CubicleWorldView(CubicleWorld theWorld) {
-        mCubicleWorld = theWorld;
+    public CubicleWorldView(CubicleWorld pWorld) {
+        mCubicleWorld = pWorld;
     }
 
-    public void draw(PGraphics theParent) {
+    public void draw(PGraphics pParent) {
 
         /* collect data */
-        final CubicleAtom[][][] myData = mCubicleWorld.getDataRef();
-        final TransformMatrix4f myTransform = mCubicleWorld.transform();
-        final PVector myScale = mCubicleWorld.cellscale();
+        final CubicleAtom[][][] mData = mCubicleWorld.getDataRef();
+        final TransformMatrix4f mTransform = mCubicleWorld.transform();
+        final PVector mScale = mCubicleWorld.cellscale();
 
         /* draw world */
-        theParent.pushMatrix();
+        pParent.pushMatrix();
 
         /* rotation */
-        float[] f = myTransform.toArray();
-        theParent.translate(f[12], f[13], f[14]);
-        theParent.applyMatrix(f[0], f[1], f[2], f[3],
+        float[] f = mTransform.toArray();
+        pParent.translate(f[12], f[13], f[14]);
+        pParent.applyMatrix(f[0], f[1], f[2], f[3],
                               f[4], f[5], f[6], f[7],
                               f[8], f[9], f[10], f[11],
                               0, 0, 0, f[15]);
 
         /* scale */
-        theParent.scale(myScale.x, myScale.y, myScale.z);
-        for (int x = 0; x < myData.length; x++) {
-            for (int y = 0; y < myData[x].length; y++) {
-                for (int z = 0; z < myData[x][y].length; z++) {
-                    CubicleAtom myCubicle = myData[x][y][z];
-                    theParent.pushMatrix();
-                    theParent.translate(x, y, z);
-                    theParent.translate(mCubicleWorld.cellscale().x / 2 / myScale.x,
-                                        mCubicleWorld.cellscale().y / 2 / myScale.y,
-                                        mCubicleWorld.cellscale().z / 2 / myScale.z);
-                    if (myCubicle.size() > 0) {
-                        theParent.stroke(color_full);
+        pParent.scale(mScale.x, mScale.y, mScale.z);
+        for (int x = 0; x < mData.length; x++) {
+            for (int y = 0; y < mData[x].length; y++) {
+                for (int z = 0; z < mData[x][y].length; z++) {
+                    CubicleAtom mCubicle = mData[x][y][z];
+                    pParent.pushMatrix();
+                    pParent.translate(x, y, z);
+                    pParent.translate(mCubicleWorld.cellscale().x / 2 / mScale.x,
+                                        mCubicleWorld.cellscale().y / 2 / mScale.y,
+                                        mCubicleWorld.cellscale().z / 2 / mScale.z);
+                    if (mCubicle.size() > 0) {
+                        pParent.stroke(color_full);
                     } else {
-                        theParent.stroke(color_empty);
+                        pParent.stroke(color_empty);
                     }
-                    theParent.box(1);
-                    theParent.popMatrix();
+                    pParent.box(1);
+                    pParent.popMatrix();
                 }
             }
         }
-        theParent.popMatrix();
+        pParent.popMatrix();
     }
 }

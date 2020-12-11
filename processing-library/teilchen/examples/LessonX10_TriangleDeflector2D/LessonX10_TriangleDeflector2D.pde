@@ -5,6 +5,7 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
+
 /*
  * this sketch demonstrates how to use `TriangleDeflectors` in a 2D context to make particles
  * bounce off a triangle ( that looks like a line ). it also demonstrates how to use
@@ -24,8 +25,8 @@ void settings() {
 void setup() {
     /* physics */
     mPhysics = new Physics();
-    Gravity myGravity = new Gravity(0, 20, 0);
-    mPhysics.add(myGravity);
+    Gravity mGravity = new Gravity(0, 20, 0);
+    mPhysics.add(mGravity);
     /* triangle deflector */
     final float mPadding = 50;
     mTriangleDeflector = teilchen.util.Util.createTriangleDeflector2D(mPadding,

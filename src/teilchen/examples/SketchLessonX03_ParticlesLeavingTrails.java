@@ -34,14 +34,14 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
         mPhysics = new Physics();
 
         /* create a gravitational force */
-        Gravity myGravity = new Gravity();
-        mPhysics.add(myGravity);
-        myGravity.force().y = 20;
+        Gravity mGravity = new Gravity();
+        mPhysics.add(mGravity);
+        mGravity.force().y = 20;
 
         /* create drag */
-        ViscousDrag myViscousDrag = new ViscousDrag();
-        myViscousDrag.coefficient = 0.1f;
-        mPhysics.add(myViscousDrag);
+        ViscousDrag mViscousDrag = new ViscousDrag();
+        mViscousDrag.coefficient = 0.1f;
+        mPhysics.add(mViscousDrag);
 
         final float mBorder = 40;
         Box mBox = new Box(new PVector(mBorder, mBorder, mBorder),
@@ -62,9 +62,9 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
             mParticle.mass(random(1.5f, 3.0f));
             /* note that if `ParticleTrail` receives the same `Physics` object as the particles,
             also forces and contraints are shared. */
-            ParticleTrail myParticleTrail = new ParticleTrail(mPhysics, mParticle, 0.2f, random(0.5f, 1));
-            myParticleTrail.mass(0.5f);
-            mTrails.add(myParticleTrail);
+            ParticleTrail mParticleTrail = new ParticleTrail(mPhysics, mParticle, 0.2f, random(0.5f, 1));
+            mParticleTrail.mass(0.5f);
+            mTrails.add(mParticleTrail);
         }
         resetParticles(width / 2.0f, height / 2.0f);
     }
@@ -73,16 +73,16 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
         /* set attractor to mouse position */
         mAttractor.position().set(mouseX, mouseY);
 
-        for (ParticleTrail myTrails : mTrails) {
-            myTrails.loop(1f / frameRate);
+        for (ParticleTrail mTrails : mTrails) {
+            mTrails.loop(1f / frameRate);
         }
 
         mPhysics.step(1f / frameRate);
 
         background(255);
         /* draw trails */
-        for (ParticleTrail myTrail : mTrails) {
-            drawTrail(myTrail);
+        for (ParticleTrail mTrail : mTrails) {
+            drawTrail(mTrail);
         }
 
         /* draw attractor */
@@ -104,17 +104,17 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
     }
 
     private void resetParticles(float x, float y) {
-        for (ParticleTrail myTrails : mTrails) {
-            myTrails.particle().position().set(x + random(-10, 10), y + random(-10, 10), 0);
-            myTrails.particle().velocity().set(random(-10, 10), random(-10, 10), random(-10, 10));
-            myTrails.fragments().clear();
+        for (ParticleTrail mTrails : mTrails) {
+            mTrails.particle().position().set(x + random(-10, 10), y + random(-10, 10), 0);
+            mTrails.particle().velocity().set(random(-10, 10), random(-10, 10), random(-10, 10));
+            mTrails.fragments().clear();
         }
     }
 
-    private void drawTrail(ParticleTrail theTrail) {
+    private void drawTrail(ParticleTrail pTrail) {
 
-        final ArrayList<Particle> mFragments = theTrail.fragments();
-        final Particle mParticle = theTrail.particle();
+        final ArrayList<Particle> mFragments = pTrail.fragments();
+        final Particle mParticle = pTrail.particle();
 
         /* draw trail */
         for (int i = 0; i < mFragments.size() - 1; i++) {

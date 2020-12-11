@@ -40,10 +40,10 @@ public class Ray3f
         direction = new PVector();
     }
 
-    public Ray3f(PVector theOrigin,
-                 PVector theDirection) {
-        origin = theOrigin;
-        direction = theDirection;
+    public Ray3f(PVector pOrigin,
+                 PVector pDirection) {
+        origin = pOrigin;
+        direction = pDirection;
     }
 
     public String toString() {

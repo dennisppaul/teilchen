@@ -5,6 +5,7 @@ import teilchen.cubicle.*;
 import teilchen.force.*; 
 import teilchen.integration.*; 
 import teilchen.util.*; 
+
 /*
  * this sketch demonstrates how to use `VectorField`. a vector field is a set of regions
  * that apply a force to all particles with the regions.
@@ -34,8 +35,8 @@ void setup() {
     mVectorField.cell_size().set(10, 10);
     mVectorField.position().set(40, 40);
     mPhysics.add(mVectorField);
-    ViscousDrag myDrag = new ViscousDrag(0.75f);
-    mPhysics.add(myDrag);
+    ViscousDrag mDrag = new ViscousDrag(0.75f);
+    mPhysics.add(mDrag);
     mVectorField.randomize_forces(40);
     spawnParticles();
 }

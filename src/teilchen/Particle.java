@@ -67,4 +67,6 @@ public interface Particle
     boolean still();
 
     void still(boolean pStill);
+
+    long ID();
 }

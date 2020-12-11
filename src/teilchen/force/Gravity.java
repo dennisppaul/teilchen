@@ -31,12 +31,14 @@ public class Gravity implements IForce {
     private final PVector mForce;
     private boolean mActive;
     private boolean mDead = false;
+    private final long mID;
 
     public Gravity() {
         this(new PVector(0, 9.81f, 0));
     }
 
     public Gravity(final PVector pForce) {
+        mID = Physics.getUniqueID();
         mActive = true;
         mForce = pForce;
     }
@@ -71,5 +73,9 @@ public class Gravity implements IForce {
 
     public void active(boolean pActiveState) {
         mActive = pActiveState;
+    }
+
+    public long ID() {
+        return mID;
     }
 }
