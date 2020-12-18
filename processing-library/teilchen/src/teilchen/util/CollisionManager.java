@@ -1,7 +1,8 @@
 /*
  * Teilchen
  *
- * Copyright (C) 2020
+ * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
+ * Copyright (c) 2020 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
