@@ -307,7 +307,7 @@ public class Physics {
         handleForces();
         integrate(pDeltaTime);
         handleParticles(pDeltaTime);
-        handleConstraints();
+        handleConstraints(pDeltaTime);
         postHandleParticles(pDeltaTime);
     }
 
@@ -359,12 +359,12 @@ public class Physics {
         }
     }
 
-    protected synchronized void handleConstraints() {
+    protected synchronized void handleConstraints(float pDeltaTime) {
         synchronized (mConstraints) {
             final Iterator<IConstraint> i = mConstraints.iterator();
             while (i.hasNext()) {
                 final IConstraint mConstraint = i.next();
-                mConstraint.apply(this);
+                mConstraint.apply(pDeltaTime, this);
                 if (HINT_REMOVE_DEAD) {
                     if (mConstraint.dead()) {
                         i.remove();
@@ -394,6 +394,7 @@ public class Physics {
                     if (Util.isNaN(mParticle.position())) {
                         if (Util.isNaN(mParticle.old_position())) {
                             mParticle.position().set(0, 0, 0);
+                            mParticle.old_position().set(0, 0, 0);
                         } else {
                             mParticle.position().set(mParticle.old_position());
                         }

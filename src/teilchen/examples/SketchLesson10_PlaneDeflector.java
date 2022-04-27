@@ -5,7 +5,7 @@ import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.ShortLivedParticle;
 import teilchen.force.Gravity;
-import teilchen.force.PlaneDeflector;
+import teilchen.constraint.PlaneDeflector;
 import teilchen.force.ViscousDrag;
 
 public class SketchLesson10_PlaneDeflector extends PApplet {

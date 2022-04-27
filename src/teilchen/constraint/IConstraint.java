@@ -27,7 +27,7 @@ import teilchen.Physics;
 
 public interface IConstraint {
 
-    void apply(final Physics pParticleSystem);
+    void apply(float pDeltaTime, final Physics pParticleSystem);
 
     boolean active();
 

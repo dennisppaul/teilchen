@@ -54,7 +54,7 @@ public class Teleporter implements IConstraint {
         return mMin;
     }
 
-    public void apply(Physics pParticleSystem) {
+    public void apply(float pDeltaTime, Physics pParticleSystem) {
         if (!mActive) {
             return;
         }

@@ -97,7 +97,7 @@ public class Stick implements IConstraint, IConnection {
         mOneWay = pOneWayState;
     }
 
-    public void apply(Physics pParticleSystem) {
+    public void apply(float pDeltaTime, Physics pParticleSystem) {
         if (!mActive) {
             return;
         }

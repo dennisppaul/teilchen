@@ -13,7 +13,7 @@ import teilchen.integration.Verlet;
 public class SketchLesson08_Cloth extends PApplet {
 
     /*
-     * this sketch demonstrate how to use particles and sticks to emulate a piece of cloth.
+     * this sketch demonstrates how to use particles and sticks to emulate a piece of cloth.
      * note that a similar effect can also be achieved with springs, however the result is
      * slightly more *bouncy*.
      *

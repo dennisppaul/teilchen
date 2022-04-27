@@ -55,6 +55,28 @@ public final class Intersection implements Serializable {
     private static final PVector T_VEC = new PVector();
     private static final PVector Q_VEC = new PVector();
 
+    /**
+     * Determines the point of intersection between a plane defined by a point and a normal vector and a line defined by
+     * a point and a direction vector.
+     *
+     * @param pPlaneOrigin   A point on the plane.
+     * @param pPlaneNormal   The normal vector of the plane.
+     * @param pLineOrigin    A point on the line.
+     * @param pLineDirection The direction vector of the line.
+     * @return The point of intersection between the line and the plane, null if the line is parallel to the plane.
+     */
+    public static PVector intersectLinePlane(PVector pPlaneOrigin,
+                                             PVector pPlaneNormal,
+                                             PVector pLineOrigin,
+                                             PVector pLineDirection) {
+        if (pPlaneNormal.dot(pLineDirection.normalize()) == 0) {
+            return null;
+        }
+        float t = (pPlaneNormal.dot(pPlaneOrigin) - pPlaneNormal.dot(pLineOrigin)) /
+                  pPlaneNormal.dot(pLineDirection.normalize());
+        return pLineOrigin.add(pLineDirection.normalize().mult(t));
+    }
+
     public static boolean intersectRayPlane(final Ray3f pRay,
                                             final Plane3f pPlane,
                                             final PVector pResult,
@@ -248,9 +270,9 @@ public final class Intersection implements Serializable {
     /**
      * intersect line with plane ( grabbed from Xith )
      *
-     * @param thePlane             Plane3f
-     * @param theRay               Ray3f
-     * @param theIntersectionPoint PVector
+     * @param pPlane             Plane3f
+     * @param pRay               Ray3f
+     * @param pIntersectionPoint PVector
      * @return float
      */
     public static float intersectLinePlane(final Ray3f pRay,
@@ -415,7 +437,8 @@ public final class Intersection implements Serializable {
         dp.y = pP2.y - pP1.y;
         dp.z = pP2.z - pP1.z;
         a = dp.x * dp.x + dp.y * dp.y + dp.z * dp.z;
-        b = 2 * (dp.x * (pP1.x - pSphereCenter.x) + dp.y * (pP1.y - pSphereCenter.y) + dp.z * (pP1.z - pSphereCenter.z));
+        b =
+        2 * (dp.x * (pP1.x - pSphereCenter.x) + dp.y * (pP1.y - pSphereCenter.y) + dp.z * (pP1.z - pSphereCenter.z));
         c = pSphereCenter.x * pSphereCenter.x + pSphereCenter.y * pSphereCenter.y + pSphereCenter.z * pSphereCenter.z;
         c += pP1.x * pP1.x + pP1.y * pP1.y + pP1.z * pP1.z;
         c -= 2 * (pSphereCenter.x * pP1.x + pSphereCenter.y * pP1.y + pSphereCenter.z * pP1.z);

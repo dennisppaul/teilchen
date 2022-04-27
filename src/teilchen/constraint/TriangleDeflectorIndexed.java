@@ -1,4 +1,4 @@
-package teilchen.force;
+package teilchen.constraint;
 
 public class TriangleDeflectorIndexed
         extends TriangleDeflector {

@@ -5,7 +5,7 @@ import teilchen.MortalParticle;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.force.Gravity;
-import teilchen.force.TriangleDeflector;
+import teilchen.constraint.TriangleDeflector;
 
 public class SketchLessonX10_TriangleDeflector2D extends PApplet {
 
@@ -47,21 +47,26 @@ public class SketchLessonX10_TriangleDeflector2D extends PApplet {
         background(255);
 
         fill(0);
-        strokeWeight(3);
+        noStroke();
         for (int i = 0; i < mPhysics.particles().size(); i++) {
             Particle mParticle = mPhysics.particles(i);
+            final float mParticleSize;
             if (mParticle.tagged()) {
-                stroke(0);
+                mParticleSize = 15;
             } else {
-                noStroke();
+                mParticleSize = 5;
             }
-            ellipse(mParticle.position().x, mParticle.position().y, 5, 5);
+            circle(mParticle.position().x, mParticle.position().y, mParticleSize);
         }
 
         /* draw deflectors */
         noFill();
         stroke(0);
-        strokeWeight(3);
+        if (mTriangleDeflector.hit()) {
+            strokeWeight(1);
+        } else {
+            strokeWeight(3);
+        }
         line(mTriangleDeflector.a().x, mTriangleDeflector.a().y, mTriangleDeflector.b().x, mTriangleDeflector.b().y);
 
         /* finally remove the collision tag */
@@ -69,12 +74,16 @@ public class SketchLessonX10_TriangleDeflector2D extends PApplet {
 
         /* create and add a particle to the system */
         if (mousePressed) {
-            MyMortalParticle mParticle = new MyMortalParticle();
-            mPhysics.add(mParticle);
-            /* set particle to mouse position with random velocity */
-            mParticle.position().set(mouseX, mouseY);
-            mParticle.velocity().set(random(-20, 20), 0);
+            addParticle();
         }
+    }
+
+    private void addParticle() {
+        MyMortalParticle mParticle = new MyMortalParticle();
+        mPhysics.add(mParticle);
+        /* set particle to mouse position with random velocity */
+        mParticle.position().set(mouseX, mouseY);
+        mParticle.velocity().set(random(-20, 20), 0);
     }
 
     private class MyMortalParticle extends MortalParticle {

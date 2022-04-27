@@ -6,7 +6,7 @@ import teilchen.MortalParticle;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.force.Gravity;
-import teilchen.force.TriangleDeflector;
+import teilchen.constraint.TriangleDeflector;
 
 import java.util.ArrayList;
 
@@ -41,7 +41,8 @@ public class SketchLessonX09_TriangleDeflector extends PApplet {
                                                   new PVector(width, 0, 0),
                                                   new PVector(width, height, 0),};
         mTriangleDeflectors = teilchen.util.Util.createTriangleDeflectors(mVertices, 1.0f);
-        mPhysics.addForces(mTriangleDeflectors);
+        mPhysics.addConstraints(mTriangleDeflectors);
+//        mPhysics.addForces(mTriangleDeflectors);
     }
 
     public void draw() {

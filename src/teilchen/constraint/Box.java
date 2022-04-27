@@ -91,7 +91,7 @@ public class Box implements IConstraint {
         return mCoefficientOfRestitution;
     }
 
-    public void apply(final Physics pParticleSystem) {
+    public void apply(float pDeltaTime, final Physics pParticleSystem) {
 
         if (!mActive) {
             return;

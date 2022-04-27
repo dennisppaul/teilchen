@@ -21,7 +21,7 @@
  *
  */
 
-package teilchen.force;
+package teilchen.constraint;
 
 import processing.core.PVector;
 import teilchen.Particle;
@@ -32,7 +32,7 @@ import static processing.core.PVector.add;
 import static processing.core.PVector.sub;
 import static teilchen.util.Util.isNaN;
 
-public class PlaneDeflector implements IForce {
+public class PlaneDeflector implements IConstraint {
 
     private final Plane3f mPlane;
     private final PVector mTempDiff;
@@ -71,9 +71,9 @@ public class PlaneDeflector implements IForce {
                      * stable.
                      */
                     final float mIntersectionResult = intersectLinePlane(mParticle.position(),
-                                                                          mPlane.normal,
-                                                                          mPlane,
-                                                                          mResult);
+                                                                         mPlane.normal,
+                                                                         mPlane,
+                                                                         mResult);
 
                     /* remove particle from collision */
                     if (mIntersectionResult != Float.NEGATIVE_INFINITY && !isNaN(mResult)) {
@@ -155,6 +155,7 @@ public class PlaneDeflector implements IForce {
         }
 
         final float n = pPlane.normal.dot(pRayOrigin);
+        // @TODO check if origin needs to be normalized
         final float D = -pPlane.origin.dot(pPlane.normal);
         mT = -((n + D) / mDenominator);
 

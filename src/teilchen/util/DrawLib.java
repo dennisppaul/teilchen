@@ -30,7 +30,7 @@ import teilchen.Physics;
 import teilchen.force.Attractor;
 import teilchen.force.IForce;
 import teilchen.force.Spring;
-import teilchen.force.TriangleDeflector;
+import teilchen.constraint.TriangleDeflector;
 
 import java.util.List;
 

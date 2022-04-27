@@ -383,7 +383,7 @@ public class CollisionManager {
             super(pA, pB, pRestLength);
         }
 
-        public void apply(Physics pParticleSystem) {
+        public void apply(float pDeltaTime, Physics pParticleSystem) {
             //@TODO("why is this semi-redundant to `Stick`?")
             if (!mA.fixed() || !mB.fixed()) {
                 PVector.sub(mA.position(), mB.position(), mTempDistanceVector);

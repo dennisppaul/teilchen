@@ -85,7 +85,7 @@ public class Angular implements IConstraint {
         return mMaximumAngle;
     }
 
-    public void apply(Physics pParticleSystem) {
+    public void apply(float pDeltaTime, Physics pParticleSystem) {
 
         if (!mActive) {
             return;

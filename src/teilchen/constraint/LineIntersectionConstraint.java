@@ -53,7 +53,7 @@ public class LineIntersectionConstraint implements IConstraint {
         return mParticle;
     }
 
-    public void apply(Physics pParticleSystem) {
+    public void apply(float pDeltaTime, Physics pParticleSystem) {
         final PVector mIntersection = new PVector();
         final PVector mA = mParticle.position();
         final PVector mB = mParticle.old_position();
