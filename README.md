@@ -92,3 +92,5 @@ although explaining vectors ( and linear algebra ) is beyond the scope of this l
 ![](./resources/teilchen-tutorial-vectors-12.png)
 
 ![](./resources/teilchen-tutorial-vectors-13.png)
+
+![](./resources/teilchen-tutorial-vectors-14.png)
