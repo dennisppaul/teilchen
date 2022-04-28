@@ -49,9 +49,9 @@ public class DrawLib {
     /**
      * draw attractors.
      *
-     * @param g           PGraphics
+     * @param g          PGraphics
      * @param mAttractor Attractor
-     * @param pColor      int
+     * @param pColor     int
      */
     public static void draw(final PGraphics g, final Attractor mAttractor, int pColor) {
         g.sphereDetail(6);
@@ -187,9 +187,9 @@ public class DrawLib {
     /**
      * draw buunding box.
      *
-     * @param g                              PGraphics
-     * @param theWorldAxisAlignedBoundingBox WorldAxisAlignedBoundingBox
-     * @param pColor                         int
+     * @param g                            PGraphics
+     * @param pWorldAxisAlignedBoundingBox WorldAxisAlignedBoundingBox
+     * @param pColor                       int
      */
     public static void draw(final PGraphics g,
                             final WorldAxisAlignedBoundingBox pWorldAxisAlignedBoundingBox,
@@ -208,12 +208,12 @@ public class DrawLib {
     /**
      * draw a triangle with a normal
      *
-     * @param g                PGraphics
-     * @param a                PVector
-     * @param b                PVector
-     * @param c                PVector
-     * @param theTriangleColor int
-     * @param theNormalColor   int
+     * @param g              PGraphics
+     * @param a              PVector
+     * @param b              PVector
+     * @param c              PVector
+     * @param pTriangleColor int
+     * @param pNormalColor   int
      */
     public static void draw(final PGraphics g,
                             final PVector a, final PVector b, final PVector c,
@@ -249,19 +249,19 @@ public class DrawLib {
                               final PVector pPosition,
                               float pSize) {
         g.line(
-                pPosition.x + pSize,
-                pPosition.y + pSize,
-                pPosition.z,
-                pPosition.x - pSize,
-                pPosition.y - pSize,
-                pPosition.z);
+        pPosition.x + pSize,
+        pPosition.y + pSize,
+        pPosition.z,
+        pPosition.x - pSize,
+        pPosition.y - pSize,
+        pPosition.z);
         g.line(
-                pPosition.x + pSize,
-                pPosition.y - pSize,
-                pPosition.z,
-                pPosition.x - pSize,
-                pPosition.y + pSize,
-                pPosition.z);
+        pPosition.x + pSize,
+        pPosition.y - pSize,
+        pPosition.z,
+        pPosition.x - pSize,
+        pPosition.y + pSize,
+        pPosition.z);
     }
 
     public static void cross3(final PGraphics g,

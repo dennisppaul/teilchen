@@ -1,7 +1,5 @@
 # teilchen / revisions
 
-## v0.5 (pre-release)
-
 ## v0.4 (20200616)
 
 - particles, contraints and forces can now be marked `dead` and are automatically disposed when calling `Physics.step()` or `Physics.purge()`

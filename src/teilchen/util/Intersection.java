@@ -248,9 +248,9 @@ public final class Intersection implements Serializable {
     /**
      * intersect line with plane ( grabbed from Xith )
      *
-     * @param thePlane             Plane3f
-     * @param theRay               Ray3f
-     * @param theIntersectionPoint PVector
+     * @param pPlane             Plane3f
+     * @param pRay               Ray3f
+     * @param pIntersectionPoint PVector
      * @return float
      */
     public static float intersectLinePlane(final Ray3f pRay,
@@ -415,7 +415,8 @@ public final class Intersection implements Serializable {
         dp.y = pP2.y - pP1.y;
         dp.z = pP2.z - pP1.z;
         a = dp.x * dp.x + dp.y * dp.y + dp.z * dp.z;
-        b = 2 * (dp.x * (pP1.x - pSphereCenter.x) + dp.y * (pP1.y - pSphereCenter.y) + dp.z * (pP1.z - pSphereCenter.z));
+        b =
+        2 * (dp.x * (pP1.x - pSphereCenter.x) + dp.y * (pP1.y - pSphereCenter.y) + dp.z * (pP1.z - pSphereCenter.z));
         c = pSphereCenter.x * pSphereCenter.x + pSphereCenter.y * pSphereCenter.y + pSphereCenter.z * pSphereCenter.z;
         c += pP1.x * pP1.x + pP1.y * pP1.y + pP1.z * pP1.z;
         c -= 2 * (pSphereCenter.x * pP1.x + pSphereCenter.y * pP1.y + pSphereCenter.z * pP1.z);

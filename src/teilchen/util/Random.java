@@ -22,17 +22,17 @@
  */
 package teilchen.util;
 
-import java.io.Serializable;
 import processing.core.PVector;
+
+import java.io.Serializable;
 
 /**
  * generate random numbers.
- *
- * note that if different types are requested the random generator moves on
- * anyway.
+ * <p>
+ * note that if different types are requested the random generator moves on anyway.
  */
 public class Random
-        implements Serializable {
+implements Serializable {
 
     private static final long serialVersionUID = -5871934750136232555L;
 
@@ -69,9 +69,8 @@ public class Random
     /**
      * return a random int value from theStart to theEnd, including both values.
      *
-     * @param theStart int
-     * @param theEnd   int
-     *
+     * @param pStart int
+     * @param pEnd   int
      * @return int
      */
     public int getInt(int pStart,
@@ -85,12 +84,10 @@ public class Random
     }
 
     /**
-     * return a random float value from theStart to theEnd, excluding both
-     * values.
+     * return a random float value from theStart to theEnd, excluding both values.
      *
-     * @param theStart float
-     * @param theEnd   float
-     *
+     * @param pStart float
+     * @param pEnd   float
      * @return float
      */
     public float getFloat(float pStart,
@@ -104,7 +101,7 @@ public class Random
         return mRandomNumberGenerator.nextFloat();
     }
 
-//    public static float getFloat(float theStart,
+    //    public static float getFloat(float theStart,
 //                                 float theEnd) {
 //        return mSeedGenerator.getFloat(theStart, theEnd);
 //    }

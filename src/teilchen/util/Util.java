@@ -79,14 +79,14 @@ public class Util {
     /* contain */
     public static boolean contains(final PVector pPosition, final WorldAxisAlignedBoundingBox pWorldAlignedBox) {
         return (contains(pPosition.x, pWorldAlignedBox.position.x, pWorldAlignedBox.scale.x) && contains(
-                pPosition.y,
-                pWorldAlignedBox
-                        .position.y,
-                pWorldAlignedBox.scale
-                        .y) && contains(
-                pPosition.z,
-                pWorldAlignedBox.position.z,
-                pWorldAlignedBox.scale.z));
+        pPosition.y,
+        pWorldAlignedBox
+        .position.y,
+        pWorldAlignedBox.scale
+        .y) && contains(
+        pPosition.z,
+        pWorldAlignedBox.position.z,
+        pWorldAlignedBox.scale.z));
     }
 
     public static boolean contains(final float pTestValue, final float pContainerValue, final float pRange) {
@@ -100,7 +100,7 @@ public class Util {
         int c = 0;
         for (int i = 0, j = pPolygon.length - 1; i < pPolygon.length; j = i++) {
             if ((((pPolygon[i].y <= y) && (y < pPolygon[j].y)) || ((pPolygon[j].y <= y) && (y < pPolygon[i].y))) && (x <
-                                                                                                                             (pPolygon[j].x - pPolygon[i].x) * (y - pPolygon[i].y) / (pPolygon[j].y - pPolygon[i].y) + pPolygon[i].x)) {
+                                                                                                                     (pPolygon[j].x - pPolygon[i].x) * (y - pPolygon[i].y) / (pPolygon[j].y - pPolygon[i].y) + pPolygon[i].x)) {
                 c = (c + 1) % 2;
             }
         }
@@ -114,12 +114,12 @@ public class Util {
         int c = 0;
         for (int i = 0, j = pPolygon.size() - 1; i < pPolygon.size(); j = i++) {
             if ((((pPolygon.get(i).y <= y) && (y < pPolygon.get(j).y)) || ((pPolygon.get(j).y <= y) && (y < pPolygon
-                    .get(i).y)))
+                                                                                                            .get(i).y)))
                 && (x < (pPolygon
-                                 .get(j).x - pPolygon.get(i).x) * (y - pPolygon.get(i).y) / (pPolygon.get(j).y - pPolygon
-                    .get(i).y) +
+                         .get(j).x - pPolygon.get(i).x) * (y - pPolygon.get(i).y) / (pPolygon.get(j).y - pPolygon
+                                                                                                         .get(i).y) +
                         pPolygon.get(
-                                i).x)) {
+                        i).x)) {
                 c = (c + 1) % 2;
             }
         }
@@ -133,12 +133,12 @@ public class Util {
         int c = 0;
         for (int i = 0, j = pPolygon.size() - 1; i < pPolygon.size(); j = i++) {
             if ((((pPolygon.get(i).y <= y) && (y < pPolygon.get(j).y)) || ((pPolygon.get(j).y <= y) && (y < pPolygon
-                    .get(i).y)))
+                                                                                                            .get(i).y)))
                 && (x < (pPolygon
-                                 .get(j).x - pPolygon.get(i).x) * (y - pPolygon.get(i).y) / (pPolygon.get(j).y - pPolygon
-                    .get(i).y) +
+                         .get(j).x - pPolygon.get(i).x) * (y - pPolygon.get(i).y) / (pPolygon.get(j).y - pPolygon
+                                                                                                         .get(i).y) +
                         pPolygon.get(
-                                i).x)) {
+                        i).x)) {
                 c = (c + 1) % 2;
             }
         }
@@ -194,10 +194,10 @@ public class Util {
     /**
      * calculate a normal from a set of three vectors.
      *
-     * @param pointA          point A
-     * @param pointB          point B
-     * @param pointC          point C
-     * @param theResultNormal normal
+     * @param pointA        point A
+     * @param pointB        point B
+     * @param pointC        point C
+     * @param pResultNormal normal
      */
     public static void calculateNormal(final PVector pointA,
                                        final PVector pointB,
@@ -210,9 +210,9 @@ public class Util {
     }
 
     /**
-     * @param theVectorAB     vector AB
-     * @param theVectorBC     vector BC
-     * @param theResultNormal normal
+     * @param pVectorAB     vector AB
+     * @param pVectorBC     vector BC
+     * @param pResultNormal normal
      */
     public static void calculateNormal(final PVector pVectorAB,
                                        final PVector pVectorBC,
@@ -222,9 +222,8 @@ public class Util {
     }
 
     /**
-     * Sets a position randomly distributed inside a sphere of unit radius
-     * centered at the origin. Orientation will be random and length will range
-     * between 0 and 1
+     * Sets a position randomly distributed inside a sphere of unit radius centered at the origin. Orientation will be
+     * random and length will range between 0 and 1
      *
      * @param p randomized vector
      */
@@ -365,7 +364,8 @@ public class Util {
     }
 
     public static boolean almost(PVector p0, PVector p1) {
-        return Math.abs(p1.x - p0.x) < ALMOST_THRESHOLD && Math.abs(p1.y - p0.y) < ALMOST_THRESHOLD && Math.abs(p1.z - p0.z) <
+        return Math.abs(p1.x - p0.x) < ALMOST_THRESHOLD && Math.abs(p1.y - p0.y) < ALMOST_THRESHOLD && Math.abs(
+        p1.z - p0.z) <
                                                                                                        ALMOST_THRESHOLD;
     }
 
@@ -481,9 +481,9 @@ public class Util {
         final ArrayList<TriangleDeflector> mDeflectors = new ArrayList<>();
         for (int i = 0; i < pVertices.length / 9; i++) {
             final TriangleDeflectorIndexed mTriangleDeflector = new TriangleDeflectorIndexed(pVertices,
-                                                                                              i * 9 + 0,
-                                                                                              i * 9 + 3,
-                                                                                              i * 9 + 6);
+                                                                                             i * 9 + 0,
+                                                                                             i * 9 + 3,
+                                                                                             i * 9 + 6);
             mTriangleDeflector.coefficientofrestitution(pCoefficientOfRestitution);
             mTriangleDeflector.updateProperties();
             mDeflectors.add(mTriangleDeflector);
@@ -629,7 +629,9 @@ public class Util {
                 mCloseParticles.add(p);
             }
         }
-        if (mCloseParticles.isEmpty()) { return null; }
+        if (mCloseParticles.isEmpty()) {
+            return null;
+        }
         Particle mClosestParticle = mCloseParticles.get(0);
         float mClosestDistance = PVector.dist(pPosition, mClosestParticle.position());
         for (int i = 1; i < mCloseParticles.size(); i++) {
