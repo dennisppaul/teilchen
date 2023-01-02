@@ -12,7 +12,9 @@ import teilchen.util.*;
  * drag mouse to move particle.
  */
 
-Physics mPhysics;
+AngleConstraintSpring mAngleConstraintABC;
+
+AngleConstraintStick mAngleConstraintBCD;
 
 Particle mParticleA;
 
@@ -22,9 +24,7 @@ Particle mParticleC;
 
 Particle mParticleD;
 
-AngleConstraintSpring mAngleConstraintABC;
-
-AngleConstraintStick mAngleConstraintBCD;
+Physics mPhysics;
 
 void settings() {
     size(640, 480);
@@ -92,11 +92,17 @@ void draw() {
     mAngleConstraintBCD.post_step();
 }
 
-void draw_physics() {
-    background(255);
-    drawSprings();
-    drawSticks();
-    drawParticles();
+void drawParticle(Particle p) {
+    ellipse(p.position().x, p.position().y, p.radius() * 2, p.radius() * 2);
+}
+
+void drawParticles() {
+    noStroke();
+    fill(0);
+    drawParticle(mParticleA);
+    drawParticle(mParticleB);
+    drawParticle(mParticleC);
+    drawParticle(mParticleD);
 }
 
 void drawSprings() {
@@ -141,17 +147,11 @@ void drawSticks() {
     strokeWeight(1);
 }
 
-void drawParticles() {
-    noStroke();
-    fill(0);
-    drawParticle(mParticleA);
-    drawParticle(mParticleB);
-    drawParticle(mParticleC);
-    drawParticle(mParticleD);
-}
-
-void drawParticle(Particle p) {
-    ellipse(p.position().x, p.position().y, p.radius() * 2, p.radius() * 2);
+void draw_physics() {
+    background(255);
+    drawSprings();
+    drawSticks();
+    drawParticles();
 }
 
 void line(Particle p1, Particle p2) {

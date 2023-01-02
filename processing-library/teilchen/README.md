@@ -33,28 +33,64 @@ integrators are used to integrate acceleration and velocity to calculate the new
 
 ## anatomy of a particle
 
-![](./resources/teilchen-tutorial-01.png)
+![](./resources/teilchen-tutorial-particles-01.png)
 
-![](./resources/teilchen-tutorial-02.png)
+![](./resources/teilchen-tutorial-particles-02.png)
 
-![](./resources/teilchen-tutorial-03.png)
+![](./resources/teilchen-tutorial-particles-03.png)
 
-![](./resources/teilchen-tutorial-04.png)
+![](./resources/teilchen-tutorial-particles-04.png)
 
 ## moving a particle ( with forces )
 
-![](./resources/teilchen-tutorial-05.png)
+![](./resources/teilchen-tutorial-particles-05.png)
 
-![](./resources/teilchen-tutorial-06.png)
+![](./resources/teilchen-tutorial-particles-06.png)
 
-![](./resources/teilchen-tutorial-07.png)
+![](./resources/teilchen-tutorial-particles-07.png)
 
-![](./resources/teilchen-tutorial-08.png)
+![](./resources/teilchen-tutorial-particles-08.png)
 
-![](./resources/teilchen-tutorial-09.png)
+![](./resources/teilchen-tutorial-particles-09.png)
 
-![](./resources/teilchen-tutorial-10.png)
+![](./resources/teilchen-tutorial-particles-10.png)
 
-![](./resources/teilchen-tutorial-11.png)
+![](./resources/teilchen-tutorial-particles-11.png)
 
-![](./resources/teilchen-tutorial-12.png)
+![](./resources/teilchen-tutorial-particles-12.png)
+
+## reference
+
+generated [reference](http://dennisppaul.github.io/teilchen/) of the library
+
+## vectors
+
+although explaining vectors ( and linear algebra ) is beyond the scope of this library, it can be very helpful to understand the basics of vector operations. the following slides aim to explain a few basics:
+
+![](./resources/teilchen-tutorial-vectors-01.png)
+
+![](./resources/teilchen-tutorial-vectors-02.png)
+
+![](./resources/teilchen-tutorial-vectors-03.png)
+
+![](./resources/teilchen-tutorial-vectors-04.png)
+
+![](./resources/teilchen-tutorial-vectors-05.png)
+
+![](./resources/teilchen-tutorial-vectors-06.png)
+
+![](./resources/teilchen-tutorial-vectors-07.png)
+
+![](./resources/teilchen-tutorial-vectors-08.png)
+
+![](./resources/teilchen-tutorial-vectors-09.png)
+
+![](./resources/teilchen-tutorial-vectors-10.png)
+
+![](./resources/teilchen-tutorial-vectors-11.png)
+
+![](./resources/teilchen-tutorial-vectors-12.png)
+
+![](./resources/teilchen-tutorial-vectors-13.png)
+
+![](./resources/teilchen-tutorial-vectors-14.png)

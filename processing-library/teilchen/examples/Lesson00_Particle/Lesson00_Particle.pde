@@ -12,9 +12,9 @@ import teilchen.util.*;
  * drag mouse to fling particle.
  */
 
-Physics mPhysics;
-
 Particle mParticle;
+
+Physics mPhysics;
 
 void settings() {
     size(640, 480);

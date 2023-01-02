@@ -15,6 +15,9 @@ public class SketchLesson04_Spring extends PApplet {
      * drag mouse to move particle.
      */
 
+    private Physics mPhysics;
+    private Spring mSpring;
+
     public void settings() {
         size(640, 480);
     }
@@ -66,6 +69,4 @@ public class SketchLesson04_Spring extends PApplet {
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLesson04_Spring.class.getName()});
     }
-    private Physics mPhysics;
-    private Spring mSpring;
 }

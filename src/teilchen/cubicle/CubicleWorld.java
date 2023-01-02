@@ -37,6 +37,11 @@ import java.util.Iterator;
 public class CubicleWorld {
 
     public static final int OFF_WORLD = -1;
+    private ArrayList<ICubicleEntity> mEntites;
+    private CubicleAtom mOffWorld;
+    private PVector mScale;
+    private TransformMatrix4f mTransform;
+    private CubicleAtom[][][] mWorld;
 
     public CubicleWorld(Vector3i pNumberOfAtoms) {
         this(pNumberOfAtoms.x, pNumberOfAtoms.y, pNumberOfAtoms.z);
@@ -257,9 +262,4 @@ public class CubicleWorld {
             return false;
         }
     }
-    private CubicleAtom[][][] mWorld;
-    private CubicleAtom mOffWorld;
-    private TransformMatrix4f mTransform;
-    private PVector mScale;
-    private ArrayList<ICubicleEntity> mEntites;
 }

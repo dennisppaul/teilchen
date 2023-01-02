@@ -12,11 +12,11 @@ import teilchen.util.*;
  * press mouse to respawn particles. move mouse to change attractor position.
  */
 
+Attractor mAttractor;
+
 Physics mPhysics;
 
 ArrayList<ParticleTrail> mTrails;
-
-Attractor mAttractor;
 
 void settings() {
     size(640, 480);
@@ -87,14 +87,6 @@ void mousePressed() {
     resetParticles(mouseX, mouseY);
 }
 
-void resetParticles(float x, float y) {
-    for (ParticleTrail mTrails : mTrails) {
-        mTrails.particle().position().set(x + random(-10, 10), y + random(-10, 10), 0);
-        mTrails.particle().velocity().set(random(-10, 10), random(-10, 10), random(-10, 10));
-        mTrails.fragments().clear();
-    }
-}
-
 void drawTrail(ParticleTrail pTrail) {
     final ArrayList<Particle> mFragments = pTrail.fragments();
     final Particle mParticle = pTrail.particle();
@@ -126,5 +118,13 @@ void drawTrail(ParticleTrail pTrail) {
         translate(mParticle.position().x, mParticle.position().y);
         ellipse(0, 0, 5, 5);
         popMatrix();
+    }
+}
+
+void resetParticles(float x, float y) {
+    for (ParticleTrail mTrails : mTrails) {
+        mTrails.particle().position().set(x + random(-10, 10), y + random(-10, 10), 0);
+        mTrails.particle().velocity().set(random(-10, 10), random(-10, 10), random(-10, 10));
+        mTrails.fragments().clear();
     }
 }

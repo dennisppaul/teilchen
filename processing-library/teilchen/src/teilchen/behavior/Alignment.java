@@ -36,14 +36,32 @@ public class Alignment<E extends IBehaviorParticle> implements IBehavior, Serial
 
     private static final long serialVersionUID = -4953599448151741585L;
     private final PVector mForce;
+    private ArrayList<E> mNeighbors;
     private float mProximity;
     private float mWeight;
-    private ArrayList<E> mNeighbors;
 
     public Alignment() {
         mProximity = 100.0f;
         mWeight = 1.0f;
         mForce = new PVector();
+    }
+
+    private static void findCommonVelocity(ArrayList<ProximityStructure> mCloseNeighbors, final PVector pForce) {
+        /* find away vector */
+        pForce.set(0, 0, 0);
+        if (!mCloseNeighbors.isEmpty()) {
+            /*
+             * @todo the vectors could be weighted according to distance: 1.0 - distance ( for example )
+             */
+            for (ProximityStructure p : mCloseNeighbors) {
+                pForce.add(p.particle.velocity());
+            }
+            pForce.mult(1.0f / mCloseNeighbors.size());
+            pForce.normalize();
+            if (isNaN(pForce)) {
+                pForce.set(0, 0, 0);
+            }
+        }
     }
 
     public void update(float pDeltaTime, IBehaviorParticle pParent) {
@@ -67,24 +85,6 @@ public class Alignment<E extends IBehaviorParticle> implements IBehavior, Serial
 
     public void weight(float pWeight) {
         mWeight = pWeight;
-    }
-
-    private static void findCommonVelocity(ArrayList<ProximityStructure> mCloseNeighbors, final PVector pForce) {
-        /* find away vector */
-        pForce.set(0, 0, 0);
-        if (!mCloseNeighbors.isEmpty()) {
-            /*
-             * @todo the vectors could be weighted according to distance: 1.0 - distance ( for example )
-             */
-            for (ProximityStructure p : mCloseNeighbors) {
-                pForce.add(p.particle.velocity());
-            }
-            pForce.mult(1.0f / mCloseNeighbors.size());
-            pForce.normalize();
-            if (isNaN(pForce)) {
-                pForce.set(0, 0, 0);
-            }
-        }
     }
 
     public void neighbors(final ArrayList<E> pNeighbors) {

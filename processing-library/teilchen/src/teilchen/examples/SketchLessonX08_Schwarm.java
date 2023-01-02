@@ -49,9 +49,10 @@ public class SketchLessonX08_Schwarm extends PApplet {
         mSwarmEntities = new ArrayList<>();
         for (int i = 0; i < 60; i++) {
             SwarmEntity mSwarmEntity = new SwarmEntity();
-            mSwarmEntity.position().set(random(mTeleporter.min().x, mTeleporter.max().x),
-                                        random(mTeleporter.min().y, mTeleporter.max().y),
-                                        random(mTeleporter.min().z, mTeleporter.max().z));
+            mSwarmEntity.position()
+                        .set(random(mTeleporter.min().x, mTeleporter.max().x),
+                             random(mTeleporter.min().y, mTeleporter.max().y),
+                             random(mTeleporter.min().z, mTeleporter.max().z));
             mSwarmEntities.add(mSwarmEntity);
             mPhysics.add(mSwarmEntity);
         }
@@ -77,11 +78,11 @@ public class SketchLessonX08_Schwarm extends PApplet {
 
     private class SwarmEntity extends BehaviorParticle {
 
-        private final Separation<SwarmEntity> separation;
         private final Alignment<SwarmEntity> alignment;
         private final Cohesion<SwarmEntity> cohesion;
-        private final Wander wander;
         private final Motor motor;
+        private final Separation<SwarmEntity> separation;
+        private final Wander wander;
 
         public SwarmEntity() {
             maximumInnerForce(random(100.0f, 1000.0f));

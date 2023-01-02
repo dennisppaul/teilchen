@@ -19,13 +19,13 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
      * drag mouse to move particle.
      */
 
-    private Physics mPhysics;
+    private AngleConstraintSpring mAngleConstraintABC;
+    private AngleConstraintStick mAngleConstraintBCD;
     private Particle mParticleA;
     private Particle mParticleB;
     private Particle mParticleC;
     private Particle mParticleD;
-    private AngleConstraintSpring mAngleConstraintABC;
-    private AngleConstraintStick mAngleConstraintBCD;
+    private Physics mPhysics;
 
     public void settings() {
         size(640, 480);
@@ -107,12 +107,17 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
         mAngleConstraintBCD.post_step();
     }
 
-    private void draw_physics() {
-        background(255);
+    private void drawParticle(Particle p) {
+        ellipse(p.position().x, p.position().y, p.radius() * 2, p.radius() * 2);
+    }
 
-        drawSprings();
-        drawSticks();
-        drawParticles();
+    private void drawParticles() {
+        noStroke();
+        fill(0);
+        drawParticle(mParticleA);
+        drawParticle(mParticleB);
+        drawParticle(mParticleC);
+        drawParticle(mParticleD);
     }
 
     private void drawSprings() {
@@ -157,17 +162,12 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
         strokeWeight(1);
     }
 
-    private void drawParticles() {
-        noStroke();
-        fill(0);
-        drawParticle(mParticleA);
-        drawParticle(mParticleB);
-        drawParticle(mParticleC);
-        drawParticle(mParticleD);
-    }
+    private void draw_physics() {
+        background(255);
 
-    private void drawParticle(Particle p) {
-        ellipse(p.position().x, p.position().y, p.radius() * 2, p.radius() * 2);
+        drawSprings();
+        drawSticks();
+        drawParticles();
     }
 
     private void line(Particle p1, Particle p2) {

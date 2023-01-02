@@ -26,11 +26,9 @@ import processing.core.PVector;
 import teilchen.BasicParticle;
 import teilchen.util.Vector3i;
 
-public class CubicleParticle
-        extends BasicParticle implements ICubicleEntity {
+public class CubicleParticle extends BasicParticle implements ICubicleEntity {
 
     private final Vector3i mCubiclePosition;
-
     private final PVector mPosition;
 
     public CubicleParticle() {
@@ -47,9 +45,7 @@ public class CubicleParticle
     }
 
     public boolean leaving(int pX, int pY, int pZ) {
-        return !(pX == cubicle().x
-                 && pY == cubicle().y
-                 && pZ == cubicle().z);
+        return !(pX == cubicle().x && pY == cubicle().y && pZ == cubicle().z);
     }
 
     public boolean isActive() {

@@ -13,9 +13,9 @@ import teilchen.util.*;
  * press mouse to position deflector.
  */
 
-Physics mPhysics;
-
 LineDeflector2D mDeflector;
+
+Physics mPhysics;
 
 void settings() {
     size(640, 480);

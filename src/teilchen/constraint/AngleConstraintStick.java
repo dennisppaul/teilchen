@@ -31,6 +31,12 @@ import static teilchen.util.Util.angle;
 
 public class AngleConstraintStick extends Stick {
 
+    private boolean mDead = false;
+    private float mMinAngle;
+    private final Particle mParticleA;
+    private final Particle mParticleB;
+    private final Particle mParticleC;
+
     /**
      * particles are connected like this: A -- B -- C
      *
@@ -76,9 +82,4 @@ public class AngleConstraintStick extends Stick {
     public void post_step() {
         active(false);
     }
-    private final Particle mParticleA;
-    private final Particle mParticleB;
-    private final Particle mParticleC;
-    private boolean mDead = false;
-    private float mMinAngle;
 }

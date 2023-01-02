@@ -30,6 +30,9 @@ import static processing.core.PVector.sub;
 public class Flee implements IBehavior, Verhalten {
 
     static final long serialVersionUID = -6530887943347815188L;
+    private PVector mFleePosition;
+    private final PVector mForce;
+    private float mWeight = 1;
 
     public Flee() {
         mFleePosition = new PVector();
@@ -67,7 +70,4 @@ public class Flee implements IBehavior, Verhalten {
     public void weight(float pWeight) {
         mWeight = pWeight;
     }
-    private PVector mFleePosition;
-    private final PVector mForce;
-    private float mWeight = 1;
 }

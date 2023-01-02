@@ -22,36 +22,24 @@
  */
 package teilchen.util;
 
-import java.io.Serializable;
 import processing.core.PVector;
+
+import java.io.Serializable;
 
 /**
  * generate random numbers.
- *
- * note that if different types are requested the random generator moves on
- * anyway.
+ * <p>
+ * note that if different types are requested the random generator moves on anyway.
  */
-public class Random
-        implements Serializable {
-
-    private static final long serialVersionUID = -5871934750136232555L;
-
-    private static final java.util.Random mSeedGenerator = new java.util.Random(System.currentTimeMillis());
-
-    private final java.util.Random mRandomNumberGenerator;
+public class Random implements Serializable {
 
     private static final Random mInstance;
+    private static final java.util.Random mSeedGenerator = new java.util.Random(System.currentTimeMillis());
+    private static final long serialVersionUID = -5871934750136232555L;
+    private final java.util.Random mRandomNumberGenerator;
 
     static {
         mInstance = new Random();
-    }
-
-    public static float FLOAT(float pStart, float pEnd) {
-        return mInstance.getFloat(pStart, pEnd);
-    }
-
-    public static float INT(int pStart, int pEnd) {
-        return mInstance.getInt(pStart, pEnd);
     }
 
     public Random() {
@@ -62,6 +50,14 @@ public class Random
         mRandomNumberGenerator = new java.util.Random(pSeed);
     }
 
+    public static float FLOAT(float pStart, float pEnd) {
+        return mInstance.getFloat(pStart, pEnd);
+    }
+
+    public static float INT(int pStart, int pEnd) {
+        return mInstance.getInt(pStart, pEnd);
+    }
+
     public void setSeed(long pSeed) {
         mRandomNumberGenerator.setSeed(pSeed);
     }
@@ -69,13 +65,11 @@ public class Random
     /**
      * return a random int value from theStart to theEnd, including both values.
      *
-     * @param theStart int
-     * @param theEnd   int
-     *
+     * @param pStart int
+     * @param pEnd   int
      * @return int
      */
-    public int getInt(int pStart,
-                      int pEnd) {
+    public int getInt(int pStart, int pEnd) {
         int mDiff = (pEnd + 1) - pStart;
         return mRandomNumberGenerator.nextInt(mDiff) + pStart;
     }
@@ -85,16 +79,13 @@ public class Random
     }
 
     /**
-     * return a random float value from theStart to theEnd, excluding both
-     * values.
+     * return a random float value from theStart to theEnd, excluding both values.
      *
-     * @param theStart float
-     * @param theEnd   float
-     *
+     * @param pStart float
+     * @param pEnd   float
      * @return float
      */
-    public float getFloat(float pStart,
-                          float pEnd) {
+    public float getFloat(float pStart, float pEnd) {
         final float mDiff = pEnd - pStart;
         final float mRandomValue = mRandomNumberGenerator.nextFloat() * mDiff;
         return mRandomValue + pStart;
@@ -104,14 +95,12 @@ public class Random
         return mRandomNumberGenerator.nextFloat();
     }
 
-//    public static float getFloat(float theStart,
+    //    public static float getFloat(float theStart,
 //                                 float theEnd) {
 //        return mSeedGenerator.getFloat(theStart, theEnd);
 //    }
     public PVector getVector3f(float pStart, float pEnd) {
-        return new PVector(getFloat(pStart, pEnd),
-                           getFloat(pStart, pEnd),
-                           getFloat(pStart, pEnd));
+        return new PVector(getFloat(pStart, pEnd), getFloat(pStart, pEnd), getFloat(pStart, pEnd));
     }
 
     public static void main(String[] args) {

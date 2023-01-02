@@ -7,10 +7,10 @@ import static teilchen.util.Intersection.intersectRayTriangle;
 
 public class TestIntersectRayTriangle extends PApplet {
 
-    private float mRotationX = 0;
-    private float mRotationY = 0;
     private float mRayX = 0;
     private float mRayY = 0;
+    private float mRotationX = 0;
+    private float mRotationY = 0;
 
     public void settings() {
         size(640, 480, P3D);
@@ -70,10 +70,6 @@ public class TestIntersectRayTriangle extends PApplet {
         endShape();
     }
 
-    private void vertex(PVector v) {
-        vertex(v.x, v.y, v.z);
-    }
-
     private void line(PVector v0, PVector v1) {
         beginShape(LINES);
         vertex(v0);
@@ -83,6 +79,10 @@ public class TestIntersectRayTriangle extends PApplet {
 
     private void translate(PVector v) {
         translate(v.x, v.y, v.z);
+    }
+
+    private void vertex(PVector v) {
+        vertex(v.x, v.y, v.z);
     }
 
     public static void main(String[] args) {

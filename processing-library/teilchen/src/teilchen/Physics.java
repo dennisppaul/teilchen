@@ -46,10 +46,10 @@ public class Physics {
     public boolean HINT_RECOVER_NAN = true;
     public boolean HINT_REMOVE_DEAD = true;
     public boolean HINT_SET_VELOCITY_FROM_PREVIOUS_POSTION = true;
-    private final ArrayList<Particle> mParticles;
-    private final ArrayList<IForce> mForces;
     private final ArrayList<IConstraint> mConstraints;
+    private final ArrayList<IForce> mForces;
     private IIntegrator mIntegrator;
+    private final ArrayList<Particle> mParticles;
 
     public Physics() {
         mParticles = new ArrayList<>();
@@ -146,7 +146,7 @@ public class Physics {
     public <T extends Particle> T makeParticle(Class<T> pParticleClass) {
         T mParticle;
         try {
-            mParticle = pParticleClass.newInstance();
+            mParticle = pParticleClass.getDeclaredConstructor().newInstance();
             mParticles.add(mParticle);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -168,9 +168,7 @@ public class Physics {
             for (IForce f : mForces) {
                 if (f instanceof Spring) {
                     Spring s = (Spring) f;
-                    if (s == pSpring ||
-                        (s.a() == pSpring.a() && s.b() == pSpring.b()) ||
-                        (s.b() == pSpring.a() && s.a() == pSpring.b())) {
+                    if (s == pSpring || (s.a() == pSpring.a() && s.b() == pSpring.b()) || (s.b() == pSpring.a() && s.a() == pSpring.b())) {
                         return false;
                     }
                 }
@@ -182,8 +180,8 @@ public class Physics {
 
     public void add(IForce pForce) {
         if (pForce instanceof ViscousDrag && mIntegrator instanceof Verlet) {
-            System.err.println("### WARNING / `ViscousDrag` has no effect with `Verlet` " +
-                               "integration. use `Verlet.damping(float pDamping)` instead.");
+            System.err.println("### WARNING / `ViscousDrag` has no effect with `Verlet` " + "integration. use " +
+                                       "`Verlet" + ".damping(float pDamping)` instead.");
         }
         mForces.add(pForce);
     }
@@ -228,7 +226,7 @@ public class Physics {
     public <T extends IForce> T makeForce(Class<T> pForceClass) {
         T mForce;
         try {
-            mForce = pForceClass.newInstance();
+            mForce = pForceClass.getDeclaredConstructor().newInstance();
             mForces.add(mForce);
         } catch (Exception ex) {
             mForce = null;
@@ -341,8 +339,19 @@ public class Physics {
         }
     }
 
-    protected synchronized void integrate(float pDeltaTime) {
-        mIntegrator.step(pDeltaTime, this);
+    protected synchronized void handleConstraints() {
+        synchronized (mConstraints) {
+            final Iterator<IConstraint> i = mConstraints.iterator();
+            while (i.hasNext()) {
+                final IConstraint mConstraint = i.next();
+                mConstraint.apply(this);
+                if (HINT_REMOVE_DEAD) {
+                    if (mConstraint.dead()) {
+                        i.remove();
+                    }
+                }
+            }
+        }
     }
 
     protected synchronized void handleForces() {
@@ -352,21 +361,6 @@ public class Physics {
                 while (i.hasNext()) {
                     final IForce mForce = i.next();
                     if (mForce.dead()) {
-                        i.remove();
-                    }
-                }
-            }
-        }
-    }
-
-    protected synchronized void handleConstraints() {
-        synchronized (mConstraints) {
-            final Iterator<IConstraint> i = mConstraints.iterator();
-            while (i.hasNext()) {
-                final IConstraint mConstraint = i.next();
-                mConstraint.apply(this);
-                if (HINT_REMOVE_DEAD) {
-                    if (mConstraint.dead()) {
                         i.remove();
                     }
                 }
@@ -409,6 +403,10 @@ public class Physics {
                 }
             }
         }
+    }
+
+    protected synchronized void integrate(float pDeltaTime) {
+        mIntegrator.step(pDeltaTime, this);
     }
 
     protected synchronized void postHandleParticles(float pDeltaTime) {

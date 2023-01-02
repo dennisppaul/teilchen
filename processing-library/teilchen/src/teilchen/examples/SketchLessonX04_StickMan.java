@@ -20,9 +20,9 @@ public class SketchLessonX04_StickMan extends PApplet {
      * press mouse to grab and fling stickmen.
      */
 
-    private Physics mPhysics;
     private Attractor mAttractor;
     private Gravity mGravity;
+    private Physics mPhysics;
     private StickMan[] mStickMan;
 
     public void settings() {

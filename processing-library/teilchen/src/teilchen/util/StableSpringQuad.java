@@ -42,15 +42,10 @@ public class StableSpringQuad {
     public Spring da;
 
     /**
-     * this utility method creates a 'stable' shape from 4 positions. in this
-     * case a stable shape is created by connecting the four positions' edge
-     * plus two diagonals to create a stable quad.
-     *
-     * the positions should be in counter clockwise order.
-     *
-     * the positions are stored as reference which means that if you change
-     * either of the vectors afterwards it will also change the position of the
-     * connected particles.
+     * this utility method creates a 'stable' shape from 4 positions. in this case a stable shape is created by
+     * connecting the four positions' edge plus two diagonals to create a stable quad. the positions should be in
+     * counter clockwise order. the positions are stored as reference which means that if you change either of the
+     * vectors afterwards it will also change the position of the connected particles.
      *
      * @param pParticleSystem ParticleSystem
      * @param pA              vertex A

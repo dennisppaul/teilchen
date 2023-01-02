@@ -15,6 +15,9 @@ public class SketchLesson03_Attractors extends PApplet {
      * press mouse to toggle attractor between postive and *negative* attraction.
      */
 
+    private Attractor mAttractor;
+    private Physics mPhysics;
+
     public void settings() {
         size(640, 480);
     }
@@ -92,7 +95,5 @@ public class SketchLesson03_Attractors extends PApplet {
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLesson03_Attractors.class.getName()});
     }
-    private Physics mPhysics;
-    private Attractor mAttractor;
 }
 

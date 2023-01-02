@@ -13,11 +13,11 @@ import teilchen.util.*;
  * move mouse to change target position. press mouse to set to *over steering*.
  */
 
-Physics mPhysics;
+CollisionManager mCollision;
 
 ArrayList<Duckling> mDucklings;
 
-CollisionManager mCollision;
+Physics mPhysics;
 
 void settings() {
     size(640, 480);
@@ -61,12 +61,22 @@ void draw() {
     /* draw arrival */
     stroke(0, 0.75f);
     noFill();
-    ellipse(mDucklings.get(0).arrival.position().x,
-            mDucklings.get(0).arrival.position().y,
-            50,
-            50);
+    ellipse(mDucklings.get(0).arrival.position().x, mDucklings.get(0).arrival.position().y, 50, 50);
     /* clean up */
     mCollision.removeCollisionResolver();
+}
+
+void drawCollisionSprings() {
+    stroke(0, 0.5f);
+    for (int i = 0; i < mCollision.collision().forces().size(); ++i) {
+        if (mCollision.collision().forces().get(i) instanceof Spring) {
+            Spring mSpring = (Spring) mCollision.collision_forces().get(i);
+            line(mSpring.a().position().x,
+                 mSpring.a().position().y,
+                 mSpring.b().position().x,
+                 mSpring.b().position().y);
+        }
+    }
 }
 
 void drawParticle(Duckling pDuckling) {
@@ -96,22 +106,9 @@ void drawParticle(Duckling pDuckling) {
     /* - */
     popMatrix();
 }
-
-void drawCollisionSprings() {
-    stroke(0, 0.5f);
-    for (int i = 0; i < mCollision.collision().forces().size(); ++i) {
-        if (mCollision.collision().forces().get(i) instanceof Spring) {
-            Spring mSpring = (Spring) mCollision.collision_forces().get(i);
-            line(mSpring.a().position().x,
-                 mSpring.a().position().y,
-                 mSpring.b().position().x,
-                 mSpring.b().position().y);
-        }
-    }
-}
 class Duckling {
-    BehaviorParticle particle;
     Arrival arrival;
+    BehaviorParticle particle;
     Duckling() {
         /* create particles */
         particle = mPhysics.makeParticle(BehaviorParticle.class);

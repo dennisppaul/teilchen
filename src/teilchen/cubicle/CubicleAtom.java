@@ -32,6 +32,9 @@ import java.util.ArrayList;
  */
 public class CubicleAtom {
 
+    private final ArrayList<ICubicleEntity> mContainer;
+    private final Vector3i mPosition;
+
     public CubicleAtom(int x, int y, int z) {
         mContainer = new ArrayList<>();
         mPosition = new Vector3i(x, y, z);
@@ -60,6 +63,4 @@ public class CubicleAtom {
     public ArrayList<ICubicleEntity> data() {
         return mContainer;
     }
-    private final ArrayList<ICubicleEntity> mContainer;
-    private final Vector3i mPosition;
 }

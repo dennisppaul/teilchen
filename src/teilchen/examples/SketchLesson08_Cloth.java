@@ -22,6 +22,9 @@ public class SketchLesson08_Cloth extends PApplet {
 
     private static final int GRID_HEIGHT = 32;
     private static final int GRID_WIDTH = 32;
+    private Attractor mAttractor;
+    private final float mAttractorStrength = 15000;
+    private Physics mPhysics;
 
     public void settings() {
         size(640, 480, P3D);
@@ -117,7 +120,4 @@ public class SketchLesson08_Cloth extends PApplet {
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLesson08_Cloth.class.getName()});
     }
-    private final float mAttractorStrength = 15000;
-    private Physics mPhysics;
-    private Attractor mAttractor;
 }

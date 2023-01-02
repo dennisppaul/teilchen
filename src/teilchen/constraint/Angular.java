@@ -41,6 +41,19 @@ public class Angular implements IConstraint {
      */
 
     private static final double STRENGTH = 1;
+    public boolean OK;
+    protected boolean mActive = true;
+    private final Particle mA;
+    private final Particle mB;
+    private final Particle mC;
+    private boolean mDead = false;
+    private final long mID;
+    private float mMaximumAngle;
+    private float mMinimumAngle;
+    private final PVector mTempA = new PVector();
+    private final PVector mTempB = new PVector();
+    private final PVector mTempNormal;
+
     public Angular(Particle pA, Particle pB, Particle pC, float pMinimumAngle, float pMaximumAngle) {
         mID = Physics.getUniqueID();
         mA = pA;
@@ -49,6 +62,7 @@ public class Angular implements IConstraint {
         mTempNormal = new PVector();
         range(pMinimumAngle, pMaximumAngle);
     }
+
     public Angular(Particle pA, Particle pB, Particle pC) {
         this(pA, pB, pC, 0, 0);
     }
@@ -210,16 +224,4 @@ public class Angular implements IConstraint {
         mMaximumAngle = Math.max(mTempMaximumAngle, mTempMinimumAngle);
         mMinimumAngle = Math.min(mTempMaximumAngle, mTempMinimumAngle);
     }
-    public boolean OK;
-    private final Particle mA;
-    private final Particle mB;
-    private final Particle mC;
-    private final PVector mTempA = new PVector();
-    private final PVector mTempB = new PVector();
-    private final PVector mTempNormal;
-    private final long mID;
-    protected boolean mActive = true;
-    private boolean mDead = false;
-    private float mMinimumAngle;
-    private float mMaximumAngle;
 }

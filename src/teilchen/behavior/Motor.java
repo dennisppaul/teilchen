@@ -28,6 +28,14 @@ import teilchen.IBehaviorParticle;
 public class Motor implements IBehavior, Verhalten {
 
     static final long serialVersionUID = -3781170603537691466L;
+    public final PVector AUTO_RECOVER_DIRECTION;
+    private boolean mActive;
+    private boolean mAutoNormalizeDirection;
+    private boolean mAutoUpdateDirection;
+    private PVector mDirection;
+    private final PVector mForce;
+    private float mStrength;
+    private float mWeight;
 
     public Motor() {
         mDirection = new PVector(1, 0, 0);
@@ -104,12 +112,4 @@ public class Motor implements IBehavior, Verhalten {
     public void weight(float pWeight) {
         mWeight = pWeight;
     }
-    private PVector mDirection;
-    private float mStrength;
-    private final PVector mForce;
-    private float mWeight;
-    private boolean mAutoNormalizeDirection;
-    private boolean mActive;
-    private boolean mAutoUpdateDirection;
-    public final PVector AUTO_RECOVER_DIRECTION;
 }

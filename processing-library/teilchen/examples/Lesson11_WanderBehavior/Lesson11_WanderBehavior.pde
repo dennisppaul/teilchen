@@ -11,13 +11,13 @@ import teilchen.util.*;
  * to turn a `BehaviorParticle` into an autonomously moving *agent*.
  */
 
-Physics mPhysics;
+Motor mMotor;
 
 BehaviorParticle mParticle;
 
-Wander mWander;
+Physics mPhysics;
 
-Motor mMotor;
+Wander mWander;
 
 void settings() {
     size(640, 480);
@@ -56,6 +56,5 @@ void draw() {
          mParticle.position().y + mParticle.velocity().y);
     fill(0);
     noStroke();
-    ellipse(mParticle.position().x, mParticle.position().y,
-            mParticle.radius() * 2, mParticle.radius() * 2);
+    ellipse(mParticle.position().x, mParticle.position().y, mParticle.radius() * 2, mParticle.radius() * 2);
 }

@@ -36,6 +36,13 @@ import static teilchen.util.Intersection.lineLineIntersect;
 
 public class LineIntersectionConstraint implements IConstraint {
 
+    public PGraphics DEBUG_VIEW = null;
+    private boolean mDead = false;
+    private final long mID;
+    private final Particle mParticle;
+    private ArrayList<IConnection> mPotentialLineIntersections;
+    private float mProxScale = 1.0f;
+
     public LineIntersectionConstraint(Particle pParticle) {
         mID = Physics.getUniqueID();
         mParticle = pParticle;
@@ -122,10 +129,4 @@ public class LineIntersectionConstraint implements IConstraint {
     public void intersection_padding(float pIntersectionPadding) {
         mProxScale = pIntersectionPadding;
     }
-    public PGraphics DEBUG_VIEW = null;
-    private final Particle mParticle;
-    private boolean mDead = false;
-    private ArrayList<IConnection> mPotentialLineIntersections;
-    private float mProxScale = 1.0f;
-    private final long mID;
 }

@@ -34,14 +34,14 @@ import static teilchen.util.Util.distance;
 public class Spring implements IForce, IConnection {
 
     private static final boolean USE_FAST_SQRT = true;
+    protected Particle mA;
+    protected boolean mActive;
+    protected Particle mB;
+    protected boolean mDead;
+    protected boolean mOneWay;
+    protected float mRestLength;
     protected float mSpringConstant;
     protected float mSpringDamping;
-    protected float mRestLength;
-    protected Particle mA;
-    protected Particle mB;
-    protected boolean mOneWay;
-    protected boolean mActive;
-    protected boolean mDead;
     private final long mID;
 
     public Spring(Particle pA, Particle pB) {
@@ -131,12 +131,16 @@ public class Spring implements IForce, IConnection {
             final float mDistance;
             if (USE_FAST_SQRT) {
                 final float mInvDistanceSquared = mAB.magSq();
-                if (mInvDistanceSquared == 0.0f) { return; /* prevent division by zero */ }
+                if (mInvDistanceSquared == 0.0f) {
+                    return; /* prevent division by zero */
+                }
                 mInvDistance = Util.fastInverseSqrt(mInvDistanceSquared);
                 mDistance = 1.0f / mInvDistance;
             } else {
                 mDistance = mAB.mag();
-                if (mDistance == 0.0f) { return; /* prevent division by zero */ }
+                if (mDistance == 0.0f) {
+                    return; /* prevent division by zero */
+                }
                 mInvDistance = 1.0f / mDistance;
             }
             final float mSpringForce = -mSpringConstant * (mDistance - mRestLength); // Fspring = - k * x

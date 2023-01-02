@@ -25,6 +25,8 @@ package teilchen;
 
 public class ShortLivedParticle extends BasicParticle {
 
+    private float mMaxAge;
+
     public ShortLivedParticle(float pMaxAge) {
         mMaxAge = pMaxAge;
     }
@@ -44,5 +46,4 @@ public class ShortLivedParticle extends BasicParticle {
     public boolean dead() {
         return age() >= mMaxAge;
     }
-    private float mMaxAge;
 }

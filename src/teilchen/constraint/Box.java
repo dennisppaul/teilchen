@@ -34,6 +34,14 @@ import static processing.core.PVector.sub;
 public class Box implements IConstraint {
 
     private static final PVector[] NORMALS;
+    protected boolean mActive = true;
+    private float mCoefficientOfRestitution;
+    private boolean mDead = false;
+    private final long mID;
+    private final PVector mMax;
+    private final PVector mMin;
+    private boolean mReflectFlag;
+    private boolean mTeleport;
 
     static {
         NORMALS = new PVector[6];
@@ -53,6 +61,7 @@ public class Box implements IConstraint {
         mCoefficientOfRestitution = 1.0f;
         mTeleport = false;
     }
+
     public Box() {
         this(new PVector(), new PVector());
     }
@@ -176,12 +185,4 @@ public class Box implements IConstraint {
     public long ID() {
         return mID;
     }
-    private final long mID;
-    private final PVector mMin;
-    private final PVector mMax;
-    protected boolean mActive = true;
-    private boolean mDead = false;
-    private boolean mReflectFlag;
-    private float mCoefficientOfRestitution;
-    private boolean mTeleport;
 }

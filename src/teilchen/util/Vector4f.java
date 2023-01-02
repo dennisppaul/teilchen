@@ -30,6 +30,10 @@ public class Vector4f implements Serializable {
 
     private static final float ALMOST_THRESHOLD = 0.001f;
     private static final long serialVersionUID = 5083919691492230155L;
+    public float w;
+    public float x;
+    public float y;
+    public float z;
 
     public Vector4f() {
         x = 0;
@@ -233,8 +237,4 @@ public class Vector4f implements Serializable {
     public final String toString() {
         return "(" + x + ", " + y + ", " + z + ", " + w + ")";
     }
-    public float w;
-    public float x;
-    public float y;
-    public float z;
 }

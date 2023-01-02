@@ -28,6 +28,9 @@ import teilchen.util.Vector3i;
 
 public class CubicleParticle extends BasicParticle implements ICubicleEntity {
 
+    private final Vector3i mCubiclePosition;
+    private final PVector mPosition;
+
     public CubicleParticle() {
         mCubiclePosition = new Vector3i();
         mPosition = new PVector();
@@ -48,6 +51,4 @@ public class CubicleParticle extends BasicParticle implements ICubicleEntity {
     public boolean isActive() {
         return !fixed();
     }
-    private final Vector3i mCubiclePosition;
-    private final PVector mPosition;
 }

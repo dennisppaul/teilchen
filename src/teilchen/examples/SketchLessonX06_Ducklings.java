@@ -19,6 +19,10 @@ public class SketchLessonX06_Ducklings extends PApplet {
      * move mouse to change target position. press mouse to set to *over steering*.
      */
 
+    private CollisionManager mCollision;
+    private ArrayList<Duckling> mDucklings;
+    private Physics mPhysics;
+
     public void settings() {
         size(640, 480);
     }
@@ -124,6 +128,9 @@ public class SketchLessonX06_Ducklings extends PApplet {
 
     class Duckling {
 
+        Arrival arrival;
+        BehaviorParticle particle;
+
         Duckling() {
             /* create particles */
             particle = mPhysics.makeParticle(BehaviorParticle.class);
@@ -137,14 +144,9 @@ public class SketchLessonX06_Ducklings extends PApplet {
 
             particle.behaviors().add(arrival);
         }
-        BehaviorParticle particle;
-        Arrival arrival;
     }
 
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLessonX06_Ducklings.class.getName()});
     }
-    private Physics mPhysics;
-    private ArrayList<Duckling> mDucklings;
-    private CollisionManager mCollision;
 }

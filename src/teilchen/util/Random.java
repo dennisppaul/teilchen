@@ -36,6 +36,7 @@ public class Random implements Serializable {
     private static final Random mInstance;
     private static final java.util.Random mSeedGenerator = new java.util.Random(System.currentTimeMillis());
     private static final long serialVersionUID = -5871934750136232555L;
+    private final java.util.Random mRandomNumberGenerator;
 
     static {
         mInstance = new Random();
@@ -142,5 +143,4 @@ public class Random implements Serializable {
         System.out.println("DONE: " + (System.currentTimeMillis() - mTime));
 
     }
-    private final java.util.Random mRandomNumberGenerator;
 }

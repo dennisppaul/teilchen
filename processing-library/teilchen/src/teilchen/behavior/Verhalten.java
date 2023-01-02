@@ -24,8 +24,7 @@ package teilchen.behavior;
 
 import java.io.Serializable;
 
-public interface Verhalten
-        extends Serializable {
+public interface Verhalten extends Serializable {
 
     float SMALLEST_ACCEPTABLE_DISTANCE = 0.01f;
 

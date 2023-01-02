@@ -28,6 +28,12 @@ import teilchen.IBehaviorParticle;
 
 public class Steering implements IBehavior, Verhalten {
 
+    private boolean mActive = true;
+    private final PVector mForce;
+    private float mSteering = 0.0f;
+    private final PVector mUPVector;
+    private float mWeight;
+
     public Steering() {
         mForce = new PVector();
         mUPVector = new PVector(0, 0, -1);
@@ -80,10 +86,5 @@ public class Steering implements IBehavior, Verhalten {
     public void active(boolean pActive) {
         mActive = pActive;
     }
-    private final PVector mForce;
-    private final PVector mUPVector;
-    private float mWeight;
-    private float mSteering = 0.0f;
-    private boolean mActive = true;
 
 }

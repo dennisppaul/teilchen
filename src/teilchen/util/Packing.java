@@ -46,6 +46,9 @@ public class Packing {
 
     public static class PackingEntity implements SpatialEntity {
 
+        private final PVector mPosition;
+        private float mRadius;
+
         public PackingEntity() {
             mPosition = new PVector();
             mRadius = 1;
@@ -62,7 +65,5 @@ public class Packing {
         public void radius(float pRadius) {
             mRadius = pRadius;
         }
-        private final PVector mPosition;
-        private float mRadius;
     }
 }

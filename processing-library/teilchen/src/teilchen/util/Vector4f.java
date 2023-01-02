@@ -22,23 +22,18 @@
  */
 package teilchen.util;
 
-import java.io.Serializable;
 import processing.core.PVector;
 
-public class Vector4f
-        implements Serializable {
+import java.io.Serializable;
 
-    private static final long serialVersionUID = 5083919691492230155L;
-
-    public float w;
-
-    public float x;
-
-    public float y;
-
-    public float z;
+public class Vector4f implements Serializable {
 
     private static final float ALMOST_THRESHOLD = 0.001f;
+    private static final long serialVersionUID = 5083919691492230155L;
+    public float w;
+    public float x;
+    public float y;
+    public float z;
 
     public Vector4f() {
         x = 0;
@@ -47,52 +42,28 @@ public class Vector4f
         w = 0;
     }
 
-    public Vector4f(float pX,
-                    float pY,
-                    float pZ,
-                    float pW) {
-        set(pX,
-            pY,
-            pZ,
-            pW);
+    public Vector4f(float pX, float pY, float pZ, float pW) {
+        set(pX, pY, pZ, pW);
     }
 
-    public Vector4f(double pX,
-                    double pY,
-                    double pZ,
-                    double pW) {
-        set(pX,
-            pY,
-            pZ,
-            pW);
+    public Vector4f(double pX, double pY, double pZ, double pW) {
+        set(pX, pY, pZ, pW);
     }
 
-    public Vector4f(float pX,
-                    float pY,
-                    float pZ) {
-        set(pX,
-            pY,
-            pZ);
+    public Vector4f(float pX, float pY, float pZ) {
+        set(pX, pY, pZ);
     }
 
-    public Vector4f(double pX,
-                    double pY,
-                    double pZ) {
-        set(pX,
-            pY,
-            pZ);
+    public Vector4f(double pX, double pY, double pZ) {
+        set(pX, pY, pZ);
     }
 
-    public Vector4f(float pX,
-                    float pY) {
-        set(pX,
-            pY);
+    public Vector4f(float pX, float pY) {
+        set(pX, pY);
     }
 
-    public Vector4f(double pX,
-                    double pY) {
-        set(pX,
-            pY);
+    public Vector4f(double pX, double pY) {
+        set(pX, pY);
     }
 
     public Vector4f(float[] pVector) {
@@ -111,50 +82,38 @@ public class Vector4f
         set(pVector);
     }
 
-    public final void set(float pX,
-                          float pY,
-                          float pZ,
-                          float pW) {
+    public final void set(float pX, float pY, float pZ, float pW) {
         x = pX;
         y = pY;
         z = pZ;
         w = pW;
     }
 
-    public final void set(double pX,
-                          double pY,
-                          double pZ,
-                          double pW) {
+    public final void set(double pX, double pY, double pZ, double pW) {
         x = (float) pX;
         y = (float) pY;
         z = (float) pZ;
         w = (float) pW;
     }
 
-    public final void set(float pX,
-                          float pY,
-                          float pZ) {
+    public final void set(float pX, float pY, float pZ) {
         x = pX;
         y = pY;
         z = pZ;
     }
 
-    public final void set(double pX,
-                          double pY,
-                          double pZ) {
+    public final void set(double pX, double pY, double pZ) {
         x = (float) pX;
         y = (float) pY;
         z = (float) pZ;
     }
 
-    public final void set(float pX,
-                          float pY) {
+    public final void set(float pX, float pY) {
         x = pX;
         y = pY;
     }
 
-    public final void set(double pX,
-                          double pY) {
+    public final void set(double pX, double pY) {
         x = (float) pX;
         y = (float) pY;
     }
@@ -186,8 +145,7 @@ public class Vector4f
         z = pVector.z;
     }
 
-    public final void add(Vector4f pVectorA,
-                          Vector4f pVectorB) {
+    public final void add(Vector4f pVectorA, Vector4f pVectorB) {
         w = pVectorA.w + pVectorB.w;
         x = pVectorA.x + pVectorB.x;
         y = pVectorA.y + pVectorB.y;
@@ -201,8 +159,7 @@ public class Vector4f
         z += pVector.z;
     }
 
-    public final void sub(Vector4f pVectorA,
-                          Vector4f pVectorB) {
+    public final void sub(Vector4f pVectorA, Vector4f pVectorB) {
         w = pVectorA.w - pVectorB.w;
         x = pVectorA.x - pVectorB.x;
         y = pVectorA.y - pVectorB.y;
@@ -216,8 +173,7 @@ public class Vector4f
         z -= pVector.z;
     }
 
-    public final void scale(float pScalar,
-                            Vector4f pVector) {
+    public final void scale(float pScalar, Vector4f pVector) {
         w = pScalar * pVector.w;
         x = pScalar * pVector.x;
         y = pScalar * pVector.y;
@@ -274,10 +230,8 @@ public class Vector4f
     }
 
     public final boolean almost(Vector4f pVector) {
-        return Math.abs(w) - Math.abs(pVector.w) < ALMOST_THRESHOLD
-               && Math.abs(x) - Math.abs(pVector.x) < ALMOST_THRESHOLD
-               && Math.abs(y) - Math.abs(pVector.y) < ALMOST_THRESHOLD
-               && Math.abs(z) - Math.abs(pVector.z) < ALMOST_THRESHOLD;
+        return Math.abs(w) - Math.abs(pVector.w) < ALMOST_THRESHOLD && Math.abs(x) - Math.abs(pVector.x) < ALMOST_THRESHOLD && Math.abs(
+                y) - Math.abs(pVector.y) < ALMOST_THRESHOLD && Math.abs(z) - Math.abs(pVector.z) < ALMOST_THRESHOLD;
     }
 
     public final String toString() {

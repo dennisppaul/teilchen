@@ -32,6 +32,10 @@ import static processing.core.PVector.sub;
 
 public class Verlet implements IIntegrator {
 
+    private float mDamping;
+    private final PVector temp1;
+    private final PVector temp2;
+
     public Verlet() {
         this(1.0f);
     }
@@ -106,7 +110,4 @@ public class Verlet implements IIntegrator {
         /* --- */
         pParticle.old_position().set(mOldPosition);
     }
-    private final PVector temp1;
-    private final PVector temp2;
-    private float mDamping;
 }

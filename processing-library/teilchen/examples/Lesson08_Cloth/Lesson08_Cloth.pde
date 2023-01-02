@@ -14,15 +14,15 @@ import teilchen.util.*;
  * press mouse to wrinkle cloth.
  */
 
+static final int GRID_HEIGHT = 32;
+
 static final int GRID_WIDTH = 32;
 
-static final int GRID_HEIGHT = 32;
+Attractor mAttractor;
 
 final float mAttractorStrength = 15000;
 
 Physics mPhysics;
-
-Attractor mAttractor;
 
 void settings() {
     size(640, 480, P3D);
@@ -46,9 +46,7 @@ void setup() {
     for (int y = 0; y < GRID_HEIGHT; y++) {
         for (int x = 0; x < GRID_WIDTH; x++) {
             mParticles[x][y] = mPhysics.makeParticle();
-            mParticles[x][y].position().set((x + 0.5f) * mGridStepX,
-                                            y * mGridStepY,
-                                            random(0, 1));
+            mParticles[x][y].position().set((x + 0.5f) * mGridStepX, y * mGridStepY, random(0, 1));
             mParticles[x][y].old_position().set(mParticles[x][y].position());
             mParticles[x][y].mass(0.1f);
         }
@@ -58,16 +56,12 @@ void setup() {
         for (int x = 0; x < GRID_WIDTH; x++) {
             final float DAMPING = 0.9f;
             if (y > 0) {
-                Stick mStick = new Stick(mParticles[x][y - 1],
-                                         mParticles[x][y],
-                                         mGridStepY);
+                Stick mStick = new Stick(mParticles[x][y - 1], mParticles[x][y], mGridStepY);
                 mStick.damping(DAMPING);
                 mPhysics.add(mStick);
             }
             if (x > 0) {
-                Stick mStick = new Stick(mParticles[x - 1][y],
-                                          mParticles[x][y],
-                                          mGridStepX);
+                Stick mStick = new Stick(mParticles[x - 1][y], mParticles[x][y], mGridStepX);
                 mStick.damping(DAMPING);
                 mPhysics.add(mStick);
             }

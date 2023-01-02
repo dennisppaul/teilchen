@@ -47,14 +47,29 @@ public class CollisionManager {
 
     public static final int DISTANCE_MODE_FIXED = 1;
     public static final int DISTANCE_MODE_RADIUS = 0;
+
     public enum ResolverType {
         //        COLLISION_STICK, COLLISION_SPRING,
         SPRING,
         STICK
     }
+
+    public boolean HINT_IGNORE_STILL_OR_FIXED = false;
+    private final Physics mCollisionPhysics;
+    private float mCollisionResolverInterval = 0;
+    private float mCollisionResolverIntervalCounter = 1;
+    private float mCollisionSpringConstant;
+    private float mCollisionSpringDamping;
+    private int mDistanceMode = DISTANCE_MODE_FIXED;
+    private float mMinimumDistance;
+    private final Random mRandom;
+    private final PVector mResolveSamePosition;
+    private ResolverType mResolverType;
+
     public CollisionManager() {
         this(new Physics());
     }
+
     public CollisionManager(final Physics pPhysics) {
         mCollisionPhysics = pPhysics;
         mResolveSamePosition = new PVector(1, 1, 1);
@@ -377,15 +392,4 @@ public class CollisionManager {
             }
         }
     }
-    public boolean HINT_IGNORE_STILL_OR_FIXED = false;
-    private final Physics mCollisionPhysics;
-    private final Random mRandom;
-    private final PVector mResolveSamePosition;
-    private float mCollisionSpringConstant;
-    private float mCollisionSpringDamping;
-    private float mMinimumDistance;
-    private ResolverType mResolverType;
-    private float mCollisionResolverIntervalCounter = 1;
-    private float mCollisionResolverInterval = 0;
-    private int mDistanceMode = DISTANCE_MODE_FIXED;
 }

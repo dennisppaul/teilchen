@@ -12,9 +12,9 @@ import teilchen.util.*;
  * press mouse to toggle attractor between postive and *negative* attraction.
  */
 
-Physics mPhysics;
-
 Attractor mAttractor;
+
+Physics mPhysics;
 
 void settings() {
     size(640, 480);

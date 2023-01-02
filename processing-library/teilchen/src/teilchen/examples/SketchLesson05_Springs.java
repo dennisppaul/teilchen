@@ -34,9 +34,7 @@ public class SketchLesson05_Springs extends PApplet {
         /* create a particle at mouse position and connect it to the root particle through a spring */
         if (mousePressed) {
             /* find the particle closest to the mouse */
-            Particle mNeighborParticle = teilchen.util.Util.findParticleByProximity(mPhysics,
-                                                                                    mouseX, mouseY, 0,
-                                                                                    20);
+            Particle mNeighborParticle = teilchen.util.Util.findParticleByProximity(mPhysics, mouseX, mouseY, 0, 20);
             if (mNeighborParticle != null) {
                 Particle mParticle = mPhysics.makeParticle(mouseX, mouseY, 0);
                 Spring mSpring = mPhysics.makeSpring(mNeighborParticle, mParticle);
@@ -61,17 +59,17 @@ public class SketchLesson05_Springs extends PApplet {
         for (int i = 0; i < mPhysics.forces().size(); i++) {
             if (mPhysics.forces().get(i) instanceof Spring) {
                 Spring mSSpring = (Spring) mPhysics.forces().get(i);
-                line(mSSpring.a().position().x, mSSpring.a().position().y,
-                     mSSpring.b().position().x, mSSpring.b().position().y);
+                line(mSSpring.a().position().x,
+                     mSSpring.a().position().y,
+                     mSSpring.b().position().x,
+                     mSSpring.b().position().y);
             }
         }
         /* draw particles */
         fill(0);
         noStroke();
         for (int i = 0; i < mPhysics.particles().size(); i++) {
-            ellipse(mPhysics.particles().get(i).position().x,
-                    mPhysics.particles().get(i).position().y,
-                    5, 5);
+            ellipse(mPhysics.particles().get(i).position().x, mPhysics.particles().get(i).position().y, 5, 5);
         }
     }
 

@@ -17,6 +17,9 @@ public class SketchLesson07_Sticks extends PApplet {
      * move mouse to drag sticks.
      */
 
+    private Particle[] mParticles;
+    private Physics mPhysics;
+
     public void settings() {
         size(640, 480);
     }
@@ -75,6 +78,4 @@ public class SketchLesson07_Sticks extends PApplet {
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLesson07_Sticks.class.getName()});
     }
-    private Physics mPhysics;
-    private Particle[] mParticles;
 }

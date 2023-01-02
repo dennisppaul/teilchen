@@ -29,6 +29,9 @@ import static teilchen.util.Util.distance;
 
 public class TearableSpring extends Spring {
 
+    private float mTearDistance = -1;
+    private boolean mTorn = false;
+
     public TearableSpring(Particle pA, Particle pB) {
         super(pA, pB, 2.0f, 0.1f, distance(pA.position(), pB.position()));
     }
@@ -68,6 +71,4 @@ public class TearableSpring extends Spring {
     public boolean dead() {
         return mTorn || super.dead();
     }
-    private boolean mTorn = false;
-    private float mTearDistance = -1;
 }

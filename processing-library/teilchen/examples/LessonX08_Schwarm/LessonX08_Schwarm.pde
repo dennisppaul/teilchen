@@ -34,9 +34,10 @@ void setup() {
     mSwarmEntities = new ArrayList();
     for (int i = 0; i < 60; i++) {
         SwarmEntity mSwarmEntity = new SwarmEntity();
-        mSwarmEntity.position().set(random(mTeleporter.min().x, mTeleporter.max().x),
-                                    random(mTeleporter.min().y, mTeleporter.max().y),
-                                    random(mTeleporter.min().z, mTeleporter.max().z));
+        mSwarmEntity.position()
+                    .set(random(mTeleporter.min().x, mTeleporter.max().x),
+                         random(mTeleporter.min().y, mTeleporter.max().y),
+                         random(mTeleporter.min().z, mTeleporter.max().z));
         mSwarmEntities.add(mSwarmEntity);
         mPhysics.add(mSwarmEntity);
     }
@@ -59,15 +60,15 @@ void draw() {
 
 class SwarmEntity extends BehaviorParticle {
     
-final Separation<SwarmEntity> separation;
-    
 final Alignment<SwarmEntity> alignment;
     
 final Cohesion<SwarmEntity> cohesion;
     
-final Wander wander;
-    
 final Motor motor;
+    
+final Separation<SwarmEntity> separation;
+    
+final Wander wander;
     
 SwarmEntity() {
         maximumInnerForce(random(100.0f, 1000.0f));

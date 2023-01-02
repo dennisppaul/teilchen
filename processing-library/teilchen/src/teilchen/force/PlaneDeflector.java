@@ -34,15 +34,15 @@ import static teilchen.util.Util.isNaN;
 
 public class PlaneDeflector implements IForce {
 
-    private final Plane3f mPlane;
-    private final PVector mTempDiff;
-    private final PVector mTempReflectionVector;
-    private final PVector mTempNormalComponent;
-    private final PVector mTempTangentComponent;
-    private float mCoefficientOfRestitution;
     private boolean mActive;
+    private float mCoefficientOfRestitution;
     private boolean mDead = false;
     private final long mID;
+    private final Plane3f mPlane;
+    private final PVector mTempDiff;
+    private final PVector mTempNormalComponent;
+    private final PVector mTempReflectionVector;
+    private final PVector mTempTangentComponent;
 
     public PlaneDeflector() {
         mID = Physics.getUniqueID();
@@ -71,9 +71,9 @@ public class PlaneDeflector implements IForce {
                      * stable.
                      */
                     final float mIntersectionResult = intersectLinePlane(mParticle.position(),
-                                                                          mPlane.normal,
-                                                                          mPlane,
-                                                                          mResult);
+                                                                         mPlane.normal,
+                                                                         mPlane,
+                                                                         mResult);
 
                     /* remove particle from collision */
                     if (mIntersectionResult != Float.NEGATIVE_INFINITY && !isNaN(mResult)) {
@@ -123,25 +123,6 @@ public class PlaneDeflector implements IForce {
         return mCoefficientOfRestitution;
     }
 
-    private float testParticlePosition(Particle pParticle, Plane3f pPlane) {
-        sub(pParticle.position(), pPlane.origin, mTempDiff);
-        mTempDiff.normalize();
-        final float mAngle = mTempDiff.dot(pPlane.normal);
-        return mAngle;
-    }
-
-    private void separateComponents(Particle pParticle, Plane3f pPlane) {
-        /* normal */
-        mTempNormalComponent.set(pPlane.normal);
-        mTempNormalComponent.mult(pPlane.normal.dot(pParticle.velocity()));
-        /* tangent */
-        sub(pParticle.velocity(), mTempNormalComponent, mTempTangentComponent);
-        /* negate normal */
-        mTempNormalComponent.mult(-mCoefficientOfRestitution);
-        /* set reflection vector */
-        add(mTempTangentComponent, mTempNormalComponent, mTempReflectionVector);
-    }
-
     private float intersectLinePlane(final PVector pRayOrigin,
                                      final PVector pRayDirection,
                                      final Plane3f pPlane,
@@ -165,5 +146,24 @@ public class PlaneDeflector implements IForce {
         }
 
         return mT;
+    }
+
+    private void separateComponents(Particle pParticle, Plane3f pPlane) {
+        /* normal */
+        mTempNormalComponent.set(pPlane.normal);
+        mTempNormalComponent.mult(pPlane.normal.dot(pParticle.velocity()));
+        /* tangent */
+        sub(pParticle.velocity(), mTempNormalComponent, mTempTangentComponent);
+        /* negate normal */
+        mTempNormalComponent.mult(-mCoefficientOfRestitution);
+        /* set reflection vector */
+        add(mTempTangentComponent, mTempNormalComponent, mTempReflectionVector);
+    }
+
+    private float testParticlePosition(Particle pParticle, Plane3f pPlane) {
+        sub(pParticle.position(), pPlane.origin, mTempDiff);
+        mTempDiff.normalize();
+        final float mAngle = mTempDiff.dot(pPlane.normal);
+        return mAngle;
     }
 }

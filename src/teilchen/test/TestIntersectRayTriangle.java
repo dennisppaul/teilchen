@@ -7,6 +7,11 @@ import static teilchen.util.Intersection.intersectRayTriangle;
 
 public class TestIntersectRayTriangle extends PApplet {
 
+    private float mRayX = 0;
+    private float mRayY = 0;
+    private float mRotationX = 0;
+    private float mRotationY = 0;
+
     public void settings() {
         size(640, 480, P3D);
     }
@@ -83,8 +88,4 @@ public class TestIntersectRayTriangle extends PApplet {
     public static void main(String[] args) {
         PApplet.main(TestIntersectRayTriangle.class.getName());
     }
-    private float mRotationX = 0;
-    private float mRotationY = 0;
-    private float mRayX = 0;
-    private float mRayY = 0;
 }

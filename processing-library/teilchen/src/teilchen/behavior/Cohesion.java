@@ -36,14 +36,36 @@ public class Cohesion<E extends IBehaviorParticle> implements IBehavior, Seriali
 
     private static final long serialVersionUID = -4953599448151741585L;
     private final PVector mForce;
+    private ArrayList<E> mNeighbors;
     private float mProximity;
     private float mWeight;
-    private ArrayList<E> mNeighbors;
 
     public Cohesion() {
         mProximity = 100.0f;
         mWeight = 1.0f;
         mForce = new PVector();
+    }
+
+    private static void findTowardsVector(ArrayList<ProximityStructure> mCloseNeighbors, final PVector pForce) {
+        /* find away vector */
+        if (!mCloseNeighbors.isEmpty()) {
+            pForce.set(0, 0, 0);
+            /**
+             * @todo the vectors could be weighted according to distance: 1.0 -
+             * distance ( for example )
+             */
+            for (ProximityStructure p : mCloseNeighbors) {
+                final PVector mTowardsVector = PVector.mult(p.distanceVec, -1.0f);
+                pForce.add(mTowardsVector);
+            }
+            pForce.mult(1.0f / mCloseNeighbors.size());
+            pForce.normalize();
+            if (isNaN(pForce)) {
+                pForce.set(0, 0, 0);
+            }
+        } else {
+            pForce.set(0, 0, 0);
+        }
     }
 
     public void update(float pDeltaTime, IBehaviorParticle pParent) {
@@ -67,28 +89,6 @@ public class Cohesion<E extends IBehaviorParticle> implements IBehavior, Seriali
 
     public void weight(float pWeight) {
         mWeight = pWeight;
-    }
-
-    private static void findTowardsVector(ArrayList<ProximityStructure> mCloseNeighbors, final PVector pForce) {
-        /* find away vector */
-        if (!mCloseNeighbors.isEmpty()) {
-            pForce.set(0, 0, 0);
-            /**
-             * @todo the vectors could be weighted according to distance: 1.0 -
-             * distance ( for example )
-             */
-            for (ProximityStructure p : mCloseNeighbors) {
-                final PVector mTowardsVector = PVector.mult(p.distanceVec, -1.0f);
-                pForce.add(mTowardsVector);
-            }
-            pForce.mult(1.0f / mCloseNeighbors.size());
-            pForce.normalize();
-            if (isNaN(pForce)) {
-                pForce.set(0, 0, 0);
-            }
-        } else {
-            pForce.set(0, 0, 0);
-        }
     }
 
     public void neighbors(final ArrayList<E> pNeighbors) {

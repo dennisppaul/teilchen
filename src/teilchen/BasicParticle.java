@@ -30,6 +30,19 @@ import java.io.Serializable;
 public class BasicParticle implements Particle, Serializable {
 
     private static final long serialVersionUID = 3737917975116369338L;
+    private float mAge;
+    private boolean mDead;
+    private boolean mFixed;
+    private final PVector mForce;
+    private final long mID;
+    private float mMass;
+    private final PVector mOldPosition;
+    private PVector mPosition;
+    private float mRadius;
+    private boolean mStill;
+    private boolean mTagged;
+    private final PVector mVelocity;
+
     public BasicParticle() {
         mID = Physics.getUniqueID();
         mPosition = new PVector();
@@ -127,16 +140,4 @@ public class BasicParticle implements Particle, Serializable {
     public long ID() {
         return mID;
     }
-    private final PVector mOldPosition;
-    private final PVector mVelocity;
-    private final PVector mForce;
-    private final long mID;
-    private boolean mFixed;
-    private float mAge;
-    private float mMass;
-    private PVector mPosition;
-    private boolean mTagged;
-    private boolean mStill;
-    private boolean mDead;
-    private float mRadius;
 }

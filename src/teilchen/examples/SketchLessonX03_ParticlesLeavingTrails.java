@@ -21,6 +21,10 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
      * press mouse to respawn particles. move mouse to change attractor position.
      */
 
+    private Attractor mAttractor;
+    private Physics mPhysics;
+    private ArrayList<ParticleTrail> mTrails;
+
     public void settings() {
         size(640, 480);
     }
@@ -146,7 +150,4 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLessonX03_ParticlesLeavingTrails.class.getName()});
     }
-    private Physics mPhysics;
-    private ArrayList<ParticleTrail> mTrails;
-    private Attractor mAttractor;
 }

@@ -24,21 +24,18 @@ package teilchen.force;
 
 import processing.core.PVector;
 import teilchen.Particle;
-import static teilchen.util.Util.*;
 
-public class AngleConstraintSpring
-        extends Spring {
+import static teilchen.util.Util.angle;
+import static teilchen.util.Util.distance;
 
-    private final Particle mParticleA;
-
-    private final Particle mParticleB;
-
-    private final Particle mParticleC;
+public class AngleConstraintSpring extends Spring {
 
     private float mMinAngle;
+    private final Particle mParticleA;
+    private final Particle mParticleB;
+    private final Particle mParticleC;
 
     /**
-     *
      * particles are connected like this: A -- B -- C
      *
      * @param pParticleA particle A
@@ -85,7 +82,9 @@ public class AngleConstraintSpring
                 }
                 break;
                 case MAX_DISTANCE_MODELL: {
-                    final float mDistance = distance(mParticleA.position(), mParticleB.position()) + distance(mParticleC.position(), mParticleB.position());
+                    final float mDistance = distance(mParticleA.position(),
+                                                     mParticleB.position()) + distance(mParticleC.position(),
+                                                                                       mParticleB.position());
                     restlength(mDistance);
                 }
                 break;

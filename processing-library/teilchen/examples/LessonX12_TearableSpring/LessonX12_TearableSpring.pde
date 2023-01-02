@@ -13,15 +13,15 @@ import teilchen.util.*;
  * press mouse to drag particle and tear spring.
  */
 
+static final int GRID_HEIGHT = 24;
+
 static final int GRID_WIDTH = 32;
 
-static final int GRID_HEIGHT = 24;
+Particle mParticleSelected = null;
 
 final Particle[][] mParticles = new Particle[GRID_WIDTH][GRID_HEIGHT];
 
 Physics mPhysics;
-
-Particle mParticleSelected = null;
 
 void settings() {
     size(640, 480, P3D);
@@ -107,6 +107,14 @@ void mouseReleased() {
     mParticleSelected = null;
 }
 
+void createSpring(Particle p0, Particle p1) {
+    TearableSpring s = new TearableSpring(p0, p1);
+    s.tear_distance(40);
+    s.strength(20.0f);
+    s.damping(1.0f);
+    mPhysics.add(s);
+}
+
 void drawSpring(Spring s) {
     line(s.a().position().x,
          s.a().position().y,
@@ -114,12 +122,4 @@ void drawSpring(Spring s) {
          s.b().position().x,
          s.b().position().y,
          s.b().position().z);
-}
-
-void createSpring(Particle p0, Particle p1) {
-    TearableSpring s = new TearableSpring(p0, p1);
-    s.tear_distance(40);
-    s.strength(20.0f);
-    s.damping(1.0f);
-    mPhysics.add(s);
 }

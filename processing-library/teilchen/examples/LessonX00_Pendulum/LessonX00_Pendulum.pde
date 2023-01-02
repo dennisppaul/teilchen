@@ -13,11 +13,11 @@ import teilchen.util.*;
  * press mouse top push pendulum.
  */
 
-Physics mPhysics;
-
 Particle mPendulumRoot;
 
 Particle mPendulumTip;
+
+Physics mPhysics;
 
 Pulse mPulse;
 

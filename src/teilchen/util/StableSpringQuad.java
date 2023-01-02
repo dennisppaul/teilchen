@@ -30,12 +30,22 @@ import teilchen.force.Spring;
 
 public class StableSpringQuad {
 
+    public Particle a;
+    public Spring ab;
+    public Spring ac;
+    public Particle b;
+    public Spring bc;
+    public Spring bd;
+    public Particle c;
+    public Spring cd;
+    public Particle d;
+    public Spring da;
+
     /**
      * this utility method creates a 'stable' shape from 4 positions. in this case a stable shape is created by
-     * connecting the four positions' edge plus two diagonals to create a stable quad.
-     * the positions should be in counter clockwise order.
-     * the positions are stored as reference which means that if you change either of the vectors afterwards it will
-     * also change the position of the connected particles.
+     * connecting the four positions' edge plus two diagonals to create a stable quad. the positions should be in
+     * counter clockwise order. the positions are stored as reference which means that if you change either of the
+     * vectors afterwards it will also change the position of the connected particles.
      *
      * @param pParticleSystem ParticleSystem
      * @param pA              vertex A
@@ -69,6 +79,7 @@ public class StableSpringQuad {
         ac = pParticleSystem.makeSpring(a, c, mSpringConstant, mSpringDamping);
         bd = pParticleSystem.makeSpring(b, d, mSpringConstant, mSpringDamping);
     }
+
     public StableSpringQuad(final Physics pParticleSystem,
                             final Particle pA,
                             final Particle pB,
@@ -90,14 +101,4 @@ public class StableSpringQuad {
         ac = pParticleSystem.makeSpring(a, c, mSpringConstant, mSpringDamping);
         bd = pParticleSystem.makeSpring(b, d, mSpringConstant, mSpringDamping);
     }
-    public Particle a;
-    public Spring ab;
-    public Spring ac;
-    public Particle b;
-    public Spring bc;
-    public Spring bd;
-    public Particle c;
-    public Spring cd;
-    public Particle d;
-    public Spring da;
 }

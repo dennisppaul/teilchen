@@ -20,6 +20,9 @@ public class SketchLessonX09_TriangleDeflector extends PApplet {
      * press mouse to create particles. move mouse to rotate view.
      */
 
+    private Physics mPhysics;
+    private ArrayList<TriangleDeflector> mTriangleDeflectors;
+
     public void settings() {
         size(640, 480, P3D);
     }
@@ -116,6 +119,4 @@ public class SketchLessonX09_TriangleDeflector extends PApplet {
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLessonX09_TriangleDeflector.class.getName()});
     }
-    private Physics mPhysics;
-    private ArrayList<TriangleDeflector> mTriangleDeflectors;
 }

@@ -30,6 +30,9 @@ import static teilchen.util.Util.lengthSquared;
 
 public class DirectedAttractor extends Attractor {
 
+    private final PVector mVectorA = new PVector();
+    private final PVector mVectorB = new PVector();
+
     public DirectedAttractor() {
         super();
     }
@@ -56,6 +59,4 @@ public class DirectedAttractor extends Attractor {
             }
         }
     }
-    private final PVector mVectorA = new PVector();
-    private final PVector mVectorB = new PVector();
 }

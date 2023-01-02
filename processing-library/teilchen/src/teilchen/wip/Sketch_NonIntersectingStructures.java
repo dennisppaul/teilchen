@@ -14,8 +14,8 @@ public class Sketch_NonIntersectingStructures extends PApplet {
 
     // @TODO(not fully functional yet)
 
-    private Physics mPhysics;
     private Particle[] mParticles;
+    private Physics mPhysics;
 
     public void settings() {
         size(640, 480, P3D);

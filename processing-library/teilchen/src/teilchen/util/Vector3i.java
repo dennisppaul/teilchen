@@ -24,15 +24,11 @@ package teilchen.util;
 
 import java.io.Serializable;
 
-public class Vector3i
-        implements Serializable, Comparable<Vector3i> {
+public class Vector3i implements Serializable, Comparable<Vector3i> {
 
     private static final long serialVersionUID = -1207335169644019377L;
-
     public int x;
-
     public int y;
-
     public int z;
 
     public Vector3i() {

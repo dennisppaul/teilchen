@@ -13,9 +13,9 @@ import teilchen.util.*;
  * drag mouse to tilt deflector.
  */
 
-Physics mPhysics;
-
 PlaneDeflector mDeflector;
+
+Physics mPhysics;
 
 void settings() {
     size(640, 480);

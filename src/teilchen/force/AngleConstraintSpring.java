@@ -30,6 +30,11 @@ import static teilchen.util.Util.distance;
 
 public class AngleConstraintSpring extends Spring {
 
+    private float mMinAngle;
+    private final Particle mParticleA;
+    private final Particle mParticleB;
+    private final Particle mParticleC;
+
     /**
      * particles are connected like this: A -- B -- C
      *
@@ -91,8 +96,4 @@ public class AngleConstraintSpring extends Spring {
     public void post_step() {
         active(false);
     }
-    private final Particle mParticleA;
-    private final Particle mParticleB;
-    private final Particle mParticleC;
-    private float mMinAngle;
 }

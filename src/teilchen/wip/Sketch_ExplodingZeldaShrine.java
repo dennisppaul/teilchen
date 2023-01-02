@@ -8,6 +8,9 @@ public class Sketch_ExplodingZeldaShrine extends PApplet {
 
     // @todo unfinished
 
+    PVector p1 = new PVector(0, 0);
+    PVector p2 = new PVector(300, 300);
+
     public void settings() {
         size(640, 480, P3D);
     }
@@ -72,6 +75,4 @@ public class Sketch_ExplodingZeldaShrine extends PApplet {
     public static void main(String[] args) {
         PApplet.main(Sketch_ExplodingZeldaShrine.class.getName());
     }
-    PVector p1 = new PVector(0, 0);
-    PVector p2 = new PVector(300, 300);
 }

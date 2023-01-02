@@ -568,14 +568,15 @@ public final class Intersection implements Serializable {
 
     public static class IntersectionResult {
 
+        public float t;
+        public float u;
+        public float v;
+
         public void clear() {
             v = 0;
             u = 0;
             t = 0;
         }
-        public float t;
-        public float u;
-        public float v;
 
     }
 }

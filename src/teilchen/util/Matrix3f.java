@@ -23,12 +23,8 @@
 package teilchen.util;
 
 /**
- * a 3x3 matrix.
- * rotation
- * rxx ryx rzx rxy ryy rzy rxz ryy rzz
- * scale
- * sx 0 0 0 sy 0 0 0 sz
- * also read 'The Matrix and Quaternions FAQ' at http://www.flipcode.com/documents/matrfaq.html
+ * a 3x3 matrix. rotation rxx ryx rzx rxy ryy rzy rxz ryy rzz scale sx 0 0 0 sy 0 0 0 sz also read 'The Matrix and
+ * Quaternions FAQ' at http://www.flipcode.com/documents/matrfaq.html
  */
 
 import processing.core.PVector;
@@ -39,6 +35,17 @@ public class Matrix3f implements Serializable {
 
     public static final int IDENTITY = 1;
     private static final long serialVersionUID = 104839874874759581L;
+    public float xx;
+    public float xy;
+    public float xz;
+    public float yx;
+    public float yy;
+    public float yz;
+    public float zx;
+    public float zy;
+    public float zz;
+    private final float[] mArray4fRepresentation = new float[16];
+    private final float[] mArrayRepresentation = new float[9];
 
     public Matrix3f() {
         xx = 0.0f;
@@ -569,15 +576,4 @@ public class Matrix3f implements Serializable {
             System.out.println();
         }
     }
-    public float xx;
-    public float xy;
-    public float xz;
-    public float yx;
-    public float yy;
-    public float yz;
-    public float zx;
-    public float zy;
-    public float zz;
-    private final float[] mArrayRepresentation = new float[9];
-    private final float[] mArray4fRepresentation = new float[16];
 }

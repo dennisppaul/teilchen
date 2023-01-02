@@ -29,12 +29,12 @@ import teilchen.Physics;
 
 public class Pulse implements IForce {
 
-    private final Particle mParticle;
-    private final PVector mForce;
     private boolean mActive;
     private float mDamping;
     private boolean mDead = false;
+    private final PVector mForce;
     private final long mID;
+    private final Particle mParticle;
 
     public Pulse(final Particle pParticle) {
         mID = Physics.getUniqueID();

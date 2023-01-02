@@ -18,10 +18,7 @@ public class TestSpring {
         mPhysics.setIntegratorRef(new RungeKutta());
 
         /* test particles with distance 0.0 */
-        Spring s = mPhysics.makeSpring(
-                mPhysics.makeParticle(0, 0),
-                mPhysics.makeParticle(0, 0)
-                                      );
+        Spring s = mPhysics.makeSpring(mPhysics.makeParticle(0, 0), mPhysics.makeParticle(0, 0));
 
         System.out.println("integrator ......... : " + mPhysics.getIntegrator().getClass().getSimpleName());
         System.out.println("num of springs ..... : " + nf(mPhysics.forces().size(), 2));

@@ -15,21 +15,21 @@ import teilchen.util.*;
  * move or drag mouse to rotate view.
  */
 
-final int WORLD_NUMBER_OF_CUBICLES = 15;
-
 final float WORLD_CUBICLE_SCALE = 20;
+
+final int WORLD_NUMBER_OF_CUBICLES = 15;
 
 final float WORLD_SCALE = WORLD_NUMBER_OF_CUBICLES * WORLD_CUBICLE_SCALE;
 
-final boolean mShowCubicles = true;
+CubicleWorld mCubicleWorld;
+
+CubicleWorldView mCubicleWorldView;
 
 final PVector mPosition = new PVector();
 
 float mRotationZ = 0.1f;
 
-CubicleWorld mCubicleWorld;
-
-CubicleWorldView mCubicleWorldView;
+final boolean mShowCubicles = true;
 
 void settings() {
     size(640, 480, P3D);
@@ -119,11 +119,11 @@ void addRandomEntities(int pNumberParticles) {
     }
 }
 class MCubicleEntity implements ICubicleEntity {
+    float weight = random(1, 5);
     
 final Vector3i mCubiclePosition;
     
 final PVector mPosition;
-    float weight = random(1, 5);
     
 MCubicleEntity() {
         mCubiclePosition = new Vector3i();

@@ -35,6 +35,10 @@ public class Util {
 
     public static class ProximityStructure {
 
+        public final float distance;
+        public final PVector distanceVec;
+        public final Particle particle;
+
         public ProximityStructure(Particle pP, PVector pDistanceVec, float pDistance) {
             particle = pP;
             distanceVec = pDistanceVec;
@@ -60,8 +64,5 @@ public class Util {
             }
             return mCloseNeighbors;
         }
-        public final Particle particle;
-        public final PVector distanceVec;
-        public final float distance;
     }
 }

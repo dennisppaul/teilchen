@@ -30,7 +30,6 @@ import teilchen.integration.Verlet;
 public class ViscousDrag implements IForce {
 
     public float coefficient;
-
     private boolean mActive;
     private boolean mDead = false;
     private final long mID;
@@ -52,9 +51,10 @@ public class ViscousDrag implements IForce {
         if (coefficient != 0) {
             for (final Particle mParticle : pParticleSystem.particles()) {
                 if (!mParticle.fixed()) {
-                    mParticle.force().add(mParticle.velocity().x * -coefficient,
-                                           mParticle.velocity().y * -coefficient,
-                                           mParticle.velocity().z * -coefficient);
+                    mParticle.force()
+                             .add(mParticle.velocity().x * -coefficient,
+                                  mParticle.velocity().y * -coefficient,
+                                  mParticle.velocity().z * -coefficient);
                 }
             }
         }

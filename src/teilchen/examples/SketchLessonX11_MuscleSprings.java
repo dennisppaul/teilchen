@@ -30,6 +30,11 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
     private static final float PARTICAL_MASS = 0.25f;
     private static final float SELECTION_RADIUS = 10;
     private static final float SPRING_STRENGTH = 1.0f;
+    private Gravity mGravity;
+    private boolean mPauseSimulation;
+    private Physics mPhysics;
+    private Particle mTemporaryParticle;
+    private MuscleSpring mTemporarySpring;
 
     public void settings() {
         size(640, 480);
@@ -278,9 +283,4 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
     public static void main(String[] args) {
         PApplet.main(SketchLessonX11_MuscleSprings.class.getName());
     }
-    private Physics mPhysics;
-    private Gravity mGravity;
-    private Particle mTemporaryParticle;
-    private MuscleSpring mTemporarySpring;
-    private boolean mPauseSimulation;
 }

@@ -29,9 +29,9 @@ import teilchen.Physics;
 
 public class Gravity implements IForce {
 
-    private final PVector mForce;
     private boolean mActive;
     private boolean mDead = false;
+    private final PVector mForce;
     private final long mID;
 
     public Gravity() {

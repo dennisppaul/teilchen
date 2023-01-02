@@ -19,6 +19,14 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
      * drag mouse to move particle.
      */
 
+    private AngleConstraintSpring mAngleConstraintABC;
+    private AngleConstraintStick mAngleConstraintBCD;
+    private Particle mParticleA;
+    private Particle mParticleB;
+    private Particle mParticleC;
+    private Particle mParticleD;
+    private Physics mPhysics;
+
     public void settings() {
         size(640, 480);
     }
@@ -169,11 +177,4 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLessonX05_AngleConstraints.class.getName()});
     }
-    private Physics mPhysics;
-    private Particle mParticleA;
-    private Particle mParticleB;
-    private Particle mParticleC;
-    private Particle mParticleD;
-    private AngleConstraintSpring mAngleConstraintABC;
-    private AngleConstraintStick mAngleConstraintBCD;
 }

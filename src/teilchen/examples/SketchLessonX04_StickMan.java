@@ -20,6 +20,11 @@ public class SketchLessonX04_StickMan extends PApplet {
      * press mouse to grab and fling stickmen.
      */
 
+    private Attractor mAttractor;
+    private Gravity mGravity;
+    private Physics mPhysics;
+    private StickMan[] mStickMan;
+
     public void settings() {
         size(640, 480);
     }
@@ -120,8 +125,4 @@ public class SketchLessonX04_StickMan extends PApplet {
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLessonX04_StickMan.class.getName()});
     }
-    private Physics mPhysics;
-    private Attractor mAttractor;
-    private Gravity mGravity;
-    private StickMan[] mStickMan;
 }

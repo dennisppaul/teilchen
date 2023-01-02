@@ -23,26 +23,23 @@
 package teilchen.util;
 
 
-import java.io.Serializable;
 import processing.core.PVector;
 
+import java.io.Serializable;
 
-public class Ray3f
-        implements Serializable {
+
+public class Ray3f implements Serializable {
 
     private static final long serialVersionUID = -1748179277316146625L;
-
-    public PVector origin;
-
     public PVector direction;
+    public PVector origin;
 
     public Ray3f() {
         origin = new PVector();
         direction = new PVector();
     }
 
-    public Ray3f(PVector pOrigin,
-                 PVector pDirection) {
+    public Ray3f(PVector pOrigin, PVector pDirection) {
         origin = pOrigin;
         direction = pDirection;
     }

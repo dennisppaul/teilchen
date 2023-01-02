@@ -32,6 +32,14 @@ import static processing.core.PVector.sub;
 public class Arrival implements IBehavior, Verhalten {
 
     static final long serialVersionUID = 6897889750581191781L;
+    private float mBreakForce;
+    private float mBreakRadius;
+    private final PVector mForce;
+    private boolean mHasArrived;
+    private boolean mIsArriving;
+    private boolean mOverSteer;
+    private PVector mSeekPosition;
+    private float mWeight;
 
     public Arrival() {
         mBreakRadius = 50.0f;
@@ -142,12 +150,4 @@ public class Arrival implements IBehavior, Verhalten {
     public void weight(float pWeight) {
         mWeight = pWeight;
     }
-    private PVector mSeekPosition;
-    private final PVector mForce;
-    private float mWeight;
-    private float mBreakRadius;
-    private float mBreakForce;
-    private boolean mIsArriving;
-    private boolean mHasArrived;
-    private boolean mOverSteer;
 }

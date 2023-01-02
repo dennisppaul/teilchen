@@ -19,11 +19,11 @@ public class SketchLessonX12_TearableSpring extends PApplet {
      * press mouse to drag particle and tear spring.
      */
 
-    private static final int GRID_WIDTH = 32;
     private static final int GRID_HEIGHT = 24;
+    private static final int GRID_WIDTH = 32;
+    private Particle mParticleSelected = null;
     private final Particle[][] mParticles = new Particle[GRID_WIDTH][GRID_HEIGHT];
     private Physics mPhysics;
-    private Particle mParticleSelected = null;
 
     public void settings() {
         size(640, 480, P3D);
@@ -119,6 +119,14 @@ public class SketchLessonX12_TearableSpring extends PApplet {
         mParticleSelected = null;
     }
 
+    private void createSpring(Particle p0, Particle p1) {
+        TearableSpring s = new TearableSpring(p0, p1);
+        s.tear_distance(40);
+        s.strength(20.0f);
+        s.damping(1.0f);
+        mPhysics.add(s);
+    }
+
     private void drawSpring(Spring s) {
         line(s.a().position().x,
              s.a().position().y,
@@ -126,14 +134,6 @@ public class SketchLessonX12_TearableSpring extends PApplet {
              s.b().position().x,
              s.b().position().y,
              s.b().position().z);
-    }
-
-    private void createSpring(Particle p0, Particle p1) {
-        TearableSpring s = new TearableSpring(p0, p1);
-        s.tear_distance(40);
-        s.strength(20.0f);
-        s.damping(1.0f);
-        mPhysics.add(s);
     }
 
     public static void main(String[] args) {

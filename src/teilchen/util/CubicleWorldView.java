@@ -29,6 +29,10 @@ import teilchen.cubicle.CubicleWorld;
 
 public class CubicleWorldView {
 
+    public int color_empty = -8421505;
+    public int color_full = -1;
+    private final CubicleWorld mCubicleWorld;
+
     public CubicleWorldView(CubicleWorld pWorld) {
         mCubicleWorld = pWorld;
     }
@@ -71,7 +75,4 @@ public class CubicleWorldView {
         }
         pParent.popMatrix();
     }
-    private final CubicleWorld mCubicleWorld;
-    public int color_full = -1;
-    public int color_empty = -8421505;
 }

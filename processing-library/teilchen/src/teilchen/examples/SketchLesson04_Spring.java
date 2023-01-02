@@ -59,8 +59,7 @@ public class SketchLesson04_Spring extends PApplet {
         background(255);
         noFill();
         stroke(0, 63);
-        line(mSpring.a().position().x, mSpring.a().position().y,
-             mSpring.b().position().x, mSpring.b().position().y);
+        line(mSpring.a().position().x, mSpring.a().position().y, mSpring.b().position().x, mSpring.b().position().y);
         fill(0);
         noStroke();
         ellipse(mSpring.a().position().x, mSpring.a().position().y, 5, 5);

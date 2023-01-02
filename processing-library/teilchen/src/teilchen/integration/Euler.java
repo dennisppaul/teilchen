@@ -22,16 +22,15 @@
  */
 package teilchen.integration;
 
-import java.util.Iterator;
 import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
 
-public class Euler
-        implements IIntegrator {
+import java.util.Iterator;
+
+public class Euler implements IIntegrator {
 
     private final PVector mTemp1;
-
     private final PVector mTemp2;
 
     public Euler() {

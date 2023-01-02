@@ -28,23 +28,16 @@ import java.io.Serializable;
 
 /**
  * special form of a 4x4 matrix. first of all the way we represent the matrix in this class is similar to the way opengl
- * handles the row column issue.
- * transform matrix -- r = rotation, t = translation
- * rxx rxy rxz 0 ryx ryy ryz 0 rzx rzy rzz 0 tx ty tz 1
- * the transform matrix is special in the way that is a 3x3 matrix for rotation and scale and a translation vector. the
- * remaining four values a constants.
- * this is the way opengl specifies a 4x4 matrix and also the way 'toArray' returns an array.
- * m[0] m[4] m[8] m[12]
- * m[1] m[5] m[9] m[13]
- * M=( )
- * m[2] m[6] m[10] m[14]
- * m[3] m[7] m[11] m[15]
- * here is an excerpt from the glMultMatrix man page.
- * "In many computer languages 4x4 arrays are represented in row-major order. The transformations just described
- * represent these matrices in column-major order. The order of the multiplication is important. For example, if the
- * current transformation is a rotation, and glMultMatrix is called with a translation matrix, the translation is done
- * directly on the coordinates to be transformed, while the rotation is done on the results of that translation."
- * also read 'The Matrix and Quaternions FAQ' at http://www.flipcode.com/documents/matrfaq.html
+ * handles the row column issue. transform matrix -- r = rotation, t = translation rxx rxy rxz 0 ryx ryy ryz 0 rzx rzy
+ * rzz 0 tx ty tz 1 the transform matrix is special in the way that is a 3x3 matrix for rotation and scale and a
+ * translation vector. the remaining four values a constants. this is the way opengl specifies a 4x4 matrix and also the
+ * way 'toArray' returns an array. m[0] m[4] m[8] m[12] m[1] m[5] m[9] m[13] M=( ) m[2] m[6] m[10] m[14] m[3] m[7] m[11]
+ * m[15] here is an excerpt from the glMultMatrix man page. "In many computer languages 4x4 arrays are represented in
+ * row-major order. The transformations just described represent these matrices in column-major order. The order of the
+ * multiplication is important. For example, if the current transformation is a rotation, and glMultMatrix is called
+ * with a translation matrix, the translation is done directly on the coordinates to be transformed, while the rotation
+ * is done on the results of that translation." also read 'The Matrix and Quaternions FAQ' at
+ * http://www.flipcode.com/documents/matrfaq.html
  */
 public class TransformMatrix4f implements Serializable {
 
@@ -52,6 +45,9 @@ public class TransformMatrix4f implements Serializable {
     private static final float ONE = 1;
     private static final float ZERO = 0;
     private static final long serialVersionUID = 2946060493174800199L;
+    public Matrix3f rotation;
+    public PVector translation;
+    private final float[] mArrayRepresentation = new float[16];
 
     public TransformMatrix4f() {
         translation = new PVector();
@@ -269,7 +265,4 @@ public class TransformMatrix4f implements Serializable {
         mTranslateMatrix.transform(mVector);
         System.out.println(mVector);
     }
-    public Matrix3f rotation;
-    public PVector translation;
-    private final float[] mArrayRepresentation = new float[16];
 }

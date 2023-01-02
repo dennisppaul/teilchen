@@ -14,6 +14,9 @@ public class SketchLesson01_Gravity extends PApplet {
      * drag mouse to fling particle.
      */
 
+    private Particle mParticle;
+    private Physics mPhysics;
+
     public void settings() {
         size(640, 480);
     }
@@ -56,6 +59,4 @@ public class SketchLesson01_Gravity extends PApplet {
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLesson01_Gravity.class.getName()});
     }
-    private Physics mPhysics;
-    private Particle mParticle;
 }

@@ -13,11 +13,11 @@ import teilchen.util.*;
  * press mouse to position arrival destination.
  */
 
-Physics mPhysics;
+Arrival mArrival;
 
 BehaviorParticle mParticle;
 
-Arrival mArrival;
+Physics mPhysics;
 
 void settings() {
     size(640, 480);
@@ -65,8 +65,5 @@ void draw() {
     /* draw arrival destination */
     stroke(0, 191);
     noFill();
-    ellipse(mArrival.position().x,
-            mArrival.position().y,
-            mArrival.breakradius() * 2,
-            mArrival.breakradius() * 2);
+    ellipse(mArrival.position().x, mArrival.position().y, mArrival.breakradius() * 2, mArrival.breakradius() * 2);
 }

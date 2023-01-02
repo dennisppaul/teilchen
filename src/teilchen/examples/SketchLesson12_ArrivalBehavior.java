@@ -14,6 +14,10 @@ public class SketchLesson12_ArrivalBehavior extends PApplet {
      * press mouse to position arrival destination.
      */
 
+    private Arrival mArrival;
+    private BehaviorParticle mParticle;
+    private Physics mPhysics;
+
     public void settings() {
         size(640, 480);
     }
@@ -72,7 +76,4 @@ public class SketchLesson12_ArrivalBehavior extends PApplet {
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLesson12_ArrivalBehavior.class.getName()});
     }
-    private Physics mPhysics;
-    private BehaviorParticle mParticle;
-    private Arrival mArrival;
 }

@@ -36,22 +36,33 @@ import java.util.List;
 
 public class DrawLib {
 
-    public static void drawAttractor(final PGraphics g,
-                                     final List<IForce> pForces,
-                                     int pColor) {
-        for (final IForce mForce : pForces) {
-            if (mForce instanceof Attractor) {
-                draw(g, (Attractor) mForce, pColor);
-            }
-        }
+    public static void cross2(final PGraphics g, final PVector pPosition, float pSize) {
+        g.line(pPosition.x + pSize,
+               pPosition.y + pSize,
+               pPosition.z,
+               pPosition.x - pSize,
+               pPosition.y - pSize,
+               pPosition.z);
+        g.line(pPosition.x + pSize,
+               pPosition.y - pSize,
+               pPosition.z,
+               pPosition.x - pSize,
+               pPosition.y + pSize,
+               pPosition.z);
+    }
+
+    public static void cross3(final PGraphics g, final PVector pPosition, float pSize) {
+        g.line(pPosition.x - pSize, pPosition.y, pPosition.z, pPosition.x + pSize, pPosition.y, pPosition.z);
+        g.line(pPosition.x, pPosition.y - pSize, pPosition.z, pPosition.x, pPosition.y + pSize, pPosition.z);
+        g.line(pPosition.x, pPosition.y, pPosition.z - pSize, pPosition.x, pPosition.y, pPosition.z + pSize);
     }
 
     /**
      * draw attractors.
      *
-     * @param g           PGraphics
+     * @param g          PGraphics
      * @param mAttractor Attractor
-     * @param pColor      int
+     * @param pColor     int
      */
     public static void draw(final PGraphics g, final Attractor mAttractor, int pColor) {
         g.sphereDetail(6);
@@ -59,49 +70,9 @@ public class DrawLib {
         g.stroke(pColor);
 
         g.pushMatrix();
-        g.translate(mAttractor.position().x,
-                    mAttractor.position().y,
-                    mAttractor.position().z);
+        g.translate(mAttractor.position().x, mAttractor.position().y, mAttractor.position().z);
         g.sphere(mAttractor.radius());
         g.popMatrix();
-    }
-
-    public static void drawParticles(final PGraphics g,
-                                     final Physics pParticleSystem,
-                                     float pSize,
-                                     int pColor) {
-        draw(g,
-             pParticleSystem.particles(),
-             pSize,
-             pColor);
-    }
-
-    public static void drawParticles(final PGraphics g,
-                                     final Physics pParticleSystem,
-                                     float pSize,
-                                     int pStrokeColor,
-                                     int pFillColor) {
-        draw(g,
-             pParticleSystem.particles(),
-             pSize,
-             pStrokeColor,
-             pFillColor);
-    }
-
-    public static void drawSprings(final PGraphics g,
-                                   final Physics pParticleSystem,
-                                   int pColor) {
-        /* draw springs */
-        g.stroke(pColor);
-        for (int i = 0; i < pParticleSystem.forces().size(); i++) {
-            if (pParticleSystem.forces(i) instanceof Spring) {
-                Spring mSpring = (Spring) pParticleSystem.forces(i);
-                g.line(mSpring.a().position().x,
-                       mSpring.a().position().y,
-                       mSpring.b().position().x,
-                       mSpring.b().position().y);
-            }
-        }
     }
 
     /**
@@ -112,17 +83,12 @@ public class DrawLib {
      * @param pSize      radius
      * @param pColor     stroke color
      */
-    public static void draw(final PGraphics g,
-                            final List<Particle> pParticles,
-                            float pSize,
-                            int pColor) {
+    public static void draw(final PGraphics g, final List<Particle> pParticles, float pSize, int pColor) {
         g.stroke(pColor);
         g.noFill();
         for (Particle mParticle : pParticles) {
             g.pushMatrix();
-            g.translate(mParticle.position().x,
-                        mParticle.position().y,
-                        mParticle.position().z);
+            g.translate(mParticle.position().x, mParticle.position().y, mParticle.position().z);
             g.ellipse(0, 0, pSize, pSize);
             g.popMatrix();
         }
@@ -146,9 +112,7 @@ public class DrawLib {
         g.fill(pFillColor);
         for (Particle mParticle : pParticles) {
             g.pushMatrix();
-            g.translate(mParticle.position().x,
-                        mParticle.position().y,
-                        mParticle.position().z);
+            g.translate(mParticle.position().x, mParticle.position().y, mParticle.position().z);
             g.ellipse(0, 0, pSize, pSize);
             g.popMatrix();
         }
@@ -173,23 +137,18 @@ public class DrawLib {
         if (pTriangleDeflector.hit()) {
             mTriangleColor = pBBColor;
         }
-        draw(g,
-             pTriangleDeflector.a(), pTriangleDeflector.b(), pTriangleDeflector.c(),
-             mTriangleColor,
-             pNormalColor);
+        draw(g, pTriangleDeflector.a(), pTriangleDeflector.b(), pTriangleDeflector.c(), mTriangleColor, pNormalColor);
 
         /* bb */
-        draw(g,
-             pTriangleDeflector.boundingbox(),
-             pBBColor);
+        draw(g, pTriangleDeflector.boundingbox(), pBBColor);
     }
 
     /**
      * draw buunding box.
      *
-     * @param g                              PGraphics
-     * @param theWorldAxisAlignedBoundingBox WorldAxisAlignedBoundingBox
-     * @param pColor                         int
+     * @param g                            PGraphics
+     * @param pWorldAxisAlignedBoundingBox WorldAxisAlignedBoundingBox
+     * @param pColor                       int
      */
     public static void draw(final PGraphics g,
                             final WorldAxisAlignedBoundingBox pWorldAxisAlignedBoundingBox,
@@ -208,16 +167,19 @@ public class DrawLib {
     /**
      * draw a triangle with a normal
      *
-     * @param g                PGraphics
-     * @param a                PVector
-     * @param b                PVector
-     * @param c                PVector
-     * @param theTriangleColor int
-     * @param theNormalColor   int
+     * @param g              PGraphics
+     * @param a              PVector
+     * @param b              PVector
+     * @param c              PVector
+     * @param pTriangleColor int
+     * @param pNormalColor   int
      */
     public static void draw(final PGraphics g,
-                            final PVector a, final PVector b, final PVector c,
-                            int pTriangleColor, int pNormalColor) {
+                            final PVector a,
+                            final PVector b,
+                            final PVector c,
+                            int pTriangleColor,
+                            int pNormalColor) {
         g.stroke(pTriangleColor);
         g.beginShape(PGraphics.TRIANGLES);
         g.vertex(a.x, a.y, a.z);
@@ -245,45 +207,37 @@ public class DrawLib {
                mCenterOfMass.z + mNormal.z);
     }
 
-    public static void cross2(final PGraphics g,
-                              final PVector pPosition,
-                              float pSize) {
-        g.line(
-                pPosition.x + pSize,
-                pPosition.y + pSize,
-                pPosition.z,
-                pPosition.x - pSize,
-                pPosition.y - pSize,
-                pPosition.z);
-        g.line(
-                pPosition.x + pSize,
-                pPosition.y - pSize,
-                pPosition.z,
-                pPosition.x - pSize,
-                pPosition.y + pSize,
-                pPosition.z);
+    public static void drawAttractor(final PGraphics g, final List<IForce> pForces, int pColor) {
+        for (final IForce mForce : pForces) {
+            if (mForce instanceof Attractor) {
+                draw(g, (Attractor) mForce, pColor);
+            }
+        }
     }
 
-    public static void cross3(final PGraphics g,
-                              final PVector pPosition,
-                              float pSize) {
-        g.line(pPosition.x - pSize,
-               pPosition.y,
-               pPosition.z,
-               pPosition.x + pSize,
-               pPosition.y,
-               pPosition.z);
-        g.line(pPosition.x,
-               pPosition.y - pSize,
-               pPosition.z,
-               pPosition.x,
-               pPosition.y + pSize,
-               pPosition.z);
-        g.line(pPosition.x,
-               pPosition.y,
-               pPosition.z - pSize,
-               pPosition.x,
-               pPosition.y,
-               pPosition.z + pSize);
+    public static void drawParticles(final PGraphics g, final Physics pParticleSystem, float pSize, int pColor) {
+        draw(g, pParticleSystem.particles(), pSize, pColor);
+    }
+
+    public static void drawParticles(final PGraphics g,
+                                     final Physics pParticleSystem,
+                                     float pSize,
+                                     int pStrokeColor,
+                                     int pFillColor) {
+        draw(g, pParticleSystem.particles(), pSize, pStrokeColor, pFillColor);
+    }
+
+    public static void drawSprings(final PGraphics g, final Physics pParticleSystem, int pColor) {
+        /* draw springs */
+        g.stroke(pColor);
+        for (int i = 0; i < pParticleSystem.forces().size(); i++) {
+            if (pParticleSystem.forces(i) instanceof Spring) {
+                Spring mSpring = (Spring) pParticleSystem.forces(i);
+                g.line(mSpring.a().position().x,
+                       mSpring.a().position().y,
+                       mSpring.b().position().x,
+                       mSpring.b().position().y);
+            }
+        }
     }
 }

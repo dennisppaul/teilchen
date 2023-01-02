@@ -32,6 +32,14 @@ import static teilchen.util.Util.lengthSquared;
 
 public class Attractor implements IForce {
 
+    protected PVector mPosition;
+    protected float mRadius;
+    protected float mStrength;
+    protected final PVector mTemp = new PVector();
+    private boolean mActive;
+    private boolean mDead = false;
+    private final long mID;
+
     public Attractor() {
         mID = Physics.getUniqueID();
         mPosition = new PVector();
@@ -111,11 +119,4 @@ public class Attractor implements IForce {
     public long ID() {
         return mID;
     }
-    protected final PVector mTemp = new PVector();
-    protected PVector mPosition;
-    protected float mStrength;
-    protected float mRadius;
-    private boolean mActive;
-    private boolean mDead = false;
-    private final long mID;
 }

@@ -30,6 +30,9 @@ import java.util.Iterator;
 
 public class Euler implements IIntegrator {
 
+    private final PVector mTemp1;
+    private final PVector mTemp2;
+
     public Euler() {
         mTemp1 = new PVector();
         mTemp2 = new PVector();
@@ -60,8 +63,6 @@ public class Euler implements IIntegrator {
         pParticle.velocity().add(mTemp1);
         pParticle.position().add(mTemp2);
     }
-    private final PVector mTemp1;
-    private final PVector mTemp2;
 }
 
 /* this version scales better with the other integrators but is definitly slower */

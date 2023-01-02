@@ -35,6 +35,11 @@ import static teilchen.util.Util.isNaN;
 public class Cohesion<E extends IBehaviorParticle> implements IBehavior, Serializable {
 
     private static final long serialVersionUID = -4953599448151741585L;
+    private final PVector mForce;
+    private ArrayList<E> mNeighbors;
+    private float mProximity;
+    private float mWeight;
+
     public Cohesion() {
         mProximity = 100.0f;
         mWeight = 1.0f;
@@ -97,8 +102,4 @@ public class Cohesion<E extends IBehaviorParticle> implements IBehavior, Seriali
     public void proximity(float pPrivacyRadius) {
         mProximity = pPrivacyRadius;
     }
-    private final PVector mForce;
-    private float mProximity;
-    private float mWeight;
-    private ArrayList<E> mNeighbors;
 }

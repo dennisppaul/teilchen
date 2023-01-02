@@ -30,6 +30,11 @@ import static processing.core.PVector.sub;
 public class Seek implements IBehavior, Verhalten {
 
     static final long serialVersionUID = -3781170603537691477L;
+    private float mDistanceToPoint;
+    private final PVector mForce;
+    private boolean mOverSteer;
+    private PVector mSeekPosition;
+    private float mWeight = 1;
 
     public Seek() {
         mSeekPosition = new PVector();
@@ -82,9 +87,4 @@ public class Seek implements IBehavior, Verhalten {
     public void weight(float pWeight) {
         mWeight = pWeight;
     }
-    private PVector mSeekPosition;
-    private final PVector mForce;
-    private float mWeight = 1;
-    private float mDistanceToPoint;
-    private boolean mOverSteer;
 }

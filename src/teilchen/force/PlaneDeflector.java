@@ -34,6 +34,16 @@ import static teilchen.util.Util.isNaN;
 
 public class PlaneDeflector implements IForce {
 
+    private boolean mActive;
+    private float mCoefficientOfRestitution;
+    private boolean mDead = false;
+    private final long mID;
+    private final Plane3f mPlane;
+    private final PVector mTempDiff;
+    private final PVector mTempNormalComponent;
+    private final PVector mTempReflectionVector;
+    private final PVector mTempTangentComponent;
+
     public PlaneDeflector() {
         mID = Physics.getUniqueID();
         mPlane = new Plane3f();
@@ -156,13 +166,4 @@ public class PlaneDeflector implements IForce {
         final float mAngle = mTempDiff.dot(pPlane.normal);
         return mAngle;
     }
-    private final Plane3f mPlane;
-    private final PVector mTempDiff;
-    private final PVector mTempReflectionVector;
-    private final PVector mTempNormalComponent;
-    private final PVector mTempTangentComponent;
-    private float mCoefficientOfRestitution;
-    private boolean mActive;
-    private boolean mDead = false;
-    private final long mID;
 }

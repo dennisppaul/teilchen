@@ -22,15 +22,15 @@
  */
 package teilchen.util;
 
-import java.util.List;
 import processing.core.PVector;
+
+import java.util.List;
 
 public class Overlap {
 
     public static PVector RESOLVE_SAME_PLACE = new PVector(1, 0, 0);
 
-    public static <E extends SpatialEntity> void resolveOverlap(E pEntityA,
-                                                                E pEntityB) {
+    public static <E extends SpatialEntity> void resolveOverlap(E pEntityA, E pEntityB) {
         if (pEntityB == pEntityA) {
             return;
         }
@@ -59,8 +59,7 @@ public class Overlap {
         }
     }
 
-    public static <E extends SpatialEntity> void resolveOverlap(E pEntity,
-                                                                E[] pEntities) {
+    public static <E extends SpatialEntity> void resolveOverlap(E pEntity, E[] pEntities) {
         if (pEntities == null || pEntities.length < 1) {
             return;
         }
@@ -70,8 +69,7 @@ public class Overlap {
         }
     }
 
-    public static <E extends SpatialEntity> void resolveOverlap(E pEntity,
-                                                                List<E> pEntities) {
+    public static <E extends SpatialEntity> void resolveOverlap(E pEntity, List<E> pEntities) {
         if (pEntities == null || pEntities.size() < 1) {
             return;
         }

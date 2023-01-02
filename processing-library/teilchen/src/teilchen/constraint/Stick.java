@@ -36,25 +36,21 @@ import static teilchen.util.Util.lengthSquared;
 public class Stick implements IConstraint, IConnection {
 
     protected final Particle mA;
+    protected boolean mActive = true;
     protected final Particle mB;
+    protected float mDamping;
+    protected boolean mOneWay;
+    protected float mRestLength;
     protected final PVector mTempDistanceVector;
     protected final PVector mTempVector;
-    private final long mID;
-    protected float mRestLength;
-    protected boolean mOneWay;
-    protected float mDamping;
-    protected boolean mActive = true;
     private boolean mDead = false;
+    private final long mID;
 
     public Stick(Particle pA, Particle pB) {
-        this(pA,
-             pB,
-             distance(pA.position(), pB.position()));
+        this(pA, pB, distance(pA.position(), pB.position()));
     }
 
-    public Stick(final Particle pA,
-                 final Particle pB,
-                 final float pRestLength) {
+    public Stick(final Particle pA, final Particle pB, final float pRestLength) {
         mID = Physics.getUniqueID();
         mRestLength = pRestLength;
         mA = pA;
@@ -152,9 +148,13 @@ public class Stick implements IConstraint, IConnection {
         mActive = pActiveState;
     }
 
-    public boolean dead() { return mDead; }
+    public boolean dead() {
+        return mDead;
+    }
 
-    public void dead(boolean pDead) { mDead = pDead; }
+    public void dead(boolean pDead) {
+        mDead = pDead;
+    }
 
     public long ID() {
         return mID;

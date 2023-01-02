@@ -23,31 +23,24 @@
 package teilchen.behavior;
 
 import processing.core.PVector;
-import static processing.core.PVector.*;
 import teilchen.IBehaviorParticle;
 import teilchen.util.Random;
+
+import static processing.core.PVector.cross;
+import static processing.core.PVector.mult;
 import static teilchen.util.Util.isNaN;
 
-public class Wander
-        implements IBehavior {
+public class Wander implements IBehavior {
 
     static final long serialVersionUID = 4957162698340669663L;
-
-    private final PVector mForce;
-
-    private float mSteeringStrength;
-
-    private float mSteeringOffset;
-
-    private float mCurrentSteeringStrength;
-
-    private final PVector mUpVector;
-
-    private float mWeight;
-
-    private final Random mRandom;
-
     private boolean mActive;
+    private float mCurrentSteeringStrength;
+    private final PVector mForce;
+    private final Random mRandom;
+    private float mSteeringOffset;
+    private float mSteeringStrength;
+    private final PVector mUpVector;
+    private float mWeight;
 
     public Wander() {
         mRandom = new Random();
@@ -85,7 +78,8 @@ public class Wander
     public void update(float pDeltaTime, IBehaviorParticle pParent) {
         if (mActive && pParent.velocity().mag() > 0) {
             mCurrentSteeringStrength += mRandom.getFloat(-0.5f, 0.5f) * mSteeringOffset;
-            mCurrentSteeringStrength = Math.max(Math.min(mCurrentSteeringStrength, mSteeringStrength), -mSteeringStrength);
+            mCurrentSteeringStrength = Math.max(Math.min(mCurrentSteeringStrength, mSteeringStrength),
+                                                -mSteeringStrength);
 
             final PVector mWanderTarget = new PVector();
             cross(mUpVector, pParent.velocity(), mWanderTarget);

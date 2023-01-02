@@ -29,6 +29,14 @@ import java.io.Serializable;
 public class Plane3f implements Serializable {
 
     private static final long serialVersionUID = 2390391570305327484L;
+    public float d = Float.NaN;
+    /**
+     * these fields are not used by default and left uninitialized 'null'
+     */
+    public PVector normal;
+    public PVector origin;
+    public PVector vectorA;
+    public PVector vectorB;
 
     public Plane3f() {
         origin = new PVector();
@@ -54,14 +62,6 @@ public class Plane3f implements Serializable {
             d = -normal.dot(origin);
         }
     }
-    public PVector origin;
-    public PVector vectorA;
-    public PVector vectorB;
-    /**
-     * these fields are not used by default and left uninitialized 'null'
-     */
-    public PVector normal;
-    public float d = Float.NaN;
 //    private float intersection(PVector a, PVector b) {
 //        /*
 //         * updateNormal();

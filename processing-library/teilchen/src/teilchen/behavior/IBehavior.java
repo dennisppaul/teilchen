@@ -22,12 +22,12 @@
  */
 package teilchen.behavior;
 
-import java.io.Serializable;
 import processing.core.PVector;
 import teilchen.IBehaviorParticle;
 
-public interface IBehavior
-        extends Serializable {
+import java.io.Serializable;
+
+public interface IBehavior extends Serializable {
 
     void update(float pDeltaTime, final IBehaviorParticle pParent);
 

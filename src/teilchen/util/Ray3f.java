@@ -31,6 +31,8 @@ import java.io.Serializable;
 public class Ray3f implements Serializable {
 
     private static final long serialVersionUID = -1748179277316146625L;
+    public PVector direction;
+    public PVector origin;
 
     public Ray3f() {
         origin = new PVector();
@@ -45,6 +47,4 @@ public class Ray3f implements Serializable {
     public String toString() {
         return "origin + " + origin + " / " + " direction " + direction;
     }
-    public PVector origin;
-    public PVector direction;
 }

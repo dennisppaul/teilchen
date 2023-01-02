@@ -22,20 +22,19 @@
  */
 package teilchen.integration;
 
-import java.util.Iterator;
 import processing.core.PVector;
-import static processing.core.PVector.sub;
 import teilchen.Particle;
 import teilchen.Physics;
 
-public class Verlet
-        implements IIntegrator {
+import java.util.Iterator;
 
-    private final PVector temp1;
+import static processing.core.PVector.sub;
 
-    private final PVector temp2;
+public class Verlet implements IIntegrator {
 
     private float mDamping;
+    private final PVector temp1;
+    private final PVector temp2;
 
     public Verlet() {
         this(1.0f);

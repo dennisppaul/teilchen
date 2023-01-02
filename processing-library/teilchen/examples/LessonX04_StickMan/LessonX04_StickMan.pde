@@ -13,11 +13,11 @@ import teilchen.util.*;
  * press mouse to grab and fling stickmen.
  */
 
-Physics mPhysics;
-
 Attractor mAttractor;
 
 Gravity mGravity;
+
+Physics mPhysics;
 
 StickMan[] mStickMan;
 

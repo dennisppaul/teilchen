@@ -21,6 +21,9 @@ public class SketchLessonX12_TearableSpring extends PApplet {
 
     private static final int GRID_HEIGHT = 24;
     private static final int GRID_WIDTH = 32;
+    private Particle mParticleSelected = null;
+    private final Particle[][] mParticles = new Particle[GRID_WIDTH][GRID_HEIGHT];
+    private Physics mPhysics;
 
     public void settings() {
         size(640, 480, P3D);
@@ -136,7 +139,4 @@ public class SketchLessonX12_TearableSpring extends PApplet {
     public static void main(String[] args) {
         PApplet.main(SketchLessonX12_TearableSpring.class.getName());
     }
-    private final Particle[][] mParticles = new Particle[GRID_WIDTH][GRID_HEIGHT];
-    private Physics mPhysics;
-    private Particle mParticleSelected = null;
 }

@@ -27,6 +27,9 @@ import teilchen.util.Vector3i;
 
 public class CubicleEntity implements ICubicleEntity {
 
+    private final Vector3i mCubiclePosition;
+    private final PVector mPosition;
+
     public CubicleEntity() {
         mCubiclePosition = new Vector3i();
         mPosition = new PVector();
@@ -47,6 +50,4 @@ public class CubicleEntity implements ICubicleEntity {
     public boolean isActive() {
         return true;
     }
-    private final Vector3i mCubiclePosition;
-    private final PVector mPosition;
 }

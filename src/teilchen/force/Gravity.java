@@ -29,14 +29,21 @@ import teilchen.Physics;
 
 public class Gravity implements IForce {
 
+    private boolean mActive;
+    private boolean mDead = false;
+    private final PVector mForce;
+    private final long mID;
+
     public Gravity() {
         this(new PVector(0, 9.81f, 0));
     }
+
     public Gravity(final PVector pForce) {
         mID = Physics.getUniqueID();
         mActive = true;
         mForce = pForce;
     }
+
     public Gravity(float pForceX, float pForceY, float pForceZ) {
         this(new PVector(pForceX, pForceY, pForceZ));
     }
@@ -72,8 +79,4 @@ public class Gravity implements IForce {
     public long ID() {
         return mID;
     }
-    private final PVector mForce;
-    private boolean mActive;
-    private boolean mDead = false;
-    private final long mID;
 }

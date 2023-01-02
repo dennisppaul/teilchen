@@ -19,9 +19,9 @@ public class SketchLessonX06_Ducklings extends PApplet {
      * move mouse to change target position. press mouse to set to *over steering*.
      */
 
-    private Physics mPhysics;
-    private ArrayList<Duckling> mDucklings;
     private CollisionManager mCollision;
+    private ArrayList<Duckling> mDucklings;
+    private Physics mPhysics;
 
     public void settings() {
         size(640, 480);
@@ -74,13 +74,23 @@ public class SketchLessonX06_Ducklings extends PApplet {
         /* draw arrival */
         stroke(0, 0.75f);
         noFill();
-        ellipse(mDucklings.get(0).arrival.position().x,
-                mDucklings.get(0).arrival.position().y,
-                50,
-                50);
+        ellipse(mDucklings.get(0).arrival.position().x, mDucklings.get(0).arrival.position().y, 50, 50);
 
         /* clean up */
         mCollision.removeCollisionResolver();
+    }
+
+    private void drawCollisionSprings() {
+        stroke(0, 0.5f);
+        for (int i = 0; i < mCollision.collision().forces().size(); ++i) {
+            if (mCollision.collision().forces().get(i) instanceof Spring) {
+                Spring mSpring = (Spring) mCollision.collision_forces().get(i);
+                line(mSpring.a().position().x,
+                     mSpring.a().position().y,
+                     mSpring.b().position().x,
+                     mSpring.b().position().y);
+            }
+        }
     }
 
     private void drawParticle(Duckling pDuckling) {
@@ -116,24 +126,10 @@ public class SketchLessonX06_Ducklings extends PApplet {
         popMatrix();
     }
 
-    private void drawCollisionSprings() {
-        stroke(0, 0.5f);
-        for (int i = 0; i < mCollision.collision().forces().size(); ++i) {
-            if (mCollision.collision().forces().get(i) instanceof Spring) {
-                Spring mSpring = (Spring) mCollision.collision_forces().get(i);
-                line(mSpring.a().position().x,
-                     mSpring.a().position().y,
-                     mSpring.b().position().x,
-                     mSpring.b().position().y);
-            }
-        }
-    }
-
     class Duckling {
 
-        BehaviorParticle particle;
-
         Arrival arrival;
+        BehaviorParticle particle;
 
         Duckling() {
             /* create particles */

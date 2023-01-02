@@ -16,9 +16,9 @@ public class SketchLessonX00_Pendulum extends PApplet {
      * press mouse top push pendulum.
      */
 
-    private Physics mPhysics;
     private Particle mPendulumRoot;
     private Particle mPendulumTip;
+    private Physics mPhysics;
     private Pulse mPulse;
 
     public void settings() {

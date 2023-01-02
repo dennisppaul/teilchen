@@ -17,8 +17,8 @@ public class SketchLesson10_PlaneDeflector extends PApplet {
      * drag mouse to tilt deflector.
      */
 
-    private Physics mPhysics;
     private PlaneDeflector mDeflector;
+    private Physics mPhysics;
 
     public void settings() {
         size(640, 480);

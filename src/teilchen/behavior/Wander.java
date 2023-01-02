@@ -33,6 +33,14 @@ import static teilchen.util.Util.isNaN;
 public class Wander implements IBehavior {
 
     static final long serialVersionUID = 4957162698340669663L;
+    private boolean mActive;
+    private float mCurrentSteeringStrength;
+    private final PVector mForce;
+    private final Random mRandom;
+    private float mSteeringOffset;
+    private float mSteeringStrength;
+    private final PVector mUpVector;
+    private float mWeight;
 
     public Wander() {
         mRandom = new Random();
@@ -106,12 +114,4 @@ public class Wander implements IBehavior {
     public void steeringoffset(final float pSteeringOffset) {
         mSteeringOffset = pSteeringOffset;
     }
-    private final PVector mForce;
-    private float mSteeringStrength;
-    private float mSteeringOffset;
-    private float mCurrentSteeringStrength;
-    private final PVector mUpVector;
-    private float mWeight;
-    private final Random mRandom;
-    private boolean mActive;
 }

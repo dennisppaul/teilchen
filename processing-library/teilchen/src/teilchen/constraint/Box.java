@@ -34,6 +34,14 @@ import static processing.core.PVector.sub;
 public class Box implements IConstraint {
 
     private static final PVector[] NORMALS;
+    protected boolean mActive = true;
+    private float mCoefficientOfRestitution;
+    private boolean mDead = false;
+    private final long mID;
+    private final PVector mMax;
+    private final PVector mMin;
+    private boolean mReflectFlag;
+    private boolean mTeleport;
 
     static {
         NORMALS = new PVector[6];
@@ -44,15 +52,6 @@ public class Box implements IConstraint {
         NORMALS[4] = new PVector(0, 1, 0);
         NORMALS[5] = new PVector(0, 0, 1);
     }
-
-    private final long mID;
-    private final PVector mMin;
-    private final PVector mMax;
-    protected boolean mActive = true;
-    private boolean mDead = false;
-    private boolean mReflectFlag;
-    private float mCoefficientOfRestitution;
-    private boolean mTeleport;
 
     public Box(final PVector pMin, final PVector pMax) {
         mID = Physics.getUniqueID();
@@ -157,9 +156,7 @@ public class Box implements IConstraint {
 //                            System.out.println("myDiff " + myDiff);
                             myParticle.old_position().sub(myDiff);
                         } else {
-                            teilchen.util.Util.reflectVelocity(myParticle,
-                                                               NORMALS[myTag],
-                                                               mCoefficientOfRestitution);
+                            teilchen.util.Util.reflectVelocity(myParticle, NORMALS[myTag], mCoefficientOfRestitution);
                         }
                     } else {
                         myParticle.velocity().set(0, 0, 0);
@@ -177,9 +174,13 @@ public class Box implements IConstraint {
         mActive = pActiveState;
     }
 
-    public boolean dead() { return mDead; }
+    public boolean dead() {
+        return mDead;
+    }
 
-    public void dead(boolean pDead) { mDead = pDead; }
+    public void dead(boolean pDead) {
+        mDead = pDead;
+    }
 
     public long ID() {
         return mID;

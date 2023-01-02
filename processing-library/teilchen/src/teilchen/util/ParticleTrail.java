@@ -22,30 +22,23 @@
  */
 package teilchen.util;
 
-import java.util.ArrayList;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.ShortLivedParticle;
 
+import java.util.ArrayList;
+
 public class ParticleTrail {
 
-    private final Physics mTrailParticleSystem;
-
-    private final Particle mParticle;
-
-    private final float mInterval;
-
-    private final ArrayList<Particle> mFragments;
-
-    private final float mFragmentLifetime;
-
     private float mCurrentTime;
-
     private boolean mFixState;
-
+    private final float mFragmentLifetime;
+    private final ArrayList<Particle> mFragments;
+    private final float mInterval;
+    private final Particle mParticle;
     private Class<? extends Particle> mParticleClass = ShortLivedParticle.class;
-
     private float mTrailParticleMass = 1.0f;
+    private final Physics mTrailParticleSystem;
 
     public ParticleTrail(final Physics pTrailParticleSystem,
                          final Particle pParticle,
@@ -57,6 +50,17 @@ public class ParticleTrail {
         mFragmentLifetime = pFragmentLifetime;
         mFragments = new ArrayList<>();
         mFixState = false;
+    }
+
+    private static <T extends Particle> T createParticle(Class<T> pParticleClass) {
+        T mParticle;
+        try {
+            mParticle = pParticleClass.newInstance();
+        } catch (Exception ex) {
+            System.err.println(ex);
+            mParticle = null;
+        }
+        return mParticle;
     }
 
     public void mass(float pMass) {
@@ -107,17 +111,6 @@ public class ParticleTrail {
 
     public <T extends Particle> void setParticleClass(Class<T> pClass) {
         mParticleClass = pClass;
-    }
-
-    private static <T extends Particle> T createParticle(Class<T> pParticleClass) {
-        T mParticle;
-        try {
-            mParticle = pParticleClass.newInstance();
-        } catch (Exception ex) {
-            System.err.println(ex);
-            mParticle = null;
-        }
-        return mParticle;
     }
 
     protected Particle makeParticle() {

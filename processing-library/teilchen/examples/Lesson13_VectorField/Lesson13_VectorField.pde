@@ -14,11 +14,11 @@ import teilchen.util.*;
  * press `G` to toggle field view
  * press `L` to toggle line/point view
  */
+
+boolean mDrawGrid = false;
 /* drawing particles as lines looks more intriguing but less explicatory */
 
 boolean mDrawParticlesAsLines = false;
-
-boolean mDrawGrid = false;
 
 Physics mPhysics;
 
@@ -49,7 +49,9 @@ void draw() {
     /* draw vectro field */
     noFill();
     stroke(0, 63);
-    if (mDrawGrid) { VectorField.draw(g, mVectorField, 0.15f); }
+    if (mDrawGrid) {
+        VectorField.draw(g, mVectorField, 0.15f);
+    }
     /* draw particles - as point or as lines */
     if (!mDrawParticlesAsLines) {
         /* draw border */

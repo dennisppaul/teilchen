@@ -29,6 +29,17 @@ import teilchen.constraint.Stick;
 
 public class StableStickQuad {
 
+    public Particle a;
+    public Stick ab;
+    public Stick ac;
+    public Particle b;
+    public Stick bc;
+    public Stick bd;
+    public Particle c;
+    public Stick cd;
+    public Particle d;
+    public Stick da;
+
     public StableStickQuad(final Physics pParticleSystem,
                            final PVector pA,
                            final PVector pB,
@@ -60,14 +71,4 @@ public class StableStickQuad {
         pParticleSystem.add(ac);
         pParticleSystem.add(bd);
     }
-    public Particle a;
-    public Particle b;
-    public Particle c;
-    public Particle d;
-    public Stick ab;
-    public Stick bc;
-    public Stick cd;
-    public Stick da;
-    public Stick ac;
-    public Stick bd;
 }

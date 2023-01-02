@@ -14,6 +14,9 @@ public class Sketch_NonIntersectingStructures extends PApplet {
 
     // @TODO(not fully functional yet)
 
+    private Particle[] mParticles;
+    private Physics mPhysics;
+
     public void settings() {
         size(640, 480, P3D);
     }
@@ -82,6 +85,4 @@ public class Sketch_NonIntersectingStructures extends PApplet {
     public static void main(String[] args) {
         PApplet.main(Sketch_NonIntersectingStructures.class.getName());
     }
-    private Physics mPhysics;
-    private Particle[] mParticles;
 }

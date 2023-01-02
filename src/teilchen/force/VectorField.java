@@ -35,9 +35,21 @@ public class VectorField implements IForce {
 
     public static final int DISABLE_IGNORE_3D = 1;
     public static final int ENABLE_IGNORE_3D = 0;
+    public boolean mIgnore3D = false;
+    private final int depth;
+    private final int height;
+    private boolean mActiveState;
+    private boolean mDead;
+    private final PVector[][][] mField;
+    private final long mID;
+    private final PVector mPosition;
+    private final PVector mScale;
+    private final int width;
+
     public VectorField(int pNumCellsWidth, int pNumCellsHeight) {
         this(pNumCellsWidth, pNumCellsHeight, 1);
     }
+
     public VectorField(int pNumCellsWidth, int pNumCellsHeight, int pNumCellsDepth) {
         mID = Physics.getUniqueID();
         mActiveState = true;
@@ -301,14 +313,4 @@ public class VectorField implements IForce {
         mLocation.z = PApplet.floor((pPosition.z - mPosition.z) / mScale.z);
         return mLocation;
     }
-    public boolean mIgnore3D = false;
-    private final PVector[][][] mField;
-    private final int width;
-    private final int height;
-    private final int depth;
-    private final PVector mScale;
-    private final PVector mPosition;
-    private boolean mActiveState;
-    private boolean mDead;
-    private final long mID;
 }

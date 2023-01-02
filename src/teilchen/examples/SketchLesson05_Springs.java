@@ -13,6 +13,9 @@ public class SketchLesson05_Springs extends PApplet {
      * move close to particle and press mouse to create springs and particles.
      */
 
+    private Physics mPhysics;
+    private Particle mRoot;
+
     public void settings() {
         size(640, 480);
     }
@@ -73,7 +76,5 @@ public class SketchLesson05_Springs extends PApplet {
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLesson05_Springs.class.getName()});
     }
-    private Physics mPhysics;
-    private Particle mRoot;
 }
 

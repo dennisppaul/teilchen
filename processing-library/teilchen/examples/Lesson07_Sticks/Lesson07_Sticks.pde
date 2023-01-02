@@ -14,9 +14,9 @@ import teilchen.util.*;
  * move mouse to drag sticks.
  */
 
-Physics mPhysics;
-
 Particle[] mParticles;
+
+Physics mPhysics;
 
 void settings() {
     size(640, 480);
@@ -37,9 +37,7 @@ void setup() {
     for (int x = 0; x < mParticles.length; x++) {
         mParticles[x] = mPhysics.makeParticle(x * mSegmentLength, 0, 0, 0.1f);
         if (x > 0) {
-            Stick mStick = new Stick(mParticles[x - 1],
-                                      mParticles[x],
-                                      mSegmentLength);
+            Stick mStick = new Stick(mParticles[x - 1], mParticles[x], mSegmentLength);
             /* damp the stick to release tensions from the system */
             mStick.damping(0.99f);
             mPhysics.add(mStick);

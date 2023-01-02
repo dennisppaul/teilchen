@@ -30,6 +30,16 @@ import java.util.ArrayList;
 
 public class ParticleTrail {
 
+    private float mCurrentTime;
+    private boolean mFixState;
+    private final float mFragmentLifetime;
+    private final ArrayList<Particle> mFragments;
+    private final float mInterval;
+    private final Particle mParticle;
+    private Class<? extends Particle> mParticleClass = ShortLivedParticle.class;
+    private float mTrailParticleMass = 1.0f;
+    private final Physics mTrailParticleSystem;
+
     public ParticleTrail(final Physics pTrailParticleSystem,
                          final Particle pParticle,
                          float pInterval,
@@ -119,13 +129,4 @@ public class ParticleTrail {
         mTrailFragment.fixed(mFixState);
         return mTrailFragment;
     }
-    private final Physics mTrailParticleSystem;
-    private final Particle mParticle;
-    private final float mInterval;
-    private final ArrayList<Particle> mFragments;
-    private final float mFragmentLifetime;
-    private float mCurrentTime;
-    private boolean mFixState;
-    private Class<? extends Particle> mParticleClass = ShortLivedParticle.class;
-    private float mTrailParticleMass = 1.0f;
 }

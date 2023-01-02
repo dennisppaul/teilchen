@@ -34,6 +34,19 @@ import java.util.ArrayList;
 public class ReflectBox implements IConstraint {
 
     private static final PVector[] mNormals;
+    public boolean NEGATIVE_X = true;
+    public boolean NEGATIVE_Y = true;
+    public boolean NEGATIVE_Z = true;
+    public boolean POSITIV_X = true;
+    public boolean POSITIV_Y = true;
+    public boolean POSITIV_Z = true;
+    protected boolean mActive = true;
+    private float mCoefficientOfRestitution;
+    private boolean mDead = false;
+    private float mEpsilon;
+    private final long mID;
+    private final PVector mMax;
+    private final PVector mMin;
 
     static {
         mNormals = new PVector[6];
@@ -44,20 +57,6 @@ public class ReflectBox implements IConstraint {
         mNormals[4] = new PVector(0, 1, 0);
         mNormals[5] = new PVector(0, 0, 1);
     }
-
-    public boolean NEGATIVE_X = true;
-    public boolean NEGATIVE_Y = true;
-    public boolean NEGATIVE_Z = true;
-    public boolean POSITIV_X = true;
-    public boolean POSITIV_Y = true;
-    public boolean POSITIV_Z = true;
-    private final long mID;
-    private final PVector mMin;
-    private final PVector mMax;
-    protected boolean mActive = true;
-    private boolean mDead = false;
-    private float mCoefficientOfRestitution;
-    private float mEpsilon;
 
     public ReflectBox(final PVector pMin, final PVector pMax) {
         mID = Physics.getUniqueID();
@@ -106,9 +105,13 @@ public class ReflectBox implements IConstraint {
         mActive = pActiveState;
     }
 
-    public boolean dead() { return mDead; }
+    public boolean dead() {
+        return mDead;
+    }
 
-    public void dead(boolean pDead) { mDead = pDead; }
+    public void dead(boolean pDead) {
+        mDead = pDead;
+    }
 
     public long ID() {
         return mID;
@@ -196,14 +199,11 @@ public class ReflectBox implements IConstraint {
                     /* room for optimization / we don t need to reflect twice. */
                     final float mSpeed = Util.distanceSquared(mPositionBeforeCollision, mParticle.old_position());
                     if (mSpeed > mEpsilon) {
-                        final PVector mDiffAfterCollision = PVector.sub(mPositionBeforeCollision,
-                                                                         mParticle.position());
+                        final PVector mDiffAfterCollision = PVector.sub(mPositionBeforeCollision, mParticle.position());
                         final PVector mDiffBeforeCollision = PVector.sub(mParticle.old_position(),
-                                                                          mParticle.position());
+                                                                         mParticle.position());
                         mDeflectionNormal.mult(1.0f / (float) mNumberOfCollisions);
-                        teilchen.util.Util.reflect(mDiffAfterCollision,
-                                                   mDeflectionNormal,
-                                                   mCoefficientOfRestitution);
+                        teilchen.util.Util.reflect(mDiffAfterCollision, mDeflectionNormal, mCoefficientOfRestitution);
                         teilchen.util.Util.reflect(mDiffBeforeCollision, mDeflectionNormal, 1);
 
                         if (!Util.isNaN(mParticle.old_position()) && !Util.isNaN(mParticle.position())) {

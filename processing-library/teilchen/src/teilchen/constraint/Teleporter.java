@@ -30,11 +30,11 @@ import teilchen.util.Util;
 
 public class Teleporter implements IConstraint {
 
-    private final PVector mMin;
-    private final PVector mMax;
-    private final long mID;
     protected boolean mActive = true;
     private boolean mDead = false;
+    private final long mID;
+    private final PVector mMax;
+    private final PVector mMin;
 
     public Teleporter() {
         this(new PVector(), new PVector());
@@ -89,9 +89,13 @@ public class Teleporter implements IConstraint {
         mActive = pActiveState;
     }
 
-    public boolean dead() { return mDead; }
+    public boolean dead() {
+        return mDead;
+    }
 
-    public void dead(boolean pDead) { mDead = pDead; }
+    public void dead(boolean pDead) {
+        mDead = pDead;
+    }
 
     public long ID() {
         return mID;

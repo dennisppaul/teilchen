@@ -30,9 +30,16 @@ import teilchen.util.Util;
 
 public class Teleporter implements IConstraint {
 
+    protected boolean mActive = true;
+    private boolean mDead = false;
+    private final long mID;
+    private final PVector mMax;
+    private final PVector mMin;
+
     public Teleporter() {
         this(new PVector(), new PVector());
     }
+
     public Teleporter(final PVector pMin, final PVector pMax) {
         mID = Physics.getUniqueID();
         mMin = Util.clone(pMin);
@@ -93,10 +100,5 @@ public class Teleporter implements IConstraint {
     public long ID() {
         return mID;
     }
-    private final PVector mMin;
-    private final PVector mMax;
-    private final long mID;
-    protected boolean mActive = true;
-    private boolean mDead = false;
 
 }

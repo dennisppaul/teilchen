@@ -18,25 +18,23 @@ import static teilchen.util.Util.setVelocityAndOldPosition;
 import static teilchen.util.Util.updateBoundingBox;
 
 public class TriangleDeflector implements IForce {
-    private final long mID;
-
     public boolean AUTO_UPDATE = true;
     private final PVector a;
     private final PVector b;
     private final PVector c;
-    private final PVector mNormal;
-    private final PVector mTempReflectionVector;
-    private final PVector mTempNormalComponent;
-    private final PVector mTempTangentComponent;
-    private final IntersectionResult mIntersectionResult;
-    private final PVector mTempPointOfIntersection = new PVector();
-    private final WorldAxisAlignedBoundingBox mWorldAxisAlignedBoundingBox;
-    private final PVector[] mVectorCollection;
-    private float mCoefficientOfRestitution;
-    private boolean mGotHit = false;
-
     private boolean mActive;
+    private float mCoefficientOfRestitution;
     private boolean mDead;
+    private boolean mGotHit = false;
+    private final long mID;
+    private final IntersectionResult mIntersectionResult;
+    private final PVector mNormal;
+    private final PVector mTempNormalComponent;
+    private final PVector mTempPointOfIntersection = new PVector();
+    private final PVector mTempReflectionVector;
+    private final PVector mTempTangentComponent;
+    private final PVector[] mVectorCollection;
+    private final WorldAxisAlignedBoundingBox mWorldAxisAlignedBoundingBox;
 
     public TriangleDeflector() {
         mID = Physics.getUniqueID();

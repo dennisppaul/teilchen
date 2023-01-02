@@ -34,6 +34,19 @@ import java.util.ArrayList;
 public class ReflectBox implements IConstraint {
 
     private static final PVector[] mNormals;
+    public boolean NEGATIVE_X = true;
+    public boolean NEGATIVE_Y = true;
+    public boolean NEGATIVE_Z = true;
+    public boolean POSITIV_X = true;
+    public boolean POSITIV_Y = true;
+    public boolean POSITIV_Z = true;
+    protected boolean mActive = true;
+    private float mCoefficientOfRestitution;
+    private boolean mDead = false;
+    private float mEpsilon;
+    private final long mID;
+    private final PVector mMax;
+    private final PVector mMin;
 
     static {
         mNormals = new PVector[6];
@@ -52,6 +65,7 @@ public class ReflectBox implements IConstraint {
         mCoefficientOfRestitution = 1.0f;
         mEpsilon = 0.001f;
     }
+
     public ReflectBox() {
         this(new PVector(), new PVector());
     }
@@ -201,17 +215,4 @@ public class ReflectBox implements IConstraint {
             }
         }
     }
-    public boolean NEGATIVE_X = true;
-    public boolean NEGATIVE_Y = true;
-    public boolean NEGATIVE_Z = true;
-    public boolean POSITIV_X = true;
-    public boolean POSITIV_Y = true;
-    public boolean POSITIV_Z = true;
-    private final long mID;
-    private final PVector mMin;
-    private final PVector mMax;
-    protected boolean mActive = true;
-    private boolean mDead = false;
-    private float mCoefficientOfRestitution;
-    private float mEpsilon;
 }

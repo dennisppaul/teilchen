@@ -14,8 +14,8 @@ public class SketchLesson01_Gravity extends PApplet {
      * drag mouse to fling particle.
      */
 
-    private Physics mPhysics;
     private Particle mParticle;
+    private Physics mPhysics;
 
     public void settings() {
         size(640, 480);
