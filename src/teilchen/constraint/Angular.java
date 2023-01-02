@@ -41,21 +41,7 @@ public class Angular implements IConstraint {
      */
 
     private static final double STRENGTH = 1;
-    public boolean OK;
-    private final Particle mA;
-    private final Particle mB;
-    private final Particle mC;
-    private final PVector mTempA = new PVector();
-    private final PVector mTempB = new PVector();
-    private final PVector mTempNormal;
-    private final long mID;
-    protected boolean mActive = true;
-    private boolean mDead = false;
-    private float mMinimumAngle;
-    private float mMaximumAngle;
-
-    public Angular(Particle pA, Particle pB, Particle pC,
-                   float pMinimumAngle, float pMaximumAngle) {
+    public Angular(Particle pA, Particle pB, Particle pC, float pMinimumAngle, float pMaximumAngle) {
         mID = Physics.getUniqueID();
         mA = pA;
         mB = pB;
@@ -63,12 +49,8 @@ public class Angular implements IConstraint {
         mTempNormal = new PVector();
         range(pMinimumAngle, pMaximumAngle);
     }
-
     public Angular(Particle pA, Particle pB, Particle pC) {
-        this(pA,
-             pB,
-             pC,
-             0, 0);
+        this(pA, pB, pC, 0, 0);
     }
 
     public void range(float pMinimumAngle, float pMaximumAngle) {
@@ -165,20 +147,17 @@ public class Angular implements IConstraint {
         mActive = pActiveState;
     }
 
-    public boolean dead() { return mDead; }
+    public boolean dead() {
+        return mDead;
+    }
 
-    public void dead(boolean pDead) { mDead = pDead; }
+    public void dead(boolean pDead) {
+        mDead = pDead;
+    }
 
     @Override
     public long ID() {
         return mID;
-    }
-
-    private void sortAngles() {
-        final float mTempMaximumAngle = mMaximumAngle;
-        final float mTempMinimumAngle = mMinimumAngle;
-        mMaximumAngle = Math.max(mTempMaximumAngle, mTempMinimumAngle);
-        mMinimumAngle = Math.min(mTempMaximumAngle, mTempMinimumAngle);
     }
 
     private void calculateNormal(PVector myVectorA, PVector myVectorB) {
@@ -187,25 +166,6 @@ public class Angular implements IConstraint {
         if (isNaN(mTempNormal)) {
             mTempNormal.set(0, 0, 1);
             System.out.println("### WARNING can t find normal.");
-        }
-    }
-
-    private void correctAngle(double pTheta) {
-        if (pTheta < -EPSILON || pTheta > EPSILON) {
-
-            PVector myOprPointOnAxis = add(mB.position(), mTempNormal);
-
-            PVector myRotatedPointA = rotatePoint(mA.position(), pTheta * -0.5 * STRENGTH,
-                                                  mB.position(),
-                                                  myOprPointOnAxis);
-            mA.position().set(myRotatedPointA);
-
-            PVector myRotatedPointB = rotatePoint(mC.position(), pTheta * 0.5 * STRENGTH,
-                                                  mB.position(),
-                                                  myOprPointOnAxis);
-            mC.position().set(myRotatedPointB);
-
-            System.out.println("correct " + Math.toDegrees(pTheta) + " / " + mTempNormal);
         }
     }
 
@@ -222,4 +182,44 @@ public class Angular implements IConstraint {
             return true;
         }
     }
+
+    private void correctAngle(double pTheta) {
+        if (pTheta < -EPSILON || pTheta > EPSILON) {
+
+            PVector myOprPointOnAxis = add(mB.position(), mTempNormal);
+
+            PVector myRotatedPointA = rotatePoint(mA.position(),
+                                                  pTheta * -0.5 * STRENGTH,
+                                                  mB.position(),
+                                                  myOprPointOnAxis);
+            mA.position().set(myRotatedPointA);
+
+            PVector myRotatedPointB = rotatePoint(mC.position(),
+                                                  pTheta * 0.5 * STRENGTH,
+                                                  mB.position(),
+                                                  myOprPointOnAxis);
+            mC.position().set(myRotatedPointB);
+
+            System.out.println("correct " + Math.toDegrees(pTheta) + " / " + mTempNormal);
+        }
+    }
+
+    private void sortAngles() {
+        final float mTempMaximumAngle = mMaximumAngle;
+        final float mTempMinimumAngle = mMinimumAngle;
+        mMaximumAngle = Math.max(mTempMaximumAngle, mTempMinimumAngle);
+        mMinimumAngle = Math.min(mTempMaximumAngle, mTempMinimumAngle);
+    }
+    public boolean OK;
+    private final Particle mA;
+    private final Particle mB;
+    private final Particle mC;
+    private final PVector mTempA = new PVector();
+    private final PVector mTempB = new PVector();
+    private final PVector mTempNormal;
+    private final long mID;
+    protected boolean mActive = true;
+    private boolean mDead = false;
+    private float mMinimumAngle;
+    private float mMaximumAngle;
 }

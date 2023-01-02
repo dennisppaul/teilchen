@@ -30,32 +30,19 @@ import teilchen.Physics;
 import static processing.core.PConstants.TWO_PI;
 import static teilchen.util.Util.distance;
 
-public class MuscleSpring
-        extends Spring {
-
-    private final boolean mPaused;
-    private float mAmplitude = 1.0f;
-    private float mPhaseShift = 0.0f;
-    private float mFrequency = TWO_PI;
-    private float mInitialRestLength;
-    private float mCurrentTime;
+public class MuscleSpring extends Spring {
 
     public MuscleSpring(Particle pA, Particle pB) {
         super(pA, pB);
         mInitialRestLength = mRestLength;
         mPaused = false;
     }
-
     public MuscleSpring(final Particle pA,
                         final Particle pB,
                         final float pSpringConstant,
                         final float pSpringDamping,
                         final float pRestLength) {
-        super(pA,
-              pB,
-              pSpringConstant,
-              pSpringDamping,
-              pRestLength);
+        super(pA, pB, pSpringConstant, pSpringDamping, pRestLength);
         mInitialRestLength = mRestLength;
         mPaused = false;
     }
@@ -106,4 +93,10 @@ public class MuscleSpring
     public float phaseshift() {
         return mPhaseShift;
     }
+    private final boolean mPaused;
+    private float mAmplitude = 1.0f;
+    private float mPhaseShift = 0.0f;
+    private float mFrequency = TWO_PI;
+    private float mInitialRestLength;
+    private float mCurrentTime;
 }

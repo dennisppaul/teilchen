@@ -29,14 +29,7 @@ import teilchen.Particle;
 import static processing.core.PVector.sub;
 import static teilchen.util.Util.angle;
 
-public class AngleConstraintStick
-        extends Stick {
-
-    private final Particle mParticleA;
-    private final Particle mParticleB;
-    private final Particle mParticleC;
-    private boolean mDead = false;
-    private float mMinAngle;
+public class AngleConstraintStick extends Stick {
 
     /**
      * particles are connected like this: A -- B -- C
@@ -53,9 +46,13 @@ public class AngleConstraintStick
         mMinAngle = Float.MAX_VALUE;
     }
 
-    public boolean dead() { return mDead; }
+    public boolean dead() {
+        return mDead;
+    }
 
-    public void dead(boolean pDead) { mDead = pDead; }
+    public void dead(boolean pDead) {
+        mDead = pDead;
+    }
 
     public void min_angle(float pAngle) {
         mMinAngle = pAngle;
@@ -79,4 +76,9 @@ public class AngleConstraintStick
     public void post_step() {
         active(false);
     }
+    private final Particle mParticleA;
+    private final Particle mParticleB;
+    private final Particle mParticleC;
+    private boolean mDead = false;
+    private float mMinAngle;
 }

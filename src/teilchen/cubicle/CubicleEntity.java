@@ -25,12 +25,7 @@ package teilchen.cubicle;
 import processing.core.PVector;
 import teilchen.util.Vector3i;
 
-public class CubicleEntity
-        implements ICubicleEntity {
-
-    private final Vector3i mCubiclePosition;
-
-    private final PVector mPosition;
+public class CubicleEntity implements ICubicleEntity {
 
     public CubicleEntity() {
         mCubiclePosition = new Vector3i();
@@ -46,12 +41,12 @@ public class CubicleEntity
     }
 
     public boolean leaving(int pX, int pY, int pZ) {
-        return !(pX == cubicle().x
-                 && pY == cubicle().y
-                 && pZ == cubicle().z);
+        return !(pX == cubicle().x && pY == cubicle().y && pZ == cubicle().z);
     }
 
     public boolean isActive() {
         return true;
     }
+    private final Vector3i mCubiclePosition;
+    private final PVector mPosition;
 }

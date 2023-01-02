@@ -20,8 +20,6 @@ public class SketchLessonX02_Collisions extends PApplet {
      */
 
     private static final float PARTICLE_SIZE = 5;
-    private CollisionManager mCollision;
-    private Physics mPhysics;
 
     public void settings() {
         size(640, 480);
@@ -98,4 +96,6 @@ public class SketchLessonX02_Collisions extends PApplet {
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLessonX02_Collisions.class.getName()});
     }
+    private CollisionManager mCollision;
+    private Physics mPhysics;
 }

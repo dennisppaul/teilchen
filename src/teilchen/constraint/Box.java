@@ -45,15 +45,6 @@ public class Box implements IConstraint {
         NORMALS[5] = new PVector(0, 0, 1);
     }
 
-    private final long mID;
-    private final PVector mMin;
-    private final PVector mMax;
-    protected boolean mActive = true;
-    private boolean mDead = false;
-    private boolean mReflectFlag;
-    private float mCoefficientOfRestitution;
-    private boolean mTeleport;
-
     public Box(final PVector pMin, final PVector pMax) {
         mID = Physics.getUniqueID();
         mMin = pMin;
@@ -62,7 +53,6 @@ public class Box implements IConstraint {
         mCoefficientOfRestitution = 1.0f;
         mTeleport = false;
     }
-
     public Box() {
         this(new PVector(), new PVector());
     }
@@ -157,9 +147,7 @@ public class Box implements IConstraint {
 //                            System.out.println("myDiff " + myDiff);
                             myParticle.old_position().sub(myDiff);
                         } else {
-                            teilchen.util.Util.reflectVelocity(myParticle,
-                                                               NORMALS[myTag],
-                                                               mCoefficientOfRestitution);
+                            teilchen.util.Util.reflectVelocity(myParticle, NORMALS[myTag], mCoefficientOfRestitution);
                         }
                     } else {
                         myParticle.velocity().set(0, 0, 0);
@@ -177,11 +165,23 @@ public class Box implements IConstraint {
         mActive = pActiveState;
     }
 
-    public boolean dead() { return mDead; }
+    public boolean dead() {
+        return mDead;
+    }
 
-    public void dead(boolean pDead) { mDead = pDead; }
+    public void dead(boolean pDead) {
+        mDead = pDead;
+    }
 
     public long ID() {
         return mID;
     }
+    private final long mID;
+    private final PVector mMin;
+    private final PVector mMax;
+    protected boolean mActive = true;
+    private boolean mDead = false;
+    private boolean mReflectFlag;
+    private float mCoefficientOfRestitution;
+    private boolean mTeleport;
 }

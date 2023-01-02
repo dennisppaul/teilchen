@@ -21,10 +21,6 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
      * press mouse to respawn particles. move mouse to change attractor position.
      */
 
-    private Physics mPhysics;
-    private ArrayList<ParticleTrail> mTrails;
-    private Attractor mAttractor;
-
     public void settings() {
         size(640, 480);
     }
@@ -103,14 +99,6 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
         resetParticles(mouseX, mouseY);
     }
 
-    private void resetParticles(float x, float y) {
-        for (ParticleTrail mTrails : mTrails) {
-            mTrails.particle().position().set(x + random(-10, 10), y + random(-10, 10), 0);
-            mTrails.particle().velocity().set(random(-10, 10), random(-10, 10), random(-10, 10));
-            mTrails.fragments().clear();
-        }
-    }
-
     private void drawTrail(ParticleTrail pTrail) {
 
         final ArrayList<Particle> mFragments = pTrail.fragments();
@@ -147,7 +135,18 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
         }
     }
 
+    private void resetParticles(float x, float y) {
+        for (ParticleTrail mTrails : mTrails) {
+            mTrails.particle().position().set(x + random(-10, 10), y + random(-10, 10), 0);
+            mTrails.particle().velocity().set(random(-10, 10), random(-10, 10), random(-10, 10));
+            mTrails.fragments().clear();
+        }
+    }
+
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLessonX03_ParticlesLeavingTrails.class.getName()});
     }
+    private Physics mPhysics;
+    private ArrayList<ParticleTrail> mTrails;
+    private Attractor mAttractor;
 }

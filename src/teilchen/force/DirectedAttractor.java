@@ -25,14 +25,10 @@ package teilchen.force;
 import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
+
 import static teilchen.util.Util.lengthSquared;
 
-public class DirectedAttractor
-        extends Attractor {
-
-    private final PVector mVectorA = new PVector();
-
-    private final PVector mVectorB = new PVector();
+public class DirectedAttractor extends Attractor {
 
     public DirectedAttractor() {
         super();
@@ -60,4 +56,6 @@ public class DirectedAttractor
             }
         }
     }
+    private final PVector mVectorA = new PVector();
+    private final PVector mVectorB = new PVector();
 }

@@ -14,10 +14,6 @@ public class SketchLesson12_ArrivalBehavior extends PApplet {
      * press mouse to position arrival destination.
      */
 
-    private Physics mPhysics;
-    private BehaviorParticle mParticle;
-    private Arrival mArrival;
-
     public void settings() {
         size(640, 480);
     }
@@ -70,13 +66,13 @@ public class SketchLesson12_ArrivalBehavior extends PApplet {
         /* draw arrival destination */
         stroke(0, 191);
         noFill();
-        ellipse(mArrival.position().x,
-                mArrival.position().y,
-                mArrival.breakradius() * 2,
-                mArrival.breakradius() * 2);
+        ellipse(mArrival.position().x, mArrival.position().y, mArrival.breakradius() * 2, mArrival.breakradius() * 2);
     }
 
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLesson12_ArrivalBehavior.class.getName()});
     }
+    private Physics mPhysics;
+    private BehaviorParticle mParticle;
+    private Arrival mArrival;
 }

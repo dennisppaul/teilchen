@@ -19,8 +19,6 @@ public class SketchLessonX01_Overlap extends PApplet {
      */
 
     private static final float PARTICLE_RADIUS = 13;
-    private Physics mPhysics;
-    private Particle mRoot;
 
     public void settings() {
         size(640, 480);
@@ -86,4 +84,6 @@ public class SketchLessonX01_Overlap extends PApplet {
     public static void main(String[] args) {
         PApplet.main(SketchLessonX01_Overlap.class.getName());
     }
+    private Physics mPhysics;
+    private Particle mRoot;
 }

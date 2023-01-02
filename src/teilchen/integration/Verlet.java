@@ -22,20 +22,15 @@
  */
 package teilchen.integration;
 
-import java.util.Iterator;
 import processing.core.PVector;
-import static processing.core.PVector.sub;
 import teilchen.Particle;
 import teilchen.Physics;
 
-public class Verlet
-        implements IIntegrator {
+import java.util.Iterator;
 
-    private final PVector temp1;
+import static processing.core.PVector.sub;
 
-    private final PVector temp2;
-
-    private float mDamping;
+public class Verlet implements IIntegrator {
 
     public Verlet() {
         this(1.0f);
@@ -111,4 +106,7 @@ public class Verlet
         /* --- */
         pParticle.old_position().set(mOldPosition);
     }
+    private final PVector temp1;
+    private final PVector temp2;
+    private float mDamping;
 }

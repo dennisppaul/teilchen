@@ -12,9 +12,6 @@ public class SketchLesson00_Particle extends PApplet {
      * drag mouse to fling particle.
      */
 
-    private Physics mPhysics;
-    private Particle mParticle;
-
     public void settings() {
         size(640, 480);
     }
@@ -49,4 +46,6 @@ public class SketchLesson00_Particle extends PApplet {
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLesson00_Particle.class.getName()});
     }
+    private Physics mPhysics;
+    private Particle mParticle;
 }

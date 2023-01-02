@@ -23,9 +23,6 @@ public class SketchLessonX08_Schwarm extends PApplet {
      * behaviors `Separation`, `Alignment`, `Cohesion` and `Wander` ( plus `Motor` ).
      */
 
-    private Physics mPhysics;
-    private ArrayList<SwarmEntity> mSwarmEntities;
-
     public void settings() {
         size(640, 480, P3D);
     }
@@ -49,9 +46,10 @@ public class SketchLessonX08_Schwarm extends PApplet {
         mSwarmEntities = new ArrayList<>();
         for (int i = 0; i < 60; i++) {
             SwarmEntity mSwarmEntity = new SwarmEntity();
-            mSwarmEntity.position().set(random(mTeleporter.min().x, mTeleporter.max().x),
-                                        random(mTeleporter.min().y, mTeleporter.max().y),
-                                        random(mTeleporter.min().z, mTeleporter.max().z));
+            mSwarmEntity.position()
+                        .set(random(mTeleporter.min().x, mTeleporter.max().x),
+                             random(mTeleporter.min().y, mTeleporter.max().y),
+                             random(mTeleporter.min().z, mTeleporter.max().z));
             mSwarmEntities.add(mSwarmEntity);
             mPhysics.add(mSwarmEntity);
         }
@@ -76,12 +74,6 @@ public class SketchLessonX08_Schwarm extends PApplet {
     }
 
     private class SwarmEntity extends BehaviorParticle {
-
-        private final Separation<SwarmEntity> separation;
-        private final Alignment<SwarmEntity> alignment;
-        private final Cohesion<SwarmEntity> cohesion;
-        private final Wander wander;
-        private final Motor motor;
 
         public SwarmEntity() {
             maximumInnerForce(random(100.0f, 1000.0f));
@@ -141,9 +133,16 @@ public class SketchLessonX08_Schwarm extends PApplet {
 
             popMatrix();
         }
+        private final Separation<SwarmEntity> separation;
+        private final Alignment<SwarmEntity> alignment;
+        private final Cohesion<SwarmEntity> cohesion;
+        private final Wander wander;
+        private final Motor motor;
     }
 
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLessonX08_Schwarm.class.getName()});
     }
+    private Physics mPhysics;
+    private ArrayList<SwarmEntity> mSwarmEntities;
 }

@@ -24,51 +24,21 @@ package teilchen.util;
 
 /**
  * a 3x3 matrix.
- *
  * rotation
- *
  * rxx ryx rzx rxy ryy rzy rxz ryy rzz
- *
  * scale
- *
  * sx 0 0 0 sy 0 0 0 sz
- *
- *
- * also read 'The Matrix and Quaternions FAQ' at
- * http://www.flipcode.com/documents/matrfaq.html
- *
+ * also read 'The Matrix and Quaternions FAQ' at http://www.flipcode.com/documents/matrfaq.html
  */
-import java.io.Serializable;
+
 import processing.core.PVector;
 
-public class Matrix3f
-        implements Serializable {
+import java.io.Serializable;
 
-    private static final long serialVersionUID = 104839874874759581L;
+public class Matrix3f implements Serializable {
 
     public static final int IDENTITY = 1;
-
-    public float xx;
-
-    public float xy;
-
-    public float xz;
-
-    public float yx;
-
-    public float yy;
-
-    public float yz;
-
-    public float zx;
-
-    public float zy;
-
-    public float zz;
-
-    private final float[] mArrayRepresentation = new float[9];
-
-    private final float[] mArray4fRepresentation = new float[16];
+    private static final long serialVersionUID = 104839874874759581L;
 
     public Matrix3f() {
         xx = 0.0f;
@@ -92,26 +62,6 @@ public class Matrix3f
                 setIdentity();
                 break;
         }
-    }
-
-    private void set(float xx,
-                     float yx,
-                     float zx,
-                     float xy,
-                     float yy,
-                     float zy,
-                     float xz,
-                     float yz,
-                     float zz) {
-        this.xx = xx;
-        this.xy = xy;
-        this.xz = xz;
-        this.yx = yx;
-        this.yy = yy;
-        this.yz = yz;
-        this.zx = zx;
-        this.zy = zy;
-        this.zz = zz;
     }
 
     public final void set(float[] mArrayRepresentation) {
@@ -174,8 +124,7 @@ public class Matrix3f
         zz += pValue;
     }
 
-    public void add(Matrix3f pMatrixA,
-                    Matrix3f pMatrixB) {
+    public void add(Matrix3f pMatrixA, Matrix3f pMatrixB) {
         xx = pMatrixA.xx + pMatrixB.xx;
         xy = pMatrixA.xy + pMatrixB.xy;
         xz = pMatrixA.xz + pMatrixB.xz;
@@ -199,8 +148,7 @@ public class Matrix3f
         zz += pMatrix.zz;
     }
 
-    public void sub(Matrix3f pMatrixA,
-                    Matrix3f pMatrixB) {
+    public void sub(Matrix3f pMatrixA, Matrix3f pMatrixB) {
         xx = pMatrixA.xx - pMatrixB.xx;
         xy = pMatrixA.xy - pMatrixB.xy;
         xz = pMatrixA.xz - pMatrixB.xz;
@@ -279,24 +227,6 @@ public class Matrix3f
         multiply(mDeterminant);
     }
 
-    public final void setXAxis(PVector pVector) {
-        xx = pVector.x;
-        yx = pVector.y;
-        zx = pVector.z;
-    }
-
-    public final void setYAxis(PVector pVector) {
-        xy = pVector.x;
-        yy = pVector.y;
-        zy = pVector.z;
-    }
-
-    public final void setZAxis(PVector pVector) {
-        xz = pVector.x;
-        yz = pVector.y;
-        zz = pVector.z;
-    }
-
     public final void getXAxis(PVector pVector) {
         pVector.x = xx;
         pVector.y = yx;
@@ -319,12 +249,30 @@ public class Matrix3f
         return new PVector(xx, yx, zx);
     }
 
+    public final void setXAxis(PVector pVector) {
+        xx = pVector.x;
+        yx = pVector.y;
+        zx = pVector.z;
+    }
+
     public final PVector getYAxis() {
         return new PVector(xy, yy, zy);
     }
 
+    public final void setYAxis(PVector pVector) {
+        xy = pVector.x;
+        yy = pVector.y;
+        zy = pVector.z;
+    }
+
     public final PVector getZAxis() {
         return new PVector(xz, yz, zz);
+    }
+
+    public final void setZAxis(PVector pVector) {
+        xz = pVector.x;
+        yz = pVector.y;
+        zz = pVector.z;
     }
 
     public final void setXRotation(float pRadians) {
@@ -386,14 +334,10 @@ public class Matrix3f
     }
 
     public final void setXYZRotation(PVector pRotation) {
-        setXYZRotation(pRotation.x,
-                       pRotation.y,
-                       pRotation.z);
+        setXYZRotation(pRotation.x, pRotation.y, pRotation.z);
     }
 
-    public final void setXYZRotation(float pX,
-                                     float pY,
-                                     float pZ) {
+    public final void setXYZRotation(float pX, float pY, float pZ) {
         /* using radiants */
         final float a = (float) Math.cos(pX);
         final float b = (float) Math.sin(pX);
@@ -474,8 +418,8 @@ public class Matrix3f
 
     public final void transform(PVector pVector) {
         pVector.set(xx * pVector.x + yx * pVector.y + zx * pVector.z,
-                      xy * pVector.x + yy * pVector.y + zy * pVector.z,
-                      pVector.z = xz * pVector.x + yz * pVector.y + zz * pVector.z);
+                    xy * pVector.x + yy * pVector.y + zy * pVector.z,
+                    pVector.z = xz * pVector.x + yz * pVector.y + zz * pVector.z);
     }
 
     public void setScale(PVector pScale) {
@@ -528,6 +472,18 @@ public class Matrix3f
 
     public String toString() {
         return xx + ", " + yx + ", " + zx + "\n" + xy + ", " + yy + ", " + zy + "\n" + xz + ", " + yz + ", " + zz;
+    }
+
+    private void set(float xx, float yx, float zx, float xy, float yy, float zy, float xz, float yz, float zz) {
+        this.xx = xx;
+        this.xy = xy;
+        this.xz = xz;
+        this.yx = yx;
+        this.yy = yy;
+        this.yz = yz;
+        this.zx = zx;
+        this.zy = zy;
+        this.zz = zz;
     }
 
     public static void main(String[] args) {
@@ -613,4 +569,15 @@ public class Matrix3f
             System.out.println();
         }
     }
+    public float xx;
+    public float xy;
+    public float xz;
+    public float yx;
+    public float yy;
+    public float yz;
+    public float zx;
+    public float zy;
+    public float zz;
+    private final float[] mArrayRepresentation = new float[9];
+    private final float[] mArray4fRepresentation = new float[16];
 }

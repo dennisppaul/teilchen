@@ -22,17 +22,13 @@
  */
 package teilchen.integration;
 
-import java.util.Iterator;
 import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
 
-public class Euler
-        implements IIntegrator {
+import java.util.Iterator;
 
-    private final PVector mTemp1;
-
-    private final PVector mTemp2;
+public class Euler implements IIntegrator {
 
     public Euler() {
         mTemp1 = new PVector();
@@ -64,6 +60,8 @@ public class Euler
         pParticle.velocity().add(mTemp1);
         pParticle.position().add(mTemp2);
     }
+    private final PVector mTemp1;
+    private final PVector mTemp2;
 }
 
 /* this version scales better with the other integrators but is definitly slower */

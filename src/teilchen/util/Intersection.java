@@ -40,130 +40,86 @@ public final class Intersection implements Serializable {
      * from paul bourke ( http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline2d/ )
      */
     public static final int COINCIDENT = 0;
-    public static final int PARALLEL = 1;
     public static final int INTERSECTING = 2;
     public static final int NOT_INTERSECTING = 3;
+    public static final int PARALLEL = 1;
     private static final float EPSILON = 0.00001f;
-    private static final long serialVersionUID = -5392974339890719551L;
     private static final PVector H = new PVector();
-    private static final PVector S = new PVector();
+    private static final PVector P_VEC = new PVector();
     private static final PVector Q = new PVector();
+    private static final PVector Q_VEC = new PVector();
+    private static final PVector S = new PVector();
     private static final PVector TMP_EDGE_1 = new PVector();
     private static final PVector TMP_EDGE_2 = new PVector();
     private static final PVector TMP_EDGE_NORMAL = new PVector();
-    private static final PVector P_VEC = new PVector();
     private static final PVector T_VEC = new PVector();
-    private static final PVector Q_VEC = new PVector();
+    private static final long serialVersionUID = -5392974339890719551L;
 
-    public static boolean intersectRayPlane(final Ray3f pRay,
-                                            final Plane3f pPlane,
-                                            final PVector pResult,
-                                            final boolean doPlanar,
-                                            final boolean quad) {
-        PVector diff = PVector.sub(pRay.origin,
-                                   pPlane.origin); // mathematik.IntegrationUtil.sub(theRay.origin, v0);
-        PVector edge1 = pPlane.vectorA; // mathematik.IntegrationUtil.sub(v1, v0);
-        PVector edge2 = pPlane.vectorB; // mathematik.IntegrationUtil.sub(v2, v0);
+    /**
+     * http://local.wasp.uwa.edu.au/~pbourke/geometry/sphereline/raysphere.c Calculate the intersection of a ray and a
+     * sphere The line segment is defined from p1 to p2 The sphere is of radius r and centered at sc There are
+     * potentially two points of intersection given by p = p1 + mu1 (p2 - p1) p = p1 + mu2 (p2 - p1) Return FALSE if the
+     * ray doesn't intersect the sphere.
+     *
+     * @param pP1           P1
+     * @param pP2           P2
+     * @param pSphereCenter sphere center
+     * @param pSphereRadius sphere radius
+     * @return returns true if intersection exists
+     */
+    public static boolean RaySphere(PVector pP1, PVector pP2, PVector pSphereCenter, float pSphereRadius) {
+        float a, b, c;
+        float bb4ac;
+        PVector dp = new PVector();
 
-        PVector norm = pPlane.normal; //new PVector();
+        dp.x = pP2.x - pP1.x;
+        dp.y = pP2.y - pP1.y;
+        dp.z = pP2.z - pP1.z;
+        a = dp.x * dp.x + dp.y * dp.y + dp.z * dp.z;
+        b = 2 * (dp.x * (pP1.x - pSphereCenter.x) + dp.y * (pP1.y - pSphereCenter.y) + dp.z * (pP1.z - pSphereCenter.z));
+        c = pSphereCenter.x * pSphereCenter.x + pSphereCenter.y * pSphereCenter.y + pSphereCenter.z * pSphereCenter.z;
+        c += pP1.x * pP1.x + pP1.y * pP1.y + pP1.z * pP1.z;
+        c -= 2 * (pSphereCenter.x * pP1.x + pSphereCenter.y * pP1.y + pSphereCenter.z * pP1.z);
+        c -= pSphereRadius * pSphereRadius;
+        bb4ac = b * b - 4 * a * c;
 
-        if (pPlane.normal == null) {
-            pPlane.updateNormal();
-            norm = pPlane.normal;
-        }
-
-        float dirDotNorm = pRay.direction.dot(norm);
-        float sign;
-        if (dirDotNorm > EPSILON) {
-            sign = 1;
-        } else if (dirDotNorm < EPSILON) {
-            sign = -1f;
-            dirDotNorm = -dirDotNorm;
-        } else {
-            // ray and triangle are parallel
-            return false;
-        }
-
-        PVector mCross = new PVector();
-        cross(diff, edge2, mCross);
-        float dirDotDiffxEdge2 = sign * pRay.direction.dot(mCross);
-        if (dirDotDiffxEdge2 > 0.0f) {
-            mCross = new PVector();
-            cross(edge1, diff, mCross);
-            float dirDotEdge1xDiff = sign * pRay.direction.dot(mCross);
-            if (dirDotEdge1xDiff >= 0.0f) {
-                if (!quad ? dirDotDiffxEdge2 + dirDotEdge1xDiff <= dirDotNorm : dirDotEdge1xDiff <= dirDotNorm) {
-                    float diffDotNorm = -sign * diff.dot(norm);
-                    if (diffDotNorm >= 0.0f) {
-                        // ray intersects triangle
-                        // if storage vector is null, just return true,
-                        if (pResult == null) {
-                            return true;
-                        }
-                        // else fill in.
-                        float inv = 1f / dirDotNorm;
-                        float t = diffDotNorm * inv;
-                        if (!doPlanar) {
-                            pResult.set(pRay.origin);
-                            pResult.add(pRay.direction.x * t, pRay.direction.y * t, pRay.direction.z * t);
-                        } else {
-                            // these weights can be used to determine
-                            // interpolated values, such as texture coord.
-                            // eg. texcoord s,t at intersection point:
-                            // s = w0*s0 + w1*s1 + w2*s2;
-                            // t = w0*t0 + w1*t1 + w2*t2;
-                            float w1 = dirDotDiffxEdge2 * inv;
-                            float w2 = dirDotEdge1xDiff * inv;
-                            //float w0 = 1.0f - w1 - w2;
-                            pResult.set(t, w1, w2);
-                        }
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        return !(Math.abs(a) < EPSILON || bb4ac < 0);
     }
 
-    /*
-     * *Möller–Trumbore intersection algorithm* from
-     * https://en.wikipedia.org/wiki/Möller–Trumbore_intersection_algorithm
+    /**
+     * intersect line with plane ( grabbed from Xith )
+     *
+     * @param pPlane             Plane3f
+     * @param pRay               Ray3f
+     * @param pIntersectionPoint PVector
+     * @return float
      */
-    public static boolean intersectRayTriangle(final PVector pRayOrigin,
-                                               final PVector pRayDirection,
-                                               final PVector v0,
-                                               final PVector v1,
-                                               final PVector v2,
-                                               final PVector pIntersectionPoint) {
-        final float EPSILON = 0.0000001f;
-        PVector edge1, edge2, h, s, q;
-        float a, f, u, v;
-        edge1 = PVector.sub(v1, v0);
-        edge2 = PVector.sub(v2, v0);
-        h = pRayDirection.cross(edge2);
-        a = edge1.dot(h);
-        if (a > -EPSILON && a < EPSILON) {
-            return false;
+    public static float intersectLinePlane(final Ray3f pRay, final Plane3f pPlane, final PVector pIntersectionPoint) {
+        /*
+         * @todo not sure whether this is for ray-plane or line-plane intersection. but i think it s for the latter,
+         *   hence the method name.
+         */
+
+        double time = 0;
+        cross(pPlane.vectorA, pPlane.vectorB, TMP_EDGE_NORMAL);
+        double denom = TMP_EDGE_NORMAL.dot(pRay.direction);
+
+        if (denom == 0) {
+            System.err.println("### ERROR @ Intersection / NEGATIVE_INFINITY");
+            return Float.NEGATIVE_INFINITY;
         }
-        f = 1 / a;
-        s = PVector.sub(pRayOrigin, v0);
-        u = f * (s.dot(h));
-        if (u < 0.0 || u > 1.0) {
-            return false;
+
+        double numer = TMP_EDGE_NORMAL.dot(pRay.origin);
+        double D = -(pPlane.origin.dot(TMP_EDGE_NORMAL));
+        time = -((numer + D) / denom);
+
+        if (pIntersectionPoint != null) {
+            pIntersectionPoint.set(pRay.direction);
+            pIntersectionPoint.mult((float) time);
+            pIntersectionPoint.add(pRay.origin);
         }
-        q = s.cross(edge1);
-        v = f * pRayDirection.dot(q);
-        if (v < 0.0 || u + v > 1.0) {
-            return false;
-        }
-        // At this stage we can compute t to find out where the intersection point is on the line.
-        float t = f * edge2.dot(q);
-        if (t > EPSILON) { // ray intersection
-            pIntersectionPoint.set(PVector.add(pRayOrigin, PVector.mult(pRayDirection, t)));
-            return true;
-        } else { // This means that there is a line intersection but not a ray intersection.
-            return false;
-        }
+
+        return (float) time;
     }
 
     //    /*
@@ -245,42 +201,173 @@ public final class Intersection implements Serializable {
     //        return true;
     //    }
 
-    /**
-     * intersect line with plane ( grabbed from Xith )
-     *
-     * @param pPlane             Plane3f
-     * @param pRay               Ray3f
-     * @param pIntersectionPoint PVector
-     * @return float
+    public static boolean intersectRayPlane(final Ray3f pRay,
+                                            final Plane3f pPlane,
+                                            final PVector pResult,
+                                            final boolean doPlanar,
+                                            final boolean quad) {
+        PVector diff = PVector.sub(pRay.origin, pPlane.origin); // mathematik.IntegrationUtil.sub(theRay.origin, v0);
+        PVector edge1 = pPlane.vectorA; // mathematik.IntegrationUtil.sub(v1, v0);
+        PVector edge2 = pPlane.vectorB; // mathematik.IntegrationUtil.sub(v2, v0);
+
+        PVector norm = pPlane.normal; //new PVector();
+
+        if (pPlane.normal == null) {
+            pPlane.updateNormal();
+            norm = pPlane.normal;
+        }
+
+        float dirDotNorm = pRay.direction.dot(norm);
+        float sign;
+        if (dirDotNorm > EPSILON) {
+            sign = 1;
+        } else if (dirDotNorm < EPSILON) {
+            sign = -1f;
+            dirDotNorm = -dirDotNorm;
+        } else {
+            // ray and triangle are parallel
+            return false;
+        }
+
+        PVector mCross = new PVector();
+        cross(diff, edge2, mCross);
+        float dirDotDiffxEdge2 = sign * pRay.direction.dot(mCross);
+        if (dirDotDiffxEdge2 > 0.0f) {
+            mCross = new PVector();
+            cross(edge1, diff, mCross);
+            float dirDotEdge1xDiff = sign * pRay.direction.dot(mCross);
+            if (dirDotEdge1xDiff >= 0.0f) {
+                if (!quad ? dirDotDiffxEdge2 + dirDotEdge1xDiff <= dirDotNorm : dirDotEdge1xDiff <= dirDotNorm) {
+                    float diffDotNorm = -sign * diff.dot(norm);
+                    if (diffDotNorm >= 0.0f) {
+                        // ray intersects triangle
+                        // if storage vector is null, just return true,
+                        if (pResult == null) {
+                            return true;
+                        }
+                        // else fill in.
+                        float inv = 1f / dirDotNorm;
+                        float t = diffDotNorm * inv;
+                        if (!doPlanar) {
+                            pResult.set(pRay.origin);
+                            pResult.add(pRay.direction.x * t, pRay.direction.y * t, pRay.direction.z * t);
+                        } else {
+                            // these weights can be used to determine
+                            // interpolated values, such as texture coord.
+                            // eg. texcoord s,t at intersection point:
+                            // s = w0*s0 + w1*s1 + w2*s2;
+                            // t = w0*t0 + w1*t1 + w2*t2;
+                            float w1 = dirDotDiffxEdge2 * inv;
+                            float w2 = dirDotEdge1xDiff * inv;
+                            //float w0 = 1.0f - w1 - w2;
+                            pResult.set(t, w1, w2);
+                        }
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public static PVector[] intersectRaySpherePoints(PVector pSphereCenter,
+                                                     float pSphereRadius,
+                                                     PVector pRayDirection,
+                                                     PVector pRayOrigin) {
+        // Solve quadratic equation
+        float a = lengthSquared(pRayDirection);
+        if (a == 0.0) {
+            return null;
+        }
+        float b = 2.0f * (pRayOrigin.dot(pRayDirection) - pRayDirection.dot(pSphereCenter));
+        PVector tempDiff = sub(pSphereCenter, pRayOrigin);
+        float c = lengthSquared(tempDiff) - (pSphereRadius * pSphereRadius);
+        float disc = b * b - 4 * a * c;
+        if (disc < 0.0f) {
+            return null;
+        }
+        int numIntersections;
+        if (disc == 0.0f) {
+            numIntersections = 1;
+        } else {
+            numIntersections = 2;
+        }
+
+        // Atleast one intersection
+        PVector[] points = new PVector[numIntersections];
+        float t0;
+        float t1 = 0.0f;
+        t0 = ((0.5f * (-1.0f * b + (float) Math.sqrt(disc))) / a);
+        if (numIntersections == 2) {
+            t1 = ((0.5f * (-1.0f * b - (float) Math.sqrt(disc))) / a);
+        }
+        // point 1 of intersection
+        points[0] = Util.clone(pRayDirection);
+        points[0].mult(t0);
+        points[0].add(pRayOrigin);
+        if (numIntersections == 2) {
+            points[1] = Util.clone(pRayDirection);
+            points[1].mult(t1);
+            points[1].add(pRayOrigin);
+        }
+        return points;
+    }
+
+    //    public static boolean intersectRayTriangle(final PVector pRayOrigin,
+    //                                               final PVector pRayDirection,
+    //                                               final PVector v0,
+    //                                               final PVector v1,
+    //                                               final PVector v2,
+    //                                               final PVector pResult,
+    //                                               final boolean pCullingFlag) {
+    //        final IntersectionResult mResult = new IntersectionResult();
+    //        final boolean mSuccess = intersectRayTriangle(pRayOrigin, pRayDirection, v0, v1, v2, mResult,
+    //        pCullingFlag);
+    //        pResult.x = mResult.t;
+    //        pResult.y = mResult.u;
+    //        pResult.z = mResult.v;
+    //        return mSuccess;
+    //    }
+
+    /*
+     * *Möller–Trumbore intersection algorithm* from
+     * https://en.wikipedia.org/wiki/Möller–Trumbore_intersection_algorithm
      */
-    public static float intersectLinePlane(final Ray3f pRay,
-                                           final Plane3f pPlane,
-                                           final PVector pIntersectionPoint) {
-        /*
-         * @todo not sure whether this is for ray-plane or line-plane intersection. but i think it s for the latter,
-         *   hence the method name.
-         */
-
-        double time = 0;
-        cross(pPlane.vectorA, pPlane.vectorB, TMP_EDGE_NORMAL);
-        double denom = TMP_EDGE_NORMAL.dot(pRay.direction);
-
-        if (denom == 0) {
-            System.err.println("### ERROR @ Intersection / NEGATIVE_INFINITY");
-            return Float.NEGATIVE_INFINITY;
+    public static boolean intersectRayTriangle(final PVector pRayOrigin,
+                                               final PVector pRayDirection,
+                                               final PVector v0,
+                                               final PVector v1,
+                                               final PVector v2,
+                                               final PVector pIntersectionPoint) {
+        final float EPSILON = 0.0000001f;
+        PVector edge1, edge2, h, s, q;
+        float a, f, u, v;
+        edge1 = PVector.sub(v1, v0);
+        edge2 = PVector.sub(v2, v0);
+        h = pRayDirection.cross(edge2);
+        a = edge1.dot(h);
+        if (a > -EPSILON && a < EPSILON) {
+            return false;
         }
-
-        double numer = TMP_EDGE_NORMAL.dot(pRay.origin);
-        double D = -(pPlane.origin.dot(TMP_EDGE_NORMAL));
-        time = -((numer + D) / denom);
-
-        if (pIntersectionPoint != null) {
-            pIntersectionPoint.set(pRay.direction);
-            pIntersectionPoint.mult((float) time);
-            pIntersectionPoint.add(pRay.origin);
+        f = 1 / a;
+        s = PVector.sub(pRayOrigin, v0);
+        u = f * (s.dot(h));
+        if (u < 0.0 || u > 1.0) {
+            return false;
         }
-
-        return (float) time;
+        q = s.cross(edge1);
+        v = f * pRayDirection.dot(q);
+        if (v < 0.0 || u + v > 1.0) {
+            return false;
+        }
+        // At this stage we can compute t to find out where the intersection point is on the line.
+        float t = f * edge2.dot(q);
+        if (t > EPSILON) { // ray intersection
+            pIntersectionPoint.set(PVector.add(pRayOrigin, PVector.mult(pRayDirection, t)));
+            return true;
+        } else { // This means that there is a line intersection but not a ray intersection.
+            return false;
+        }
     }
 
     /**
@@ -378,87 +465,6 @@ public final class Intersection implements Serializable {
         return true;
     }
 
-    //    public static boolean intersectRayTriangle(final PVector pRayOrigin,
-    //                                               final PVector pRayDirection,
-    //                                               final PVector v0,
-    //                                               final PVector v1,
-    //                                               final PVector v2,
-    //                                               final PVector pResult,
-    //                                               final boolean pCullingFlag) {
-    //        final IntersectionResult mResult = new IntersectionResult();
-    //        final boolean mSuccess = intersectRayTriangle(pRayOrigin, pRayDirection, v0, v1, v2, mResult,
-    //        pCullingFlag);
-    //        pResult.x = mResult.t;
-    //        pResult.y = mResult.u;
-    //        pResult.z = mResult.v;
-    //        return mSuccess;
-    //    }
-
-    /**
-     * http://local.wasp.uwa.edu.au/~pbourke/geometry/sphereline/raysphere.c Calculate the intersection of a ray and a
-     * sphere The line segment is defined from p1 to p2 The sphere is of radius r and centered at sc There are
-     * potentially two points of intersection given by p = p1 + mu1 (p2 - p1) p = p1 + mu2 (p2 - p1) Return FALSE if the
-     * ray doesn't intersect the sphere.
-     *
-     * @param pP1           P1
-     * @param pP2           P2
-     * @param pSphereCenter sphere center
-     * @param pSphereRadius sphere radius
-     * @return returns true if intersection exists
-     */
-    public static boolean RaySphere(PVector pP1, PVector pP2, PVector pSphereCenter, float pSphereRadius) {
-        float a, b, c;
-        float bb4ac;
-        PVector dp = new PVector();
-
-        dp.x = pP2.x - pP1.x;
-        dp.y = pP2.y - pP1.y;
-        dp.z = pP2.z - pP1.z;
-        a = dp.x * dp.x + dp.y * dp.y + dp.z * dp.z;
-        b =
-        2 * (dp.x * (pP1.x - pSphereCenter.x) + dp.y * (pP1.y - pSphereCenter.y) + dp.z * (pP1.z - pSphereCenter.z));
-        c = pSphereCenter.x * pSphereCenter.x + pSphereCenter.y * pSphereCenter.y + pSphereCenter.z * pSphereCenter.z;
-        c += pP1.x * pP1.x + pP1.y * pP1.y + pP1.z * pP1.z;
-        c -= 2 * (pSphereCenter.x * pP1.x + pSphereCenter.y * pP1.y + pSphereCenter.z * pP1.z);
-        c -= pSphereRadius * pSphereRadius;
-        bb4ac = b * b - 4 * a * c;
-
-        return !(Math.abs(a) < EPSILON || bb4ac < 0);
-    }
-
-    public static int lineLineIntersect(PVector aBegin,
-                                        PVector aEnd,
-                                        PVector bBegin,
-                                        PVector bEnd,
-                                        PVector pIntersection) {
-        float denom = ((bEnd.y - bBegin.y) * (aEnd.x - aBegin.x)) - ((bEnd.x - bBegin.x) * (aEnd.y - aBegin.y));
-
-        float nume_a = ((bEnd.x - bBegin.x) * (aBegin.y - bBegin.y)) - ((bEnd.y - bBegin.y) * (aBegin.x - bBegin.x));
-
-        float nume_b = ((aEnd.x - aBegin.x) * (aBegin.y - bBegin.y)) - ((aEnd.y - aBegin.y) * (aBegin.x - bBegin.x));
-
-        if (denom == 0.0f) {
-            if (nume_a == 0.0f && nume_b == 0.0f) {
-                return COINCIDENT;
-            }
-            return PARALLEL;
-        }
-
-        float ua = nume_a / denom;
-        float ub = nume_b / denom;
-
-        if (ua >= 0.0f && ua <= 1.0f && ub >= 0.0f && ub <= 1.0f) {
-            if (pIntersection != null) {
-                // Get the intersection point.
-                pIntersection.x = aBegin.x + ua * (aEnd.x - aBegin.x);
-                pIntersection.y = aBegin.y + ua * (aEnd.y - aBegin.y);
-            }
-            return INTERSECTING;
-        }
-
-        return NOT_INTERSECTING;
-    }
-
     /**
      * from paul bourke ( http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline3d/ )
      * <p>
@@ -527,62 +533,49 @@ public final class Intersection implements Serializable {
         return true;
     }
 
-    public static PVector[] intersectRaySpherePoints(PVector pSphereCenter,
-                                                     float pSphereRadius,
-                                                     PVector pRayDirection,
-                                                     PVector pRayOrigin) {
-        // Solve quadratic equation
-        float a = lengthSquared(pRayDirection);
-        if (a == 0.0) {
-            return null;
-        }
-        float b = 2.0f * (pRayOrigin.dot(pRayDirection) - pRayDirection.dot(pSphereCenter));
-        PVector tempDiff = sub(pSphereCenter, pRayOrigin);
-        float c = lengthSquared(tempDiff) - (pSphereRadius * pSphereRadius);
-        float disc = b * b - 4 * a * c;
-        if (disc < 0.0f) {
-            return null;
-        }
-        int numIntersections;
-        if (disc == 0.0f) {
-            numIntersections = 1;
-        } else {
-            numIntersections = 2;
+    public static int lineLineIntersect(PVector aBegin,
+                                        PVector aEnd,
+                                        PVector bBegin,
+                                        PVector bEnd,
+                                        PVector pIntersection) {
+        float denom = ((bEnd.y - bBegin.y) * (aEnd.x - aBegin.x)) - ((bEnd.x - bBegin.x) * (aEnd.y - aBegin.y));
+
+        float nume_a = ((bEnd.x - bBegin.x) * (aBegin.y - bBegin.y)) - ((bEnd.y - bBegin.y) * (aBegin.x - bBegin.x));
+
+        float nume_b = ((aEnd.x - aBegin.x) * (aBegin.y - bBegin.y)) - ((aEnd.y - aBegin.y) * (aBegin.x - bBegin.x));
+
+        if (denom == 0.0f) {
+            if (nume_a == 0.0f && nume_b == 0.0f) {
+                return COINCIDENT;
+            }
+            return PARALLEL;
         }
 
-        // Atleast one intersection
-        PVector[] points = new PVector[numIntersections];
-        float t0;
-        float t1 = 0.0f;
-        t0 = ((0.5f * (-1.0f * b + (float) Math.sqrt(disc))) / a);
-        if (numIntersections == 2) {
-            t1 = ((0.5f * (-1.0f * b - (float) Math.sqrt(disc))) / a);
+        float ua = nume_a / denom;
+        float ub = nume_b / denom;
+
+        if (ua >= 0.0f && ua <= 1.0f && ub >= 0.0f && ub <= 1.0f) {
+            if (pIntersection != null) {
+                // Get the intersection point.
+                pIntersection.x = aBegin.x + ua * (aEnd.x - aBegin.x);
+                pIntersection.y = aBegin.y + ua * (aEnd.y - aBegin.y);
+            }
+            return INTERSECTING;
         }
-        // point 1 of intersection
-        points[0] = Util.clone(pRayDirection);
-        points[0].mult(t0);
-        points[0].add(pRayOrigin);
-        if (numIntersections == 2) {
-            points[1] = Util.clone(pRayDirection);
-            points[1].mult(t1);
-            points[1].add(pRayOrigin);
-        }
-        return points;
+
+        return NOT_INTERSECTING;
     }
 
     public static class IntersectionResult {
-
-        public float t;
-
-        public float u;
-
-        public float v;
 
         public void clear() {
             v = 0;
             u = 0;
             t = 0;
         }
+        public float t;
+        public float u;
+        public float v;
 
     }
 }

@@ -20,9 +20,6 @@ public class SketchLessonX09_TriangleDeflector extends PApplet {
      * press mouse to create particles. move mouse to rotate view.
      */
 
-    private Physics mPhysics;
-    private ArrayList<TriangleDeflector> mTriangleDeflectors;
-
     public void settings() {
         size(640, 480, P3D);
     }
@@ -34,12 +31,9 @@ public class SketchLessonX09_TriangleDeflector extends PApplet {
         mPhysics.add(mGravity);
 
         /* triangle deflectors */
-        final PVector[] mVertices = new PVector[]{new PVector(0, 0, 0),
-                                                  new PVector(width, height, 0),
-                                                  new PVector(0, height, 0),
-                                                  new PVector(0, 0, 0),
-                                                  new PVector(width, 0, 0),
-                                                  new PVector(width, height, 0),};
+        final PVector[] mVertices = new PVector[]{new PVector(0, 0, 0), new PVector(width, height, 0),
+                                                  new PVector(0, height, 0), new PVector(0, 0, 0),
+                                                  new PVector(width, 0, 0), new PVector(width, height, 0),};
         mTriangleDeflectors = teilchen.util.Util.createTriangleDeflectors(mVertices, 1.0f);
         mPhysics.addForces(mTriangleDeflectors);
     }
@@ -54,9 +48,15 @@ public class SketchLessonX09_TriangleDeflector extends PApplet {
 
         /* draw particles */
         background(255);
-        camera(2 * mouseX - width / 2.0f, mouseY + height, height * 1.3f - mouseY,
-               width / 2.0f, height / 2.0f, 0,
-               0, 1, 0);
+        camera(2 * mouseX - width / 2.0f,
+               mouseY + height,
+               height * 1.3f - mouseY,
+               width / 2.0f,
+               height / 2.0f,
+               0,
+               0,
+               1,
+               0);
 
         noStroke();
         sphereDetail(10);
@@ -116,4 +116,6 @@ public class SketchLessonX09_TriangleDeflector extends PApplet {
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLessonX09_TriangleDeflector.class.getName()});
     }
+    private Physics mPhysics;
+    private ArrayList<TriangleDeflector> mTriangleDeflectors;
 }

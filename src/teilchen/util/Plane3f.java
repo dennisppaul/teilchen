@@ -22,26 +22,13 @@
  */
 package teilchen.util;
 
-import java.io.Serializable;
 import processing.core.PVector;
 
-public class Plane3f
-        implements Serializable {
+import java.io.Serializable;
+
+public class Plane3f implements Serializable {
 
     private static final long serialVersionUID = 2390391570305327484L;
-
-    public PVector origin;
-
-    public PVector vectorA;
-
-    public PVector vectorB;
-
-    /**
-     * these fields are not used by default and left uninitialized 'null'
-     */
-    public PVector normal;
-
-    public float d = Float.NaN;
 
     public Plane3f() {
         origin = new PVector();
@@ -49,9 +36,7 @@ public class Plane3f
         vectorB = new PVector();
     }
 
-    public Plane3f(PVector pOrigin,
-                   PVector pVectorA,
-                   PVector pVectorB) {
+    public Plane3f(PVector pOrigin, PVector pVectorA, PVector pVectorB) {
         origin = pOrigin;
         vectorA = pVectorA;
         vectorB = pVectorB;
@@ -69,6 +54,14 @@ public class Plane3f
             d = -normal.dot(origin);
         }
     }
+    public PVector origin;
+    public PVector vectorA;
+    public PVector vectorB;
+    /**
+     * these fields are not used by default and left uninitialized 'null'
+     */
+    public PVector normal;
+    public float d = Float.NaN;
 //    private float intersection(PVector a, PVector b) {
 //        /*
 //         * updateNormal();

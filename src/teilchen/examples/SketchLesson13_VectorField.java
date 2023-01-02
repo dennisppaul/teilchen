@@ -17,12 +17,6 @@ public class SketchLesson13_VectorField extends PApplet {
      * press `L` to toggle line/point view
      */
 
-    /* drawing particles as lines looks more intriguing but less explicatory */
-    private boolean mDrawParticlesAsLines = false;
-    private boolean mDrawGrid = false;
-    private Physics mPhysics;
-    private VectorField mVectorField;
-
     public void settings() {
         size(640, 480);
     }
@@ -54,7 +48,9 @@ public class SketchLesson13_VectorField extends PApplet {
         /* draw vectro field */
         noFill();
         stroke(0, 63);
-        if (mDrawGrid) { VectorField.draw(g, mVectorField, 0.15f); }
+        if (mDrawGrid) {
+            VectorField.draw(g, mVectorField, 0.15f);
+        }
 
         /* draw particles - as point or as lines */
         if (!mDrawParticlesAsLines) {
@@ -120,5 +116,10 @@ public class SketchLesson13_VectorField extends PApplet {
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLesson13_VectorField.class.getName()});
     }
+    /* drawing particles as lines looks more intriguing but less explicatory */
+    private boolean mDrawParticlesAsLines = false;
+    private boolean mDrawGrid = false;
+    private Physics mPhysics;
+    private VectorField mVectorField;
 }
 

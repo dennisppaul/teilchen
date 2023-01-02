@@ -29,12 +29,6 @@ import teilchen.cubicle.CubicleWorld;
 
 public class CubicleWorldView {
 
-    private final CubicleWorld mCubicleWorld;
-
-    public int color_full = -1;
-
-    public int color_empty = -8421505;
-
     public CubicleWorldView(CubicleWorld pWorld) {
         mCubicleWorld = pWorld;
     }
@@ -52,10 +46,7 @@ public class CubicleWorldView {
         /* rotation */
         float[] f = mTransform.toArray();
         pParent.translate(f[12], f[13], f[14]);
-        pParent.applyMatrix(f[0], f[1], f[2], f[3],
-                              f[4], f[5], f[6], f[7],
-                              f[8], f[9], f[10], f[11],
-                              0, 0, 0, f[15]);
+        pParent.applyMatrix(f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8], f[9], f[10], f[11], 0, 0, 0, f[15]);
 
         /* scale */
         pParent.scale(mScale.x, mScale.y, mScale.z);
@@ -66,8 +57,8 @@ public class CubicleWorldView {
                     pParent.pushMatrix();
                     pParent.translate(x, y, z);
                     pParent.translate(mCubicleWorld.cellscale().x / 2 / mScale.x,
-                                        mCubicleWorld.cellscale().y / 2 / mScale.y,
-                                        mCubicleWorld.cellscale().z / 2 / mScale.z);
+                                      mCubicleWorld.cellscale().y / 2 / mScale.y,
+                                      mCubicleWorld.cellscale().z / 2 / mScale.z);
                     if (mCubicle.size() > 0) {
                         pParent.stroke(color_full);
                     } else {
@@ -80,4 +71,7 @@ public class CubicleWorldView {
         }
         pParent.popMatrix();
     }
+    private final CubicleWorld mCubicleWorld;
+    public int color_full = -1;
+    public int color_empty = -8421505;
 }

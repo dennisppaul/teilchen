@@ -30,8 +30,6 @@ import java.util.ArrayList;
 
 public class Midpoint implements IIntegrator {
 
-    private final ArrayList<Derivate3f> mK1 = new ArrayList<>();
-
     public void step(final float pDeltaTime, final Physics pParticleSystem) {
 
         IntegrationUtil.checkContainerSize(pParticleSystem.particles().size(), mK1, Derivate3f.class);
@@ -66,4 +64,5 @@ public class Midpoint implements IIntegrator {
             }
         }
     }
+    private final ArrayList<Derivate3f> mK1 = new ArrayList<>();
 }

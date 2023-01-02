@@ -23,23 +23,13 @@
 package teilchen.behavior;
 
 import processing.core.PVector;
-import static processing.core.PVector.sub;
 import teilchen.IBehaviorParticle;
 
-public class Seek
-        implements IBehavior, Verhalten {
+import static processing.core.PVector.sub;
+
+public class Seek implements IBehavior, Verhalten {
 
     static final long serialVersionUID = -3781170603537691477L;
-
-    private PVector mSeekPosition;
-
-    private final PVector mForce;
-
-    private float mWeight = 1;
-
-    private float mDistanceToPoint;
-
-    private boolean mOverSteer;
 
     public Seek() {
         mSeekPosition = new PVector();
@@ -92,4 +82,9 @@ public class Seek
     public void weight(float pWeight) {
         mWeight = pWeight;
     }
+    private PVector mSeekPosition;
+    private final PVector mForce;
+    private float mWeight = 1;
+    private float mDistanceToPoint;
+    private boolean mOverSteer;
 }

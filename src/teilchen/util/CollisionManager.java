@@ -45,24 +45,16 @@ import static teilchen.util.Util.lengthSquared;
  */
 public class CollisionManager {
 
-    public static final int DISTANCE_MODE_RADIUS = 0;
     public static final int DISTANCE_MODE_FIXED = 1;
-    public boolean HINT_IGNORE_STILL_OR_FIXED = false;
-    private final Physics mCollisionPhysics;
-    private final Random mRandom;
-    private final PVector mResolveSamePosition;
-    private float mCollisionSpringConstant;
-    private float mCollisionSpringDamping;
-    private float mMinimumDistance;
-    private ResolverType mResolverType;
-    private float mCollisionResolverIntervalCounter = 1;
-    private float mCollisionResolverInterval = 0;
-    private int mDistanceMode = DISTANCE_MODE_FIXED;
-
+    public static final int DISTANCE_MODE_RADIUS = 0;
+    public enum ResolverType {
+        //        COLLISION_STICK, COLLISION_SPRING,
+        SPRING,
+        STICK
+    }
     public CollisionManager() {
         this(new Physics());
     }
-
     public CollisionManager(final Physics pPhysics) {
         mCollisionPhysics = pPhysics;
         mResolveSamePosition = new PVector(1, 1, 1);
@@ -202,9 +194,7 @@ public class CollisionManager {
                                                     mMinimumDistance);
                         mCollisionPhysics.add(mSpring);
                     } else if (mResolverType == ResolverType.STICK) {
-                        Stick mSpring = new Stick(pParticle,
-                                                  mOprParticle,
-                                                  mMinimumDistance);
+                        Stick mSpring = new Stick(pParticle, mOprParticle, mMinimumDistance);
                         mCollisionPhysics.add(mSpring);
                     }
                     pParticle.tag(true);
@@ -213,11 +203,11 @@ public class CollisionManager {
                     /* hack to prevent particles from being in the same place */
                     if (mDistance < EPSILON && mDistance > -EPSILON) {
                         mOprParticle.position().x += mRandom.getFloat(mResolveSamePosition.x * -0.5f,
-                                                                        mResolveSamePosition.x * 0.5f);
+                                                                      mResolveSamePosition.x * 0.5f);
                         mOprParticle.position().y += mRandom.getFloat(mResolveSamePosition.y * -0.5f,
-                                                                        mResolveSamePosition.y * 0.5f);
+                                                                      mResolveSamePosition.y * 0.5f);
                         mOprParticle.position().z += mRandom.getFloat(mResolveSamePosition.z * -0.5f,
-                                                                        mResolveSamePosition.z * 0.5f);
+                                                                      mResolveSamePosition.z * 0.5f);
                     }
                 }
             }
@@ -258,20 +248,18 @@ public class CollisionManager {
                                                             mMinimumDistance);
                                 mCollisionPhysics.add(mSpring);
                             } else if (mResolverType == ResolverType.STICK) {
-                                Stick mSpring = new Stick(pParticle,
-                                                          mOprParticle,
-                                                          mMinimumDistance);
+                                Stick mSpring = new Stick(pParticle, mOprParticle, mMinimumDistance);
                                 mCollisionPhysics.add(mSpring);
                             }
 
                             /* hack to prevent particles from being in the same place */
                             if (mDistance < EPSILON && mDistance > -EPSILON) {
                                 mOprParticle.position().x += mRandom.getFloat(mResolveSamePosition.x * -0.5f,
-                                                                                mResolveSamePosition.x * 0.5f);
+                                                                              mResolveSamePosition.x * 0.5f);
                                 mOprParticle.position().y += mRandom.getFloat(mResolveSamePosition.y * -0.5f,
-                                                                                mResolveSamePosition.y * 0.5f);
+                                                                              mResolveSamePosition.y * 0.5f);
                                 mOprParticle.position().z += mRandom.getFloat(mResolveSamePosition.z * -0.5f,
-                                                                                mResolveSamePosition.z * 0.5f);
+                                                                              mResolveSamePosition.z * 0.5f);
                             }
                         }
                     }
@@ -291,30 +279,14 @@ public class CollisionManager {
         return mTmpMinimumDistance;
     }
 
-    public enum ResolverType {
-        //        COLLISION_STICK, COLLISION_SPRING,
-        SPRING, STICK
-    }
-
-    public static class CollisionSpring
-            extends Spring {
+    public static class CollisionSpring extends Spring {
 
         public CollisionSpring(Particle pA, Particle pB) {
-            super(pA,
-                  pB,
-                  2.0f, 0.1f,
-                  distance(pA.position(), pB.position()));
+            super(pA, pB, 2.0f, 0.1f, distance(pA.position(), pB.position()));
         }
 
-        public CollisionSpring(Particle pA,
-                               Particle pB,
-                               final float pSpringConstant,
-                               final float pSpringDamping) {
-            super(pA,
-                  pB,
-                  pSpringConstant,
-                  pSpringDamping,
-                  distance(pA.position(), pB.position()));
+        public CollisionSpring(Particle pA, Particle pB, final float pSpringConstant, final float pSpringDamping) {
+            super(pA, pB, pSpringConstant, pSpringDamping, distance(pA.position(), pB.position()));
         }
 
         public CollisionSpring(final Particle pA,
@@ -322,11 +294,7 @@ public class CollisionManager {
                                final float pSpringConstant,
                                final float pSpringDamping,
                                final float pRestLength) {
-            super(pA,
-                  pB,
-                  pSpringConstant,
-                  pSpringDamping,
-                  pRestLength);
+            super(pA, pB, pSpringConstant, pSpringDamping, pRestLength);
         }
 
         public void apply(final float pDeltaTime, final Physics pParticleSystem) {
@@ -370,16 +338,13 @@ public class CollisionManager {
         }
     }
 
-    public static class CollisionStick
-            extends Stick {
+    public static class CollisionStick extends Stick {
 
         public CollisionStick(Particle pA, Particle pB) {
             super(pA, pB);
         }
 
-        public CollisionStick(final Particle pA,
-                              final Particle pB,
-                              final float pRestLength) {
+        public CollisionStick(final Particle pA, final Particle pB, final float pRestLength) {
             super(pA, pB, pRestLength);
         }
 
@@ -412,4 +377,15 @@ public class CollisionManager {
             }
         }
     }
+    public boolean HINT_IGNORE_STILL_OR_FIXED = false;
+    private final Physics mCollisionPhysics;
+    private final Random mRandom;
+    private final PVector mResolveSamePosition;
+    private float mCollisionSpringConstant;
+    private float mCollisionSpringDamping;
+    private float mMinimumDistance;
+    private ResolverType mResolverType;
+    private float mCollisionResolverIntervalCounter = 1;
+    private float mCollisionResolverInterval = 0;
+    private int mDistanceMode = DISTANCE_MODE_FIXED;
 }

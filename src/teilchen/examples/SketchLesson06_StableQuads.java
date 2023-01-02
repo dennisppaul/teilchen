@@ -21,9 +21,6 @@ public class SketchLesson06_StableQuads extends PApplet {
      * press mouse to drag corner of stable quad.
      */
 
-    private Physics mPhysics;
-    private Particle mRoot;
-
     public void settings() {
         size(640, 480);
     }
@@ -102,4 +99,6 @@ public class SketchLesson06_StableQuads extends PApplet {
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLesson06_StableQuads.class.getName()});
     }
+    private Physics mPhysics;
+    private Particle mRoot;
 }

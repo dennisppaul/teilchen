@@ -35,15 +35,30 @@ import static teilchen.util.Util.isNaN;
 public class Separation<E extends IBehaviorParticle> implements IBehavior, Serializable {
 
     private static final long serialVersionUID = -4953599448151741585L;
-    private final PVector mForce;
-    private float mProximity;
-    private float mWeight;
-    private ArrayList<E> mNeighbors;
-
     public Separation() {
         mProximity = 100.0f;
         mWeight = 1.0f;
         mForce = new PVector();
+    }
+
+    private static void findAwayVector(ArrayList<ProximityStructure> mCloseNeighbors, final PVector pForce) {
+        /* find away vector */
+        if (!mCloseNeighbors.isEmpty()) {
+            pForce.set(0, 0, 0);
+            /*
+             * @todo the vectors could be weighted according to distance: 1.0 - distance ( for example )
+             */
+            for (ProximityStructure p : mCloseNeighbors) {
+                pForce.add(p.distanceVec);
+            }
+            pForce.mult(1.0f / mCloseNeighbors.size());
+            pForce.normalize();
+            if (isNaN(pForce)) {
+                pForce.set(0, 0, 0);
+            }
+        } else {
+            pForce.set(0, 0, 0);
+        }
     }
 
     public void update(float pDeltaTime, IBehaviorParticle pParent) {
@@ -69,26 +84,6 @@ public class Separation<E extends IBehaviorParticle> implements IBehavior, Seria
         mWeight = pWeight;
     }
 
-    private static void findAwayVector(ArrayList<ProximityStructure> mCloseNeighbors, final PVector pForce) {
-        /* find away vector */
-        if (!mCloseNeighbors.isEmpty()) {
-            pForce.set(0, 0, 0);
-            /*
-             * @todo the vectors could be weighted according to distance: 1.0 - distance ( for example )
-             */
-            for (ProximityStructure p : mCloseNeighbors) {
-                pForce.add(p.distanceVec);
-            }
-            pForce.mult(1.0f / mCloseNeighbors.size());
-            pForce.normalize();
-            if (isNaN(pForce)) {
-                pForce.set(0, 0, 0);
-            }
-        } else {
-            pForce.set(0, 0, 0);
-        }
-    }
-
     public void neighbors(final ArrayList<E> pNeighbors) {
         mNeighbors = pNeighbors;
     }
@@ -100,4 +95,8 @@ public class Separation<E extends IBehaviorParticle> implements IBehavior, Seria
     public void proximity(float pPrivacyRadius) {
         mProximity = pPrivacyRadius;
     }
+    private final PVector mForce;
+    private float mProximity;
+    private float mWeight;
+    private ArrayList<E> mNeighbors;
 }

@@ -10,13 +10,6 @@ import teilchen.force.MuscleSpring;
 
 public class StickMan {
 
-    private final StableSpringQuad mQuad;
-    private final float mScale;
-    private final BasicParticle mLeftFoot;
-    private final BasicParticle mRightFoot;
-    private final BasicParticle mLeftHand;
-    private final BasicParticle mRightHand;
-
     public StickMan(Physics pParticleSystem, float pOffset, float pScale) {
         mScale = pScale;
 
@@ -89,34 +82,33 @@ public class StickMan {
 
     public void draw(PGraphics g) {
         /* draw arms */
-        g.line(mRightHand.position().x, mRightHand.position().y,
-               mQuad.c.position().x, mQuad.c.position().y);
-        g.line(mLeftHand.position().x, mLeftHand.position().y,
-               mQuad.d.position().x, mQuad.d.position().y);
+        g.line(mRightHand.position().x, mRightHand.position().y, mQuad.c.position().x, mQuad.c.position().y);
+        g.line(mLeftHand.position().x, mLeftHand.position().y, mQuad.d.position().x, mQuad.d.position().y);
 
         /* draw legs */
-        g.line(mRightFoot.position().x, mRightFoot.position().y,
-               mQuad.b.position().x, mQuad.b.position().y);
-        g.line(mLeftFoot.position().x, mLeftFoot.position().y,
-               mQuad.a.position().x, mQuad.a.position().y);
+        g.line(mRightFoot.position().x, mRightFoot.position().y, mQuad.b.position().x, mQuad.b.position().y);
+        g.line(mLeftFoot.position().x, mLeftFoot.position().y, mQuad.a.position().x, mQuad.a.position().y);
 
         /* draw body */
-        g.line(mQuad.a.position().x, mQuad.a.position().y,
-               mQuad.b.position().x, mQuad.b.position().y);
-        g.line(mQuad.b.position().x, mQuad.b.position().y,
-               mQuad.c.position().x, mQuad.c.position().y);
-        g.line(mQuad.c.position().x, mQuad.c.position().y,
-               mQuad.d.position().x, mQuad.d.position().y);
-        g.line(mQuad.d.position().x, mQuad.d.position().y,
-               mQuad.a.position().x, mQuad.a.position().y);
+        g.line(mQuad.a.position().x, mQuad.a.position().y, mQuad.b.position().x, mQuad.b.position().y);
+        g.line(mQuad.b.position().x, mQuad.b.position().y, mQuad.c.position().x, mQuad.c.position().y);
+        g.line(mQuad.c.position().x, mQuad.c.position().y, mQuad.d.position().x, mQuad.d.position().y);
+        g.line(mQuad.d.position().x, mQuad.d.position().y, mQuad.a.position().x, mQuad.a.position().y);
 
         /* draw head */
         g.ellipse((mQuad.c.position().x + mQuad.d.position().x) * 0.5f,
                   (mQuad.c.position().y + mQuad.d.position().y) * 0.5f,
-                  40 * mScale, 40 * mScale);
+                  40 * mScale,
+                  40 * mScale);
     }
 
     public Particle anchor() {
         return mQuad.a;
     }
+    private final StableSpringQuad mQuad;
+    private final float mScale;
+    private final BasicParticle mLeftFoot;
+    private final BasicParticle mRightFoot;
+    private final BasicParticle mLeftHand;
+    private final BasicParticle mRightHand;
 }

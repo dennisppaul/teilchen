@@ -18,9 +18,6 @@ public class SketchLesson09_LineDeflector extends PApplet {
      * press mouse to position deflector.
      */
 
-    private Physics mPhysics;
-    private LineDeflector2D mDeflector;
-
     public void settings() {
         size(640, 480);
     }
@@ -103,4 +100,6 @@ public class SketchLesson09_LineDeflector extends PApplet {
     public static void main(String[] args) {
         PApplet.main(SketchLesson09_LineDeflector.class.getName());
     }
+    private Physics mPhysics;
+    private LineDeflector2D mDeflector;
 }

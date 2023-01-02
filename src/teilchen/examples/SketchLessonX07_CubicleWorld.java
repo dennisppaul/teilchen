@@ -21,15 +21,6 @@ public class SketchLessonX07_CubicleWorld extends PApplet {
      * move or drag mouse to rotate view.
      */
 
-    private final int WORLD_NUMBER_OF_CUBICLES = 15;
-    private final float WORLD_CUBICLE_SCALE = 20;
-    private final float WORLD_SCALE = WORLD_NUMBER_OF_CUBICLES * WORLD_CUBICLE_SCALE;
-    private final boolean mShowCubicles = true;
-    private final PVector mPosition = new PVector();
-    private float mRotationZ = 0.1f;
-    private CubicleWorld mCubicleWorld;
-    private CubicleWorldView mCubicleWorldView;
-
     public void settings() {
         size(640, 480, P3D);
     }
@@ -132,10 +123,6 @@ public class SketchLessonX07_CubicleWorld extends PApplet {
 
     class MCubicleEntity implements ICubicleEntity {
 
-        private final Vector3i mCubiclePosition;
-        private final PVector mPosition;
-        float weight = random(1, 5);
-
         public MCubicleEntity() {
             mCubiclePosition = new Vector3i();
             mPosition = new PVector();
@@ -156,9 +143,20 @@ public class SketchLessonX07_CubicleWorld extends PApplet {
         public boolean isActive() {
             return true;
         }
+        private final Vector3i mCubiclePosition;
+        private final PVector mPosition;
+        float weight = random(1, 5);
     }
 
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLessonX07_CubicleWorld.class.getName()});
     }
+    private final int WORLD_NUMBER_OF_CUBICLES = 15;
+    private final float WORLD_CUBICLE_SCALE = 20;
+    private final float WORLD_SCALE = WORLD_NUMBER_OF_CUBICLES * WORLD_CUBICLE_SCALE;
+    private final boolean mShowCubicles = true;
+    private final PVector mPosition = new PVector();
+    private float mRotationZ = 0.1f;
+    private CubicleWorld mCubicleWorld;
+    private CubicleWorldView mCubicleWorldView;
 }

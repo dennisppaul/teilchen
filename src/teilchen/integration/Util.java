@@ -22,14 +22,24 @@
  */
 package teilchen.integration;
 
-import java.util.List;
 import teilchen.Particle;
+
+import java.util.List;
 
 public final class Util {
 
-    public static <T> void checkContainerSize(final int pSize,
-                                              final List<T> pContainer,
-                                              Class<T> pClass) {
+    public static void calculateDerivatives(final List<Particle> pParticles, final List<Derivate3f> pDerivates) {
+        for (int i = 0; i < pParticles.size(); i++) {
+            pDerivates.get(i).px = pParticles.get(i).velocity().x;
+            pDerivates.get(i).py = pParticles.get(i).velocity().y;
+            pDerivates.get(i).pz = pParticles.get(i).velocity().z;
+            pDerivates.get(i).vx = pParticles.get(i).force().x / pParticles.get(i).mass();
+            pDerivates.get(i).vy = pParticles.get(i).force().y / pParticles.get(i).mass();
+            pDerivates.get(i).vz = pParticles.get(i).force().z / pParticles.get(i).mass();
+        }
+    }
+
+    public static <T> void checkContainerSize(final int pSize, final List<T> pContainer, Class<T> pClass) {
         final int mDiff = pSize - pContainer.size();
         if (mDiff > 0) {
             for (int i = 0; i < mDiff; i++) {
@@ -43,18 +53,6 @@ public final class Util {
             for (int i = 0; i < mDiff; i++) {
                 pContainer.remove(mDiff + pSize);
             }
-        }
-    }
-
-    public static void calculateDerivatives(final List<Particle> pParticles,
-                                            final List<Derivate3f> pDerivates) {
-        for (int i = 0; i < pParticles.size(); i++) {
-            pDerivates.get(i).px = pParticles.get(i).velocity().x;
-            pDerivates.get(i).py = pParticles.get(i).velocity().y;
-            pDerivates.get(i).pz = pParticles.get(i).velocity().z;
-            pDerivates.get(i).vx = pParticles.get(i).force().x / pParticles.get(i).mass();
-            pDerivates.get(i).vy = pParticles.get(i).force().y / pParticles.get(i).mass();
-            pDerivates.get(i).vz = pParticles.get(i).force().z / pParticles.get(i).mass();
         }
     }
 }

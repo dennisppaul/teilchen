@@ -17,9 +17,6 @@ public class SketchLesson10_PlaneDeflector extends PApplet {
      * drag mouse to tilt deflector.
      */
 
-    private Physics mPhysics;
-    private PlaneDeflector mDeflector;
-
     public void settings() {
         size(640, 480);
     }
@@ -114,4 +111,6 @@ public class SketchLesson10_PlaneDeflector extends PApplet {
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLesson10_PlaneDeflector.class.getName()});
     }
+    private Physics mPhysics;
+    private PlaneDeflector mDeflector;
 }

@@ -7,13 +7,6 @@ import teilchen.util.Util;
 
 public class LineDeflector2D implements IForce {
 
-    private final long mID;
-    private final PVector a = new PVector();
-    private final PVector b = new PVector();
-    private boolean mActive = true;
-    private float mCoefficientOfRestitution = 1.0f;
-    private boolean mDead = false;
-
     public LineDeflector2D() {
         mID = Physics.getUniqueID();
     }
@@ -109,4 +102,10 @@ public class LineDeflector2D implements IForce {
     public PVector b() {
         return b;
     }
+    private final long mID;
+    private final PVector a = new PVector();
+    private final PVector b = new PVector();
+    private boolean mActive = true;
+    private float mCoefficientOfRestitution = 1.0f;
+    private boolean mDead = false;
 }

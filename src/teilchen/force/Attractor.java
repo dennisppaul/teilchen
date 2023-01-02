@@ -30,16 +30,7 @@ import teilchen.Physics;
 import static processing.core.PVector.sub;
 import static teilchen.util.Util.lengthSquared;
 
-public class Attractor
-        implements IForce {
-
-    protected final PVector mTemp = new PVector();
-    protected PVector mPosition;
-    protected float mStrength;
-    protected float mRadius;
-    private boolean mActive;
-    private boolean mDead = false;
-    private final long mID;
+public class Attractor implements IForce {
 
     public Attractor() {
         mID = Physics.getUniqueID();
@@ -47,6 +38,14 @@ public class Attractor
         mRadius = 100;
         mStrength = 1;
         mActive = true;
+    }
+
+    protected static float fastInverseSqrt(float v) {
+        final float half = 0.5f * v;
+        int i = Float.floatToIntBits(v);
+        i = 0x5f375a86 - (i >> 1);
+        v = Float.intBitsToFloat(i);
+        return v * (1.5f - half * v * v);
     }
 
     public PVector position() {
@@ -112,12 +111,11 @@ public class Attractor
     public long ID() {
         return mID;
     }
-
-    protected static float fastInverseSqrt(float v) {
-        final float half = 0.5f * v;
-        int i = Float.floatToIntBits(v);
-        i = 0x5f375a86 - (i >> 1);
-        v = Float.intBitsToFloat(i);
-        return v * (1.5f - half * v * v);
-    }
+    protected final PVector mTemp = new PVector();
+    protected PVector mPosition;
+    protected float mStrength;
+    protected float mRadius;
+    private boolean mActive;
+    private boolean mDead = false;
+    private final long mID;
 }

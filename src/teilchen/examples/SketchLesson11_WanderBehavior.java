@@ -14,11 +14,6 @@ public class SketchLesson11_WanderBehavior extends PApplet {
      * to turn a `BehaviorParticle` into an autonomously moving *agent*.
      */
 
-    private Physics mPhysics;
-    private BehaviorParticle mParticle;
-    private Wander mWander;
-    private Motor mMotor;
-
     public void settings() {
         size(640, 480);
     }
@@ -62,11 +57,14 @@ public class SketchLesson11_WanderBehavior extends PApplet {
              mParticle.position().y + mParticle.velocity().y);
         fill(0);
         noStroke();
-        ellipse(mParticle.position().x, mParticle.position().y,
-                mParticle.radius() * 2, mParticle.radius() * 2);
+        ellipse(mParticle.position().x, mParticle.position().y, mParticle.radius() * 2, mParticle.radius() * 2);
     }
 
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLesson11_WanderBehavior.class.getName()});
     }
+    private Physics mPhysics;
+    private BehaviorParticle mParticle;
+    private Wander mWander;
+    private Motor mMotor;
 }

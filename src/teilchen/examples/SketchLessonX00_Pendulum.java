@@ -16,11 +16,6 @@ public class SketchLessonX00_Pendulum extends PApplet {
      * press mouse top push pendulum.
      */
 
-    private Physics mPhysics;
-    private Particle mPendulumRoot;
-    private Particle mPendulumTip;
-    private Pulse mPulse;
-
     public void settings() {
         size(640, 480);
     }
@@ -70,4 +65,8 @@ public class SketchLessonX00_Pendulum extends PApplet {
     public static void main(String[] args) {
         PApplet.main(SketchLessonX00_Pendulum.class.getName());
     }
+    private Physics mPhysics;
+    private Particle mPendulumRoot;
+    private Particle mPendulumTip;
+    private Pulse mPulse;
 }

@@ -14,8 +14,6 @@ public class SketchLesson02_Particles extends PApplet {
      * drag mouse to spawn particles.
      */
 
-    private Physics mPhysics;
-
     public void settings() {
         size(640, 480);
     }
@@ -69,4 +67,5 @@ public class SketchLesson02_Particles extends PApplet {
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLesson02_Particles.class.getName()});
     }
+    private Physics mPhysics;
 }

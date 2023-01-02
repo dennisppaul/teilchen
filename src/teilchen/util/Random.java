@@ -31,27 +31,14 @@ import java.io.Serializable;
  * <p>
  * note that if different types are requested the random generator moves on anyway.
  */
-public class Random
-implements Serializable {
-
-    private static final long serialVersionUID = -5871934750136232555L;
-
-    private static final java.util.Random mSeedGenerator = new java.util.Random(System.currentTimeMillis());
-
-    private final java.util.Random mRandomNumberGenerator;
+public class Random implements Serializable {
 
     private static final Random mInstance;
+    private static final java.util.Random mSeedGenerator = new java.util.Random(System.currentTimeMillis());
+    private static final long serialVersionUID = -5871934750136232555L;
 
     static {
         mInstance = new Random();
-    }
-
-    public static float FLOAT(float pStart, float pEnd) {
-        return mInstance.getFloat(pStart, pEnd);
-    }
-
-    public static float INT(int pStart, int pEnd) {
-        return mInstance.getInt(pStart, pEnd);
     }
 
     public Random() {
@@ -60,6 +47,14 @@ implements Serializable {
 
     public Random(long pSeed) {
         mRandomNumberGenerator = new java.util.Random(pSeed);
+    }
+
+    public static float FLOAT(float pStart, float pEnd) {
+        return mInstance.getFloat(pStart, pEnd);
+    }
+
+    public static float INT(int pStart, int pEnd) {
+        return mInstance.getInt(pStart, pEnd);
     }
 
     public void setSeed(long pSeed) {
@@ -73,8 +68,7 @@ implements Serializable {
      * @param pEnd   int
      * @return int
      */
-    public int getInt(int pStart,
-                      int pEnd) {
+    public int getInt(int pStart, int pEnd) {
         int mDiff = (pEnd + 1) - pStart;
         return mRandomNumberGenerator.nextInt(mDiff) + pStart;
     }
@@ -90,8 +84,7 @@ implements Serializable {
      * @param pEnd   float
      * @return float
      */
-    public float getFloat(float pStart,
-                          float pEnd) {
+    public float getFloat(float pStart, float pEnd) {
         final float mDiff = pEnd - pStart;
         final float mRandomValue = mRandomNumberGenerator.nextFloat() * mDiff;
         return mRandomValue + pStart;
@@ -106,9 +99,7 @@ implements Serializable {
 //        return mSeedGenerator.getFloat(theStart, theEnd);
 //    }
     public PVector getVector3f(float pStart, float pEnd) {
-        return new PVector(getFloat(pStart, pEnd),
-                           getFloat(pStart, pEnd),
-                           getFloat(pStart, pEnd));
+        return new PVector(getFloat(pStart, pEnd), getFloat(pStart, pEnd), getFloat(pStart, pEnd));
     }
 
     public static void main(String[] args) {
@@ -151,4 +142,5 @@ implements Serializable {
         System.out.println("DONE: " + (System.currentTimeMillis() - mTime));
 
     }
+    private final java.util.Random mRandomNumberGenerator;
 }

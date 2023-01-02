@@ -33,23 +33,11 @@ import teilchen.util.Vector3i;
 
 public class VectorField implements IForce {
 
-    public static final int ENABLE_IGNORE_3D = 0;
     public static final int DISABLE_IGNORE_3D = 1;
-    public boolean mIgnore3D = false;
-    private final PVector[][][] mField;
-    private final int width;
-    private final int height;
-    private final int depth;
-    private final PVector mScale;
-    private final PVector mPosition;
-    private boolean mActiveState;
-    private boolean mDead;
-    private final long mID;
-
+    public static final int ENABLE_IGNORE_3D = 0;
     public VectorField(int pNumCellsWidth, int pNumCellsHeight) {
         this(pNumCellsWidth, pNumCellsHeight, 1);
     }
-
     public VectorField(int pNumCellsWidth, int pNumCellsHeight, int pNumCellsDepth) {
         mID = Physics.getUniqueID();
         mActiveState = true;
@@ -86,6 +74,42 @@ public class VectorField implements IForce {
             }
         }
         g.popMatrix();
+    }
+
+    private static void drawQuad(PGraphics g, VectorField v, float x, float y, float z) {
+        g.beginShape(PGraphics.QUAD);
+        final PVector s = v.cell_size();
+        x *= s.x;
+        y *= s.y;
+        z *= s.z;
+        if (v.mIgnore3D) {
+            g.vertex(x + 0, y + 0);
+            g.vertex(x + s.x, y + 0);
+            g.vertex(x + s.x, y + s.y);
+            g.vertex(x + 0, y + s.y);
+        } else {
+            g.vertex(x + 0, y + 0, z);
+            g.vertex(x + s.x, y + 0, z);
+            g.vertex(x + s.x, y + s.y, z);
+            g.vertex(x + 0, y + s.y, z);
+        }
+        g.endShape();
+    }
+
+    private static void drawVelocity(PGraphics g, VectorField v, int x, int y, int z, PVector p, float pForceScale) {
+        final PVector s = v.cell_size();
+        float x0 = (x + 0.5f) * s.x;
+        float y0 = (y + 0.5f) * s.y;
+        float z0 = (z + 0.5f) * s.z;
+        float x1 = x0 + p.x * pForceScale;
+        float y1 = y0 + p.y * pForceScale;
+        float z1 = z0 + p.z * pForceScale;
+
+        if (v.mIgnore3D) {
+            g.line(x0, y0, x1, y1);
+        } else {
+            g.line(x0, y0, z0, x1, y1, z1);
+        }
     }
 
     public void hint(int pFlag) {
@@ -132,7 +156,9 @@ public class VectorField implements IForce {
         mActiveState = pActiveState;
     }
 
-    public PVector cell_size() { return mScale; }
+    public PVector cell_size() {
+        return mScale;
+    }
 
     public void randomize_forces(float pScaleWidth, float pScaleHeight) {
         randomize_forces(new PVector(pScaleWidth, pScaleHeight, 0));
@@ -161,6 +187,7 @@ public class VectorField implements IForce {
             }
         }
     }
+
     public long ID() {
         return mID;
     }
@@ -193,7 +220,9 @@ public class VectorField implements IForce {
                         final int yP;
                         final int yN;
                         if (!pWrap) {
-                            if (x == 0 || y == 0 || x == width - 1 || y == height - 1) { continue; }
+                            if (x == 0 || y == 0 || x == width - 1 || y == height - 1) {
+                                continue;
+                            }
                             xP = x - 1;
                             xN = x + 1;
                             yP = y - 1;
@@ -221,7 +250,9 @@ public class VectorField implements IForce {
                     for (int y = 0; y < height; y++) {
                         final int z = 0;
                         if (!pWrap) {
-                            if (x == 0 || y == 0 || x == width - 1 || y == height - 1) { continue; }
+                            if (x == 0 || y == 0 || x == width - 1 || y == height - 1) {
+                                continue;
+                            }
                         }
                         mField[x][y][z].set(mFieldCopy[x][y][z]);
                     }
@@ -245,40 +276,8 @@ public class VectorField implements IForce {
         return checkLocation(getLocation(p));
     }
 
-    private static void drawVelocity(PGraphics g, VectorField v, int x, int y, int z, PVector p, float pForceScale) {
-        final PVector s = v.cell_size();
-        float x0 = (x + 0.5f) * s.x;
-        float y0 = (y + 0.5f) * s.y;
-        float z0 = (z + 0.5f) * s.z;
-        float x1 = x0 + p.x * pForceScale;
-        float y1 = y0 + p.y * pForceScale;
-        float z1 = z0 + p.z * pForceScale;
-
-        if (v.mIgnore3D) {
-            g.line(x0, y0, x1, y1);
-        } else {
-            g.line(x0, y0, z0, x1, y1, z1);
-        }
-    }
-
-    private static void drawQuad(PGraphics g, VectorField v, float x, float y, float z) {
-        g.beginShape(PGraphics.QUAD);
-        final PVector s = v.cell_size();
-        x *= s.x;
-        y *= s.y;
-        z *= s.z;
-        if (v.mIgnore3D) {
-            g.vertex(x + 0, y + 0);
-            g.vertex(x + s.x, y + 0);
-            g.vertex(x + s.x, y + s.y);
-            g.vertex(x + 0, y + s.y);
-        } else {
-            g.vertex(x + 0, y + 0, z);
-            g.vertex(x + s.x, y + 0, z);
-            g.vertex(x + s.x, y + s.y, z);
-            g.vertex(x + 0, y + s.y, z);
-        }
-        g.endShape();
+    private boolean checkLocation(Vector3i mLocation) {
+        return mLocation.x >= 0 && mLocation.x < width && mLocation.y >= 0 && mLocation.y < height && mLocation.z >= 0 && mLocation.z < depth;
     }
 
     private PVector getForce(Particle p) {
@@ -302,10 +301,14 @@ public class VectorField implements IForce {
         mLocation.z = PApplet.floor((pPosition.z - mPosition.z) / mScale.z);
         return mLocation;
     }
-
-    private boolean checkLocation(Vector3i mLocation) {
-        return mLocation.x >= 0 && mLocation.x < width &&
-               mLocation.y >= 0 && mLocation.y < height &&
-               mLocation.z >= 0 && mLocation.z < depth;
-    }
+    public boolean mIgnore3D = false;
+    private final PVector[][][] mField;
+    private final int width;
+    private final int height;
+    private final int depth;
+    private final PVector mScale;
+    private final PVector mPosition;
+    private boolean mActiveState;
+    private boolean mDead;
+    private final long mID;
 }

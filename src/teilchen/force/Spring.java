@@ -34,20 +34,9 @@ import static teilchen.util.Util.distance;
 public class Spring implements IForce, IConnection {
 
     private static final boolean USE_FAST_SQRT = true;
-    protected float mSpringConstant;
-    protected float mSpringDamping;
-    protected float mRestLength;
-    protected Particle mA;
-    protected Particle mB;
-    protected boolean mOneWay;
-    protected boolean mActive;
-    protected boolean mDead;
-    private final long mID;
-
     public Spring(Particle pA, Particle pB) {
         this(pA, pB, 2.0f, 0.1f, distance(pA.position(), pB.position()));
     }
-
     public Spring(final Particle pA,
                   final Particle pB,
                   final float pSpringConstant,
@@ -63,11 +52,9 @@ public class Spring implements IForce, IConnection {
         mActive = true;
         mDead = false;
     }
-
     public Spring(Particle pA, Particle pB, float pRestLength) {
         this(pA, pB, 2.0f, 0.1f, pRestLength);
     }
-
     public Spring(Particle pA, Particle pB, final float pSpringConstant, final float pSpringDamping) {
         this(pA, pB, pSpringConstant, pSpringDamping, distance(pA.position(), pB.position()));
     }
@@ -131,12 +118,16 @@ public class Spring implements IForce, IConnection {
             final float mDistance;
             if (USE_FAST_SQRT) {
                 final float mInvDistanceSquared = mAB.magSq();
-                if (mInvDistanceSquared == 0.0f) { return; /* prevent division by zero */ }
+                if (mInvDistanceSquared == 0.0f) {
+                    return; /* prevent division by zero */
+                }
                 mInvDistance = Util.fastInverseSqrt(mInvDistanceSquared);
                 mDistance = 1.0f / mInvDistance;
             } else {
                 mDistance = mAB.mag();
-                if (mDistance == 0.0f) { return; /* prevent division by zero */ }
+                if (mDistance == 0.0f) {
+                    return; /* prevent division by zero */
+                }
                 mInvDistance = 1.0f / mDistance;
             }
             final float mSpringForce = -mSpringConstant * (mDistance - mRestLength); // Fspring = - k * x
@@ -224,4 +215,13 @@ public class Spring implements IForce, IConnection {
     public long ID() {
         return mID;
     }
+    protected float mSpringConstant;
+    protected float mSpringDamping;
+    protected float mRestLength;
+    protected Particle mA;
+    protected Particle mB;
+    protected boolean mOneWay;
+    protected boolean mActive;
+    protected boolean mDead;
+    private final long mID;
 }

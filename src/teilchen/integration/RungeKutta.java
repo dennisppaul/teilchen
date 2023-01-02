@@ -31,17 +31,6 @@ import java.util.ArrayList;
 
 public class RungeKutta implements IIntegrator {
 
-    private final ArrayList<PVector> mOriginalPositions;
-    private final ArrayList<PVector> mOriginalVelocities;
-    private final ArrayList<PVector> mK1Forces;
-    private final ArrayList<PVector> mK1Velocities;
-    private final ArrayList<PVector> mK2Forces;
-    private final ArrayList<PVector> mK2Velocities;
-    private final ArrayList<PVector> mK3Forces;
-    private final ArrayList<PVector> mK3Velocities;
-    private final ArrayList<PVector> mK4Forces;
-    private final ArrayList<PVector> mK4Velocities;
-
     public RungeKutta() {
         mOriginalPositions = new ArrayList<>();
         mOriginalVelocities = new ArrayList<>();
@@ -217,4 +206,14 @@ public class RungeKutta implements IIntegrator {
             }
         }
     }
+    private final ArrayList<PVector> mOriginalPositions;
+    private final ArrayList<PVector> mOriginalVelocities;
+    private final ArrayList<PVector> mK1Forces;
+    private final ArrayList<PVector> mK1Velocities;
+    private final ArrayList<PVector> mK2Forces;
+    private final ArrayList<PVector> mK2Velocities;
+    private final ArrayList<PVector> mK3Forces;
+    private final ArrayList<PVector> mK3Velocities;
+    private final ArrayList<PVector> mK4Forces;
+    private final ArrayList<PVector> mK4Velocities;
 }

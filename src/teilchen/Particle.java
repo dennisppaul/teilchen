@@ -26,8 +26,7 @@ package teilchen;
 import processing.core.PVector;
 import teilchen.util.SpatialEntity;
 
-public interface Particle
-        extends SpatialEntity {
+public interface Particle extends SpatialEntity {
 
     boolean fixed();
 

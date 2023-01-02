@@ -17,9 +17,6 @@ public class SketchLessonX10_TriangleDeflector2D extends PApplet {
      * press mouse to spawn particles.
      */
 
-    private Physics mPhysics;
-    private TriangleDeflector mTriangleDeflector;
-
     public void settings() {
         size(640, 480);
     }
@@ -87,4 +84,6 @@ public class SketchLessonX10_TriangleDeflector2D extends PApplet {
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLessonX10_TriangleDeflector2D.class.getName()});
     }
+    private Physics mPhysics;
+    private TriangleDeflector mTriangleDeflector;
 }

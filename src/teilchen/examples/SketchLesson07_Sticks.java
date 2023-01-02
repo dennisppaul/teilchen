@@ -17,9 +17,6 @@ public class SketchLesson07_Sticks extends PApplet {
      * move mouse to drag sticks.
      */
 
-    private Physics mPhysics;
-    private Particle[] mParticles;
-
     public void settings() {
         size(640, 480);
     }
@@ -42,9 +39,7 @@ public class SketchLesson07_Sticks extends PApplet {
         for (int x = 0; x < mParticles.length; x++) {
             mParticles[x] = mPhysics.makeParticle(x * mSegmentLength, 0, 0, 0.1f);
             if (x > 0) {
-                Stick mStick = new Stick(mParticles[x - 1],
-                                          mParticles[x],
-                                          mSegmentLength);
+                Stick mStick = new Stick(mParticles[x - 1], mParticles[x], mSegmentLength);
                 /* damp the stick to release tensions from the system */
                 mStick.damping(0.99f);
                 mPhysics.add(mStick);
@@ -80,4 +75,6 @@ public class SketchLesson07_Sticks extends PApplet {
     public static void main(String[] args) {
         PApplet.main(new String[]{SketchLesson07_Sticks.class.getName()});
     }
+    private Physics mPhysics;
+    private Particle[] mParticles;
 }

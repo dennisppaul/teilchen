@@ -1,4 +1,4 @@
-# teilchen / revisions
+# teilchen / release notes
 
 ## v0.4 (20200616)
 

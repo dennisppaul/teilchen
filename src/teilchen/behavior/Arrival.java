@@ -23,30 +23,15 @@
 package teilchen.behavior;
 
 import processing.core.PVector;
-import static processing.core.PVector.*;
 import teilchen.IBehaviorParticle;
 import teilchen.util.Util;
 
-public class Arrival
-        implements IBehavior, Verhalten {
+import static processing.core.PVector.add;
+import static processing.core.PVector.sub;
+
+public class Arrival implements IBehavior, Verhalten {
 
     static final long serialVersionUID = 6897889750581191781L;
-
-    private PVector mSeekPosition;
-
-    private final PVector mForce;
-
-    private float mWeight;
-
-    private float mBreakRadius;
-
-    private float mBreakForce;
-
-    private boolean mIsArriving;
-
-    private boolean mHasArrived;
-
-    private boolean mOverSteer;
 
     public Arrival() {
         mBreakRadius = 50.0f;
@@ -157,4 +142,12 @@ public class Arrival
     public void weight(float pWeight) {
         mWeight = pWeight;
     }
+    private PVector mSeekPosition;
+    private final PVector mForce;
+    private float mWeight;
+    private float mBreakRadius;
+    private float mBreakForce;
+    private boolean mIsArriving;
+    private boolean mHasArrived;
+    private boolean mOverSteer;
 }
