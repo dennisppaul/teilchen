@@ -111,6 +111,7 @@ public class Util {
         return PVector.add(mTempTangentComponent, mTempNormalComponent);
     }
 
+
     public static PVector clone(PVector p) {
         PVector v = new PVector();
         v.set(p);
@@ -436,44 +437,42 @@ public class Util {
         p.normalize();
     }
 
-    public static void reflect(final PVector pVector, final PVector pNormal, final float pCoefficientOfRestitution) {
+    public static void reflect(final PVector direction, final PVector normal, final float coefficient_of_restitution) {
         final PVector mNormalComponent = new PVector();
         final PVector mTangentComponent = new PVector();
 
         /* normal */
-        mNormalComponent.set(pNormal);
-        mNormalComponent.mult(pNormal.dot(pVector));
+        mNormalComponent.set(normal);
+        mNormalComponent.mult(normal.dot(direction));
         /* tangent */
-        sub(pVector, mNormalComponent, mTangentComponent);
+        sub(direction, mNormalComponent, mTangentComponent);
         /* negate normal */
-        mNormalComponent.mult(-pCoefficientOfRestitution);
+        mNormalComponent.mult(-coefficient_of_restitution);
         /* set reflection vector */
-        add(mTangentComponent, mNormalComponent, pVector);
+        add(mTangentComponent, mNormalComponent, direction);
     }
 
-    public static void reflect(final PVector pVector, final PVector pNormal) {
-//        TODO test this with new method !
-
+    /**
+     * @param direction        direction vector to be reflected
+     * @param normal           normal to reflect at
+     * @param normalize_normal if true, normal will be normalized
+     * @return reflected vector
+     */
+    public static PVector reflect(PVector direction, PVector normal, boolean normalize_normal) {
         // r = e - 2 (e.n) n :: ( | n | = 1 )
         // with e :: direction
         //      r :: reflection
         //      n :: normal
-        PVector n = new PVector().set(pNormal).normalize();
-        PVector e = new PVector().set(pVector);
-        float d = PVector.dot(e, n);    // d > 0 = frontface, d < 0 = backface
-        n.mult(2 * d);
-        PVector r = PVector.sub(n, e);    // @todo why is this reversed?
-        pVector.set(r);
 
-        /* normal */
-        TMP_NORMAL.set(pNormal);
-        TMP_NORMAL.mult(pNormal.dot(pVector));
-        /* tangent */
-        sub(pVector, TMP_NORMAL, TMP_TANGENT);
-        /* negate normal */
-        TMP_NORMAL.mult(-1.0f);
-        /* set reflection vector */
-        add(TMP_TANGENT, TMP_NORMAL, pVector);
+        final PVector n = new PVector().set(normal);
+        if (normalize_normal) {
+            n.normalize();
+        }
+        final PVector e = new PVector().set(direction);
+        final float d = PVector.dot(e, n); // d > 0 = frontface, d < 0 = backface
+        n.mult(2 * d);
+        final PVector r = PVector.sub(e, n);
+        return r;
     }
 
     public static void reflectVelocity(final Particle pParticle,

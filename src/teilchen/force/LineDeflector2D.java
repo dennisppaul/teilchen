@@ -30,8 +30,8 @@ import teilchen.util.Util;
 
 public class LineDeflector2D implements IForce {
 
-    private final PVector a = new PVector();
-    private final PVector b = new PVector();
+    private PVector a = new PVector();
+    private PVector b = new PVector();
     private boolean mActive = true;
     private float mCoefficientOfRestitution = 1.0f;
     private boolean mDead = false;
@@ -84,6 +84,7 @@ public class LineDeflector2D implements IForce {
             /* reflect velocity */
             PVector mReflection = Util.calculateReflectionVector(pParticle, normal()).mult(mCoefficientOfRestitution);
             pParticle.velocity().set(mReflection);
+            // TODO need to handle `old_position`
             pParticle.tag(true);
         }
     }
@@ -131,5 +132,10 @@ public class LineDeflector2D implements IForce {
 
     public PVector b() {
         return b;
+    }
+
+    public void set_edges(PVector a, PVector b) {
+        this.a = a;
+        this.b = b;
     }
 }

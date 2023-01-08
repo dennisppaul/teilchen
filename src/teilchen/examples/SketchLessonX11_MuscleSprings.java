@@ -71,7 +71,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
         /* draw */
         background(255);
         drawSimulationState();
-        drawParticlesSpings();
+        drawParticlesSprings();
         drawTemporaryParticleSpring();
         drawHighlightParticleNearby();
     }
@@ -163,7 +163,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
         }
     }
 
-    private void drawParticlesSpings() {
+    private void drawParticlesSprings() {
         /* draw connecting springs */
         stroke(0);
         noFill();
