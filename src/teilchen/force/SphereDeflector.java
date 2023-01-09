@@ -42,7 +42,7 @@ public class SphereDeflector implements IForce {
         fID = Physics.getUniqueID();
     }
 
-    public void calculateIntersection(Particle particle, float delta_time) {
+    private void calculateIntersection(Particle particle, float delta_time) {
         final PVector mDeflectorToParticle = PVector.sub(particle.position(), fPosition);
         final float mDistance = mDeflectorToParticle.mag();
         final float mMinimumDistance = fRadius + particle.radius();

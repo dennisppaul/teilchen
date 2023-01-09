@@ -634,4 +634,69 @@ public class Util {
         pWorldAxisAlignedBoundingBox.scale.y = Math.abs(pWorldAxisAlignedBoundingBox.scale.y);
         pWorldAxisAlignedBoundingBox.scale.z = Math.abs(pWorldAxisAlignedBoundingBox.scale.z);
     }
+
+    /* --- NEW --- */
+
+    public static float circumcenter_triangle(PVector a, PVector b, PVector c, PVector result) {
+        // from https://gamedev.stackexchange.com/questions/60630/how-do-i-find-the-circumcenter-of-a-triangle-in-3d
+        final PVector ac = PVector.sub(c, a);
+        final PVector ab = PVector.sub(b, a);
+        final PVector abXac = ab.cross(ac);
+
+        final PVector p0 = PVector.mult(abXac.cross(ab), ac.magSq());
+        final PVector p1 = PVector.mult(ac.cross(abXac), ab.magSq());
+        final PVector p2 = PVector.add(p0, p1);
+        final PVector toCircumsphereCenter = PVector.mult(p2, 1.0f / (2.0f * abXac.magSq()));
+        final float circumsphereRadius = toCircumsphereCenter.mag();
+
+        final PVector ccs = PVector.add(a, toCircumsphereCenter); // ccs
+        result.set(ccs);
+
+        return circumsphereRadius;
+    }
+
+    public static boolean point_in_triangle(PVector a, PVector b, PVector c, PVector point) {
+        // compute the barycentric coordinates of the point with respect to the triangle
+        PVector v0 = PVector.sub(c, a);
+        PVector v1 = PVector.sub(b, a);
+        PVector v2 = PVector.sub(point, a);
+        double d00 = v0.dot(v0);
+        double d01 = v0.dot(v1);
+        double d02 = v0.dot(v2);
+        double d11 = v1.dot(v1);
+        double d12 = v1.dot(v2);
+        double denom = d00 * d11 - d01 * d01;
+        double u = (d11 * d02 - d01 * d12) / denom;
+        double v = (d00 * d12 - d01 * d02) / denom;
+        return u >= 0 && v >= 0 && u + v <= 1;
+    }
+
+    public static float distance_point_plane(PVector point, PVector plane_origin, PVector plane_normal) {
+        final PVector d = sub(plane_origin, point);
+        final float dot = plane_normal.dot(d);
+        final float magnitude = plane_normal.mag();
+        return dot / magnitude;
+    }
+
+    public static PVector project_vector_onto_plane(PVector vector, PVector plane_normal) {
+        float dot = vector.x * plane_normal.x + vector.y * plane_normal.y + vector.z * plane_normal.z;
+        float x = vector.x - dot * plane_normal.x;
+        float y = vector.y - dot * plane_normal.y;
+        float z = vector.z - dot * plane_normal.z;
+        return new PVector(x, y, z);
+    }
+
+    public static PVector project_point_onto_plane(PVector point, PVector plane_origin, PVector plane_normal) {
+        PVector v = PVector.sub(point, plane_origin);
+        float dot = plane_normal.dot(v);
+        float magnitude = plane_normal.mag();
+        PVector projection = new PVector((v.x - dot * plane_normal.x) / magnitude,
+                                         (v.y - dot * plane_normal.y) / magnitude,
+                                         (v.z - dot * plane_normal.z) / magnitude);
+        return new PVector(plane_origin.x + projection.x, plane_origin.y + projection.y, plane_origin.z + projection.z);
+    }
+
+    public static boolean is_parallel(PVector vector, PVector normal) {
+        return PVector.dot(vector, normal) == 0;
+    }
 }

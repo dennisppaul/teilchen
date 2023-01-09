@@ -27,7 +27,9 @@ import processing.core.PVector;
 
 import java.io.Serializable;
 
+import static processing.core.PVector.add;
 import static processing.core.PVector.cross;
+import static processing.core.PVector.mult;
 import static processing.core.PVector.sub;
 import static teilchen.util.Util.lengthSquared;
 
@@ -363,7 +365,7 @@ public final class Intersection implements Serializable {
         // At this stage we can compute t to find out where the intersection point is on the line.
         float t = f * edge2.dot(q);
         if (t > EPSILON) { // ray intersection
-            pIntersectionPoint.set(PVector.add(pRayOrigin, PVector.mult(pRayDirection, t)));
+            pIntersectionPoint.set(add(pRayOrigin, mult(pRayDirection, t)));
             return true;
         } else { // This means that there is a line intersection but not a ray intersection.
             return false;
@@ -567,7 +569,6 @@ public final class Intersection implements Serializable {
     }
 
     public static class IntersectionResult {
-
         public float t;
         public float u;
         public float v;
@@ -577,6 +578,42 @@ public final class Intersection implements Serializable {
             u = 0;
             t = 0;
         }
+    }
 
+    public static PVector intersect_ray_plane(PVector ray_origin,
+                                              PVector ray_direction,
+                                              PVector plane_origin,
+                                              PVector plane_normal) {
+        double denominator = plane_normal.dot(ray_direction);
+        if (Math.abs(denominator) < 1e-6) {
+            // parallel to the plane, not intersecting
+            return null;
+        }
+
+        double t = plane_normal.dot(sub(plane_origin, ray_origin)) / denominator;
+        if (t < 0) {
+            // intersection point is behind ray origin, not intersecting
+            return null;
+        }
+
+        return add(ray_origin, mult(ray_direction, (float) t));
+    }
+
+    public static PVector intersect_line_segment_plane(PVector line_p1,
+                                                       PVector line_p2,
+                                                       PVector plane_origin,
+                                                       PVector plane_normal) {
+        final PVector d = sub(line_p2, line_p1);
+        final float dot = plane_normal.dot(d);
+        if (dot == 0) {
+            // line is parallel to plane
+            return null;
+        }
+        final float distance = plane_normal.dot(sub(line_p1, plane_origin)) / dot;
+        if (distance < 0 || distance > 1) {
+            // intersection is not within line segment
+            return null;
+        }
+        return add(line_p1, mult(d, distance));
     }
 }
