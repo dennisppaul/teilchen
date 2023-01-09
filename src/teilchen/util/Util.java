@@ -696,6 +696,30 @@ public class Util {
         return new PVector(plane_origin.x + projection.x, plane_origin.y + projection.y, plane_origin.z + projection.z);
     }
 
+    public static PVector project_point_onto_line(PVector point, PVector line_point_a, PVector line_point_b) {
+        PVector lineDirection = PVector.sub(line_point_b, line_point_a);
+        lineDirection.normalize();
+        float projection = PVector.dot(lineDirection, PVector.sub(point, line_point_a));
+        return PVector.add(line_point_a, PVector.mult(lineDirection, projection));
+    }
+
+    public static PVector project_point_onto_line_segment(PVector point, PVector p1, PVector p2) {
+        final PVector lineDirection = PVector.sub(p2, p1);
+        float lineLength = lineDirection.mag();
+        lineDirection.normalize();
+
+        float projection = PVector.dot(lineDirection, PVector.sub(point, p1));
+
+        if (projection < 0) {
+            return p1;
+        } else if (projection > lineLength) {
+            return p2;
+        } else {
+            PVector projectedPoint = PVector.add(p1, PVector.mult(lineDirection, projection));
+            return projectedPoint;
+        }
+    }
+
     public static boolean is_parallel(PVector vector, PVector normal) {
         return PVector.dot(vector, normal) == 0;
     }

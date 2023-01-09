@@ -32,7 +32,7 @@ import teilchen.Physics;
 import java.util.ArrayList;
 
 import static teilchen.util.Intersection.INTERSECTING;
-import static teilchen.util.Intersection.lineLineIntersect;
+import static teilchen.util.Intersection.intersect_line_line;
 
 public class LineIntersectionConstraint implements IConstraint {
 
@@ -65,7 +65,7 @@ public class LineIntersectionConstraint implements IConstraint {
                 /* ignore test if points are shared */
                 continue;
             }
-            final int mResult = lineLineIntersect(mA, mB, mAA, mBB, mIntersection);
+            final int mResult = intersect_line_line(mA, mB, mAA, mBB, mIntersection);
             if (mResult == INTERSECTING) {
                 /* reset current position to intersection */
                 final PVector mIntersectProx = PVector.sub(mB, mIntersection);

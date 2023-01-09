@@ -7,7 +7,7 @@ import teilchen.behavior.Motor;
 import teilchen.behavior.Wander;
 import teilchen.force.ViscousDrag;
 
-public class SketchLesson12_WanderBehavior extends PApplet {
+public class SketchLesson13_WanderBehavior extends PApplet {
 
     /*
      * this sketch demonstrates how to use behaviors.  it combines `Wander` and `Motor` behaviors
@@ -66,6 +66,6 @@ public class SketchLesson12_WanderBehavior extends PApplet {
     }
 
     public static void main(String[] args) {
-        PApplet.main(new String[]{SketchLesson12_WanderBehavior.class.getName()});
+        PApplet.main(new String[]{SketchLesson13_WanderBehavior.class.getName()});
     }
 }

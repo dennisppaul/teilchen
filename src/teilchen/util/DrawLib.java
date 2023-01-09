@@ -138,9 +138,6 @@ public class DrawLib {
             mTriangleColor = pBBColor;
         }
         draw(g, pTriangleDeflector.a(), pTriangleDeflector.b(), pTriangleDeflector.c(), mTriangleColor, pNormalColor);
-
-        /* bb */
-        draw(g, pTriangleDeflector.boundingbox(), pBBColor);
     }
 
     /**

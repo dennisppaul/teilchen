@@ -69,7 +69,7 @@ public final class Intersection implements Serializable {
      * @param pSphereRadius sphere radius
      * @return returns true if intersection exists
      */
-    public static boolean RaySphere(PVector pP1, PVector pP2, PVector pSphereCenter, float pSphereRadius) {
+    public static boolean intersect_ray_sphere(PVector pP1, PVector pP2, PVector pSphereCenter, float pSphereRadius) {
         float a, b, c;
         float bb4ac;
         PVector dp = new PVector();
@@ -468,10 +468,11 @@ public final class Intersection implements Serializable {
     }
 
     /**
-     * from paul bourke ( http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline3d/ )
-     * <p>
+     * TODO this does calculate the intersection point of two lines. pa + pb are always the same.
      * Calculate the line segment PaPb that is the shortest route between two lines P1P2 and P3P4. Calculate also the
      * values of mua and mub where Pa = P1 + mua (P2 - P1) Pb = P3 + mub (P4 - P3) Return FALSE if no solution exists.
+     * <p>
+     * from paul bourke ( http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline3d/ )
      *
      * @param pP1 P1
      * @param pP2 P2
@@ -479,14 +480,14 @@ public final class Intersection implements Serializable {
      * @param pP4 P4
      * @param pPa Pa
      * @param pPb Pb
-     * @return sucess if solution exists
+     * @return true if solution exists
      */
-    public static boolean lineLineIntersect(PVector pP1,
-                                            PVector pP2,
-                                            PVector pP3,
-                                            PVector pP4,
-                                            PVector pPa,
-                                            PVector pPb) {
+    public static boolean intersect_line_line(PVector pP1,
+                                              PVector pP2,
+                                              PVector pP3,
+                                              PVector pP4,
+                                              PVector pPa,
+                                              PVector pPb) {
         //        float[] theResult) {
 
         final PVector p13 = sub(pP1, pP3);
@@ -535,11 +536,11 @@ public final class Intersection implements Serializable {
         return true;
     }
 
-    public static int lineLineIntersect(PVector aBegin,
-                                        PVector aEnd,
-                                        PVector bBegin,
-                                        PVector bEnd,
-                                        PVector pIntersection) {
+    public static int intersect_line_line(PVector aBegin,
+                                          PVector aEnd,
+                                          PVector bBegin,
+                                          PVector bEnd,
+                                          PVector pIntersection) {
         float denom = ((bEnd.y - bBegin.y) * (aEnd.x - aBegin.x)) - ((bEnd.x - bBegin.x) * (aEnd.y - aBegin.y));
 
         float nume_a = ((bEnd.x - bBegin.x) * (aBegin.y - bBegin.y)) - ((bEnd.y - bBegin.y) * (aBegin.x - bBegin.x));
