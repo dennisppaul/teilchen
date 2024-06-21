@@ -44,7 +44,7 @@ public final class IntegrationUtil {
         if (mDiff > 0) {
             for (int i = 0; i < mDiff; i++) {
                 try {
-                    pContainer.add(pClass.newInstance());
+                    pContainer.add(pClass.getDeclaredConstructor().newInstance());
                 } catch (Exception ex) {
                     System.err.println(ex);
                 }
