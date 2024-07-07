@@ -39,6 +39,7 @@ import java.util.Iterator;
 
 public class Physics {
 
+    public static       boolean                VERBOSE                                 = false;
     public static final float                  EPSILON                                 = 0.001f;
     public static       boolean                HINT_UPDATE_OLD_POSITION                = true;
     private static      long                   oID                                     = -1;
@@ -215,28 +216,34 @@ public class Physics {
     }
 
     public void applyForces(final float pDeltaTime) {
-        /* accumulate inner forces */
-        synchronized (mParticles) {
-            final Iterator<Particle> i = mParticles.iterator();
-            while (i.hasNext()) {
-                final Particle p = i.next();
-                if (!p.fixed()) {
-                    /* accumulate inner forces */
-                    p.accumulateInnerForce(pDeltaTime);
-                }
-            }
-        }
-
-        /* add new forces to each particle */
-        synchronized (mForces) {
-            synchronized (mForces) {
-                final Iterator<IForce> i = mForces.iterator();
+        try {
+            /* accumulate inner forces */
+            synchronized (mParticles) {
+                final Iterator<Particle> i = mParticles.iterator();
                 while (i.hasNext()) {
-                    final IForce f = i.next();
-                    if (f.active()) {
-                        f.apply(pDeltaTime, this);
+                    final Particle p = i.next();
+                    if (!p.fixed() && p != null) {
+                        /* accumulate inner forces */
+                        p.accumulateInnerForce(pDeltaTime);
                     }
                 }
+            }
+
+            /* add new forces to each particle */
+            synchronized (mForces) {
+                synchronized (mForces) {
+                    final Iterator<IForce> i = mForces.iterator();
+                    while (i.hasNext()) {
+                        final IForce f = i.next();
+                        if (f.active() && f != null) {
+                            f.apply(pDeltaTime, this);
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            if (VERBOSE) {
+                ex.printStackTrace();
             }
         }
     }
@@ -387,38 +394,44 @@ public class Physics {
     }
 
     protected synchronized void handleParticles(float pDeltaTime) {
-        synchronized (mParticles) {
-            final Iterator<Particle> i = mParticles.iterator();
-            while (i.hasNext()) {
-                final Particle mParticle = i.next();
-                /* clear force */
-                mParticle.force().set(0, 0, 0);
-                /* age particle */
-                mParticle.age(mParticle.age() + pDeltaTime);
-                /* remove dead */
-                if (HINT_REMOVE_DEAD) {
-                    if (mParticle.dead()) {
-                        i.remove();
-                    }
-                }
-                /* recover NAN */
-                if (HINT_RECOVER_NAN) {
-                    if (Util.isNaN(mParticle.position())) {
-                        if (Util.isNaN(mParticle.old_position())) {
-                            mParticle.position().set(0, 0, 0);
-                        } else {
-                            mParticle.position().set(mParticle.old_position());
+        try {
+            synchronized (mParticles) {
+                final Iterator<Particle> i = mParticles.iterator();
+                while (i.hasNext()) {
+                    final Particle mParticle = i.next();
+                    /* clear force */
+                    mParticle.force().set(0, 0, 0);
+                    /* age particle */
+                    mParticle.age(mParticle.age() + pDeltaTime);
+                    /* remove dead */
+                    if (HINT_REMOVE_DEAD) {
+                        if (mParticle.dead()) {
+                            i.remove();
                         }
                     }
-                    if (Util.isNaN(mParticle.velocity())) {
-                        mParticle.velocity().set(0, 0, 0);
+                    /* recover NAN */
+                    if (HINT_RECOVER_NAN) {
+                        if (Util.isNaN(mParticle.position())) {
+                            if (Util.isNaN(mParticle.old_position())) {
+                                mParticle.position().set(0, 0, 0);
+                            } else {
+                                mParticle.position().set(mParticle.old_position());
+                            }
+                        }
+                        if (Util.isNaN(mParticle.velocity())) {
+                            mParticle.velocity().set(0, 0, 0);
+                        }
+                    }
+                    /* still */
+                    if (HINT_OPTIMIZE_STILL) {
+                        final float mSpeed = Util.lengthSquared(mParticle.velocity());
+                        mParticle.still(mSpeed > -EPSILON && mSpeed < EPSILON);
                     }
                 }
-                /* still */
-                if (HINT_OPTIMIZE_STILL) {
-                    final float mSpeed = Util.lengthSquared(mParticle.velocity());
-                    mParticle.still(mSpeed > -EPSILON && mSpeed < EPSILON);
-                }
+            }
+        } catch (Exception ex) {
+            if (VERBOSE) {
+                ex.printStackTrace();
             }
         }
     }
@@ -429,18 +442,24 @@ public class Physics {
 
     protected synchronized void postHandleParticles(float pDeltaTime) {
         if (HINT_SET_VELOCITY_FROM_PREVIOUS_POSTION || HINT_UPDATE_OLD_POSITION) {
-            synchronized (mParticles) {
-                final Iterator<Particle> i = mParticles.iterator();
-                while (i.hasNext()) {
-                    final Particle mParticle = i.next();
-                    if (HINT_SET_VELOCITY_FROM_PREVIOUS_POSTION) {
-                        if (mParticle.fixed()) {
-                            mParticle.velocity().set(PVector.sub(mParticle.position(), mParticle.old_position()));
+            try {
+                synchronized (mParticles) {
+                    final Iterator<Particle> i = mParticles.iterator();
+                    while (i.hasNext()) {
+                        final Particle mParticle = i.next();
+                        if (HINT_SET_VELOCITY_FROM_PREVIOUS_POSTION) {
+                            if (mParticle.fixed()) {
+                                mParticle.velocity().set(PVector.sub(mParticle.position(), mParticle.old_position()));
+                            }
+                        }
+                        if (HINT_UPDATE_OLD_POSITION) {
+                            mParticle.old_position().set(mParticle.position());
                         }
                     }
-                    if (HINT_UPDATE_OLD_POSITION) {
-                        mParticle.old_position().set(mParticle.position());
-                    }
+                }
+            } catch (Exception ex) {
+                if (VERBOSE) {
+                    ex.printStackTrace();
                 }
             }
         }
