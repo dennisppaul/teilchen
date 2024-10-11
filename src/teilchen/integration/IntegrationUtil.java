@@ -22,14 +22,14 @@
  */
 package teilchen.integration;
 
-import teilchen.Particle;
+import teilchen.IParticle;
 
 import java.util.List;
 
 public final class IntegrationUtil {
 
 
-    public static void calculateDerivatives(final List<Particle> pParticles, final List<Derivate3f> pDerivates) {
+    public static void calculateDerivatives(final List<IParticle> pParticles, final List<Derivate3f> pDerivates) {
         try {
             synchronized (pParticles) {
                 for (int i = 0; i < pParticles.size(); i++) {

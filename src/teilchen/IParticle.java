@@ -23,27 +23,50 @@
 
 package teilchen;
 
-public class ShortLivedParticle extends Particle {
+import processing.core.PVector;
+import teilchen.util.SpatialEntity;
 
-    private float mMaxAge;
+public interface IParticle extends SpatialEntity {
 
-    public ShortLivedParticle(float pMaxAge) {
-        mMaxAge = pMaxAge;
-    }
+    boolean fixed();
 
-    public ShortLivedParticle() {
-        this(1);
-    }
+    void fixed(boolean pFixed);
 
-    public void setMaxAge(float pMaxAge) {
-        mMaxAge = pMaxAge;
-    }
+    float age();
 
-    public float ageRatio() {
-        return Math.min(age() / mMaxAge, 1);
-    }
+    void age(float pAge);
 
-    public boolean dead() {
-        return age() >= mMaxAge;
-    }
+    float mass();
+
+    void mass(float pMass);
+
+    PVector old_position();
+
+    void setPositionRef(PVector pPosition);
+
+    PVector velocity();
+
+    PVector force();
+
+    boolean dead();
+
+    void dead(boolean pDead);
+
+    boolean tagged();
+
+    void tag(boolean pTag);
+
+    void accumulateInnerForce(final float pDeltaTime);
+
+    float radius();
+
+    PVector position();
+
+    void radius(float pRadius);
+
+    boolean still();
+
+    void still(boolean pStill);
+
+    long ID();
 }

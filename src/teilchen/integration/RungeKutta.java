@@ -24,7 +24,7 @@
 package teilchen.integration;
 
 import processing.core.PVector;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 
 import java.util.ArrayList;
@@ -71,7 +71,7 @@ public class RungeKutta implements IIntegrator {
 
         /* save original position and velocities */
         for (int i = 0; i < pParticleSystem.particles().size(); ++i) {
-            final Particle mParticle = pParticleSystem.particles().get(i);
+            final IParticle mParticle = pParticleSystem.particles().get(i);
             if (!mParticle.fixed()) {
                 mOriginalPositions.get(i).set(mParticle.position());
                 mOriginalVelocities.get(i).set(mParticle.velocity());
@@ -83,7 +83,7 @@ public class RungeKutta implements IIntegrator {
 
         /* save the intermediate forces */
         for (int i = 0; i < pParticleSystem.particles().size(); ++i) {
-            final Particle mParticle = pParticleSystem.particles().get(i);
+            final IParticle mParticle = pParticleSystem.particles().get(i);
             if (!mParticle.fixed()) {
                 mK1Forces.get(i).set(mParticle.force());
                 mK1Velocities.get(i).set(mParticle.velocity());
@@ -92,7 +92,7 @@ public class RungeKutta implements IIntegrator {
 
         /* get k2 values */
         for (int i = 0; i < pParticleSystem.particles().size(); ++i) {
-            final Particle mParticle = pParticleSystem.particles().get(i);
+            final IParticle mParticle = pParticleSystem.particles().get(i);
             if (!mParticle.fixed()) {
                 final PVector originalPosition = mOriginalPositions.get(i);
                 final PVector k1Velocity = mK1Velocities.get(i);
@@ -114,7 +114,7 @@ public class RungeKutta implements IIntegrator {
 
         /* save the intermediate forces */
         for (int i = 0; i < pParticleSystem.particles().size(); ++i) {
-            final Particle mParticle = pParticleSystem.particles().get(i);
+            final IParticle mParticle = pParticleSystem.particles().get(i);
             if (!mParticle.fixed()) {
                 mK2Forces.get(i).set(mParticle.force());
                 mK2Velocities.get(i).set(mParticle.velocity());
@@ -123,7 +123,7 @@ public class RungeKutta implements IIntegrator {
 
         /* get k3 values */
         for (int i = 0; i < pParticleSystem.particles().size(); ++i) {
-            final Particle mParticle = pParticleSystem.particles().get(i);
+            final IParticle mParticle = pParticleSystem.particles().get(i);
             if (!mParticle.fixed()) {
                 final PVector originalPosition = mOriginalPositions.get(i);
                 final PVector k2Velocity = mK2Velocities.get(i);
@@ -145,7 +145,7 @@ public class RungeKutta implements IIntegrator {
 
         /* save the intermediate forces */
         for (int i = 0; i < pParticleSystem.particles().size(); ++i) {
-            final Particle mParticle = pParticleSystem.particles().get(i);
+            final IParticle mParticle = pParticleSystem.particles().get(i);
             if (!mParticle.fixed()) {
                 (mK3Forces.get(i)).set(mParticle.force());
                 (mK3Velocities.get(i)).set(mParticle.velocity());
@@ -154,7 +154,7 @@ public class RungeKutta implements IIntegrator {
 
         /* get k4 values */
         for (int i = 0; i < pParticleSystem.particles().size(); ++i) {
-            final Particle mParticle = pParticleSystem.particles().get(i);
+            final IParticle mParticle = pParticleSystem.particles().get(i);
             if (!mParticle.fixed()) {
                 final PVector originalPosition = mOriginalPositions.get(i);
                 final PVector k3Velocity = mK3Velocities.get(i);
@@ -176,7 +176,7 @@ public class RungeKutta implements IIntegrator {
 
         /* save the intermediate forces */
         for (int i = 0; i < pParticleSystem.particles().size(); ++i) {
-            final Particle mParticle = pParticleSystem.particles().get(i);
+            final IParticle mParticle = pParticleSystem.particles().get(i);
             if (!mParticle.fixed()) {
                 mK4Forces.get(i).set(mParticle.force());
                 mK4Velocities.get(i).set(mParticle.velocity());
@@ -185,7 +185,7 @@ public class RungeKutta implements IIntegrator {
 
         /* put them all together and what do you get? */
         for (int i = 0; i < pParticleSystem.particles().size(); ++i) {
-            final Particle mParticle = pParticleSystem.particles().get(i);
+            final IParticle mParticle = pParticleSystem.particles().get(i);
             if (!mParticle.fixed()) {
                 /* update position */
                 final PVector originalPosition = mOriginalPositions.get(i);

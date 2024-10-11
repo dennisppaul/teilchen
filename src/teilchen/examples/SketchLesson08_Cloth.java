@@ -2,7 +2,7 @@ package teilchen.examples;
 
 import processing.core.PApplet;
 import processing.core.PVector;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.constraint.IConstraint;
 import teilchen.constraint.Stick;
@@ -43,7 +43,7 @@ public class SketchLesson08_Cloth extends PApplet {
         mAttractor.radius(300);
         mPhysics.add(mAttractor);
 
-        Particle[][] mParticles = new Particle[GRID_WIDTH][GRID_HEIGHT];
+        IParticle[][] mParticles = new IParticle[GRID_WIDTH][GRID_HEIGHT];
 
         /* setup cloth */
         float mGridStepX = ((float) width / GRID_WIDTH);
@@ -85,7 +85,7 @@ public class SketchLesson08_Cloth extends PApplet {
         }
 
         /* fix first row */
-        for (Particle[] mParticle : mParticles) {
+        for (IParticle[] mParticle : mParticles) {
             mParticle[0].fixed(true);
         }
     }

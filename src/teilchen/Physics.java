@@ -50,7 +50,7 @@ public class Physics {
     private final       ArrayList<IConstraint> mConstraints;
     private final       ArrayList<IForce>      mForces;
     private             IIntegrator            mIntegrator;
-    private final       ArrayList<Particle>    mParticles;
+    private final       ArrayList<IParticle>    mParticles;
 
     public Physics() {
         mParticles   = new ArrayList<>();
@@ -65,12 +65,12 @@ public class Physics {
     }
 
     /* particles */
-    public boolean add(Particle pParticle, boolean pPreventDuplicates) {
+    public boolean add(IParticle pParticle, boolean pPreventDuplicates) {
         if (pPreventDuplicates) {
             synchronized (mParticles) {
-                final Iterator<Particle> i = mParticles.iterator();
+                final Iterator<IParticle> i = mParticles.iterator();
                 while (i.hasNext()) {
-                    final Particle p = i.next();
+                    final IParticle p = i.next();
                     if (p == pParticle) {
                         return false;
                     }
@@ -81,74 +81,74 @@ public class Physics {
         return true;
     }
 
-    public void add(Particle pParticle) {
+    public void add(IParticle pParticle) {
         mParticles.add(pParticle);
     }
 
-    public void add(Collection<? extends Particle> pParticles) {
+    public void add(Collection<? extends IParticle> pParticles) {
         mParticles.addAll(pParticles);
     }
 
-    public void remove(Particle pParticle) {
+    public void remove(IParticle pParticle) {
         mParticles.remove(pParticle);
     }
 
-    public void remove(Collection<? extends Particle> pParticles) {
+    public void remove(Collection<? extends IParticle> pParticles) {
         mParticles.removeAll(pParticles);
     }
 
-    public ArrayList<Particle> particles() {
+    public ArrayList<IParticle> particles() {
         return mParticles;
     }
 
-    public Particle particles(final int pIndex) {
+    public IParticle particles(final int pIndex) {
         return mParticles.get(pIndex);
     }
 
-    public BasicParticle makeParticle(final PVector pPosition) {
-        BasicParticle mParticle = makeParticle();
+    public Particle makeParticle(final PVector pPosition) {
+        Particle mParticle = makeParticle();
         mParticle.setPositionRef(pPosition);
         mParticle.old_position().set(mParticle.position());
         return mParticle;
     }
 
-    public BasicParticle makeParticle() {
-        BasicParticle mParticle = new BasicParticle();
+    public Particle makeParticle() {
+        Particle mParticle = new Particle();
         mParticles.add(mParticle);
         return mParticle;
     }
 
-    public BasicParticle makeParticle(final float x, final float y) {
-        BasicParticle mParticle = makeParticle();
+    public Particle makeParticle(final float x, final float y) {
+        Particle mParticle = makeParticle();
         mParticle.position().set(x, y);
         mParticle.old_position().set(mParticle.position());
         return mParticle;
     }
 
-    public BasicParticle makeParticle(final float x, final float y, final float z) {
-        BasicParticle mParticle = makeParticle();
+    public Particle makeParticle(final float x, final float y, final float z) {
+        Particle mParticle = makeParticle();
         mParticle.position().set(x, y, z);
         mParticle.old_position().set(mParticle.position());
         return mParticle;
     }
 
-    public BasicParticle makeParticle(final float x, final float y, final float z, final float pMass) {
-        BasicParticle mParticle = makeParticle();
+    public Particle makeParticle(final float x, final float y, final float z, final float pMass) {
+        Particle mParticle = makeParticle();
         mParticle.position().set(x, y, z);
         mParticle.mass(pMass);
         mParticle.old_position().set(mParticle.position());
         return mParticle;
     }
 
-    public BasicParticle makeParticle(final PVector pPosition, final float pMass) {
-        BasicParticle mParticle = makeParticle();
+    public Particle makeParticle(final PVector pPosition, final float pMass) {
+        Particle mParticle = makeParticle();
         mParticle.setPositionRef(pPosition);
         mParticle.old_position().set(mParticle.position());
         mParticle.mass(pMass);
         return mParticle;
     }
 
-    public <T extends Particle> T makeParticle(Class<T> pParticleClass) {
+    public <T extends IParticle> T makeParticle(Class<T> pParticleClass) {
         T mParticle;
         try {
             mParticle = pParticleClass.getDeclaredConstructor().newInstance();
@@ -163,9 +163,9 @@ public class Physics {
 
     public void removeTags() {
         synchronized (mParticles) {
-            final Iterator<Particle> i = mParticles.iterator();
+            final Iterator<IParticle> i = mParticles.iterator();
             while (i.hasNext()) {
-                final Particle p = i.next();
+                final IParticle p = i.next();
                 p.tag(false);
             }
         }
@@ -219,9 +219,9 @@ public class Physics {
         try {
             /* accumulate inner forces */
             synchronized (mParticles) {
-                final Iterator<Particle> i = mParticles.iterator();
+                final Iterator<IParticle> i = mParticles.iterator();
                 while (i.hasNext()) {
-                    final Particle p = i.next();
+                    final IParticle p = i.next();
                     if (!p.fixed() && p != null) {
                         /* accumulate inner forces */
                         p.accumulateInnerForce(pDeltaTime);
@@ -259,20 +259,20 @@ public class Physics {
         return mForce;
     }
 
-    public Spring makeSpring(final Particle pA, final Particle pB) {
+    public Spring makeSpring(final IParticle pA, final IParticle pB) {
         Spring mSpring = new Spring(pA, pB);
         mForces.add(mSpring);
         return mSpring;
     }
 
-    public Spring makeSpring(final Particle pA, final Particle pB, final float pRestLength) {
+    public Spring makeSpring(final IParticle pA, final IParticle pB, final float pRestLength) {
         Spring mSpring = new Spring(pA, pB, pRestLength);
         mForces.add(mSpring);
         return mSpring;
     }
 
-    public Spring makeSpring(final Particle pA,
-                             final Particle pB,
+    public Spring makeSpring(final IParticle pA,
+                             final IParticle pB,
                              final float pSpringConstant,
                              final float pSpringDamping) {
         Spring mSpring = new Spring(pA, pB, pSpringConstant, pSpringDamping);
@@ -280,8 +280,8 @@ public class Physics {
         return mSpring;
     }
 
-    public Spring makeSpring(final Particle pA,
-                             final Particle pB,
+    public Spring makeSpring(final IParticle pA,
+                             final IParticle pB,
                              final float pSpringConstant,
                              final float pSpringDamping,
                              final float pRestLength) {
@@ -345,9 +345,9 @@ public class Physics {
             }
         }
         synchronized (mParticles) {
-            final Iterator<Particle> i = mParticles.iterator();
+            final Iterator<IParticle> i = mParticles.iterator();
             while (i.hasNext()) {
-                final Particle p = i.next();
+                final IParticle p = i.next();
                 if (p.dead()) {
                     i.remove();
                 }
@@ -396,9 +396,9 @@ public class Physics {
     protected synchronized void handleParticles(float pDeltaTime) {
         try {
             synchronized (mParticles) {
-                final Iterator<Particle> i = mParticles.iterator();
+                final Iterator<IParticle> i = mParticles.iterator();
                 while (i.hasNext()) {
-                    final Particle mParticle = i.next();
+                    final IParticle mParticle = i.next();
                     /* clear force */
                     mParticle.force().set(0, 0, 0);
                     /* age particle */
@@ -444,9 +444,9 @@ public class Physics {
         if (HINT_SET_VELOCITY_FROM_PREVIOUS_POSTION || HINT_UPDATE_OLD_POSITION) {
             try {
                 synchronized (mParticles) {
-                    final Iterator<Particle> i = mParticles.iterator();
+                    final Iterator<IParticle> i = mParticles.iterator();
                     while (i.hasNext()) {
-                        final Particle mParticle = i.next();
+                        final IParticle mParticle = i.next();
                         if (HINT_SET_VELOCITY_FROM_PREVIOUS_POSTION) {
                             if (mParticle.fixed()) {
                                 mParticle.velocity().set(PVector.sub(mParticle.position(), mParticle.old_position()));

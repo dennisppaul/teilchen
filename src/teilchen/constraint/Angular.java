@@ -24,7 +24,7 @@
 package teilchen.constraint;
 
 import processing.core.PVector;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 
 import static processing.core.PVector.add;
@@ -43,9 +43,9 @@ public class Angular implements IConstraint {
     private static final double STRENGTH = 1;
     public boolean OK;
     protected boolean mActive = true;
-    private final Particle mA;
-    private final Particle mB;
-    private final Particle mC;
+    private final IParticle mA;
+    private final IParticle mB;
+    private final IParticle mC;
     private boolean mDead = false;
     private final long mID;
     private float mMaximumAngle;
@@ -54,7 +54,7 @@ public class Angular implements IConstraint {
     private final PVector mTempB = new PVector();
     private final PVector mTempNormal;
 
-    public Angular(Particle pA, Particle pB, Particle pC, float pMinimumAngle, float pMaximumAngle) {
+    public Angular(IParticle pA, IParticle pB, IParticle pC, float pMinimumAngle, float pMaximumAngle) {
         mID = Physics.getUniqueID();
         mA = pA;
         mB = pB;
@@ -63,7 +63,7 @@ public class Angular implements IConstraint {
         range(pMinimumAngle, pMaximumAngle);
     }
 
-    public Angular(Particle pA, Particle pB, Particle pC) {
+    public Angular(IParticle pA, IParticle pB, IParticle pC) {
         this(pA, pB, pC, 0, 0);
     }
 

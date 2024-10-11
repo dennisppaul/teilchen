@@ -23,21 +23,21 @@
 package teilchen.util;
 
 import processing.core.PVector;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.constraint.Stick;
 
 public class StableStickQuad {
 
-    public Particle a;
+    public IParticle a;
     public Stick ab;
     public Stick ac;
-    public Particle b;
+    public IParticle b;
     public Stick bc;
     public Stick bd;
-    public Particle c;
+    public IParticle c;
     public Stick cd;
-    public Particle d;
+    public IParticle d;
     public Stick da;
 
     public StableStickQuad(final Physics pParticleSystem,

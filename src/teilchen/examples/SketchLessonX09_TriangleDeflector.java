@@ -3,7 +3,7 @@ package teilchen.examples;
 import processing.core.PApplet;
 import processing.core.PVector;
 import teilchen.MortalParticle;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.force.Gravity;
 import teilchen.force.TriangleDeflector;
@@ -64,7 +64,7 @@ public class SketchLessonX09_TriangleDeflector extends PApplet {
         noStroke();
         sphereDetail(10);
         for (int i = 0; i < mPhysics.particles().size(); i++) {
-            Particle mParticle = mPhysics.particles(i);
+            IParticle mParticle = mPhysics.particles(i);
             pushMatrix();
             translate(mParticle.position().x, mParticle.position().y, mParticle.position().z);
             fill(0);

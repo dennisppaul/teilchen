@@ -24,7 +24,7 @@
 package teilchen.constraint;
 
 import processing.core.PVector;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.integration.Verlet;
 import teilchen.util.Util;
@@ -96,7 +96,7 @@ public class Box implements IConstraint {
             return;
         }
 
-        for (final Particle myParticle : pParticleSystem.particles()) {
+        for (final IParticle myParticle : pParticleSystem.particles()) {
             if (mTeleport) {
                 if (myParticle.position().x > mMax.x) {
                     myParticle.position().x = mMin.x;

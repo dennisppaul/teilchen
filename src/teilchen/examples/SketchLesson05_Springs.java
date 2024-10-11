@@ -1,7 +1,7 @@
 package teilchen.examples;
 
 import processing.core.PApplet;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.force.Spring;
 
@@ -14,7 +14,7 @@ public class SketchLesson05_Springs extends PApplet {
      */
 
     private Physics mPhysics;
-    private Particle mRoot;
+    private IParticle mRoot;
 
     public void settings() {
         size(640, 480);
@@ -34,9 +34,9 @@ public class SketchLesson05_Springs extends PApplet {
         /* create a particle at mouse position and connect it to the root particle through a spring */
         if (mousePressed) {
             /* find the particle closest to the mouse */
-            Particle mNeighborParticle = teilchen.util.Util.findParticleByProximity(mPhysics, mouseX, mouseY, 0, 20);
+            IParticle mNeighborParticle = teilchen.util.Util.findParticleByProximity(mPhysics, mouseX, mouseY, 0, 20);
             if (mNeighborParticle != null) {
-                Particle mParticle = mPhysics.makeParticle(mouseX, mouseY, 0);
+                IParticle mParticle = mPhysics.makeParticle(mouseX, mouseY, 0);
                 Spring mSpring = mPhysics.makeSpring(mNeighborParticle, mParticle);
                 /* restlength defines the desired length of the spring. in this case it is the
                 distance between the two particles. */

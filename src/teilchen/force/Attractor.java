@@ -24,7 +24,7 @@
 package teilchen.force;
 
 import processing.core.PVector;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 
 import static processing.core.PVector.sub;
@@ -82,7 +82,7 @@ public class Attractor implements IForce {
 
     public void apply(float pDeltaTime, Physics pParticleSystem) {
         if (mStrength != 0) {
-            for (final Particle mParticle : pParticleSystem.particles()) {
+            for (final IParticle mParticle : pParticleSystem.particles()) {
                 /* each particle */
                 if (!mParticle.fixed()) {
                     sub(mPosition, mParticle.position(), mTemp);

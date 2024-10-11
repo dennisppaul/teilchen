@@ -25,7 +25,7 @@ package teilchen.util;
 
 import processing.core.PGraphics;
 import processing.core.PVector;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.force.Attractor;
 import teilchen.force.IForce;
@@ -83,10 +83,10 @@ public class DrawLib {
      * @param pSize      radius
      * @param pColor     stroke color
      */
-    public static void draw(final PGraphics g, final List<Particle> pParticles, float pSize, int pColor) {
+    public static void draw(final PGraphics g, final List<IParticle> pParticles, float pSize, int pColor) {
         g.stroke(pColor);
         g.noFill();
-        for (Particle mParticle : pParticles) {
+        for (IParticle mParticle : pParticles) {
             g.pushMatrix();
             g.translate(mParticle.position().x, mParticle.position().y, mParticle.position().z);
             g.ellipse(0, 0, pSize, pSize);
@@ -104,13 +104,13 @@ public class DrawLib {
      * @param pFillColor   fill color
      */
     public static void draw(final PGraphics g,
-                            final List<Particle> pParticles,
+                            final List<IParticle> pParticles,
                             float pSize,
                             int pStrokeColor,
                             int pFillColor) {
         g.stroke(pStrokeColor);
         g.fill(pFillColor);
-        for (Particle mParticle : pParticles) {
+        for (IParticle mParticle : pParticles) {
             g.pushMatrix();
             g.translate(mParticle.position().x, mParticle.position().y, mParticle.position().z);
             g.ellipse(0, 0, pSize, pSize);

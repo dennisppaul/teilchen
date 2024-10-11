@@ -2,8 +2,8 @@ package teilchen.examples;
 
 import processing.core.PApplet;
 import processing.core.PVector;
-import teilchen.BasicParticle;
 import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.constraint.Box;
 import teilchen.force.Gravity;
@@ -33,7 +33,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
     private Gravity mGravity;
     private boolean mPauseSimulation;
     private Physics mPhysics;
-    private Particle mTemporaryParticle;
+    private IParticle mTemporaryParticle;
     private MuscleSpring mTemporarySpring;
 
     public void settings() {
@@ -105,7 +105,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
     }
 
     private void beginCreateParticleSpring() {
-        Particle mSelectedParticle = getParticleCloseToMouse();
+        IParticle mSelectedParticle = getParticleCloseToMouse();
         if (mSelectedParticle != null) {
             if (keyPressed && (key == 'd' || key == 'D')) {
                 mTemporaryParticle = mSelectedParticle;
@@ -118,20 +118,20 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
         }
     }
 
-    private BasicParticle createParticle() {
-        BasicParticle p = new BasicParticle();
+    private Particle createParticle() {
+        Particle p = new Particle();
         p.mass(PARTICAL_MASS);
         return p;
     }
 
-    private MuscleSpring createSpring(Particle a, Particle b) {
+    private MuscleSpring createSpring(IParticle a, IParticle b) {
         MuscleSpring s = new MuscleSpring(a, b);
         s.strength(SPRING_STRENGTH);
         return s;
     }
 
     private void deleteParticleAndSpring() {
-        Particle mSelectedParticle = getParticleCloseToMouse();
+        IParticle mSelectedParticle = getParticleCloseToMouse();
         /*  mark particle for deletion */
         if (mSelectedParticle != null) {
             mSelectedParticle.dead(true);
@@ -152,7 +152,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
     }
 
     private void drawHighlightParticleNearby() {
-        Particle mSelectedParticle = getParticleCloseToMouse();
+        IParticle mSelectedParticle = getParticleCloseToMouse();
         if (mSelectedParticle != null) {
             stroke(0);
             noFill();
@@ -176,7 +176,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
         /* draw particles */
         noStroke();
         fill(0);
-        for (Particle p : mPhysics.particles()) {
+        for (IParticle p : mPhysics.particles()) {
             if (p.fixed()) {
                 rect(p.position().x - 5f, p.position().y - 5f, 10, 10);
             } else {
@@ -217,7 +217,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
     }
 
     private void endCreateParticleSpring() {
-        Particle mSelectedParticle = getParticleCloseToMouse();
+        IParticle mSelectedParticle = getParticleCloseToMouse();
         /* add temporary particle */
         if (mTemporaryParticle != null) {
             if (mSelectedParticle == null) {
@@ -252,7 +252,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
         }
     }
 
-    private Particle getParticleCloseToMouse() {
+    private IParticle getParticleCloseToMouse() {
         return teilchen.util.Util.findParticleByProximity(mPhysics.particles(), mouseX, mouseY, 0, SELECTION_RADIUS);
     }
 
@@ -261,14 +261,14 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
     }
 
     private void toggleParticleFixed() {
-        Particle mSelectedParticle = getParticleCloseToMouse();
+        IParticle mSelectedParticle = getParticleCloseToMouse();
         /*  toggle particle fixed */
         if (mSelectedParticle != null) {
             mSelectedParticle.fixed(!mSelectedParticle.fixed());
         }
     }
 
-    private void updateConnectedSprings(Particle mTemporaryParticle) {
+    private void updateConnectedSprings(IParticle mTemporaryParticle) {
         // @TODO("update length of connected springs")
         for (IForce f : mPhysics.forces()) {
             if (f instanceof MuscleSpring) {

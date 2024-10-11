@@ -28,7 +28,7 @@ import teilchen.behavior.IBehavior;
 
 import java.util.ArrayList;
 
-public class BehaviorParticle extends BasicParticle implements IBehaviorParticle {
+public class BehaviorParticle extends Particle implements IBehaviorParticle {
 
     private static final long serialVersionUID = 2735849326244271321L;
     private final ArrayList<IBehavior> mBehaviors;

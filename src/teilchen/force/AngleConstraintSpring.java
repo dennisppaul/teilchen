@@ -23,7 +23,7 @@
 package teilchen.force;
 
 import processing.core.PVector;
-import teilchen.Particle;
+import teilchen.IParticle;
 
 import static teilchen.util.Util.angle;
 import static teilchen.util.Util.distance;
@@ -31,9 +31,9 @@ import static teilchen.util.Util.distance;
 public class AngleConstraintSpring extends Spring {
 
     private float mMinAngle;
-    private final Particle mParticleA;
-    private final Particle mParticleB;
-    private final Particle mParticleC;
+    private final IParticle mParticleA;
+    private final IParticle mParticleB;
+    private final IParticle mParticleC;
 
     /**
      * particles are connected like this: A -- B -- C
@@ -42,7 +42,7 @@ public class AngleConstraintSpring extends Spring {
      * @param pParticleB particle B
      * @param pParticleC particle C
      */
-    public AngleConstraintSpring(Particle pParticleA, Particle pParticleB, Particle pParticleC) {
+    public AngleConstraintSpring(IParticle pParticleA, IParticle pParticleB, IParticle pParticleC) {
         super(pParticleA, pParticleC);
         mParticleA = pParticleA;
         mParticleB = pParticleB;

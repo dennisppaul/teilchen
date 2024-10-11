@@ -1,7 +1,7 @@
 package teilchen.examples;
 
 import processing.core.PApplet;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.ShortLivedParticle;
 import teilchen.force.Gravity;
@@ -68,7 +68,7 @@ public class SketchLesson11_SphereDeflector extends PApplet {
         /* draw all the particles in the particle system */
         background(255);
         for (int i = 0; i < mPhysics.particles().size(); i++) {
-            Particle mParticle = mPhysics.particles(i);
+            IParticle mParticle = mPhysics.particles(i);
             /* this special particle has a limited lifetime. in this case this information is
             mapped to its transparency. */
             float mRatio = 1 - ((ShortLivedParticle) mParticle).ageRatio();

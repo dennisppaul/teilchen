@@ -1,7 +1,7 @@
 package teilchen.wip;
 
 import processing.core.PApplet;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.constraint.LineIntersectionConstraint;
 import teilchen.constraint.Stick;
@@ -14,7 +14,7 @@ public class Sketch_NonIntersectingStructures extends PApplet {
 
     // @TODO(not fully functional yet)
 
-    private Particle[] mParticles;
+    private IParticle[] mParticles;
     private Physics mPhysics;
 
     public void settings() {
@@ -33,7 +33,7 @@ public class Sketch_NonIntersectingStructures extends PApplet {
         mPhysics.add(mGravity);
 
         /* setup sticks to form mParticle whip */
-        mParticles = new Particle[16];
+        mParticles = new IParticle[16];
         float mSegmentLength = 10.0f;
 
         /* create sticks */
@@ -51,7 +51,7 @@ public class Sketch_NonIntersectingStructures extends PApplet {
         }
 
         /* create line intersection mechanism */
-        for (Particle mParticle : mParticles) {
+        for (IParticle mParticle : mParticles) {
             LineIntersectionConstraint mLineIntersections = new LineIntersectionConstraint(mParticle);
             mLineIntersections.intersecting_lines().addAll(mSticks);
             mPhysics.add(mLineIntersections);
@@ -74,8 +74,8 @@ public class Sketch_NonIntersectingStructures extends PApplet {
         /* draw sticks with descending stroke weight */
         stroke(0, 192);
         for (int i = 1; i < mParticles.length; i++) {
-            Particle p1 = mParticles[i - 1];
-            Particle p2 = mParticles[i];
+            IParticle p1 = mParticles[i - 1];
+            IParticle p2 = mParticles[i];
             final float mStrokeWeight = 4.0f * (1.0f - (float) i / mParticles.length);
             strokeWeight(mStrokeWeight);
             line(p1.position().x, p1.position().y, p1.position().z, p2.position().x, p2.position().y, p2.position().z);

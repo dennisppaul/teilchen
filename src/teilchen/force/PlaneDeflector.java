@@ -24,7 +24,7 @@
 package teilchen.force;
 
 import processing.core.PVector;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.util.Plane3f;
 
@@ -58,7 +58,7 @@ public class PlaneDeflector implements IForce {
     }
 
     public void apply(final float pDeltaTime, final Physics pParticleSystem) {
-        for (final Particle mParticle : pParticleSystem.particles()) {
+        for (final IParticle mParticle : pParticleSystem.particles()) {
             if (!mParticle.fixed()) {
                 /* test if particle passed plane */
                 if (testParticlePosition(mParticle, mPlane) < 0) {
@@ -148,7 +148,7 @@ public class PlaneDeflector implements IForce {
         return mT;
     }
 
-    private void separateComponents(Particle pParticle, Plane3f pPlane) {
+    private void separateComponents(IParticle pParticle, Plane3f pPlane) {
         /* normal */
         mTempNormalComponent.set(pPlane.normal);
         mTempNormalComponent.mult(pPlane.normal.dot(pParticle.velocity()));
@@ -160,7 +160,7 @@ public class PlaneDeflector implements IForce {
         add(mTempTangentComponent, mTempNormalComponent, mTempReflectionVector);
     }
 
-    private float testParticlePosition(Particle pParticle, Plane3f pPlane) {
+    private float testParticlePosition(IParticle pParticle, Plane3f pPlane) {
         sub(pParticle.position(), pPlane.origin, mTempDiff);
         mTempDiff.normalize();
         final float mAngle = mTempDiff.dot(pPlane.normal);

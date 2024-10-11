@@ -24,7 +24,7 @@ package teilchen;
 
 import java.util.ArrayList;
 
-public interface IBehaviorParticle extends Particle {
+public interface IBehaviorParticle extends IParticle {
 
     float maximumInnerForce();
 

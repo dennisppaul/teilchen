@@ -23,7 +23,7 @@
 package teilchen.force;
 
 import processing.core.PVector;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 
 import static teilchen.util.Util.lengthSquared;
@@ -38,7 +38,7 @@ public class DirectedAttractor extends Attractor {
     }
 
     public void apply(float pDeltaTime, Physics pParticleSystem) {
-        for (final Particle mParticle : pParticleSystem.particles()) {
+        for (final IParticle mParticle : pParticleSystem.particles()) {
             /* each particle */
             if (!mParticle.fixed()) {
                 PVector.sub(mPosition, mParticle.position(), mTemp);

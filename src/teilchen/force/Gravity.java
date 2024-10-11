@@ -24,7 +24,7 @@
 package teilchen.force;
 
 import processing.core.PVector;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 
 public class Gravity implements IForce {
@@ -53,7 +53,7 @@ public class Gravity implements IForce {
     }
 
     public void apply(final float pDeltaTime, final Physics pParticleSystem) {
-        for (final Particle mParticle : pParticleSystem.particles()) {
+        for (final IParticle mParticle : pParticleSystem.particles()) {
             if (!mParticle.fixed()) {
                 mParticle.force().add(mForce);
             }

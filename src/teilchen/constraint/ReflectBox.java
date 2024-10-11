@@ -24,7 +24,7 @@
 package teilchen.constraint;
 
 import processing.core.PVector;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.integration.Verlet;
 import teilchen.util.Util;
@@ -117,16 +117,16 @@ public class ReflectBox implements IConstraint {
         return mID;
     }
 
-    public void apply(final ArrayList<Particle> pParticles) {
+    public void apply(final ArrayList<IParticle> pParticles) {
         apply(pParticles, null);
     }
 
-    public void apply(final ArrayList<Particle> pParticles, final ArrayList<Particle> pCollisionParticles) {
+    public void apply(final ArrayList<IParticle> pParticles, final ArrayList<IParticle> pCollisionParticles) {
         if (!mActive) {
             return;
         }
 
-        for (final Particle mParticle : pParticles) {
+        for (final IParticle mParticle : pParticles) {
             final PVector mPositionBeforeCollision = Util.clone(mParticle.position());
             final PVector p = mParticle.position();
             final PVector p_old = mParticle.old_position();

@@ -24,7 +24,7 @@ package teilchen;
 
 public interface IConnection {
 
-    Particle a();
+    IParticle a();
 
-    Particle b();
+    IParticle b();
 }

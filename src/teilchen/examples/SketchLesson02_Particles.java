@@ -2,6 +2,7 @@ package teilchen.examples;
 
 import processing.core.PApplet;
 import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.force.Gravity;
 
@@ -40,7 +41,7 @@ public class SketchLesson02_Particles extends PApplet {
 
         /* remove particles right before they hit the edge of the screen */
         for (int i = 0; i < mPhysics.particles().size(); i++) {
-            Particle mParticle = mPhysics.particles(i);
+            IParticle mParticle = mPhysics.particles(i);
             if (mParticle.position().y > height * 0.9f) {
                 /* particles can be marked dead and will be removed on the next call to `Physics.step()` */
                 mParticle.dead(true);
@@ -56,7 +57,7 @@ public class SketchLesson02_Particles extends PApplet {
         fill(0);
         noStroke();
         for (int i = 0; i < mPhysics.particles().size(); i++) {
-            Particle mParticle = mPhysics.particles(i);
+            IParticle mParticle = mPhysics.particles(i);
             ellipse(mParticle.position().x, mParticle.position().y, 5, 5);
         }
 

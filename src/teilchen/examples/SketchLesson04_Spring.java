@@ -1,7 +1,7 @@
 package teilchen.examples;
 
 import processing.core.PApplet;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.force.Spring;
 import teilchen.force.ViscousDrag;
@@ -31,10 +31,10 @@ public class SketchLesson04_Spring extends PApplet {
         mPhysics.add(mDrag);
 
         /* create two particles that we can connect with a spring */
-        Particle mA = mPhysics.makeParticle();
+        IParticle mA = mPhysics.makeParticle();
         mA.position().set(width / 2.0f - 50, height / 2.0f);
 
-        Particle mB = mPhysics.makeParticle();
+        IParticle mB = mPhysics.makeParticle();
         mB.position().set(width / 2.0f + 50, height / 2.0f);
 
         /* create a spring force that connects two particles.

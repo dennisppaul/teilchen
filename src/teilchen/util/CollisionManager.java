@@ -24,7 +24,7 @@
 package teilchen.util;
 
 import processing.core.PVector;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.constraint.Stick;
 import teilchen.cubicle.CubicleParticle;
@@ -172,21 +172,21 @@ public class CollisionManager {
 
     public void createCollisionResolvers(final CubicleWorld pWorld) {
         for (int i = 0; i < mCollisionPhysics.particles().size(); i++) {
-            final Particle mParticle = mCollisionPhysics.particles().get(i);
+            final IParticle mParticle = mCollisionPhysics.particles().get(i);
             if (mParticle instanceof CubicleParticle) {
                 createCollisionResolver(pWorld, (CubicleParticle) mParticle);
             }
         }
     }
 
-    private void createCollisionResolver(final Particle pParticle, final int pStart) {
+    private void createCollisionResolver(final IParticle pParticle, final int pStart) {
         if (HINT_IGNORE_STILL_OR_FIXED) {
             if (pParticle.fixed() || pParticle.still()) {
                 return;
             }
         }
         for (int j = pStart; j < mCollisionPhysics.particles().size(); j++) {
-            Particle mOprParticle = mCollisionPhysics.particles().get(j);
+            IParticle mOprParticle = mCollisionPhysics.particles().get(j);
             if (pParticle != mOprParticle) { // && !mOtherParticle.fixed()) {
                 final float mDistance = Util.distance(pParticle.position(), mOprParticle.position());
                 final float mMinimumDistance = getMinimumDistance(pParticle, mOprParticle);
@@ -239,8 +239,8 @@ public class CollisionManager {
         final ArrayList<ICubicleEntity> mNeigbors = pWorld.getLocalEntities(pParticle);
         if (mNeigbors.size() > 1) {
             for (final ICubicleEntity mEntity : mNeigbors) {
-                if (mEntity instanceof Particle) {
-                    final Particle mOprParticle = (Particle) mEntity;
+                if (mEntity instanceof IParticle) {
+                    final IParticle mOprParticle = (IParticle) mEntity;
                     if (pParticle != mOprParticle) {
                         final float mDistance = Util.distance(pParticle.position(), mOprParticle.position());
                         final float mMinimumDistance = getMinimumDistance(pParticle, mOprParticle);
@@ -283,7 +283,7 @@ public class CollisionManager {
         }
     }
 
-    private float getMinimumDistance(Particle pParticle, Particle mOprParticle) {
+    private float getMinimumDistance(IParticle pParticle, IParticle mOprParticle) {
         final float mTmpMinimumDistance;
 
         if (mDistanceMode == DISTANCE_MODE_RADIUS) {
@@ -296,16 +296,16 @@ public class CollisionManager {
 
     public static class CollisionSpring extends Spring {
 
-        public CollisionSpring(Particle pA, Particle pB) {
+        public CollisionSpring(IParticle pA, IParticle pB) {
             super(pA, pB, 2.0f, 0.1f, distance(pA.position(), pB.position()));
         }
 
-        public CollisionSpring(Particle pA, Particle pB, final float pSpringConstant, final float pSpringDamping) {
+        public CollisionSpring(IParticle pA, IParticle pB, final float pSpringConstant, final float pSpringDamping) {
             super(pA, pB, pSpringConstant, pSpringDamping, distance(pA.position(), pB.position()));
         }
 
-        public CollisionSpring(final Particle pA,
-                               final Particle pB,
+        public CollisionSpring(final IParticle pA,
+                               final IParticle pB,
                                final float pSpringConstant,
                                final float pSpringDamping,
                                final float pRestLength) {
@@ -355,11 +355,11 @@ public class CollisionManager {
 
     public static class CollisionStick extends Stick {
 
-        public CollisionStick(Particle pA, Particle pB) {
+        public CollisionStick(IParticle pA, IParticle pB) {
             super(pA, pB);
         }
 
-        public CollisionStick(final Particle pA, final Particle pB, final float pRestLength) {
+        public CollisionStick(final IParticle pA, final IParticle pB, final float pRestLength) {
             super(pA, pB, pRestLength);
         }
 

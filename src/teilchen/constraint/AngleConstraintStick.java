@@ -24,7 +24,7 @@
 package teilchen.constraint;
 
 import processing.core.PVector;
-import teilchen.Particle;
+import teilchen.IParticle;
 
 import static processing.core.PVector.sub;
 import static teilchen.util.Util.angle;
@@ -33,9 +33,9 @@ public class AngleConstraintStick extends Stick {
 
     private boolean mDead = false;
     private float mMinAngle;
-    private final Particle mParticleA;
-    private final Particle mParticleB;
-    private final Particle mParticleC;
+    private final IParticle mParticleA;
+    private final IParticle mParticleB;
+    private final IParticle mParticleC;
 
     /**
      * particles are connected like this: A -- B -- C
@@ -44,7 +44,7 @@ public class AngleConstraintStick extends Stick {
      * @param pParticleB particle B
      * @param pParticleC particle C
      */
-    public AngleConstraintStick(Particle pParticleA, Particle pParticleB, Particle pParticleC) {
+    public AngleConstraintStick(IParticle pParticleA, IParticle pParticleB, IParticle pParticleC) {
         super(pParticleA, pParticleC);
         mParticleA = pParticleA;
         mParticleB = pParticleB;

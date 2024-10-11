@@ -23,7 +23,7 @@
 
 package teilchen;
 
-public abstract class MortalParticle extends BasicParticle {
+public abstract class MortalParticle extends Particle {
 
     public boolean dead() {
         return isDead();

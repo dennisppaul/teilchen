@@ -24,7 +24,7 @@
 package teilchen.constraint;
 
 import processing.core.PVector;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.util.Util;
 
@@ -59,7 +59,7 @@ public class Teleporter implements IConstraint {
             return;
         }
 
-        for (final Particle mParticle : pParticleSystem.particles()) {
+        for (final IParticle mParticle : pParticleSystem.particles()) {
             if (mParticle.position().x > mMax.x) {
                 mParticle.position().x -= Math.abs(mMax.x - mMin.x);
             }

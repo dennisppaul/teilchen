@@ -24,7 +24,7 @@
 package teilchen.force;
 
 import processing.core.PVector;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 
 import static processing.core.PConstants.TWO_PI;
@@ -39,14 +39,14 @@ public class MuscleSpring extends Spring {
     private final boolean mPaused;
     private float mPhaseShift = 0.0f;
 
-    public MuscleSpring(Particle pA, Particle pB) {
+    public MuscleSpring(IParticle pA, IParticle pB) {
         super(pA, pB);
         mInitialRestLength = mRestLength;
         mPaused = false;
     }
 
-    public MuscleSpring(final Particle pA,
-                        final Particle pB,
+    public MuscleSpring(final IParticle pA,
+                        final IParticle pB,
                         final float pSpringConstant,
                         final float pSpringDamping,
                         final float pRestLength) {

@@ -26,7 +26,7 @@ package teilchen.constraint;
 import processing.core.PGraphics;
 import processing.core.PVector;
 import teilchen.IConnection;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 
 import java.util.ArrayList;
@@ -39,17 +39,17 @@ public class LineIntersectionConstraint implements IConstraint {
     public PGraphics DEBUG_VIEW = null;
     private boolean mDead = false;
     private final long mID;
-    private final Particle mParticle;
+    private final IParticle mParticle;
     private ArrayList<IConnection> mPotentialLineIntersections;
     private float mProxScale = 1.0f;
 
-    public LineIntersectionConstraint(Particle pParticle) {
+    public LineIntersectionConstraint(IParticle pParticle) {
         mID = Physics.getUniqueID();
         mParticle = pParticle;
         mPotentialLineIntersections = new ArrayList<>();
     }
 
-    public Particle particle() {
+    public IParticle particle() {
         return mParticle;
     }
 

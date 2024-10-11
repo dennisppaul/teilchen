@@ -25,7 +25,7 @@ package teilchen.behavior;
 
 import processing.core.PVector;
 import teilchen.IBehaviorParticle;
-import teilchen.Particle;
+import teilchen.IParticle;
 
 import java.util.ArrayList;
 
@@ -37,9 +37,9 @@ public class Util {
 
         public final float distance;
         public final PVector distanceVec;
-        public final Particle particle;
+        public final IParticle particle;
 
-        public ProximityStructure(Particle pP, PVector pDistanceVec, float pDistance) {
+        public ProximityStructure(IParticle pP, PVector pDistanceVec, float pDistance) {
             particle = pP;
             distanceVec = pDistanceVec;
             distance = pDistance;

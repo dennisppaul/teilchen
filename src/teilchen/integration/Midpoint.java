@@ -23,7 +23,7 @@
 
 package teilchen.integration;
 
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class Midpoint implements IIntegrator {
                     pParticleSystem.applyForces(pDeltaTime);
                     IntegrationUtil.calculateDerivatives(pParticleSystem.particles(), mK1);
                     for (int i = 0; i < pParticleSystem.particles().size(); i++) {
-                        Particle mParticle = pParticleSystem.particles().get(i);
+                        IParticle mParticle = pParticleSystem.particles().get(i);
                         if (!mParticle.fixed()) {
                             if (i < mK1.size()) {
                                 mParticle.position().x += mK1.get(i).px * pDeltaTime / 2;
@@ -58,7 +58,7 @@ public class Midpoint implements IIntegrator {
                     pParticleSystem.applyForces(pDeltaTime);
                     IntegrationUtil.calculateDerivatives(pParticleSystem.particles(), mK1);
                     for (int i = 0; i < pParticleSystem.particles().size(); i++) {
-                        Particle mParticle = pParticleSystem.particles().get(i);
+                        IParticle mParticle = pParticleSystem.particles().get(i);
                         if (!mParticle.fixed()) {
                             if (i < mK1.size()) {
                                 mParticle.position().x += mK1.get(i).px * pDeltaTime;

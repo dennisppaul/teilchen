@@ -26,7 +26,7 @@ package teilchen.force;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PVector;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.util.Util;
 import teilchen.util.Vector3i;
@@ -141,7 +141,7 @@ public class VectorField implements IForce {
 
     @Override
     public void apply(final float pDeltaTime, final Physics pParticleSystem) {
-        for (final Particle mParticle : pParticleSystem.particles()) {
+        for (final IParticle mParticle : pParticleSystem.particles()) {
             if (!mParticle.fixed()) {
                 final PVector mForce = getForce(mParticle);
                 mParticle.force().add(mForce);
@@ -292,7 +292,7 @@ public class VectorField implements IForce {
         return mLocation.x >= 0 && mLocation.x < width && mLocation.y >= 0 && mLocation.y < height && mLocation.z >= 0 && mLocation.z < depth;
     }
 
-    private PVector getForce(Particle p) {
+    private PVector getForce(IParticle p) {
         final Vector3i mLocation = getLocation(p.position());
         if (mIgnore3D) {
             mLocation.z = 0;

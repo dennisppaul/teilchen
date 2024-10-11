@@ -1,7 +1,7 @@
 package teilchen.examples;
 
 import processing.core.PApplet;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.ShortLivedParticle;
 import teilchen.force.Gravity;
@@ -77,7 +77,7 @@ public class SketchLesson10_PlaneDeflector extends PApplet {
         /* draw all the particles in the particle system */
         background(255);
         for (int i = 0; i < mPhysics.particles().size(); i++) {
-            Particle mParticle = mPhysics.particles(i);
+            IParticle mParticle = mPhysics.particles(i);
             /* `ShortLivedParticle` keeps track of much it has to *live*.
              * in this case the live time is mapped to its transparency.
              */

@@ -3,18 +3,18 @@ package teilchen.util;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PVector;
-import teilchen.BasicParticle;
 import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.force.MuscleSpring;
 
 public class StickMan {
 
-    private final BasicParticle mLeftFoot;
-    private final BasicParticle mLeftHand;
+    private final Particle mLeftFoot;
+    private final Particle mLeftHand;
     private final StableSpringQuad mQuad;
-    private final BasicParticle mRightFoot;
-    private final BasicParticle mRightHand;
+    private final Particle mRightFoot;
+    private final Particle mRightHand;
     private final float mScale;
 
     public StickMan(Physics pParticleSystem, float pOffset, float pScale) {
@@ -109,7 +109,7 @@ public class StickMan {
                   40 * mScale);
     }
 
-    public Particle anchor() {
+    public IParticle anchor() {
         return mQuad.a;
     }
 }

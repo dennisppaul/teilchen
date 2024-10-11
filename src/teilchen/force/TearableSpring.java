@@ -22,7 +22,7 @@
  */
 package teilchen.force;
 
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 
 import static teilchen.util.Util.distance;
@@ -32,12 +32,12 @@ public class TearableSpring extends Spring {
     private float mTearDistance = -1;
     private boolean mTorn = false;
 
-    public TearableSpring(Particle pA, Particle pB) {
+    public TearableSpring(IParticle pA, IParticle pB) {
         super(pA, pB, 2.0f, 0.1f, distance(pA.position(), pB.position()));
     }
 
-    public TearableSpring(final Particle pA,
-                          final Particle pB,
+    public TearableSpring(final IParticle pA,
+                          final IParticle pB,
                           final float pSpringConstant,
                           final float pSpringDamping,
                           final float pRestLength,

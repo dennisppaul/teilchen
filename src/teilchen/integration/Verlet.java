@@ -23,7 +23,7 @@
 package teilchen.integration;
 
 import processing.core.PVector;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 
 import java.util.Iterator;
@@ -59,9 +59,9 @@ public class Verlet implements IIntegrator {
         pParticleSystem.applyForces(pDeltaTime);
 
         synchronized (pParticleSystem.particles()) {
-            final Iterator<Particle> mIterator = pParticleSystem.particles().iterator();
+            final Iterator<IParticle> mIterator = pParticleSystem.particles().iterator();
             while (mIterator.hasNext()) {
-                final Particle mParticle = mIterator.next();
+                final IParticle mParticle = mIterator.next();
                 if (!mParticle.fixed()) {
                     integrate(pDeltaTime, mParticle);
                 }
@@ -69,7 +69,7 @@ public class Verlet implements IIntegrator {
         }
     }
 
-    private void integrate(float pDeltaTime, Particle pParticle) {
+    private void integrate(float pDeltaTime, IParticle pParticle) {
         final PVector mOldPosition = new PVector();
         mOldPosition.set(pParticle.position());
 

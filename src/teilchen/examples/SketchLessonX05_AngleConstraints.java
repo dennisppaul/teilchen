@@ -1,7 +1,7 @@
 package teilchen.examples;
 
 import processing.core.PApplet;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.constraint.AngleConstraintStick;
 import teilchen.constraint.Stick;
@@ -21,10 +21,10 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
 
     private AngleConstraintSpring mAngleConstraintABC;
     private AngleConstraintStick mAngleConstraintBCD;
-    private Particle mParticleA;
-    private Particle mParticleB;
-    private Particle mParticleC;
-    private Particle mParticleD;
+    private IParticle mParticleA;
+    private IParticle mParticleB;
+    private IParticle mParticleC;
+    private IParticle mParticleD;
     private Physics mPhysics;
 
     public void settings() {
@@ -107,7 +107,7 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
         mAngleConstraintBCD.post_step();
     }
 
-    private void drawParticle(Particle p) {
+    private void drawParticle(IParticle p) {
         ellipse(p.position().x, p.position().y, p.radius() * 2, p.radius() * 2);
     }
 
@@ -170,7 +170,7 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
         drawParticles();
     }
 
-    private void line(Particle p1, Particle p2) {
+    private void line(IParticle p1, IParticle p2) {
         line(p1.position().x, p1.position().y, p2.position().x, p2.position().y);
     }
 

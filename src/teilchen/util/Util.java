@@ -25,7 +25,7 @@ package teilchen.util;
 
 import processing.core.PMatrix3D;
 import processing.core.PVector;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.force.TriangleDeflector;
 import teilchen.force.TriangleDeflectorIndexed;
@@ -98,7 +98,7 @@ public class Util {
         pResultNormal.normalize();
     }
 
-    public static PVector calculateReflectionVector(Particle pParticle, PVector pNormal) {
+    public static PVector calculateReflectionVector(IParticle pParticle, PVector pNormal) {
         PVector mTempNormalComponent = new PVector();
         /* normal */
         mTempNormalComponent.set(pNormal);
@@ -225,31 +225,31 @@ public class Util {
         return v * (1.5f - half * v * v);
     }
 
-    public static Particle findParticleByProximity(Physics pPhysics,
-                                                   float x,
-                                                   float y,
-                                                   float z,
-                                                   float pSelectionRadius) {
+    public static IParticle findParticleByProximity(Physics pPhysics,
+                                                    float x,
+                                                    float y,
+                                                    float z,
+                                                    float pSelectionRadius) {
         return findParticleByProximity(pPhysics.particles(), new PVector().set(x, y, z), pSelectionRadius);
     }
 
-    public static Particle findParticleByProximity(Physics pPhysics, PVector pPosition, float pSelectionRadius) {
+    public static IParticle findParticleByProximity(Physics pPhysics, PVector pPosition, float pSelectionRadius) {
         return findParticleByProximity(pPhysics.particles(), pPosition, pSelectionRadius);
     }
 
-    public static Particle findParticleByProximity(ArrayList<Particle> pParticles,
-                                                   float x,
-                                                   float y,
-                                                   float z,
-                                                   float pSelectionRadius) {
+    public static IParticle findParticleByProximity(ArrayList<IParticle> pParticles,
+                                                    float x,
+                                                    float y,
+                                                    float z,
+                                                    float pSelectionRadius) {
         return findParticleByProximity(pParticles, new PVector().set(x, y, z), pSelectionRadius);
     }
 
-    public static Particle findParticleByProximity(ArrayList<Particle> pParticles,
-                                                   PVector pPosition,
-                                                   float pSelectionRadius) {
-        final ArrayList<Particle> mCloseParticles = new ArrayList<>();
-        for (Particle p : pParticles) {
+    public static IParticle findParticleByProximity(ArrayList<IParticle> pParticles,
+                                                    PVector pPosition,
+                                                    float pSelectionRadius) {
+        final ArrayList<IParticle> mCloseParticles = new ArrayList<>();
+        for (IParticle p : pParticles) {
             if (PVector.dist(pPosition, p.position()) < pSelectionRadius) {
                 mCloseParticles.add(p);
             }
@@ -257,7 +257,7 @@ public class Util {
         if (mCloseParticles.isEmpty()) {
             return null;
         }
-        Particle mClosestParticle = mCloseParticles.get(0);
+        IParticle mClosestParticle = mCloseParticles.get(0);
         float mClosestDistance = PVector.dist(pPosition, mClosestParticle.position());
         for (int i = 1; i < mCloseParticles.size(); i++) {
             final float mDistance = PVector.dist(pPosition, mCloseParticles.get(i).position());
@@ -475,7 +475,7 @@ public class Util {
         return r;
     }
 
-    public static void reflectVelocity(final Particle pParticle,
+    public static void reflectVelocity(final IParticle pParticle,
                                        final PVector pNormal,
                                        float pCoefficientOfRestitution) {
         final PVector mVelocity = pParticle.velocity();
@@ -540,11 +540,11 @@ public class Util {
         return q;
     }
 
-    public static void satisfyNeighborConstraints(final ArrayList<Particle> pParticles, final float pRelaxedness) {
+    public static void satisfyNeighborConstraints(final ArrayList<IParticle> pParticles, final float pRelaxedness) {
         for (int i = 0; i < pParticles.size(); i++) {
-            final Particle p1 = pParticles.get(i);
+            final IParticle p1 = pParticles.get(i);
             for (int j = i + 1; j < pParticles.size(); j++) {
-                final Particle p2 = pParticles.get(j);
+                final IParticle p2 = pParticles.get(j);
                 /* satisfy overlap */
                 if (almost(p1.position(), p2.position())) {
                     p1.position().x += 0.01f;
@@ -583,7 +583,7 @@ public class Util {
         v1.z *= v2.z;
     }
 
-    public static void setVelocityAndOldPosition(Particle pParticle, PVector pNewVelocity) {
+    public static void setVelocityAndOldPosition(IParticle pParticle, PVector pNewVelocity) {
         pParticle.velocity().set(pNewVelocity);
         final PVector mOldPosition = sub(pParticle.position(), pParticle.velocity());
         pParticle.old_position().set(mOldPosition);

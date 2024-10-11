@@ -25,7 +25,7 @@ package teilchen.force;
 
 import processing.core.PVector;
 import teilchen.IConnection;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.util.Util;
 
@@ -34,9 +34,9 @@ import static teilchen.util.Util.distance;
 public class Spring implements IForce, IConnection {
 
     private static final boolean USE_FAST_SQRT = true;
-    protected Particle mA;
+    protected IParticle mA;
     protected boolean mActive;
-    protected Particle mB;
+    protected IParticle mB;
     protected boolean mDead;
     protected boolean mOneWay;
     protected float mRestLength;
@@ -44,12 +44,12 @@ public class Spring implements IForce, IConnection {
     protected float mSpringDamping;
     private final long mID;
 
-    public Spring(Particle pA, Particle pB) {
+    public Spring(IParticle pA, IParticle pB) {
         this(pA, pB, 2.0f, 0.1f, distance(pA.position(), pB.position()));
     }
 
-    public Spring(final Particle pA,
-                  final Particle pB,
+    public Spring(final IParticle pA,
+                  final IParticle pB,
                   final float pSpringConstant,
                   final float pSpringDamping,
                   final float pRestLength) {
@@ -64,11 +64,11 @@ public class Spring implements IForce, IConnection {
         mDead = false;
     }
 
-    public Spring(Particle pA, Particle pB, float pRestLength) {
+    public Spring(IParticle pA, IParticle pB, float pRestLength) {
         this(pA, pB, 2.0f, 0.1f, pRestLength);
     }
 
-    public Spring(Particle pA, Particle pB, final float pSpringConstant, final float pSpringDamping) {
+    public Spring(IParticle pA, IParticle pB, final float pSpringConstant, final float pSpringDamping) {
         this(pA, pB, pSpringConstant, pSpringDamping, distance(pA.position(), pB.position()));
     }
 
@@ -84,19 +84,19 @@ public class Spring implements IForce, IConnection {
         mRestLength = pRestLength;
     }
 
-    public final Particle a() {
+    public final IParticle a() {
         return mA;
     }
 
-    public final Particle b() {
+    public final IParticle b() {
         return mB;
     }
 
-    public final Particle a(Particle pA) {
+    public final IParticle a(IParticle pA) {
         return mA = pA;
     }
 
-    public final Particle b(Particle pB) {
+    public final IParticle b(IParticle pB) {
         return mB = pB;
     }
 

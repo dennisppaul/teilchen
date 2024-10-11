@@ -2,7 +2,7 @@ package teilchen.examples;
 
 import processing.core.PApplet;
 import processing.core.PVector;
-import teilchen.Particle;
+import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.force.Gravity;
 import teilchen.force.Spring;
@@ -20,7 +20,7 @@ public class SketchLessonX01_Overlap extends PApplet {
 
     private static final float PARTICLE_RADIUS = 13;
     private Physics mPhysics;
-    private Particle mRoot;
+    private IParticle mRoot;
 
     public void settings() {
         size(640, 480);
@@ -42,7 +42,7 @@ public class SketchLessonX01_Overlap extends PApplet {
 
     public void draw() {
         if (mousePressed) {
-            Particle mParticle = mPhysics.makeParticle(mouseX, mouseY, 0);
+            IParticle mParticle = mPhysics.makeParticle(mouseX, mouseY, 0);
             mPhysics.makeSpring(mRoot, mParticle);
 
             /* define a radius for the particle so it has dimensions */
@@ -77,7 +77,7 @@ public class SketchLessonX01_Overlap extends PApplet {
         /* draw particles */
         fill(255);
         for (int i = 0; i < mPhysics.particles().size(); i++) {
-            Particle p = mPhysics.particles().get(i);
+            IParticle p = mPhysics.particles().get(i);
             stroke(0, 191);
             ellipse(p.position().x, p.position().y, p.radius() * 2, p.radius() * 2);
         }
