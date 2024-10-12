@@ -2,10 +2,10 @@ package teilchen.examples;
 
 import processing.core.PApplet;
 import processing.core.PVector;
-import teilchen.IParticle;
+import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.force.Gravity;
-import teilchen.force.IForce;
+import teilchen.force.Force;
 import teilchen.force.Spring;
 import teilchen.force.TearableSpring;
 import teilchen.integration.RungeKutta;
@@ -21,8 +21,8 @@ public class SketchLessonX12_TearableSpring extends PApplet {
 
     private static final int GRID_HEIGHT = 24;
     private static final int GRID_WIDTH = 32;
-    private IParticle mParticleSelected = null;
-    private final IParticle[][] mParticles = new IParticle[GRID_WIDTH][GRID_HEIGHT];
+    private Particle mParticleSelected = null;
+    private final Particle[][] mParticles = new Particle[GRID_WIDTH][GRID_HEIGHT];
     private Physics mPhysics;
 
     public void settings() {
@@ -42,7 +42,7 @@ public class SketchLessonX12_TearableSpring extends PApplet {
         final PVector mTranslate = new PVector().set(width / 4.0f, height / 4.0f);
         for (int x = 0; x < mParticles.length; x++) {
             for (int y = 0; y < mParticles[x].length; y++) {
-                final IParticle p = mPhysics.makeParticle();
+                final Particle p = mPhysics.makeParticle();
                 p.mass(0.01f);
                 p.position().set(x, y);
                 p.position().mult(10.0f);
@@ -54,13 +54,13 @@ public class SketchLessonX12_TearableSpring extends PApplet {
         /* connect particles with tearable spring */
         for (int x = 0; x < GRID_WIDTH; x++) {
             for (int y = 0; y < GRID_HEIGHT; y++) {
-                final IParticle p0 = mParticles[x][y];
+                final Particle p0 = mParticles[x][y];
                 if (x < GRID_WIDTH - 1) {
-                    final IParticle p1 = mParticles[x + 1][y];
+                    final Particle p1 = mParticles[x + 1][y];
                     createSpring(p0, p1);
                 }
                 if (y < GRID_HEIGHT - 1) {
-                    final IParticle p2 = mParticles[x][y + 1];
+                    final Particle p2 = mParticles[x][y + 1];
                     createSpring(p0, p2);
                 }
             }
@@ -89,14 +89,14 @@ public class SketchLessonX12_TearableSpring extends PApplet {
 
         noStroke();
         fill(0);
-        for (IParticle p : mPhysics.particles()) {
+        for (Particle p : mPhysics.particles()) {
             final float mParticleSize = 3;
             ellipse(p.position().x, p.position().y, mParticleSize, mParticleSize);
         }
 
         stroke(0, 127);
         noFill();
-        for (IForce f : mPhysics.forces()) {
+        for (Force f : mPhysics.forces()) {
             if (f instanceof Spring) {
                 Spring s = (Spring) f;
                 drawSpring(s);
@@ -119,7 +119,7 @@ public class SketchLessonX12_TearableSpring extends PApplet {
         mParticleSelected = null;
     }
 
-    private void createSpring(IParticle p0, IParticle p1) {
+    private void createSpring(Particle p0, Particle p1) {
         TearableSpring s = new TearableSpring(p0, p1);
         s.tear_distance(40);
         s.strength(20.0f);

@@ -1,7 +1,7 @@
 package teilchen.examples;
 
 import processing.core.PApplet;
-import teilchen.IParticle;
+import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.constraint.Box;
 import teilchen.force.Gravity;
@@ -22,7 +22,7 @@ public class SketchLesson06_StableQuads extends PApplet {
      */
 
     private Physics mPhysics;
-    private IParticle mRoot;
+    private Particle mRoot;
 
     public void settings() {
         size(640, 480);
@@ -47,10 +47,10 @@ public class SketchLesson06_StableQuads extends PApplet {
         mPhysics.add(mBox);
 
         /* create root */
-        IParticle a = mPhysics.makeParticle(0, 0);
-        IParticle b = mPhysics.makeParticle(100, 0);
-        IParticle c = mPhysics.makeParticle(100, 100);
-        IParticle d = mPhysics.makeParticle(0, 100);
+        Particle a = mPhysics.makeParticle(0, 0);
+        Particle b = mPhysics.makeParticle(100, 0);
+        Particle c = mPhysics.makeParticle(100, 100);
+        Particle d = mPhysics.makeParticle(0, 100);
 
         /* create stable quad from springs */
         /* first the edge-springs ... */
@@ -88,7 +88,7 @@ public class SketchLesson06_StableQuads extends PApplet {
         background(255);
         noStroke();
         fill(0);
-        for (IParticle p : mPhysics.particles()) {
+        for (Particle p : mPhysics.particles()) {
             ellipse(p.position().x, p.position().y, 5, 5);
         }
         DrawLib.drawSprings(g, mPhysics, color(0, 63));

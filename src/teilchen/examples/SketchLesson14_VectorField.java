@@ -1,7 +1,7 @@
 package teilchen.examples;
 
 import processing.core.PApplet;
-import teilchen.IParticle;
+import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.force.VectorField;
 import teilchen.force.ViscousDrag;
@@ -68,7 +68,7 @@ public class SketchLesson14_VectorField extends PApplet {
             rect(0, 40, 40, height - 80);
             rect(width - 40, 40, 40, height - 80);
             /* particles inside the vector field are colored black and outside white */
-            for (IParticle p : mPhysics.particles()) {
+            for (Particle p : mPhysics.particles()) {
                 if (mVectorField.inside(p.position())) {
                     stroke(0, 127);
                 } else {
@@ -79,7 +79,7 @@ public class SketchLesson14_VectorField extends PApplet {
         } else {
             stroke(0, 12);
             beginShape(LINES);
-            for (IParticle p : mPhysics.particles()) {
+            for (Particle p : mPhysics.particles()) {
                 vertex(p.position().x, p.position().y);
             }
             endShape();

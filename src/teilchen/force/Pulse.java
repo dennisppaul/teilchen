@@ -24,19 +24,19 @@
 package teilchen.force;
 
 import processing.core.PVector;
-import teilchen.IParticle;
+import teilchen.Particle;
 import teilchen.Physics;
 
-public class Pulse implements IForce {
+public class Pulse implements Force {
 
     private boolean mActive;
     private float mDamping;
     private boolean mDead = false;
     private final PVector mForce;
     private final long mID;
-    private final IParticle mParticle;
+    private final Particle mParticle;
 
-    public Pulse(final IParticle pParticle) {
+    public Pulse(final Particle pParticle) {
         mID = Physics.getUniqueID();
         mActive = true;
         mParticle = pParticle;

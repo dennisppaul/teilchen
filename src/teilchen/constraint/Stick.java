@@ -24,8 +24,8 @@
 package teilchen.constraint;
 
 import processing.core.PVector;
-import teilchen.IConnection;
-import teilchen.IParticle;
+import teilchen.Connection;
+import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.util.Util;
 
@@ -33,11 +33,11 @@ import static teilchen.Physics.EPSILON;
 import static teilchen.util.Util.distance;
 import static teilchen.util.Util.lengthSquared;
 
-public class Stick implements IConstraint, IConnection {
+public class Stick implements Constraint, Connection {
 
-    protected final IParticle mA;
+    protected final Particle mA;
     protected boolean mActive = true;
-    protected final IParticle mB;
+    protected final Particle mB;
     protected float mDamping;
     protected boolean mOneWay;
     protected float mRestLength;
@@ -46,11 +46,11 @@ public class Stick implements IConstraint, IConnection {
     private boolean mDead = false;
     private final long mID;
 
-    public Stick(IParticle pA, IParticle pB) {
+    public Stick(Particle pA, Particle pB) {
         this(pA, pB, distance(pA.position(), pB.position()));
     }
 
-    public Stick(final IParticle pA, final IParticle pB, final float pRestLength) {
+    public Stick(final Particle pA, final Particle pB, final float pRestLength) {
         mID = Physics.getUniqueID();
         mRestLength = pRestLength;
         mA = pA;
@@ -81,11 +81,11 @@ public class Stick implements IConstraint, IConnection {
         mRestLength = pRestLength;
     }
 
-    public final IParticle a() {
+    public final Particle a() {
         return mA;
     }
 
-    public final IParticle b() {
+    public final Particle b() {
         return mB;
     }
 

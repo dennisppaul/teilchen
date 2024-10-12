@@ -1,7 +1,7 @@
 package teilchen.examples;
 
 import processing.core.PApplet;
-import teilchen.BehaviorParticle;
+import teilchen.BasicBehaviorParticle;
 import teilchen.Physics;
 import teilchen.behavior.Arrival;
 import teilchen.force.Spring;
@@ -94,7 +94,7 @@ public class SketchLessonX06_Ducklings extends PApplet {
     }
 
     private void drawParticle(Duckling pDuckling) {
-        final BehaviorParticle mParticle = pDuckling.particle;
+        final BasicBehaviorParticle mParticle = pDuckling.particle;
         final Arrival mArrival = pDuckling.arrival;
 
         /* draw particle */
@@ -129,11 +129,11 @@ public class SketchLessonX06_Ducklings extends PApplet {
     class Duckling {
 
         Arrival arrival;
-        BehaviorParticle particle;
+        BasicBehaviorParticle particle;
 
         Duckling() {
             /* create particles */
-            particle = mPhysics.makeParticle(BehaviorParticle.class);
+            particle = mPhysics.makeParticle(BasicBehaviorParticle.class);
             particle.position().set(random(width), random(height));
             particle.maximumInnerForce(random(50, 150));
             particle.radius(random(6, 10));

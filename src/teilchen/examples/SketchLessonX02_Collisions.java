@@ -2,7 +2,7 @@ package teilchen.examples;
 
 import processing.core.PApplet;
 import processing.core.PVector;
-import teilchen.IParticle;
+import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.constraint.Box;
 import teilchen.force.Gravity;
@@ -50,7 +50,7 @@ public class SketchLessonX02_Collisions extends PApplet {
     public void draw() {
         /* create particles */
         if (mousePressed) {
-            final IParticle mParticle = mPhysics.makeParticle(new PVector(mouseX, mouseY, 0), 10);
+            final Particle mParticle = mPhysics.makeParticle(new PVector(mouseX, mouseY, 0), 10);
             mCollision.collision().add(mParticle);
         }
 
@@ -85,7 +85,7 @@ public class SketchLessonX02_Collisions extends PApplet {
         noStroke();
         fill(0);
         for (int i = 0; i < mPhysics.particles().size(); ++i) {
-            IParticle mParticle = mPhysics.particles().get(i);
+            Particle mParticle = mPhysics.particles().get(i);
             final float mCollisionScale = mParticle.tagged() ? 1.0f : 2.0f;
             mParticle.tag(false);
             pushMatrix();

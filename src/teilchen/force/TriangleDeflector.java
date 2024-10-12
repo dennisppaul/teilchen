@@ -24,7 +24,7 @@
 package teilchen.force;
 
 import processing.core.PVector;
-import teilchen.IParticle;
+import teilchen.Particle;
 import teilchen.Physics;
 
 import static processing.core.PApplet.abs;
@@ -41,7 +41,7 @@ import static teilchen.util.Util.project_point_onto_plane;
 import static teilchen.util.Util.project_vector_onto_plane;
 import static teilchen.util.Util.reflect;
 
-public class TriangleDeflector implements IForce {
+public class TriangleDeflector implements Force {
     public boolean AUTO_UPDATE = true;
     private final PVector a;
     private final PVector b;
@@ -83,7 +83,7 @@ public class TriangleDeflector implements IForce {
         calculateNormal(a, b, c, fNormal);
     }
 
-    private boolean calculateIntersection(IParticle mParticle, float delta_time) {
+    private boolean calculateIntersection(Particle mParticle, float delta_time) {
         if (!mParticle.fixed()) {
             if (isNaN(mParticle.velocity())) {
                 return false;
@@ -131,7 +131,7 @@ public class TriangleDeflector implements IForce {
         return false;
     }
 
-    private void keepParticleOnPlane(IParticle mParticle, PVector pPrevPosition) {
+    private void keepParticleOnPlane(Particle mParticle, PVector pPrevPosition) {
         mParticle.velocity().set(project_vector_onto_plane(mParticle.velocity(), fNormal));
         mParticle.position().set(project_point_onto_plane(mParticle.position(), a, fNormal));
         mParticle.old_position().set(pPrevPosition);
@@ -144,7 +144,7 @@ public class TriangleDeflector implements IForce {
         }
 
         fGotHit = false;
-        for (final IParticle mParticle : pParticleSystem.particles()) {
+        for (final Particle mParticle : pParticleSystem.particles()) {
             if (!mParticle.fixed()) {
                 boolean mDoesIntersect = calculateIntersection(mParticle, pDeltaTime);
                 if (mDoesIntersect && !fGotHit) {
@@ -190,7 +190,7 @@ public class TriangleDeflector implements IForce {
         return fNormal;
     }
 
-    protected void markParticle(IParticle pParticle) {
+    protected void markParticle(Particle pParticle) {
         pParticle.tag(true);
     }
 }

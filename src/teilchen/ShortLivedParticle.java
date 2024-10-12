@@ -23,7 +23,7 @@
 
 package teilchen;
 
-public class ShortLivedParticle extends Particle {
+public class ShortLivedParticle extends BasicParticle {
 
     private float mMaxAge;
 

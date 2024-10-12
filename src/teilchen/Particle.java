@@ -24,120 +24,49 @@
 package teilchen;
 
 import processing.core.PVector;
+import teilchen.util.SpatialEntity;
 
-import java.io.Serializable;
+public interface Particle extends SpatialEntity {
 
-public class Particle implements IParticle, Serializable {
+    boolean fixed();
 
-    private static final long serialVersionUID = 3737917975116369338L;
-    private float mAge;
-    private boolean mDead;
-    private boolean mFixed;
-    private final PVector mForce;
-    private final long mID;
-    private float mMass;
-    private final PVector mOldPosition;
-    private PVector mPosition;
-    private float mRadius;
-    private boolean mStill;
-    private boolean mTagged;
-    private final PVector mVelocity;
+    void fixed(boolean pFixed);
 
-    public Particle() {
-        mID = Physics.getUniqueID();
-        mPosition = new PVector();
-        mOldPosition = new PVector();
-        mVelocity = new PVector();
-        mForce = new PVector();
-        mMass = 1;
-        mFixed = false;
-        mAge = 0;
-        mTagged = false;
-        mStill = false;
-        mRadius = 0;
-        mDead = false;
-    }
+    float age();
 
-    public boolean fixed() {
-        return mFixed;
-    }
+    void age(float pAge);
 
-    public void fixed(boolean pFixed) {
-        mFixed = pFixed;
-    }
+    float mass();
 
-    public float age() {
-        return mAge;
-    }
+    void mass(float pMass);
 
-    public void age(float pAge) {
-        mAge = pAge;
-    }
+    PVector old_position();
 
-    public float mass() {
-        return mMass;
-    }
+    void setPositionRef(PVector pPosition);
 
-    public void mass(float pMass) {
-        mMass = pMass;
-    }
+    PVector velocity();
 
-    public PVector old_position() {
-        return mOldPosition;
-    }
+    PVector force();
 
-    public void setPositionRef(PVector pPosition) {
-        mPosition = pPosition;
-    }
+    boolean dead();
 
-    public PVector velocity() {
-        return mVelocity;
-    }
+    void dead(boolean pDead);
 
-    public PVector force() {
-        return mForce;
-    }
+    boolean tagged();
 
-    public boolean dead() {
-        return mDead;
-    }
+    void tag(boolean pTag);
 
-    public void dead(boolean pDead) {
-        mDead = pDead;
-    }
+    void accumulateInnerForce(final float pDeltaTime);
 
-    public boolean tagged() {
-        return mTagged;
-    }
+    float radius();
 
-    public void tag(boolean pTag) {
-        mTagged = pTag;
-    }
+    PVector position();
 
-    public void accumulateInnerForce(final float pDeltaTime) {
-    }
+    void radius(float pRadius);
 
-    public float radius() {
-        return mRadius;
-    }
+    boolean still();
 
-    public PVector position() {
-        return mPosition;
-    }
+    void still(boolean pStill);
 
-    public void radius(float pRadius) {
-        mRadius = pRadius;
-    }
-
-    public boolean still() {
-        return mStill;
-    }
-
-    public void still(boolean pStill) {
-        mStill = pStill;
-    }
-
-    public long ID() {
-        return mID;
-    }
+    long ID();
 }

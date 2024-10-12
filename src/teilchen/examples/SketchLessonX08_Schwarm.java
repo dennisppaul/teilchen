@@ -4,7 +4,7 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PMatrix3D;
 import processing.core.PVector;
-import teilchen.BehaviorParticle;
+import teilchen.BasicBehaviorParticle;
 import teilchen.Physics;
 import teilchen.behavior.Alignment;
 import teilchen.behavior.Cohesion;
@@ -76,7 +76,7 @@ public class SketchLessonX08_Schwarm extends PApplet {
         }
     }
 
-    private class SwarmEntity extends BehaviorParticle {
+    private class SwarmEntity extends BasicBehaviorParticle {
 
         private final Alignment<SwarmEntity> alignment;
         private final Cohesion<SwarmEntity> cohesion;

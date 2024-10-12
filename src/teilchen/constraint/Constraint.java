@@ -25,7 +25,7 @@ package teilchen.constraint;
 
 import teilchen.Physics;
 
-public interface IConstraint {
+public interface Constraint {
 
     void apply(final Physics pParticleSystem);
 

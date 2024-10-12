@@ -2,9 +2,9 @@ package teilchen.examples;
 
 import processing.core.PApplet;
 import processing.core.PVector;
-import teilchen.IParticle;
+import teilchen.Particle;
 import teilchen.Physics;
-import teilchen.constraint.IConstraint;
+import teilchen.constraint.Constraint;
 import teilchen.constraint.Stick;
 import teilchen.force.Attractor;
 import teilchen.force.Gravity;
@@ -43,7 +43,7 @@ public class SketchLesson08_Cloth extends PApplet {
         mAttractor.radius(300);
         mPhysics.add(mAttractor);
 
-        IParticle[][] mParticles = new IParticle[GRID_WIDTH][GRID_HEIGHT];
+        Particle[][] mParticles = new Particle[GRID_WIDTH][GRID_HEIGHT];
 
         /* setup cloth */
         float mGridStepX = ((float) width / GRID_WIDTH);
@@ -85,7 +85,7 @@ public class SketchLesson08_Cloth extends PApplet {
         }
 
         /* fix first row */
-        for (IParticle[] mParticle : mParticles) {
+        for (Particle[] mParticle : mParticles) {
             mParticle[0].fixed(true);
         }
     }
@@ -104,7 +104,7 @@ public class SketchLesson08_Cloth extends PApplet {
 
         /* draw sticks */
         stroke(0, 191);
-        for (final IConstraint mIConstraint : mPhysics.constraints()) {
+        for (final Constraint mIConstraint : mPhysics.constraints()) {
             if (mIConstraint instanceof Stick) {
                 final Stick mStick = (Stick) mIConstraint;
                 line(mStick.a().position().x,

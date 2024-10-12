@@ -24,21 +24,21 @@
 package teilchen.util;
 
 import processing.core.PVector;
-import teilchen.IParticle;
+import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.force.Spring;
 
 public class StableSpringQuad {
 
-    public IParticle a;
+    public Particle a;
     public Spring ab;
     public Spring ac;
-    public IParticle b;
+    public Particle b;
     public Spring bc;
     public Spring bd;
-    public IParticle c;
+    public Particle c;
     public Spring cd;
-    public IParticle d;
+    public Particle d;
     public Spring da;
 
     /**
@@ -81,10 +81,10 @@ public class StableSpringQuad {
     }
 
     public StableSpringQuad(final Physics pParticleSystem,
-                            final IParticle pA,
-                            final IParticle pB,
-                            final IParticle pC,
-                            final IParticle pD) {
+                            final Particle pA,
+                            final Particle pB,
+                            final Particle pC,
+                            final Particle pD) {
         a = pA;
         b = pB;
         c = pC;

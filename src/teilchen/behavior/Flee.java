@@ -23,7 +23,7 @@
 package teilchen.behavior;
 
 import processing.core.PVector;
-import teilchen.IBehaviorParticle;
+import teilchen.BehaviorParticle;
 
 import static processing.core.PVector.sub;
 
@@ -47,7 +47,7 @@ public class Flee implements IBehavior, Verhalten {
         mFleePosition = pPoint;
     }
 
-    public void update(float pDeltaTime, IBehaviorParticle pParent) {
+    public void update(float pDeltaTime, BehaviorParticle pParent) {
         sub(pParent.position(), mFleePosition, mForce);
         final float mDistanceToPoint = mForce.mag();
         if (mDistanceToPoint > SMALLEST_ACCEPTABLE_DISTANCE) {

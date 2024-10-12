@@ -23,7 +23,7 @@
 package teilchen.behavior;
 
 import processing.core.PVector;
-import teilchen.IBehaviorParticle;
+import teilchen.BehaviorParticle;
 
 public class Motor implements IBehavior, Verhalten {
 
@@ -82,7 +82,7 @@ public class Motor implements IBehavior, Verhalten {
         mAutoNormalizeDirection = pAutoNormalizeDirection;
     }
 
-    public void update(float pDeltaTime, IBehaviorParticle pParent) {
+    public void update(float pDeltaTime, BehaviorParticle pParent) {
         if (mActive) {
             if (mAutoUpdateDirection) {
                 if (pParent.velocity().mag() > 0.0f) {

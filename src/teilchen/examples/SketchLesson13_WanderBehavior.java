@@ -1,7 +1,7 @@
 package teilchen.examples;
 
 import processing.core.PApplet;
-import teilchen.BehaviorParticle;
+import teilchen.BasicBehaviorParticle;
 import teilchen.Physics;
 import teilchen.behavior.Motor;
 import teilchen.behavior.Wander;
@@ -15,7 +15,7 @@ public class SketchLesson13_WanderBehavior extends PApplet {
      */
 
     private Motor mMotor;
-    private BehaviorParticle mParticle;
+    private BasicBehaviorParticle mParticle;
     private Physics mPhysics;
     private Wander mWander;
 
@@ -29,7 +29,7 @@ public class SketchLesson13_WanderBehavior extends PApplet {
         mPhysics.add(new ViscousDrag());
 
         /* create particles */
-        mParticle = mPhysics.makeParticle(BehaviorParticle.class);
+        mParticle = mPhysics.makeParticle(BasicBehaviorParticle.class);
         mParticle.position().set(width / 2.0f, height / 2.0f);
         mParticle.maximumInnerForce(100);
         mParticle.radius(10);

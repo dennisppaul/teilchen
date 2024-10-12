@@ -24,7 +24,7 @@
 package teilchen.behavior;
 
 import processing.core.PVector;
-import teilchen.IBehaviorParticle;
+import teilchen.BehaviorParticle;
 import teilchen.behavior.Util.ProximityStructure;
 
 import java.io.Serializable;
@@ -32,7 +32,7 @@ import java.util.ArrayList;
 
 import static teilchen.util.Util.isNaN;
 
-public class Alignment<E extends IBehaviorParticle> implements IBehavior, Serializable {
+public class Alignment<E extends BehaviorParticle> implements IBehavior, Serializable {
 
     private static final long serialVersionUID = -4953599448151741585L;
     private final PVector mForce;
@@ -64,7 +64,7 @@ public class Alignment<E extends IBehaviorParticle> implements IBehavior, Serial
         }
     }
 
-    public void update(float pDeltaTime, IBehaviorParticle pParent) {
+    public void update(float pDeltaTime, BehaviorParticle pParent) {
         mForce.set(0, 0, 0);
         if (mNeighbors != null) {
             ArrayList<ProximityStructure> mCloseNeighbors = ProximityStructure.findProximityEntities(pParent,

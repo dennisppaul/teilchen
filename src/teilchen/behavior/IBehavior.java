@@ -23,13 +23,13 @@
 package teilchen.behavior;
 
 import processing.core.PVector;
-import teilchen.IBehaviorParticle;
+import teilchen.BehaviorParticle;
 
 import java.io.Serializable;
 
 public interface IBehavior extends Serializable {
 
-    void update(float pDeltaTime, final IBehaviorParticle pParent);
+    void update(float pDeltaTime, final BehaviorParticle pParent);
 
     PVector force();
 

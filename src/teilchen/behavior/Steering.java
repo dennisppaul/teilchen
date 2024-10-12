@@ -24,7 +24,7 @@
 package teilchen.behavior;
 
 import processing.core.PVector;
-import teilchen.IBehaviorParticle;
+import teilchen.BehaviorParticle;
 
 public class Steering implements IBehavior, Verhalten {
 
@@ -40,7 +40,7 @@ public class Steering implements IBehavior, Verhalten {
         mWeight = 1;
     }
 
-    public void update(float pDeltaTime, IBehaviorParticle pParent) {
+    public void update(float pDeltaTime, BehaviorParticle pParent) {
         if (mActive) {
             /* 2D warning -- ignoring z-axis for now */
             PVector mDirection = teilchen.util.Util.clone(pParent.velocity());

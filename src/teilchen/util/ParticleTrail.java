@@ -22,7 +22,7 @@
  */
 package teilchen.util;
 
-import teilchen.IParticle;
+import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.ShortLivedParticle;
 
@@ -33,15 +33,15 @@ public class ParticleTrail {
     private float mCurrentTime;
     private boolean mFixState;
     private final float mFragmentLifetime;
-    private final ArrayList<IParticle> mFragments;
+    private final ArrayList<Particle> mFragments;
     private final float mInterval;
-    private final IParticle mParticle;
-    private Class<? extends IParticle> mParticleClass = ShortLivedParticle.class;
+    private final Particle mParticle;
+    private Class<? extends Particle> mParticleClass = ShortLivedParticle.class;
     private float mTrailParticleMass = 1.0f;
     private final Physics mTrailParticleSystem;
 
     public ParticleTrail(final Physics pTrailParticleSystem,
-                         final IParticle pParticle,
+                         final Particle pParticle,
                          float pInterval,
                          float pFragmentLifetime) {
         mTrailParticleSystem = pTrailParticleSystem;
@@ -52,7 +52,7 @@ public class ParticleTrail {
         mFixState = false;
     }
 
-    private static <T extends IParticle> T createParticle(Class<T> pParticleClass) {
+    private static <T extends Particle> T createParticle(Class<T> pParticleClass) {
         T mParticle;
         try {
             mParticle = pParticleClass.newInstance();
@@ -75,7 +75,7 @@ public class ParticleTrail {
         mFixState = pFixState;
     }
 
-    public IParticle particle() {
+    public Particle particle() {
         return mParticle;
     }
 
@@ -83,14 +83,14 @@ public class ParticleTrail {
         mFragments.clear();
     }
 
-    public ArrayList<IParticle> fragments() {
+    public ArrayList<Particle> fragments() {
         return mFragments;
     }
 
     public void set() {
         /* this would be more precise but has other issues -- mCurrentTime -= mInterval; */
         mCurrentTime = 0;
-        final IParticle mParticle = makeParticle();
+        final Particle mParticle = makeParticle();
         mFragments.add(mParticle);
     }
 
@@ -102,19 +102,19 @@ public class ParticleTrail {
         }
 
         for (int i = 0; i < mFragments.size(); i++) {
-            IParticle mTrailFragment = mFragments.get(i);
+            Particle mTrailFragment = mFragments.get(i);
             if (mTrailFragment.dead()) {
                 mFragments.remove(mTrailFragment);
             }
         }
     }
 
-    public <T extends IParticle> void setParticleClass(Class<T> pClass) {
+    public <T extends Particle> void setParticleClass(Class<T> pClass) {
         mParticleClass = pClass;
     }
 
-    protected IParticle makeParticle() {
-        final IParticle mTrailFragment = createParticle(mParticleClass);
+    protected Particle makeParticle() {
+        final Particle mTrailFragment = createParticle(mParticleClass);
         mTrailFragment.mass(mTrailParticleMass);
 
         if (mTrailParticleSystem != null) {

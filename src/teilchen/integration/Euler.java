@@ -23,12 +23,12 @@
 package teilchen.integration;
 
 import processing.core.PVector;
-import teilchen.IParticle;
+import teilchen.Particle;
 import teilchen.Physics;
 
 import java.util.Iterator;
 
-public class Euler implements IIntegrator {
+public class Euler implements Integrator {
 
     private final PVector mTemp1;
     private final PVector mTemp2;
@@ -43,9 +43,9 @@ public class Euler implements IIntegrator {
         pParticleSystem.applyForces(pDeltaTime);
 
         synchronized (pParticleSystem.particles()) {
-            final Iterator<IParticle> mIterator = pParticleSystem.particles().iterator();
+            final Iterator<Particle> mIterator = pParticleSystem.particles().iterator();
             while (mIterator.hasNext()) {
-                final IParticle mParticle = mIterator.next();
+                final Particle mParticle = mIterator.next();
                 if (!mParticle.fixed()) {
                     integrate(pDeltaTime, mParticle);
                 }
@@ -53,7 +53,7 @@ public class Euler implements IIntegrator {
         }
     }
 
-    private void integrate(final float pDeltaTime, final IParticle pParticle) {
+    private void integrate(final float pDeltaTime, final Particle pParticle) {
         mTemp1.set(pParticle.force());
         mTemp1.mult(pDeltaTime / pParticle.mass());
 

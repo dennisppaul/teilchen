@@ -2,7 +2,7 @@ package teilchen.examples;
 
 import processing.core.PApplet;
 import processing.core.PVector;
-import teilchen.IParticle;
+import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.ShortLivedParticle;
 import teilchen.constraint.Box;
@@ -58,7 +58,7 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
         /* create trails and particles */
         mTrails = new ArrayList<ParticleTrail>();
         for (int i = 0; i < 500; i++) {
-            IParticle mParticle = mPhysics.makeParticle();
+            Particle mParticle = mPhysics.makeParticle();
             mParticle.mass(random(1.5f, 3.0f));
             /* note that if `ParticleTrail` receives the same `Physics` object as the particles,
             also forces and contraints are shared. */
@@ -105,8 +105,8 @@ public class SketchLessonX03_ParticlesLeavingTrails extends PApplet {
 
     private void drawTrail(ParticleTrail pTrail) {
 
-        final ArrayList<IParticle> mFragments = pTrail.fragments();
-        final IParticle mParticle = pTrail.particle();
+        final ArrayList<Particle> mFragments = pTrail.fragments();
+        final Particle mParticle = pTrail.particle();
 
         /* draw trail */
         for (int i = 0; i < mFragments.size() - 1; i++) {

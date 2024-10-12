@@ -2,12 +2,12 @@ package teilchen.examples;
 
 import processing.core.PApplet;
 import processing.core.PVector;
+import teilchen.BasicParticle;
 import teilchen.Particle;
-import teilchen.IParticle;
 import teilchen.Physics;
 import teilchen.constraint.Box;
 import teilchen.force.Gravity;
-import teilchen.force.IForce;
+import teilchen.force.Force;
 import teilchen.force.MuscleSpring;
 
 public class SketchLessonX11_MuscleSprings extends PApplet {
@@ -33,7 +33,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
     private Gravity mGravity;
     private boolean mPauseSimulation;
     private Physics mPhysics;
-    private IParticle mTemporaryParticle;
+    private Particle mTemporaryParticle;
     private MuscleSpring mTemporarySpring;
 
     public void settings() {
@@ -105,7 +105,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
     }
 
     private void beginCreateParticleSpring() {
-        IParticle mSelectedParticle = getParticleCloseToMouse();
+        Particle mSelectedParticle = getParticleCloseToMouse();
         if (mSelectedParticle != null) {
             if (keyPressed && (key == 'd' || key == 'D')) {
                 mTemporaryParticle = mSelectedParticle;
@@ -118,26 +118,26 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
         }
     }
 
-    private Particle createParticle() {
-        Particle p = new Particle();
+    private BasicParticle createParticle() {
+        BasicParticle p = new BasicParticle();
         p.mass(PARTICAL_MASS);
         return p;
     }
 
-    private MuscleSpring createSpring(IParticle a, IParticle b) {
+    private MuscleSpring createSpring(Particle a, Particle b) {
         MuscleSpring s = new MuscleSpring(a, b);
         s.strength(SPRING_STRENGTH);
         return s;
     }
 
     private void deleteParticleAndSpring() {
-        IParticle mSelectedParticle = getParticleCloseToMouse();
+        Particle mSelectedParticle = getParticleCloseToMouse();
         /*  mark particle for deletion */
         if (mSelectedParticle != null) {
             mSelectedParticle.dead(true);
         }
         /* find connected spring and mark for deletion */
-        for (IForce f : mPhysics.forces()) {
+        for (Force f : mPhysics.forces()) {
             if (f instanceof MuscleSpring) {
                 MuscleSpring s = (MuscleSpring) f;
                 if (s.a() == mSelectedParticle || s.b() == mSelectedParticle) {
@@ -152,7 +152,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
     }
 
     private void drawHighlightParticleNearby() {
-        IParticle mSelectedParticle = getParticleCloseToMouse();
+        Particle mSelectedParticle = getParticleCloseToMouse();
         if (mSelectedParticle != null) {
             stroke(0);
             noFill();
@@ -167,7 +167,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
         /* draw connecting springs */
         stroke(0);
         noFill();
-        for (IForce f : mPhysics.forces()) {
+        for (Force f : mPhysics.forces()) {
             if (f instanceof MuscleSpring) {
                 MuscleSpring s = (MuscleSpring) f;
                 line(s.a().position().x, s.a().position().y, s.b().position().x, s.b().position().y);
@@ -176,7 +176,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
         /* draw particles */
         noStroke();
         fill(0);
-        for (IParticle p : mPhysics.particles()) {
+        for (Particle p : mPhysics.particles()) {
             if (p.fixed()) {
                 rect(p.position().x - 5f, p.position().y - 5f, 10, 10);
             } else {
@@ -217,7 +217,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
     }
 
     private void endCreateParticleSpring() {
-        IParticle mSelectedParticle = getParticleCloseToMouse();
+        Particle mSelectedParticle = getParticleCloseToMouse();
         /* add temporary particle */
         if (mTemporaryParticle != null) {
             if (mSelectedParticle == null) {
@@ -243,7 +243,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
         }
         /* update muscle phase */
         for (int i = 0; i < mPhysics.forces().size(); i++) {
-            IForce f = mPhysics.forces().get(i);
+            Force f = mPhysics.forces().get(i);
             if (f instanceof MuscleSpring) {
                 MuscleSpring s = (MuscleSpring) f;
                 float mPhaseShift = (float) i / (mPhysics.forces().size() - 1);
@@ -252,7 +252,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
         }
     }
 
-    private IParticle getParticleCloseToMouse() {
+    private Particle getParticleCloseToMouse() {
         return teilchen.util.Util.findParticleByProximity(mPhysics.particles(), mouseX, mouseY, 0, SELECTION_RADIUS);
     }
 
@@ -261,16 +261,16 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
     }
 
     private void toggleParticleFixed() {
-        IParticle mSelectedParticle = getParticleCloseToMouse();
+        Particle mSelectedParticle = getParticleCloseToMouse();
         /*  toggle particle fixed */
         if (mSelectedParticle != null) {
             mSelectedParticle.fixed(!mSelectedParticle.fixed());
         }
     }
 
-    private void updateConnectedSprings(IParticle mTemporaryParticle) {
+    private void updateConnectedSprings(Particle mTemporaryParticle) {
         // @TODO("update length of connected springs")
-        for (IForce f : mPhysics.forces()) {
+        for (Force f : mPhysics.forces()) {
             if (f instanceof MuscleSpring) {
                 MuscleSpring s = (MuscleSpring) f;
                 if (s.a() == mTemporaryParticle || s.b() == mTemporaryParticle) {

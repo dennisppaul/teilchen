@@ -24,8 +24,8 @@
 package teilchen.behavior;
 
 import processing.core.PVector;
-import teilchen.IBehaviorParticle;
-import teilchen.IParticle;
+import teilchen.BehaviorParticle;
+import teilchen.Particle;
 
 import java.util.ArrayList;
 
@@ -37,21 +37,21 @@ public class Util {
 
         public final float distance;
         public final PVector distanceVec;
-        public final IParticle particle;
+        public final Particle particle;
 
-        public ProximityStructure(IParticle pP, PVector pDistanceVec, float pDistance) {
+        public ProximityStructure(Particle pP, PVector pDistanceVec, float pDistance) {
             particle = pP;
             distanceVec = pDistanceVec;
             distance = pDistance;
         }
 
-        public static <E extends IBehaviorParticle> ArrayList<ProximityStructure> findProximityEntities(
-                IBehaviorParticle pParentEntity,
+        public static <E extends BehaviorParticle> ArrayList<ProximityStructure> findProximityEntities(
+                BehaviorParticle pParentEntity,
                 ArrayList<E> pNeighborsEntity,
                 float pProximity) {
             /* find neighbors in proximity */
             ArrayList<ProximityStructure> mCloseNeighbors = new ArrayList<>();
-            for (IBehaviorParticle p : pNeighborsEntity) {
+            for (BehaviorParticle p : pNeighborsEntity) {
                 if (!p.equals(pParentEntity)) {
                     /* exclude self */
 

@@ -24,11 +24,11 @@
 package teilchen.force;
 
 import processing.core.PVector;
-import teilchen.IParticle;
+import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.util.Util;
 
-public class LineDeflector2D implements IForce {
+public class LineDeflector2D implements Force {
 
     private PVector a = new PVector();
     private PVector b = new PVector();
@@ -57,7 +57,7 @@ public class LineDeflector2D implements IForce {
         return PVector.sub(b, a).mult(0.5f).add(a);
     }
 
-    public void calculateIntersection(IParticle pParticle, float pDeltaTime) {
+    public void calculateIntersection(Particle pParticle, float pDeltaTime) {
         /* calc intersection from velocity */
         //            PVector mForward = PVector.mult(pParticle.velocity(), pDeltaTime);
         //            mForward.add(PVector.mult(pParticle.velocity(), pParticle.radius() / pParticle.velocity().mag()));
@@ -91,7 +91,7 @@ public class LineDeflector2D implements IForce {
 
     @Override
     public void apply(float pDeltaTime, Physics pParticleSystem) {
-        for (final IParticle mParticle : pParticleSystem.particles()) {
+        for (final Particle mParticle : pParticleSystem.particles()) {
             if (!mParticle.fixed()) {
                 calculateIntersection(mParticle, pDeltaTime);
             }

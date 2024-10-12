@@ -24,12 +24,12 @@
 package teilchen.force;
 
 import processing.core.PVector;
-import teilchen.IParticle;
+import teilchen.Particle;
 import teilchen.Physics;
 
 import static teilchen.util.Util.reflect;
 
-public class SphereDeflector implements IForce {
+public class SphereDeflector implements Force {
 
     private final PVector fPosition = new PVector();
     private float fRadius;
@@ -42,7 +42,7 @@ public class SphereDeflector implements IForce {
         fID = Physics.getUniqueID();
     }
 
-    private void calculateIntersection(IParticle particle, float delta_time) {
+    private void calculateIntersection(Particle particle, float delta_time) {
         final PVector mDeflectorToParticle = PVector.sub(particle.position(), fPosition);
         final float mDistance = mDeflectorToParticle.mag();
         final float mMinimumDistance = fRadius + particle.radius();
@@ -67,7 +67,7 @@ public class SphereDeflector implements IForce {
 
     @Override
     public void apply(float pDeltaTime, Physics pParticleSystem) {
-        for (final IParticle mParticle : pParticleSystem.particles()) {
+        for (final Particle mParticle : pParticleSystem.particles()) {
             if (!mParticle.fixed()) {
                 calculateIntersection(mParticle, pDeltaTime);
             }

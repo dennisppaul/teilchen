@@ -1,7 +1,7 @@
 package teilchen.examples;
 
 import processing.core.PApplet;
-import teilchen.IParticle;
+import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.constraint.Stick;
 import teilchen.force.Gravity;
@@ -17,7 +17,7 @@ public class SketchLesson07_Sticks extends PApplet {
      * move mouse to drag sticks.
      */
 
-    private IParticle[] mParticles;
+    private Particle[] mParticles;
     private Physics mPhysics;
 
     public void settings() {
@@ -36,7 +36,7 @@ public class SketchLesson07_Sticks extends PApplet {
         mPhysics.setIntegratorRef(mVerlet);
 
         /* setup sticks to form a whip */
-        mParticles = new IParticle[16];
+        mParticles = new Particle[16];
         float mSegmentLength = 20.0f;
         /* create root */
         for (int x = 0; x < mParticles.length; x++) {
@@ -67,8 +67,8 @@ public class SketchLesson07_Sticks extends PApplet {
         background(255);
         stroke(0, 191);
         for (int x = 1; x < mParticles.length; x++) {
-            IParticle p1 = mParticles[x - 1];
-            IParticle p2 = mParticles[x];
+            Particle p1 = mParticles[x - 1];
+            Particle p2 = mParticles[x];
             final float mStrokeWeight = 4.0f * (1.0f - (float) x / mParticles.length);
             strokeWeight(mStrokeWeight);
             line(p1.position().x, p1.position().y, p2.position().x, p2.position().y);

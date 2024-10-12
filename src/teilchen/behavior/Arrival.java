@@ -23,7 +23,7 @@
 package teilchen.behavior;
 
 import processing.core.PVector;
-import teilchen.IBehaviorParticle;
+import teilchen.BehaviorParticle;
 import teilchen.util.Util;
 
 import static processing.core.PVector.add;
@@ -92,7 +92,7 @@ public class Arrival implements IBehavior, Verhalten {
         return mBreakRadius;
     }
 
-    public void update(float pDeltaTime, IBehaviorParticle pParent) {
+    public void update(float pDeltaTime, BehaviorParticle pParent) {
         sub(mSeekPosition, pParent.position(), mForce);
         final float mDistanceToArrivalPoint = mForce.mag();
 

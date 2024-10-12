@@ -25,8 +25,8 @@ package teilchen.constraint;
 
 import processing.core.PGraphics;
 import processing.core.PVector;
-import teilchen.IConnection;
-import teilchen.IParticle;
+import teilchen.Connection;
+import teilchen.Particle;
 import teilchen.Physics;
 
 import java.util.ArrayList;
@@ -34,22 +34,22 @@ import java.util.ArrayList;
 import static teilchen.util.Intersection.INTERSECTING;
 import static teilchen.util.Intersection.intersect_line_line;
 
-public class LineIntersectionConstraint implements IConstraint {
+public class LineIntersectionConstraint implements Constraint {
 
     public PGraphics DEBUG_VIEW = null;
     private boolean mDead = false;
     private final long mID;
-    private final IParticle mParticle;
-    private ArrayList<IConnection> mPotentialLineIntersections;
+    private final Particle mParticle;
+    private ArrayList<Connection> mPotentialLineIntersections;
     private float mProxScale = 1.0f;
 
-    public LineIntersectionConstraint(IParticle pParticle) {
+    public LineIntersectionConstraint(Particle pParticle) {
         mID = Physics.getUniqueID();
         mParticle = pParticle;
         mPotentialLineIntersections = new ArrayList<>();
     }
 
-    public IParticle particle() {
+    public Particle particle() {
         return mParticle;
     }
 
@@ -58,7 +58,7 @@ public class LineIntersectionConstraint implements IConstraint {
         final PVector mA = mParticle.position();
         final PVector mB = mParticle.old_position();
         float mMinDistanceToIntersection = Float.MAX_VALUE;
-        for (IConnection mPotentialLineIntersection : mPotentialLineIntersections) {
+        for (Connection mPotentialLineIntersection : mPotentialLineIntersections) {
             final PVector mAA = mPotentialLineIntersection.a().position();
             final PVector mBB = mPotentialLineIntersection.b().position();
             if (mA == mAA || mA == mBB) {
@@ -118,11 +118,11 @@ public class LineIntersectionConstraint implements IConstraint {
         return mID;
     }
 
-    public ArrayList<IConnection> intersecting_lines() {
+    public ArrayList<Connection> intersecting_lines() {
         return mPotentialLineIntersections;
     }
 
-    public void setIntersectingLinesRef(ArrayList<IConnection> pIntersectingLinesRef) {
+    public void setIntersectingLinesRef(ArrayList<Connection> pIntersectingLinesRef) {
         mPotentialLineIntersections = pIntersectingLinesRef;
     }
 

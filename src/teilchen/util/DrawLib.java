@@ -25,10 +25,10 @@ package teilchen.util;
 
 import processing.core.PGraphics;
 import processing.core.PVector;
-import teilchen.IParticle;
+import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.force.Attractor;
-import teilchen.force.IForce;
+import teilchen.force.Force;
 import teilchen.force.Spring;
 import teilchen.force.TriangleDeflector;
 
@@ -83,10 +83,10 @@ public class DrawLib {
      * @param pSize      radius
      * @param pColor     stroke color
      */
-    public static void draw(final PGraphics g, final List<IParticle> pParticles, float pSize, int pColor) {
+    public static void draw(final PGraphics g, final List<Particle> pParticles, float pSize, int pColor) {
         g.stroke(pColor);
         g.noFill();
-        for (IParticle mParticle : pParticles) {
+        for (Particle mParticle : pParticles) {
             g.pushMatrix();
             g.translate(mParticle.position().x, mParticle.position().y, mParticle.position().z);
             g.ellipse(0, 0, pSize, pSize);
@@ -104,13 +104,13 @@ public class DrawLib {
      * @param pFillColor   fill color
      */
     public static void draw(final PGraphics g,
-                            final List<IParticle> pParticles,
+                            final List<Particle> pParticles,
                             float pSize,
                             int pStrokeColor,
                             int pFillColor) {
         g.stroke(pStrokeColor);
         g.fill(pFillColor);
-        for (IParticle mParticle : pParticles) {
+        for (Particle mParticle : pParticles) {
             g.pushMatrix();
             g.translate(mParticle.position().x, mParticle.position().y, mParticle.position().z);
             g.ellipse(0, 0, pSize, pSize);
@@ -204,8 +204,8 @@ public class DrawLib {
                mCenterOfMass.z + mNormal.z);
     }
 
-    public static void drawAttractor(final PGraphics g, final List<IForce> pForces, int pColor) {
-        for (final IForce mForce : pForces) {
+    public static void drawAttractor(final PGraphics g, final List<Force> pForces, int pColor) {
+        for (final Force mForce : pForces) {
             if (mForce instanceof Attractor) {
                 draw(g, (Attractor) mForce, pColor);
             }

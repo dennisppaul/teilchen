@@ -22,9 +22,9 @@
  */
 package teilchen;
 
-public interface IConnection {
+public interface Connection {
 
-    IParticle a();
+    Particle a();
 
-    IParticle b();
+    Particle b();
 }

@@ -1,7 +1,7 @@
 package teilchen.examples;
 
 import processing.core.PApplet;
-import teilchen.IParticle;
+import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.constraint.Teleporter;
 import teilchen.force.Attractor;
@@ -15,8 +15,8 @@ public class SketchLesson03_Attractors extends PApplet {
      * press mouse to toggle attractor between postive and *negative* attraction.
      */
 
-    private Attractor mAttractor;
     private Physics mPhysics;
+    private Attractor mAttractor;
 
     public void settings() {
         size(640, 480);
@@ -39,7 +39,7 @@ public class SketchLesson03_Attractors extends PApplet {
 
         /* create some particles */
         for (int i = 0; i < 1000; i++) {
-            IParticle mParticle = mPhysics.makeParticle();
+            Particle mParticle = mPhysics.makeParticle();
             mParticle.position().set(random(width), random(height));
             mParticle.mass(random(1.0f, 5.0f));
         }
@@ -66,7 +66,7 @@ public class SketchLesson03_Attractors extends PApplet {
         fill(0);
         noStroke();
         for (int i = 0; i < mPhysics.particles().size(); i++) {
-            IParticle mParticle = mPhysics.particles(i);
+            Particle mParticle = mPhysics.particles(i);
             ellipse(mParticle.position().x, mParticle.position().y, 5, 5);
         }
 

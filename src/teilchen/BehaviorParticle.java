@@ -20,53 +20,15 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
-
 package teilchen;
-
-import processing.core.PVector;
-import teilchen.behavior.IBehavior;
 
 import java.util.ArrayList;
 
-public class BehaviorParticle extends Particle implements IBehaviorParticle {
+public interface BehaviorParticle extends Particle {
 
-    private static final long serialVersionUID = 2735849326244271321L;
-    private final ArrayList<IBehavior> mBehaviors;
-    private float mMaximumInnerForce;
+    float maximumInnerForce();
 
-    public BehaviorParticle() {
-        mBehaviors = new ArrayList<>();
-        mMaximumInnerForce = 50;
-    }
+    void maximumInnerForce(float pForce);
 
-    public void accumulateInnerForce(final float pDeltaTime) {
-        for (final IBehavior mBehavior : mBehaviors) {
-            if (mBehavior != null) {
-                mBehavior.update(pDeltaTime, this);
-                final PVector mForce = mBehavior.force();
-                if (mForce != null) {
-                    force().add(mBehavior.force());
-                }
-            }
-        }
-        /* clamp to maximum force */
-        if (maximumInnerForce() > 0) {
-            final float mForceLength = force().mag();
-            if (mForceLength > maximumInnerForce()) {
-                force().mult(maximumInnerForce() / mForceLength);
-            }
-        }
-    }
-
-    public float maximumInnerForce() {
-        return mMaximumInnerForce;
-    }
-
-    public void maximumInnerForce(float pForce) {
-        mMaximumInnerForce = pForce;
-    }
-
-    public ArrayList<IBehavior> behaviors() {
-        return mBehaviors;
-    }
+    ArrayList<teilchen.behavior.IBehavior> behaviors();
 }

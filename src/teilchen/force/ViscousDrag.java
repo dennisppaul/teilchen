@@ -23,11 +23,11 @@
 
 package teilchen.force;
 
-import teilchen.IParticle;
+import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.integration.Verlet;
 
-public class ViscousDrag implements IForce {
+public class ViscousDrag implements Force {
 
     public float coefficient;
     private boolean mActive;
@@ -49,7 +49,7 @@ public class ViscousDrag implements IForce {
             return;
         }
         if (coefficient != 0) {
-            for (final IParticle mParticle : pParticleSystem.particles()) {
+            for (final Particle mParticle : pParticleSystem.particles()) {
                 if (!mParticle.fixed()) {
                     mParticle.force()
                              .add(mParticle.velocity().x * -coefficient,

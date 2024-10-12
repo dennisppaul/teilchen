@@ -25,7 +25,7 @@ package teilchen.force;
 
 import teilchen.Physics;
 
-public interface IForce {
+public interface Force {
 
     long ID = Physics.getUniqueID();
 

@@ -24,14 +24,14 @@
 package teilchen.constraint;
 
 import processing.core.PVector;
-import teilchen.IParticle;
+import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.integration.Verlet;
 import teilchen.util.Util;
 
 import java.util.ArrayList;
 
-public class ReflectBox implements IConstraint {
+public class ReflectBox implements Constraint {
 
     private static final PVector[] mNormals;
     public boolean NEGATIVE_X = true;
@@ -117,16 +117,16 @@ public class ReflectBox implements IConstraint {
         return mID;
     }
 
-    public void apply(final ArrayList<IParticle> pParticles) {
+    public void apply(final ArrayList<Particle> pParticles) {
         apply(pParticles, null);
     }
 
-    public void apply(final ArrayList<IParticle> pParticles, final ArrayList<IParticle> pCollisionParticles) {
+    public void apply(final ArrayList<Particle> pParticles, final ArrayList<Particle> pCollisionParticles) {
         if (!mActive) {
             return;
         }
 
-        for (final IParticle mParticle : pParticles) {
+        for (final Particle mParticle : pParticles) {
             final PVector mPositionBeforeCollision = Util.clone(mParticle.position());
             final PVector p = mParticle.position();
             final PVector p_old = mParticle.old_position();

@@ -23,10 +23,10 @@
 package teilchen.cubicle;
 
 import processing.core.PVector;
-import teilchen.Particle;
+import teilchen.BasicParticle;
 import teilchen.util.Vector3i;
 
-public class CubicleParticle extends Particle implements ICubicleEntity {
+public class CubicleParticle extends BasicParticle implements ICubicleEntity {
 
     private final Vector3i mCubiclePosition;
     private final PVector mPosition;

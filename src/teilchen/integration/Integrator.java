@@ -24,7 +24,7 @@ package teilchen.integration;
 
 import teilchen.Physics;
 
-public interface IIntegrator {
+public interface Integrator {
 
     void step(final float pDeltaTime, final Physics pParticleSystem);
 }

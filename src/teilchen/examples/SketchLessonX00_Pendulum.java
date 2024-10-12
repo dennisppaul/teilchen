@@ -1,7 +1,7 @@
 package teilchen.examples;
 
 import processing.core.PApplet;
-import teilchen.IParticle;
+import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.force.Gravity;
 import teilchen.force.Pulse;
@@ -16,8 +16,8 @@ public class SketchLessonX00_Pendulum extends PApplet {
      * press mouse to push pendulum.
      */
 
-    private IParticle mPendulumRoot;
-    private IParticle mPendulumTip;
+    private Particle mPendulumRoot;
+    private Particle mPendulumTip;
     private Physics mPhysics;
     private Pulse mPulse;
 
@@ -50,8 +50,8 @@ public class SketchLessonX00_Pendulum extends PApplet {
         mPhysics.step(1.0f / frameRate, 5);
 
         background(255);
-        IParticle p1 = mPendulumRoot;
-        IParticle p2 = mPendulumTip;
+        Particle p1 = mPendulumRoot;
+        Particle p2 = mPendulumTip;
 
         stroke(0, 191);
         noFill();
