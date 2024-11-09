@@ -13,15 +13,11 @@ import teilchen.util.*;
  *
  * move mouse to drag sticks.
  */
-
 Particle[] mParticles;
-
 Physics mPhysics;
-
 void settings() {
     size(640, 480);
 }
-
 void setup() {
     mPhysics = new Physics();
     /* add gravity for extra fun */
@@ -46,7 +42,6 @@ void setup() {
     /* fix root particle so it can stick to the mouse later */
     mParticles[0].fixed(true);
 }
-
 void draw() {
     /* stick root particle to mouse */
     mParticles[0].position().set(mouseX, mouseY);

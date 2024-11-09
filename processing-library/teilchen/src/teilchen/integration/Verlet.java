@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,7 +30,7 @@ import java.util.Iterator;
 
 import static processing.core.PVector.sub;
 
-public class Verlet implements IIntegrator {
+public class Verlet implements Integrator {
 
     private float mDamping;
     private final PVector temp1;

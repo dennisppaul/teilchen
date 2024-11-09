@@ -12,15 +12,11 @@ import teilchen.util.*;
  *
  * drag mouse to move particle.
  */
-
 Physics mPhysics;
-
 Spring mSpring;
-
 void settings() {
     size(640, 480);
 }
-
 void setup() {
     /* create a particle system */
     mPhysics = new Physics();
@@ -39,7 +35,6 @@ void setup() {
      */
     mSpring = mPhysics.makeSpring(mA, mB);
 }
-
 void draw() {
     /* set first particle to mouse position */
     if (mousePressed) {

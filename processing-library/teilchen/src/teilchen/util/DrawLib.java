@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,7 +28,7 @@ import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.force.Attractor;
-import teilchen.force.IForce;
+import teilchen.force.Force;
 import teilchen.force.Spring;
 import teilchen.force.TriangleDeflector;
 
@@ -138,9 +138,6 @@ public class DrawLib {
             mTriangleColor = pBBColor;
         }
         draw(g, pTriangleDeflector.a(), pTriangleDeflector.b(), pTriangleDeflector.c(), mTriangleColor, pNormalColor);
-
-        /* bb */
-        draw(g, pTriangleDeflector.boundingbox(), pBBColor);
     }
 
     /**
@@ -207,8 +204,8 @@ public class DrawLib {
                mCenterOfMass.z + mNormal.z);
     }
 
-    public static void drawAttractor(final PGraphics g, final List<IForce> pForces, int pColor) {
-        for (final IForce mForce : pForces) {
+    public static void drawAttractor(final PGraphics g, final List<Force> pForces, int pColor) {
+        for (final Force mForce : pForces) {
             if (mForce instanceof Attractor) {
                 draw(g, (Attractor) mForce, pColor);
             }

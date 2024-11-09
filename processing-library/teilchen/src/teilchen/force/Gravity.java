@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,7 @@ import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
 
-public class Gravity implements IForce {
+public class Gravity implements Force {
 
     private boolean mActive;
     private boolean mDead = false;

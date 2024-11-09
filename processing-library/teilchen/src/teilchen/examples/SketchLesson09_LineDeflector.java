@@ -69,7 +69,7 @@ public class SketchLesson09_LineDeflector extends PApplet {
         background(255);
         for (int i = 0; i < mPhysics.particles().size(); i++) {
             Particle mParticle = mPhysics.particles(i);
-            /* this special particle has a limited life time. in this case this information is
+            /* this special particle has a limited lifetime. in this case this information is
             mapped to its transparency. */
             float mRatio = 1 - ((ShortLivedParticle) mParticle).ageRatio();
             fill(0, 127 * mRatio);

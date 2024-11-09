@@ -60,9 +60,9 @@ public class SketchLesson05_Springs extends PApplet {
             if (mPhysics.forces().get(i) instanceof Spring) {
                 Spring mSSpring = (Spring) mPhysics.forces().get(i);
                 line(mSSpring.a().position().x,
-                     mSSpring.a().position().y,
-                     mSSpring.b().position().x,
-                     mSSpring.b().position().y);
+                        mSSpring.a().position().y,
+                        mSSpring.b().position().x,
+                        mSSpring.b().position().y);
             }
         }
         /* draw particles */

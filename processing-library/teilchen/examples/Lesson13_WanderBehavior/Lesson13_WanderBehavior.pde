@@ -10,25 +10,19 @@ import teilchen.util.*;
  * this sketch demonstrates how to use behaviors.  it combines `Wander` and `Motor` behaviors
  * to turn a `BehaviorParticle` into an autonomously moving *agent*.
  */
-
 Motor mMotor;
-
-BehaviorParticle mParticle;
-
+BasicBehaviorParticle mParticle;
 Physics mPhysics;
-
 Wander mWander;
-
 void settings() {
     size(640, 480);
 }
-
 void setup() {
     /* physics */
     mPhysics = new Physics();
     mPhysics.add(new ViscousDrag());
     /* create particles */
-    mParticle = mPhysics.makeParticle(BehaviorParticle.class);
+    mParticle = mPhysics.makeParticle(BasicBehaviorParticle.class);
     mParticle.position().set(width / 2.0f, height / 2.0f);
     mParticle.maximumInnerForce(100);
     mParticle.radius(10);
@@ -43,7 +37,6 @@ void setup() {
     mMotor.strength(25);
     mParticle.behaviors().add(mMotor);
 }
-
 void draw() {
     /* update particle system */
     mPhysics.step(1.0f / frameRate);

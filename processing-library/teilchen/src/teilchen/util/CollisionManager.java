@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,7 +30,7 @@ import teilchen.constraint.Stick;
 import teilchen.cubicle.CubicleParticle;
 import teilchen.cubicle.CubicleWorld;
 import teilchen.cubicle.ICubicleEntity;
-import teilchen.force.IForce;
+import teilchen.force.Force;
 import teilchen.force.Spring;
 
 import java.util.ArrayList;
@@ -120,7 +120,7 @@ public class CollisionManager {
         return mCollisionPhysics;
     }
 
-    public ArrayList<IForce> collision_forces() {
+    public ArrayList<Force> collision_forces() {
         return mCollisionPhysics.forces();
     }
 

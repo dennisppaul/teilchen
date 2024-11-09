@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -31,7 +31,7 @@ import teilchen.util.Util;
 
 import java.util.ArrayList;
 
-public class ReflectBox implements IConstraint {
+public class ReflectBox implements Constraint {
 
     private static final PVector[] mNormals;
     public boolean NEGATIVE_X = true;

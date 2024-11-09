@@ -7,7 +7,7 @@ import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.constraint.Box;
 import teilchen.force.Gravity;
-import teilchen.force.IForce;
+import teilchen.force.Force;
 import teilchen.force.MuscleSpring;
 
 public class SketchLessonX11_MuscleSprings extends PApplet {
@@ -71,7 +71,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
         /* draw */
         background(255);
         drawSimulationState();
-        drawParticlesSpings();
+        drawParticlesSprings();
         drawTemporaryParticleSpring();
         drawHighlightParticleNearby();
     }
@@ -137,7 +137,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
             mSelectedParticle.dead(true);
         }
         /* find connected spring and mark for deletion */
-        for (IForce f : mPhysics.forces()) {
+        for (Force f : mPhysics.forces()) {
             if (f instanceof MuscleSpring) {
                 MuscleSpring s = (MuscleSpring) f;
                 if (s.a() == mSelectedParticle || s.b() == mSelectedParticle) {
@@ -163,11 +163,11 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
         }
     }
 
-    private void drawParticlesSpings() {
+    private void drawParticlesSprings() {
         /* draw connecting springs */
         stroke(0);
         noFill();
-        for (IForce f : mPhysics.forces()) {
+        for (Force f : mPhysics.forces()) {
             if (f instanceof MuscleSpring) {
                 MuscleSpring s = (MuscleSpring) f;
                 line(s.a().position().x, s.a().position().y, s.b().position().x, s.b().position().y);
@@ -243,7 +243,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
         }
         /* update muscle phase */
         for (int i = 0; i < mPhysics.forces().size(); i++) {
-            IForce f = mPhysics.forces().get(i);
+            Force f = mPhysics.forces().get(i);
             if (f instanceof MuscleSpring) {
                 MuscleSpring s = (MuscleSpring) f;
                 float mPhaseShift = (float) i / (mPhysics.forces().size() - 1);
@@ -270,7 +270,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
 
     private void updateConnectedSprings(Particle mTemporaryParticle) {
         // @TODO("update length of connected springs")
-        for (IForce f : mPhysics.forces()) {
+        for (Force f : mPhysics.forces()) {
             if (f instanceof MuscleSpring) {
                 MuscleSpring s = (MuscleSpring) f;
                 if (s.a() == mTemporaryParticle || s.b() == mTemporaryParticle) {

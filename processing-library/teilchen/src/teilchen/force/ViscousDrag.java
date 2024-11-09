@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,7 @@ import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.integration.Verlet;
 
-public class ViscousDrag implements IForce {
+public class ViscousDrag implements Force {
 
     public float coefficient;
     private boolean mActive;

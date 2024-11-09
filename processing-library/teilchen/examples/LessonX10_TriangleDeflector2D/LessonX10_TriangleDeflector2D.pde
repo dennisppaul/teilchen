@@ -13,15 +13,11 @@ import teilchen.util.*;
  *
  * press mouse to spawn particles.
  */
-
 Physics mPhysics;
-
 TriangleDeflector mTriangleDeflector;
-
 void settings() {
     size(640, 480);
 }
-
 void setup() {
     /* physics */
     mPhysics = new Physics();
@@ -36,7 +32,6 @@ void setup() {
                                                                       1.0f);
     mPhysics.add(mTriangleDeflector);
 }
-
 void draw() {
     mPhysics.step(1.0f / frameRate);
     /* draw particles */
@@ -68,10 +63,8 @@ void draw() {
         mParticle.velocity().set(random(-20, 20), 0);
     }
 }
-
 class MyMortalParticle extends MortalParticle {
-    
-boolean isDead() {
+    boolean isDead() {
         return position().y > height || still();
     }
 }

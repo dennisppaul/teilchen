@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,9 @@ import processing.core.PVector;
 
 import java.io.Serializable;
 
+import static processing.core.PVector.add;
 import static processing.core.PVector.cross;
+import static processing.core.PVector.mult;
 import static processing.core.PVector.sub;
 import static teilchen.util.Util.lengthSquared;
 
@@ -67,7 +69,7 @@ public final class Intersection implements Serializable {
      * @param pSphereRadius sphere radius
      * @return returns true if intersection exists
      */
-    public static boolean RaySphere(PVector pP1, PVector pP2, PVector pSphereCenter, float pSphereRadius) {
+    public static boolean intersect_ray_sphere(PVector pP1, PVector pP2, PVector pSphereCenter, float pSphereRadius) {
         float a, b, c;
         float bb4ac;
         PVector dp = new PVector();
@@ -363,7 +365,7 @@ public final class Intersection implements Serializable {
         // At this stage we can compute t to find out where the intersection point is on the line.
         float t = f * edge2.dot(q);
         if (t > EPSILON) { // ray intersection
-            pIntersectionPoint.set(PVector.add(pRayOrigin, PVector.mult(pRayDirection, t)));
+            pIntersectionPoint.set(add(pRayOrigin, mult(pRayDirection, t)));
             return true;
         } else { // This means that there is a line intersection but not a ray intersection.
             return false;
@@ -466,10 +468,11 @@ public final class Intersection implements Serializable {
     }
 
     /**
-     * from paul bourke ( http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline3d/ )
-     * <p>
+     * TODO this does calculate the intersection point of two lines. pa + pb are always the same.
      * Calculate the line segment PaPb that is the shortest route between two lines P1P2 and P3P4. Calculate also the
      * values of mua and mub where Pa = P1 + mua (P2 - P1) Pb = P3 + mub (P4 - P3) Return FALSE if no solution exists.
+     * <p>
+     * from paul bourke ( http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline3d/ )
      *
      * @param pP1 P1
      * @param pP2 P2
@@ -477,14 +480,14 @@ public final class Intersection implements Serializable {
      * @param pP4 P4
      * @param pPa Pa
      * @param pPb Pb
-     * @return sucess if solution exists
+     * @return true if solution exists
      */
-    public static boolean lineLineIntersect(PVector pP1,
-                                            PVector pP2,
-                                            PVector pP3,
-                                            PVector pP4,
-                                            PVector pPa,
-                                            PVector pPb) {
+    public static boolean intersect_line_line(PVector pP1,
+                                              PVector pP2,
+                                              PVector pP3,
+                                              PVector pP4,
+                                              PVector pPa,
+                                              PVector pPb) {
         //        float[] theResult) {
 
         final PVector p13 = sub(pP1, pP3);
@@ -533,11 +536,11 @@ public final class Intersection implements Serializable {
         return true;
     }
 
-    public static int lineLineIntersect(PVector aBegin,
-                                        PVector aEnd,
-                                        PVector bBegin,
-                                        PVector bEnd,
-                                        PVector pIntersection) {
+    public static int intersect_line_line(PVector aBegin,
+                                          PVector aEnd,
+                                          PVector bBegin,
+                                          PVector bEnd,
+                                          PVector pIntersection) {
         float denom = ((bEnd.y - bBegin.y) * (aEnd.x - aBegin.x)) - ((bEnd.x - bBegin.x) * (aEnd.y - aBegin.y));
 
         float nume_a = ((bEnd.x - bBegin.x) * (aBegin.y - bBegin.y)) - ((bEnd.y - bBegin.y) * (aBegin.x - bBegin.x));
@@ -567,7 +570,6 @@ public final class Intersection implements Serializable {
     }
 
     public static class IntersectionResult {
-
         public float t;
         public float u;
         public float v;
@@ -577,6 +579,42 @@ public final class Intersection implements Serializable {
             u = 0;
             t = 0;
         }
+    }
 
+    public static PVector intersect_ray_plane(PVector ray_origin,
+                                              PVector ray_direction,
+                                              PVector plane_origin,
+                                              PVector plane_normal) {
+        double denominator = plane_normal.dot(ray_direction);
+        if (Math.abs(denominator) < 1e-6) {
+            // parallel to the plane, not intersecting
+            return null;
+        }
+
+        double t = plane_normal.dot(sub(plane_origin, ray_origin)) / denominator;
+        if (t < 0) {
+            // intersection point is behind ray origin, not intersecting
+            return null;
+        }
+
+        return add(ray_origin, mult(ray_direction, (float) t));
+    }
+
+    public static PVector intersect_line_segment_plane(PVector line_p1,
+                                                       PVector line_p2,
+                                                       PVector plane_origin,
+                                                       PVector plane_normal) {
+        final PVector d = sub(line_p2, line_p1);
+        final float dot = plane_normal.dot(d);
+        if (dot == 0) {
+            // line is parallel to plane
+            return null;
+        }
+        final float distance = plane_normal.dot(sub(line_p1, plane_origin)) / dot;
+        if (distance < 0 || distance > 1) {
+            // intersection is not within line segment
+            return null;
+        }
+        return add(line_p1, mult(d, distance));
     }
 }

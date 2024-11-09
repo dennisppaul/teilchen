@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,14 +24,14 @@
 package teilchen.force;
 
 import processing.core.PVector;
-import teilchen.IConnection;
+import teilchen.Connection;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.util.Util;
 
 import static teilchen.util.Util.distance;
 
-public class Spring implements IForce, IConnection {
+public class Spring implements Force, Connection {
 
     private static final boolean USE_FAST_SQRT = true;
     protected Particle mA;

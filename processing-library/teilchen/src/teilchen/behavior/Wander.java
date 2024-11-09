@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,7 +23,7 @@
 package teilchen.behavior;
 
 import processing.core.PVector;
-import teilchen.IBehaviorParticle;
+import teilchen.BehaviorParticle;
 import teilchen.util.Random;
 
 import static processing.core.PVector.cross;
@@ -75,7 +75,7 @@ public class Wander implements IBehavior {
         mWeight = pWeight;
     }
 
-    public void update(float pDeltaTime, IBehaviorParticle pParent) {
+    public void update(float pDeltaTime, BehaviorParticle pParent) {
         if (mActive && pParent.velocity().mag() > 0) {
             mCurrentSteeringStrength += mRandom.getFloat(-0.5f, 0.5f) * mSteeringOffset;
             mCurrentSteeringStrength = Math.max(Math.min(mCurrentSteeringStrength, mSteeringStrength),

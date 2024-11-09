@@ -12,22 +12,17 @@ import teilchen.util.*;
  *
  * press mouse to position arrival destination.
  */
-
 Arrival mArrival;
-
-BehaviorParticle mParticle;
-
+BasicBehaviorParticle mParticle;
 Physics mPhysics;
-
 void settings() {
     size(640, 480);
 }
-
 void setup() {
     /* physics */
     mPhysics = new Physics();
     /* create particles */
-    mParticle = mPhysics.makeParticle(BehaviorParticle.class);
+    mParticle = mPhysics.makeParticle(BasicBehaviorParticle.class);
     mParticle.maximumInnerForce(100);
     mParticle.radius(10);
     /* create behavior */
@@ -36,7 +31,6 @@ void setup() {
     mArrival.breakradius(mParticle.maximumInnerForce() * 0.25f);
     mParticle.behaviors().add(mArrival);
 }
-
 void draw() {
     /* set the arrival position to mouse position */
     mArrival.position().set(mouseX, mouseY);

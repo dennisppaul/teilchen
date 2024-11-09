@@ -12,15 +12,11 @@ import teilchen.util.*;
  *
  * drag mouse to tilt deflector.
  */
-
 PlaneDeflector mDeflector;
-
 Physics mPhysics;
-
 void settings() {
     size(640, 480);
 }
-
 void setup() {
     /* create a particle system */
     mPhysics = new Physics();
@@ -47,7 +43,6 @@ void setup() {
     mViscousDrag.coefficient = 0.1f;
     mPhysics.add(mViscousDrag);
 }
-
 void draw() {
     /* rotate deflector plane */
     if (mousePressed) {

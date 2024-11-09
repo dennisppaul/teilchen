@@ -12,17 +12,12 @@ import teilchen.util.*;
  *
  * press mouse to create new particles.
  */
-
 static final float PARTICLE_RADIUS = 13;
-
 Physics mPhysics;
-
 Particle mRoot;
-
 void settings() {
     size(640, 480);
 }
-
 void setup() {
     hint(ENABLE_DEPTH_SORT);
     mPhysics = new Physics();
@@ -34,7 +29,6 @@ void setup() {
     mRoot.fixed(true);
     mRoot.radius(PARTICLE_RADIUS);
 }
-
 void draw() {
     if (mousePressed) {
         Particle mParticle = mPhysics.makeParticle(mouseX, mouseY, 0);

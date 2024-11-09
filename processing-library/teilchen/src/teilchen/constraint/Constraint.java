@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,11 +20,22 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
-package teilchen;
 
-public interface IConnection {
+package teilchen.constraint;
 
-    Particle a();
+import teilchen.Physics;
 
-    Particle b();
+public interface Constraint {
+
+    void apply(final Physics pParticleSystem);
+
+    boolean active();
+
+    void active(boolean pActiveState);
+
+    boolean dead();
+
+    void dead(boolean pDead);
+
+    long ID();
 }

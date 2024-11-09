@@ -11,15 +11,11 @@ import teilchen.util.*;
  *
  * move close to particle and press mouse to create springs and particles.
  */
-
 Physics mPhysics;
-
 Particle mRoot;
-
 void settings() {
     size(640, 480);
 }
-
 void setup() {
     /* create a particle system */
     mPhysics = new Physics();
@@ -28,7 +24,6 @@ void setup() {
     /* we give the root particle a higher mass so it doesn t move as easily */
     mRoot.mass(30);
 }
-
 void draw() {
     /* create a particle at mouse position and connect it to the root particle through a spring */
     if (mousePressed) {
@@ -56,9 +51,9 @@ void draw() {
         if (mPhysics.forces().get(i) instanceof Spring) {
             Spring mSSpring = (Spring) mPhysics.forces().get(i);
             line(mSSpring.a().position().x,
-                 mSSpring.a().position().y,
-                 mSSpring.b().position().x,
-                 mSSpring.b().position().y);
+                    mSSpring.a().position().y,
+                    mSSpring.b().position().x,
+                    mSSpring.b().position().y);
         }
     }
     /* draw particles */

@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,7 +24,7 @@
 package teilchen.behavior;
 
 import processing.core.PVector;
-import teilchen.IBehaviorParticle;
+import teilchen.BehaviorParticle;
 import teilchen.Particle;
 
 import java.util.ArrayList;
@@ -45,13 +45,13 @@ public class Util {
             distance = pDistance;
         }
 
-        public static <E extends IBehaviorParticle> ArrayList<ProximityStructure> findProximityEntities(
-                IBehaviorParticle pParentEntity,
+        public static <E extends BehaviorParticle> ArrayList<ProximityStructure> findProximityEntities(
+                BehaviorParticle pParentEntity,
                 ArrayList<E> pNeighborsEntity,
                 float pProximity) {
             /* find neighbors in proximity */
             ArrayList<ProximityStructure> mCloseNeighbors = new ArrayList<>();
-            for (IBehaviorParticle p : pNeighborsEntity) {
+            for (BehaviorParticle p : pNeighborsEntity) {
                 if (!p.equals(pParentEntity)) {
                     /* exclude self */
 

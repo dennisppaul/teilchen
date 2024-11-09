@@ -13,21 +13,14 @@ import teilchen.util.*;
  *
  * press mouse to wrinkle cloth.
  */
-
 static final int GRID_HEIGHT = 32;
-
 static final int GRID_WIDTH = 32;
-
 Attractor mAttractor;
-
 final float mAttractorStrength = 15000;
-
 Physics mPhysics;
-
 void settings() {
     size(640, 480, P3D);
 }
-
 void setup() {
     mPhysics = new Physics();
     Verlet mVerlet = new Verlet();
@@ -82,7 +75,6 @@ void setup() {
         mParticle[0].fixed(true);
     }
 }
-
 void draw() {
     /* update */
     if (mousePressed) {
@@ -95,7 +87,7 @@ void draw() {
     background(255);
     /* draw sticks */
     stroke(0, 191);
-    for (final IConstraint mIConstraint : mPhysics.constraints()) {
+    for (final Constraint mIConstraint : mPhysics.constraints()) {
         if (mIConstraint instanceof Stick) {
             final Stick mStick = (Stick) mIConstraint;
             line(mStick.a().position().x,

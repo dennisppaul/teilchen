@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,7 +30,7 @@ import teilchen.Physics;
 import static processing.core.PVector.sub;
 import static teilchen.util.Util.lengthSquared;
 
-public class Attractor implements IForce {
+public class Attractor implements Force {
 
     protected PVector mPosition;
     protected float mRadius;

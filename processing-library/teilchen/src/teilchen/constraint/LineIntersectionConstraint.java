@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,22 +25,22 @@ package teilchen.constraint;
 
 import processing.core.PGraphics;
 import processing.core.PVector;
-import teilchen.IConnection;
+import teilchen.Connection;
 import teilchen.Particle;
 import teilchen.Physics;
 
 import java.util.ArrayList;
 
 import static teilchen.util.Intersection.INTERSECTING;
-import static teilchen.util.Intersection.lineLineIntersect;
+import static teilchen.util.Intersection.intersect_line_line;
 
-public class LineIntersectionConstraint implements IConstraint {
+public class LineIntersectionConstraint implements Constraint {
 
     public PGraphics DEBUG_VIEW = null;
     private boolean mDead = false;
     private final long mID;
     private final Particle mParticle;
-    private ArrayList<IConnection> mPotentialLineIntersections;
+    private ArrayList<Connection> mPotentialLineIntersections;
     private float mProxScale = 1.0f;
 
     public LineIntersectionConstraint(Particle pParticle) {
@@ -58,14 +58,14 @@ public class LineIntersectionConstraint implements IConstraint {
         final PVector mA = mParticle.position();
         final PVector mB = mParticle.old_position();
         float mMinDistanceToIntersection = Float.MAX_VALUE;
-        for (IConnection mPotentialLineIntersection : mPotentialLineIntersections) {
+        for (Connection mPotentialLineIntersection : mPotentialLineIntersections) {
             final PVector mAA = mPotentialLineIntersection.a().position();
             final PVector mBB = mPotentialLineIntersection.b().position();
             if (mA == mAA || mA == mBB) {
                 /* ignore test if points are shared */
                 continue;
             }
-            final int mResult = lineLineIntersect(mA, mB, mAA, mBB, mIntersection);
+            final int mResult = intersect_line_line(mA, mB, mAA, mBB, mIntersection);
             if (mResult == INTERSECTING) {
                 /* reset current position to intersection */
                 final PVector mIntersectProx = PVector.sub(mB, mIntersection);
@@ -118,11 +118,11 @@ public class LineIntersectionConstraint implements IConstraint {
         return mID;
     }
 
-    public ArrayList<IConnection> intersecting_lines() {
+    public ArrayList<Connection> intersecting_lines() {
         return mPotentialLineIntersections;
     }
 
-    public void setIntersectingLinesRef(ArrayList<IConnection> pIntersectingLinesRef) {
+    public void setIntersectingLinesRef(ArrayList<Connection> pIntersectingLinesRef) {
         mPotentialLineIntersections = pIntersectingLinesRef;
     }
 

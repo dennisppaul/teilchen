@@ -26,6 +26,9 @@ done
 M_IMPORTS=$M_IMPORTS'
 '
 
+M_NL='\
+'
+
 # transmogrify sketches
 for file in $SRC_PATH/*.java
 do
@@ -41,16 +44,16 @@ do
 
 	cat $file | \
 	sed '
-			# only consider the lines in 'PApplet'
+			# only consider the lines in PApplet
 			/extends PApplet/,/^}$/ !d
 			# remove all tabs from line start
 			s/[ ^I]*$//
 			# remove empty lines
 			/^$/ d
-			# remove 'private' + 'protected' + 'public'
-			s/private /\n/
-			s/protected /\n/
-			s/public /\n/
+			# remove private + protected + public
+			s/private //
+			s/protected //
+			s/public //
 			# simplify generics
 			s/new ArrayList<>()/new ArrayList()/
 			# remove main method
@@ -58,9 +61,13 @@ do
 				D
 			}
 			# remove add-comment
-			s/\/\/@add//
+			s/\/\/@add\ //
+			# remove @Override
+			s/@Override//
+			# remove formatter
+			/\/\/\ @formatter\:/ d
 			# remove first and last line
-			/^\nclass/ d
+			/^class/ d
 			/^}/ d
 			# remove trailing space
 			s/    //

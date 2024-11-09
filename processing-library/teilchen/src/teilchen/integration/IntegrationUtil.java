@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,14 +28,23 @@ import java.util.List;
 
 public final class IntegrationUtil {
 
+
     public static void calculateDerivatives(final List<Particle> pParticles, final List<Derivate3f> pDerivates) {
-        for (int i = 0; i < pParticles.size(); i++) {
-            pDerivates.get(i).px = pParticles.get(i).velocity().x;
-            pDerivates.get(i).py = pParticles.get(i).velocity().y;
-            pDerivates.get(i).pz = pParticles.get(i).velocity().z;
-            pDerivates.get(i).vx = pParticles.get(i).force().x / pParticles.get(i).mass();
-            pDerivates.get(i).vy = pParticles.get(i).force().y / pParticles.get(i).mass();
-            pDerivates.get(i).vz = pParticles.get(i).force().z / pParticles.get(i).mass();
+        try {
+            synchronized (pParticles) {
+                for (int i = 0; i < pParticles.size(); i++) {
+                    if (i < pDerivates.size()) {
+                        pDerivates.get(i).px = pParticles.get(i).velocity().x;
+                        pDerivates.get(i).py = pParticles.get(i).velocity().y;
+                        pDerivates.get(i).pz = pParticles.get(i).velocity().z;
+                        pDerivates.get(i).vx = pParticles.get(i).force().x / pParticles.get(i).mass();
+                        pDerivates.get(i).vy = pParticles.get(i).force().y / pParticles.get(i).mass();
+                        pDerivates.get(i).vz = pParticles.get(i).force().z / pParticles.get(i).mass();
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            System.err.println(ex);
         }
     }
 
@@ -44,7 +53,7 @@ public final class IntegrationUtil {
         if (mDiff > 0) {
             for (int i = 0; i < mDiff; i++) {
                 try {
-                    pContainer.add(pClass.newInstance());
+                    pContainer.add(pClass.getDeclaredConstructor().newInstance());
                 } catch (Exception ex) {
                     System.err.println(ex);
                 }

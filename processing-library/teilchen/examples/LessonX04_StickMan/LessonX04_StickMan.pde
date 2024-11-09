@@ -12,19 +12,13 @@ import teilchen.util.*;
  *
  * press mouse to grab and fling stickmen.
  */
-
 Attractor mAttractor;
-
 Gravity mGravity;
-
 Physics mPhysics;
-
 StickMan[] mStickMan;
-
 void settings() {
     size(640, 480);
 }
-
 void setup() {
     mPhysics = new Physics();
     mPhysics.setIntegratorRef(new RungeKutta());
@@ -45,7 +39,6 @@ void setup() {
         mStickMan[i].translate(new PVector().set(0, height / 2.0f, 0));
     }
 }
-
 void draw() {
     mPhysics.step(1f / 60f);
     Overlap.resolveOverlap(mPhysics.particles());

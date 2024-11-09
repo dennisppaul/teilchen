@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,7 +23,7 @@
 package teilchen.behavior;
 
 import processing.core.PVector;
-import teilchen.IBehaviorParticle;
+import teilchen.BehaviorParticle;
 import teilchen.util.Util;
 
 import static processing.core.PVector.add;
@@ -92,7 +92,7 @@ public class Arrival implements IBehavior, Verhalten {
         return mBreakRadius;
     }
 
-    public void update(float pDeltaTime, IBehaviorParticle pParent) {
+    public void update(float pDeltaTime, BehaviorParticle pParent) {
         sub(mSeekPosition, pParent.position(), mForce);
         final float mDistanceToArrivalPoint = mForce.mag();
 

@@ -68,7 +68,7 @@ public class Euler implements Integrator {
 /* this version scales better with the other integrators but is definitly slower */
 //import java.util.Vector;
 //
-//import particles.IParticle;
+//import particles.Particle;
 //import particles.ParticleSystem;
 //
 //

@@ -1,7 +1,7 @@
 package teilchen.examples;
 
 import processing.core.PApplet;
-import teilchen.BehaviorParticle;
+import teilchen.BasicBehaviorParticle;
 import teilchen.Physics;
 import teilchen.behavior.Arrival;
 
@@ -15,7 +15,7 @@ public class SketchLesson12_ArrivalBehavior extends PApplet {
      */
 
     private Arrival mArrival;
-    private BehaviorParticle mParticle;
+    private BasicBehaviorParticle mParticle;
     private Physics mPhysics;
 
     public void settings() {
@@ -27,7 +27,7 @@ public class SketchLesson12_ArrivalBehavior extends PApplet {
         mPhysics = new Physics();
 
         /* create particles */
-        mParticle = mPhysics.makeParticle(BehaviorParticle.class);
+        mParticle = mPhysics.makeParticle(BasicBehaviorParticle.class);
         mParticle.maximumInnerForce(100);
         mParticle.radius(10);
 

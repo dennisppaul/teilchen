@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -32,7 +32,7 @@ import static processing.core.PVector.add;
 import static processing.core.PVector.sub;
 import static teilchen.util.Util.isNaN;
 
-public class PlaneDeflector implements IForce {
+public class PlaneDeflector implements Force {
 
     private boolean mActive;
     private float mCoefficientOfRestitution;

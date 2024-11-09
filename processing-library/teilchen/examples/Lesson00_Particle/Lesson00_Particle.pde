@@ -11,22 +11,17 @@ import teilchen.util.*;
  *
  * drag mouse to fling particle.
  */
-
-Particle mParticle;
-
 Physics mPhysics;
-
+Particle mParticle;
 void settings() {
     size(640, 480);
 }
-
 void setup() {
     /* create a particle system. */
     mPhysics = new Physics();
     /* create a particle. note that the particle is automatically added to particle system */
     mParticle = mPhysics.makeParticle();
 }
-
 void draw() {
     /* update the particle system to the next step. usually the time step is the duration of the las frame */
     final float mDeltaTime = 1.0f / frameRate;

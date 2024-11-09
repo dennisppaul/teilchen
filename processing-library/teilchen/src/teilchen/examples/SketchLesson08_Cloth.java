@@ -4,7 +4,7 @@ import processing.core.PApplet;
 import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
-import teilchen.constraint.IConstraint;
+import teilchen.constraint.Constraint;
 import teilchen.constraint.Stick;
 import teilchen.force.Attractor;
 import teilchen.force.Gravity;
@@ -104,7 +104,7 @@ public class SketchLesson08_Cloth extends PApplet {
 
         /* draw sticks */
         stroke(0, 191);
-        for (final IConstraint mIConstraint : mPhysics.constraints()) {
+        for (final Constraint mIConstraint : mPhysics.constraints()) {
             if (mIConstraint instanceof Stick) {
                 final Stick mStick = (Stick) mIConstraint;
                 line(mStick.a().position().x,

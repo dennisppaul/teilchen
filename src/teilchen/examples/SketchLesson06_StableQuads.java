@@ -30,6 +30,7 @@ public class SketchLesson06_StableQuads extends PApplet {
 
     public void setup() {
         mPhysics = new Physics();
+
         /* use `RungeKutta` as it produces more stable results in applications like these */
         mPhysics.setIntegratorRef(new RungeKutta());
 
@@ -59,10 +60,10 @@ public class SketchLesson06_StableQuads extends PApplet {
         mPhysics.makeSpring(a, b, mSpringConstant, mSpringDamping);
         mPhysics.makeSpring(b, c, mSpringConstant, mSpringDamping);
         mPhysics.makeSpring(c, d, mSpringConstant, mSpringDamping);
-        mPhysics.makeSpring(d, a, mSpringConstant, mSpringDamping).restlength();
+        mPhysics.makeSpring(d, a, mSpringConstant, mSpringDamping);
         /* ... then the diagonal-springs */
         mPhysics.makeSpring(a, c, mSpringConstant, mSpringDamping);
-        mPhysics.makeSpring(b, d, mSpringConstant, mSpringDamping).restlength();
+        mPhysics.makeSpring(b, d, mSpringConstant, mSpringDamping);
 
         /* define 'a' as root particle for mouse interaction */
         mRoot = a;

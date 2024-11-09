@@ -12,17 +12,12 @@ import teilchen.util.*;
  *
  * press mouse to create particles.
  */
-
 static final float PARTICLE_SIZE = 5;
-
 CollisionManager mCollision;
-
 Physics mPhysics;
-
 void settings() {
     size(640, 480);
 }
-
 void setup() {
     noFill();
     ellipseMode(CENTER);
@@ -39,7 +34,6 @@ void setup() {
     mBox.reflect(true);
     mPhysics.add(mBox);
 }
-
 void draw() {
     /* create particles */
     if (mousePressed) {
@@ -56,7 +50,6 @@ void draw() {
     drawThings();
     mCollision.removeCollisionResolver();
 }
-
 void drawThings() {
     /* collision springs */
     noFill();

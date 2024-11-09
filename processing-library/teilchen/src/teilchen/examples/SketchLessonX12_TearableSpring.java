@@ -5,7 +5,7 @@ import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.force.Gravity;
-import teilchen.force.IForce;
+import teilchen.force.Force;
 import teilchen.force.Spring;
 import teilchen.force.TearableSpring;
 import teilchen.integration.RungeKutta;
@@ -96,7 +96,7 @@ public class SketchLessonX12_TearableSpring extends PApplet {
 
         stroke(0, 127);
         noFill();
-        for (IForce f : mPhysics.forces()) {
+        for (Force f : mPhysics.forces()) {
             if (f instanceof Spring) {
                 Spring s = (Spring) f;
                 drawSpring(s);

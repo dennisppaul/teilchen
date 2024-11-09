@@ -12,15 +12,11 @@ import teilchen.util.*;
  *
  * drag mouse to fling particle.
  */
-
-Particle mParticle;
-
 Physics mPhysics;
-
+Particle mParticle;
 void settings() {
     size(640, 480);
 }
-
 void setup() {
     /* create a particle system */
     mPhysics = new Physics();
@@ -34,7 +30,6 @@ void setup() {
     /* create a particle and add it to the system */
     mParticle = mPhysics.makeParticle();
 }
-
 void draw() {
     /* update the particle system. this applies the gravity to the particle */
     final float mDeltaTime = 1.0f / frameRate;

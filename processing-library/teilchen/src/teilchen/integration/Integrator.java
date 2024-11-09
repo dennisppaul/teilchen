@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,7 +24,7 @@ package teilchen.integration;
 
 import teilchen.Physics;
 
-public interface IIntegrator {
+public interface Integrator {
 
     void step(final float pDeltaTime, final Physics pParticleSystem);
 }

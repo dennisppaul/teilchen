@@ -6,7 +6,7 @@ import teilchen.Physics;
 import teilchen.force.VectorField;
 import teilchen.force.ViscousDrag;
 
-public class SketchLesson13_VectorField extends PApplet {
+public class SketchLesson14_VectorField extends PApplet {
 
     /*
      * this sketch demonstrates how to use `VectorField`. a vector field is a set of regions
@@ -120,7 +120,7 @@ public class SketchLesson13_VectorField extends PApplet {
     }
 
     public static void main(String[] args) {
-        PApplet.main(new String[]{SketchLesson13_VectorField.class.getName()});
+        PApplet.main(new String[]{SketchLesson14_VectorField.class.getName()});
     }
 }
 

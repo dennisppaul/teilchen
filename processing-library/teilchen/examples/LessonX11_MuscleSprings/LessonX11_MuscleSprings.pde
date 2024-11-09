@@ -17,33 +17,20 @@ import teilchen.util.*;
  * press `D`, hover over particle and drag mouse to drag particle.
  * press `SPACE` to toggle simulation on/off.
  */
-
 static final float MUSCLE_CONTRACTION_LENGTH = 0.3f;
-
 static final float MUSCLE_CONTRACTION_SPEED = 1.5f;
-
 static final float MUSCLE_PHASE_SHIFT_SCALE = PI;
-
 static final float PARTICAL_MASS = 0.25f;
-
 static final float SELECTION_RADIUS = 10;
-
 static final float SPRING_STRENGTH = 1.0f;
-
 Gravity mGravity;
-
 boolean mPauseSimulation;
-
 Physics mPhysics;
-
 Particle mTemporaryParticle;
-
 MuscleSpring mTemporarySpring;
-
 void settings() {
     size(640, 480);
 }
-
 void setup() {
     mPhysics = new Physics();
     mGravity = new Gravity();
@@ -57,7 +44,6 @@ void setup() {
     mPhysics.add(mBox);
     mPauseSimulation = true;
 }
-
 void draw() {
     /* move selected particle */
     if (mTemporaryParticle != null) {
@@ -70,19 +56,16 @@ void draw() {
     /* draw */
     background(255);
     drawSimulationState();
-    drawParticlesSpings();
+    drawParticlesSprings();
     drawTemporaryParticleSpring();
     drawHighlightParticleNearby();
 }
-
 void mousePressed() {
     beginCreateParticleSpring();
 }
-
 void mouseReleased() {
     endCreateParticleSpring();
 }
-
 void keyPressed() {
     switch (key) {
         case ' ':
@@ -102,7 +85,6 @@ void keyPressed() {
             break;
     }
 }
-
 void beginCreateParticleSpring() {
     Particle mSelectedParticle = getParticleCloseToMouse();
     if (mSelectedParticle != null) {
@@ -116,19 +98,16 @@ void beginCreateParticleSpring() {
         mTemporaryParticle = createParticle();
     }
 }
-
 BasicParticle createParticle() {
     BasicParticle p = new BasicParticle();
     p.mass(PARTICAL_MASS);
     return p;
 }
-
 MuscleSpring createSpring(Particle a, Particle b) {
     MuscleSpring s = new MuscleSpring(a, b);
     s.strength(SPRING_STRENGTH);
     return s;
 }
-
 void deleteParticleAndSpring() {
     Particle mSelectedParticle = getParticleCloseToMouse();
     /*  mark particle for deletion */
@@ -136,7 +115,7 @@ void deleteParticleAndSpring() {
         mSelectedParticle.dead(true);
     }
     /* find connected spring and mark for deletion */
-    for (IForce f : mPhysics.forces()) {
+    for (Force f : mPhysics.forces()) {
         if (f instanceof MuscleSpring) {
             MuscleSpring s = (MuscleSpring) f;
             if (s.a() == mSelectedParticle || s.b() == mSelectedParticle) {
@@ -149,7 +128,6 @@ void deleteParticleAndSpring() {
         mPhysics.purge();
     }
 }
-
 void drawHighlightParticleNearby() {
     Particle mSelectedParticle = getParticleCloseToMouse();
     if (mSelectedParticle != null) {
@@ -161,12 +139,11 @@ void drawHighlightParticleNearby() {
                 SELECTION_RADIUS * 2);
     }
 }
-
-void drawParticlesSpings() {
+void drawParticlesSprings() {
     /* draw connecting springs */
     stroke(0);
     noFill();
-    for (IForce f : mPhysics.forces()) {
+    for (Force f : mPhysics.forces()) {
         if (f instanceof MuscleSpring) {
             MuscleSpring s = (MuscleSpring) f;
             line(s.a().position().x, s.a().position().y, s.b().position().x, s.b().position().y);
@@ -183,7 +160,6 @@ void drawParticlesSpings() {
         }
     }
 }
-
 void drawSimulationState() {
     noStroke();
     fill(0);
@@ -193,7 +169,6 @@ void drawSimulationState() {
         ellipse(25, 25, 30, 30);
     }
 }
-
 void drawTemporaryParticleSpring() {
     /* draw temporary particle */
     if (mTemporaryParticle != null) {
@@ -213,7 +188,6 @@ void drawTemporaryParticleSpring() {
         strokeWeight(1.0f);
     }
 }
-
 void endCreateParticleSpring() {
     Particle mSelectedParticle = getParticleCloseToMouse();
     /* add temporary particle */
@@ -241,7 +215,7 @@ void endCreateParticleSpring() {
     }
     /* update muscle phase */
     for (int i = 0; i < mPhysics.forces().size(); i++) {
-        IForce f = mPhysics.forces().get(i);
+        Force f = mPhysics.forces().get(i);
         if (f instanceof MuscleSpring) {
             MuscleSpring s = (MuscleSpring) f;
             float mPhaseShift = (float) i / (mPhysics.forces().size() - 1);
@@ -249,15 +223,12 @@ void endCreateParticleSpring() {
         }
     }
 }
-
 Particle getParticleCloseToMouse() {
     return teilchen.util.Util.findParticleByProximity(mPhysics.particles(), mouseX, mouseY, 0, SELECTION_RADIUS);
 }
-
 void invertGravity() {
     mGravity.force().y *= -1;
 }
-
 void toggleParticleFixed() {
     Particle mSelectedParticle = getParticleCloseToMouse();
     /*  toggle particle fixed */
@@ -265,10 +236,9 @@ void toggleParticleFixed() {
         mSelectedParticle.fixed(!mSelectedParticle.fixed());
     }
 }
-
 void updateConnectedSprings(Particle mTemporaryParticle) {
     // @TODO("update length of connected springs")
-    for (IForce f : mPhysics.forces()) {
+    for (Force f : mPhysics.forces()) {
         if (f instanceof MuscleSpring) {
             MuscleSpring s = (MuscleSpring) f;
             if (s.a() == mTemporaryParticle || s.b() == mTemporaryParticle) {

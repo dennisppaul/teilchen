@@ -14,27 +14,17 @@ import teilchen.util.*;
  *
  * move or drag mouse to rotate view.
  */
-
 final float WORLD_CUBICLE_SCALE = 20;
-
 final int WORLD_NUMBER_OF_CUBICLES = 15;
-
 final float WORLD_SCALE = WORLD_NUMBER_OF_CUBICLES * WORLD_CUBICLE_SCALE;
-
 CubicleWorld mCubicleWorld;
-
 CubicleWorldView mCubicleWorldView;
-
 final PVector mPosition = new PVector();
-
 float mRotationZ = 0.1f;
-
 final boolean mShowCubicles = true;
-
 void settings() {
     size(640, 480, P3D);
 }
-
 void setup() {
     textFont(createFont("Courier", 11));
     hint(DISABLE_DEPTH_SORT);
@@ -48,7 +38,6 @@ void setup() {
     mCubicleWorldView.color_full = color(0, 2);
     mCubicleWorld.add(new MCubicleEntity());
 }
-
 void draw() {
     /* add entities */
     addRandomEntities(10);
@@ -108,7 +97,6 @@ void draw() {
     text("SELECTED : " + mNumberOfPointsSelected, 10, 24);
     text("FPS      : " + frameRate, 10, 36);
 }
-
 void addRandomEntities(int pNumberParticles) {
     for (int i = 0; i < pNumberParticles; i++) {
         MCubicleEntity mEntity = new MCubicleEntity();
@@ -120,29 +108,22 @@ void addRandomEntities(int pNumberParticles) {
 }
 class MCubicleEntity implements ICubicleEntity {
     float weight = random(1, 5);
-    
-final Vector3i mCubiclePosition;
-    
-final PVector mPosition;
-    
-MCubicleEntity() {
+    final Vector3i mCubiclePosition;
+    final PVector mPosition;
+    MCubicleEntity() {
         mCubiclePosition = new Vector3i();
         mPosition = new PVector();
     }
-    
-Vector3i cubicle() {
+    Vector3i cubicle() {
         return mCubiclePosition;
     }
-    
-PVector position() {
+    PVector position() {
         return mPosition;
     }
-    
-boolean leaving(int pX, int pY, int pZ) {
+    boolean leaving(int pX, int pY, int pZ) {
         return !(pX == cubicle().x && pY == cubicle().y && pZ == cubicle().z);
     }
-    
-boolean isActive() {
+    boolean isActive() {
         return true;
     }
 }

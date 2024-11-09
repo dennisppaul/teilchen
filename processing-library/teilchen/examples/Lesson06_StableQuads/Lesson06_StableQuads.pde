@@ -14,15 +14,11 @@ import teilchen.util.*;
  *
  * press mouse to drag corner of stable quad.
  */
-
 Physics mPhysics;
-
 Particle mRoot;
-
 void settings() {
     size(640, 480);
 }
-
 void setup() {
     mPhysics = new Physics();
     /* use `RungeKutta` as it produces more stable results in applications like these */
@@ -49,10 +45,10 @@ void setup() {
     mPhysics.makeSpring(a, b, mSpringConstant, mSpringDamping);
     mPhysics.makeSpring(b, c, mSpringConstant, mSpringDamping);
     mPhysics.makeSpring(c, d, mSpringConstant, mSpringDamping);
-    mPhysics.makeSpring(d, a, mSpringConstant, mSpringDamping).restlength();
+    mPhysics.makeSpring(d, a, mSpringConstant, mSpringDamping);
     /* ... then the diagonal-springs */
     mPhysics.makeSpring(a, c, mSpringConstant, mSpringDamping);
-    mPhysics.makeSpring(b, d, mSpringConstant, mSpringDamping).restlength();
+    mPhysics.makeSpring(b, d, mSpringConstant, mSpringDamping);
     /* define 'a' as root particle for mouse interaction */
     mRoot = a;
     mRoot.fixed(true);
@@ -60,7 +56,6 @@ void setup() {
     /* create stable quad with `StableSpringQuad` */
     new StableSpringQuad(mPhysics, d, c, mPhysics.makeParticle(100, 200), mPhysics.makeParticle(0, 200));
 }
-
 void draw() {
     /* handle particles */
     if (mousePressed) {

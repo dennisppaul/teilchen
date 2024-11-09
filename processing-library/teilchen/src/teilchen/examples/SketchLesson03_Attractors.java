@@ -15,8 +15,8 @@ public class SketchLesson03_Attractors extends PApplet {
      * press mouse to toggle attractor between postive and *negative* attraction.
      */
 
-    private Attractor mAttractor;
     private Physics mPhysics;
+    private Attractor mAttractor;
 
     public void settings() {
         size(640, 480);

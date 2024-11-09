@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,21 +21,23 @@
  *
  */
 
-package teilchen.constraint;
+package teilchen.force;
 
 import teilchen.Physics;
 
-public interface IConstraint {
+public interface Force {
 
-    void apply(final Physics pParticleSystem);
+    long ID = Physics.getUniqueID();
 
-    boolean active();
-
-    void active(boolean pActiveState);
+    void apply(final float pDeltaTime, final Physics pParticleSystem);
 
     boolean dead();
 
     void dead(boolean pDead);
+
+    boolean active();
+
+    void active(boolean pActiveState);
 
     long ID();
 }

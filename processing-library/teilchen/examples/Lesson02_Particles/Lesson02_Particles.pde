@@ -12,13 +12,10 @@ import teilchen.util.*;
  *
  * drag mouse to spawn particles.
  */
-
 Physics mPhysics;
-
 void settings() {
     size(640, 480);
 }
-
 void setup() {
     /* create a particle system */
     mPhysics = new Physics();
@@ -26,7 +23,6 @@ void setup() {
     Gravity mGravity = new Gravity(0, 30, 0);
     mPhysics.add(mGravity);
 }
-
 void draw() {
     if (mousePressed) {
         /* create and add a particle to the system */

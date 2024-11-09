@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,7 +29,7 @@ import teilchen.Physics;
 
 import java.util.ArrayList;
 
-public class RungeKutta implements IIntegrator {
+public class RungeKutta implements Integrator {
 
     private final ArrayList<PVector> mK1Forces;
     private final ArrayList<PVector> mK1Velocities;
@@ -194,12 +194,9 @@ public class RungeKutta implements IIntegrator {
                 final PVector k3Velocity = mK3Velocities.get(i);
                 final PVector k4Velocity = mK4Velocities.get(i);
 
-                mParticle.position().x =
-                        originalPosition.x + pDeltaTime / 6.0f * (k1Velocity.x + 2.0f * k2Velocity.x + 2.0f * k3Velocity.x + k4Velocity.x);
-                mParticle.position().y =
-                        originalPosition.y + pDeltaTime / 6.0f * (k1Velocity.y + 2.0f * k2Velocity.y + 2.0f * k3Velocity.y + k4Velocity.y);
-                mParticle.position().z =
-                        originalPosition.z + pDeltaTime / 6.0f * (k1Velocity.z + 2.0f * k2Velocity.z + 2.0f * k3Velocity.z + k4Velocity.z);
+                mParticle.position().x = originalPosition.x + pDeltaTime / 6.0f * (k1Velocity.x + 2.0f * k2Velocity.x + 2.0f * k3Velocity.x + k4Velocity.x);
+                mParticle.position().y = originalPosition.y + pDeltaTime / 6.0f * (k1Velocity.y + 2.0f * k2Velocity.y + 2.0f * k3Velocity.y + k4Velocity.y);
+                mParticle.position().z = originalPosition.z + pDeltaTime / 6.0f * (k1Velocity.z + 2.0f * k2Velocity.z + 2.0f * k3Velocity.z + k4Velocity.z);
 
                 /* update velocity */
                 final PVector originalVelocity = mOriginalVelocities.get(i);

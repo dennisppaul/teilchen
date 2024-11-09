@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,7 +28,7 @@ import teilchen.Physics;
 
 import java.util.Iterator;
 
-public class Euler implements IIntegrator {
+public class Euler implements Integrator {
 
     private final PVector mTemp1;
     private final PVector mTemp2;
@@ -68,7 +68,7 @@ public class Euler implements IIntegrator {
 /* this version scales better with the other integrators but is definitly slower */
 //import java.util.Vector;
 //
-//import particles.IParticle;
+//import particles.Particle;
 //import particles.ParticleSystem;
 //
 //

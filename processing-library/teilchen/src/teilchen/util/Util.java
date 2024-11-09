@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -110,6 +110,7 @@ public class Util {
         /* set reflection vector */
         return PVector.add(mTempTangentComponent, mTempNormalComponent);
     }
+
 
     public static PVector clone(PVector p) {
         PVector v = new PVector();
@@ -436,44 +437,42 @@ public class Util {
         p.normalize();
     }
 
-    public static void reflect(final PVector pVector, final PVector pNormal, final float pCoefficientOfRestitution) {
+    public static void reflect(final PVector direction, final PVector normal, final float coefficient_of_restitution) {
         final PVector mNormalComponent = new PVector();
         final PVector mTangentComponent = new PVector();
 
         /* normal */
-        mNormalComponent.set(pNormal);
-        mNormalComponent.mult(pNormal.dot(pVector));
+        mNormalComponent.set(normal);
+        mNormalComponent.mult(normal.dot(direction));
         /* tangent */
-        sub(pVector, mNormalComponent, mTangentComponent);
+        sub(direction, mNormalComponent, mTangentComponent);
         /* negate normal */
-        mNormalComponent.mult(-pCoefficientOfRestitution);
+        mNormalComponent.mult(-coefficient_of_restitution);
         /* set reflection vector */
-        add(mTangentComponent, mNormalComponent, pVector);
+        add(mTangentComponent, mNormalComponent, direction);
     }
 
-    public static void reflect(final PVector pVector, final PVector pNormal) {
-//        TODO test this with new method !
-
+    /**
+     * @param direction        direction vector to be reflected
+     * @param normal           normal to reflect at
+     * @param normalize_normal if true, normal will be normalized
+     * @return reflected vector
+     */
+    public static PVector reflect(PVector direction, PVector normal, boolean normalize_normal) {
         // r = e - 2 (e.n) n :: ( | n | = 1 )
         // with e :: direction
         //      r :: reflection
         //      n :: normal
-        PVector n = new PVector().set(pNormal).normalize();
-        PVector e = new PVector().set(pVector);
-        float d = PVector.dot(e, n);    // d > 0 = frontface, d < 0 = backface
-        n.mult(2 * d);
-        PVector r = PVector.sub(n, e);    // @todo why is this reversed?
-        pVector.set(r);
 
-        /* normal */
-        TMP_NORMAL.set(pNormal);
-        TMP_NORMAL.mult(pNormal.dot(pVector));
-        /* tangent */
-        sub(pVector, TMP_NORMAL, TMP_TANGENT);
-        /* negate normal */
-        TMP_NORMAL.mult(-1.0f);
-        /* set reflection vector */
-        add(TMP_TANGENT, TMP_NORMAL, pVector);
+        final PVector n = new PVector().set(normal);
+        if (normalize_normal) {
+            n.normalize();
+        }
+        final PVector e = new PVector().set(direction);
+        final float d = PVector.dot(e, n); // d > 0 = frontface, d < 0 = backface
+        n.mult(2 * d);
+        final PVector r = PVector.sub(e, n);
+        return r;
     }
 
     public static void reflectVelocity(final Particle pParticle,
@@ -634,5 +633,94 @@ public class Util {
         pWorldAxisAlignedBoundingBox.scale.x = Math.abs(pWorldAxisAlignedBoundingBox.scale.x);
         pWorldAxisAlignedBoundingBox.scale.y = Math.abs(pWorldAxisAlignedBoundingBox.scale.y);
         pWorldAxisAlignedBoundingBox.scale.z = Math.abs(pWorldAxisAlignedBoundingBox.scale.z);
+    }
+
+    /* --- NEW --- */
+
+    public static float circumcenter_triangle(PVector a, PVector b, PVector c, PVector result) {
+        // from https://gamedev.stackexchange.com/questions/60630/how-do-i-find-the-circumcenter-of-a-triangle-in-3d
+        final PVector ac = PVector.sub(c, a);
+        final PVector ab = PVector.sub(b, a);
+        final PVector abXac = ab.cross(ac);
+
+        final PVector p0 = PVector.mult(abXac.cross(ab), ac.magSq());
+        final PVector p1 = PVector.mult(ac.cross(abXac), ab.magSq());
+        final PVector p2 = PVector.add(p0, p1);
+        final PVector toCircumsphereCenter = PVector.mult(p2, 1.0f / (2.0f * abXac.magSq()));
+        final float circumsphereRadius = toCircumsphereCenter.mag();
+
+        final PVector ccs = PVector.add(a, toCircumsphereCenter); // ccs
+        result.set(ccs);
+
+        return circumsphereRadius;
+    }
+
+    public static boolean point_in_triangle(PVector a, PVector b, PVector c, PVector point) {
+        // compute the barycentric coordinates of the point with respect to the triangle
+        PVector v0 = PVector.sub(c, a);
+        PVector v1 = PVector.sub(b, a);
+        PVector v2 = PVector.sub(point, a);
+        double d00 = v0.dot(v0);
+        double d01 = v0.dot(v1);
+        double d02 = v0.dot(v2);
+        double d11 = v1.dot(v1);
+        double d12 = v1.dot(v2);
+        double denom = d00 * d11 - d01 * d01;
+        double u = (d11 * d02 - d01 * d12) / denom;
+        double v = (d00 * d12 - d01 * d02) / denom;
+        return u >= 0 && v >= 0 && u + v <= 1;
+    }
+
+    public static float distance_point_plane(PVector point, PVector plane_origin, PVector plane_normal) {
+        final PVector d = sub(plane_origin, point);
+        final float dot = plane_normal.dot(d);
+        final float magnitude = plane_normal.mag();
+        return dot / magnitude;
+    }
+
+    public static PVector project_vector_onto_plane(PVector vector, PVector plane_normal) {
+        float dot = vector.x * plane_normal.x + vector.y * plane_normal.y + vector.z * plane_normal.z;
+        float x = vector.x - dot * plane_normal.x;
+        float y = vector.y - dot * plane_normal.y;
+        float z = vector.z - dot * plane_normal.z;
+        return new PVector(x, y, z);
+    }
+
+    public static PVector project_point_onto_plane(PVector point, PVector plane_origin, PVector plane_normal) {
+        PVector v = PVector.sub(point, plane_origin);
+        float dot = plane_normal.dot(v);
+        float magnitude = plane_normal.mag();
+        PVector projection = new PVector((v.x - dot * plane_normal.x) / magnitude,
+                                         (v.y - dot * plane_normal.y) / magnitude,
+                                         (v.z - dot * plane_normal.z) / magnitude);
+        return new PVector(plane_origin.x + projection.x, plane_origin.y + projection.y, plane_origin.z + projection.z);
+    }
+
+    public static PVector project_point_onto_line(PVector point, PVector line_point_a, PVector line_point_b) {
+        PVector lineDirection = PVector.sub(line_point_b, line_point_a);
+        lineDirection.normalize();
+        float projection = PVector.dot(lineDirection, PVector.sub(point, line_point_a));
+        return PVector.add(line_point_a, PVector.mult(lineDirection, projection));
+    }
+
+    public static PVector project_point_onto_line_segment(PVector point, PVector p1, PVector p2) {
+        final PVector lineDirection = PVector.sub(p2, p1);
+        float lineLength = lineDirection.mag();
+        lineDirection.normalize();
+
+        float projection = PVector.dot(lineDirection, PVector.sub(point, p1));
+
+        if (projection < 0) {
+            return p1;
+        } else if (projection > lineLength) {
+            return p2;
+        } else {
+            PVector projectedPoint = PVector.add(p1, PVector.mult(lineDirection, projection));
+            return projectedPoint;
+        }
+    }
+
+    public static boolean is_parallel(PVector vector, PVector normal) {
+        return PVector.dot(vector, normal) == 0;
     }
 }

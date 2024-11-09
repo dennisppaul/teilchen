@@ -1,13 +1,13 @@
 package teilchen.examples;
 
 import processing.core.PApplet;
-import teilchen.BehaviorParticle;
+import teilchen.BasicBehaviorParticle;
 import teilchen.Physics;
 import teilchen.behavior.Motor;
 import teilchen.behavior.Wander;
 import teilchen.force.ViscousDrag;
 
-public class SketchLesson11_WanderBehavior extends PApplet {
+public class SketchLesson13_WanderBehavior extends PApplet {
 
     /*
      * this sketch demonstrates how to use behaviors.  it combines `Wander` and `Motor` behaviors
@@ -15,7 +15,7 @@ public class SketchLesson11_WanderBehavior extends PApplet {
      */
 
     private Motor mMotor;
-    private BehaviorParticle mParticle;
+    private BasicBehaviorParticle mParticle;
     private Physics mPhysics;
     private Wander mWander;
 
@@ -29,7 +29,7 @@ public class SketchLesson11_WanderBehavior extends PApplet {
         mPhysics.add(new ViscousDrag());
 
         /* create particles */
-        mParticle = mPhysics.makeParticle(BehaviorParticle.class);
+        mParticle = mPhysics.makeParticle(BasicBehaviorParticle.class);
         mParticle.position().set(width / 2.0f, height / 2.0f);
         mParticle.maximumInnerForce(100);
         mParticle.radius(10);
@@ -66,6 +66,6 @@ public class SketchLesson11_WanderBehavior extends PApplet {
     }
 
     public static void main(String[] args) {
-        PApplet.main(new String[]{SketchLesson11_WanderBehavior.class.getName()});
+        PApplet.main(new String[]{SketchLesson13_WanderBehavior.class.getName()});
     }
 }

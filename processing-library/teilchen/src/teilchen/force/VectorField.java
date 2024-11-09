@@ -2,7 +2,7 @@
  * Teilchen
  *
  * This file is part of the *teilchen* library (https://github.com/dennisppaul/teilchen).
- * Copyright (c) 2020 Dennis P Paul.
+ * Copyright (c) 2024 Dennis P Paul.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -31,7 +31,7 @@ import teilchen.Physics;
 import teilchen.util.Util;
 import teilchen.util.Vector3i;
 
-public class VectorField implements IForce {
+public class VectorField implements Force {
 
     public static final int DISABLE_IGNORE_3D = 1;
     public static final int ENABLE_IGNORE_3D = 0;

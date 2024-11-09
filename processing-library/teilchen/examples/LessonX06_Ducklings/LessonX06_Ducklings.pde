@@ -12,17 +12,12 @@ import teilchen.util.*;
  *
  * move mouse to change target position. press mouse to set to *over steering*.
  */
-
 CollisionManager mCollision;
-
 ArrayList<Duckling> mDucklings;
-
 Physics mPhysics;
-
 void settings() {
     size(640, 480);
 }
-
 void setup() {
     colorMode(RGB, 1.0f);
     /* physics */
@@ -43,7 +38,6 @@ void setup() {
         mDucklings.add(mDuckling);
     }
 }
-
 void draw() {
     final float mDeltaTime = 1.0f / frameRate;
     /* update particles */
@@ -65,7 +59,6 @@ void draw() {
     /* clean up */
     mCollision.removeCollisionResolver();
 }
-
 void drawCollisionSprings() {
     stroke(0, 0.5f);
     for (int i = 0; i < mCollision.collision().forces().size(); ++i) {
@@ -78,9 +71,8 @@ void drawCollisionSprings() {
         }
     }
 }
-
 void drawParticle(Duckling pDuckling) {
-    final BehaviorParticle mParticle = pDuckling.particle;
+    final BasicBehaviorParticle mParticle = pDuckling.particle;
     final Arrival mArrival = pDuckling.arrival;
     /* draw particle */
     stroke(0, 0.75f);
@@ -108,10 +100,10 @@ void drawParticle(Duckling pDuckling) {
 }
 class Duckling {
     Arrival arrival;
-    BehaviorParticle particle;
+    BasicBehaviorParticle particle;
     Duckling() {
         /* create particles */
-        particle = mPhysics.makeParticle(BehaviorParticle.class);
+        particle = mPhysics.makeParticle(BasicBehaviorParticle.class);
         particle.position().set(random(width), random(height));
         particle.maximumInnerForce(random(50, 150));
         particle.radius(random(6, 10));

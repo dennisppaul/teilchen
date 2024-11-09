@@ -12,15 +12,11 @@ import teilchen.util.*;
  *
  * press mouse to position deflector.
  */
-
 LineDeflector2D mDeflector;
-
 Physics mPhysics;
-
 void settings() {
     size(640, 480);
 }
-
 void setup() {
     /* create a particle system */
     mPhysics = new Physics();
@@ -37,7 +33,6 @@ void setup() {
     mViscousDrag.coefficient = 0.1f;
     mPhysics.add(mViscousDrag);
 }
-
 void draw() {
     /* rotate deflector plane */
     if (mousePressed) {
@@ -59,7 +54,7 @@ void draw() {
     background(255);
     for (int i = 0; i < mPhysics.particles().size(); i++) {
         Particle mParticle = mPhysics.particles(i);
-        /* this special particle has a limited life time. in this case this information is
+        /* this special particle has a limited lifetime. in this case this information is
         mapped to its transparency. */
         float mRatio = 1 - ((ShortLivedParticle) mParticle).ageRatio();
         fill(0, 127 * mRatio);
@@ -77,7 +72,6 @@ void draw() {
     /* finally remove the collision tag */
     mPhysics.removeTags();
 }
-
 void drawDeflector(LineDeflector2D mDeflector) {
     PVector mMid = mDeflector.mid();
     PVector mNormal = PVector.add(mMid, PVector.mult(mDeflector.normal(), 10));

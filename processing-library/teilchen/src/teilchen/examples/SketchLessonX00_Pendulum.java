@@ -13,7 +13,7 @@ public class SketchLessonX00_Pendulum extends PApplet {
      * this sketch demonstrates how to create a pendulum from two particles, a spring and a pulse
      * force.
      *
-     * press mouse top push pendulum.
+     * press mouse to push pendulum.
      */
 
     private Particle mPendulumRoot;

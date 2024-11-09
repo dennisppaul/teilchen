@@ -10,15 +10,11 @@ import teilchen.util.*;
  * this sketch demonstrates how to create a complex swarm behavior by combining the four simple
  * behaviors `Separation`, `Alignment`, `Cohesion` and `Wander` ( plus `Motor` ).
  */
-
 Physics mPhysics;
-
 ArrayList<SwarmEntity> mSwarmEntities;
-
 void settings() {
     size(640, 480, P3D);
 }
-
 void setup() {
     rectMode(CENTER);
     hint(DISABLE_DEPTH_TEST);
@@ -42,7 +38,6 @@ void setup() {
         mPhysics.add(mSwarmEntity);
     }
 }
-
 void draw() {
     final float mDeltaTime = 1.0f / frameRate;
     /* physics */
@@ -57,20 +52,13 @@ void draw() {
         s.draw(g);
     }
 }
-
-class SwarmEntity extends BehaviorParticle {
-    
-final Alignment<SwarmEntity> alignment;
-    
-final Cohesion<SwarmEntity> cohesion;
-    
-final Motor motor;
-    
-final Separation<SwarmEntity> separation;
-    
-final Wander wander;
-    
-SwarmEntity() {
+class SwarmEntity extends BasicBehaviorParticle {
+    final Alignment<SwarmEntity> alignment;
+    final Cohesion<SwarmEntity> cohesion;
+    final Motor motor;
+    final Separation<SwarmEntity> separation;
+    final Wander wander;
+    SwarmEntity() {
         maximumInnerForce(random(100.0f, 1000.0f));
         radius(10f);
         separation = new Separation();
@@ -92,14 +80,12 @@ SwarmEntity() {
         motor.strength(20.0f);
         behaviors().add(motor);
     }
-    
-void update() {
+    void update() {
         separation.neighbors(mSwarmEntities);
         alignment.neighbors(mSwarmEntities);
         cohesion.neighbors(mSwarmEntities);
     }
-    
-void draw(PGraphics g) {
+    void draw(PGraphics g) {
         pushMatrix();
         translate(position().x, position().y, position().z);
         pushMatrix();

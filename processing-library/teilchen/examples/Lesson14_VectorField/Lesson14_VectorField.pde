@@ -14,20 +14,14 @@ import teilchen.util.*;
  * press `G` to toggle field view
  * press `L` to toggle line/point view
  */
-
 boolean mDrawGrid = false;
 /* drawing particles as lines looks more intriguing but less explicatory */
-
 boolean mDrawParticlesAsLines = false;
-
 Physics mPhysics;
-
 VectorField mVectorField;
-
 void settings() {
     size(640, 480);
 }
-
 void setup() {
     mPhysics = new Physics();
     mVectorField = new VectorField(56, 40);
@@ -40,7 +34,6 @@ void setup() {
     mVectorField.randomize_forces(40);
     spawnParticles();
 }
-
 void draw() {
     mVectorField.smooth_forces(true);
     mVectorField.set_force_strength(40);
@@ -79,7 +72,6 @@ void draw() {
         endShape();
     }
 }
-
 void keyPressed() {
     switch (key) {
         case 'l':
@@ -95,7 +87,6 @@ void keyPressed() {
             break;
     }
 }
-
 void spawnParticles() {
     mPhysics.particles().clear();
     final int mNumOfParticles = (int) random(4000, 40000);

@@ -10,21 +10,15 @@ import teilchen.util.*;
  * this sketch demonstrates how to create a pendulum from two particles, a spring and a pulse
  * force.
  *
- * press mouse top push pendulum.
+ * press mouse to push pendulum.
  */
-
 Particle mPendulumRoot;
-
 Particle mPendulumTip;
-
 Physics mPhysics;
-
 Pulse mPulse;
-
 void settings() {
     size(640, 480);
 }
-
 void setup() {
     mPhysics = new Physics();
     mPhysics.add(new Gravity());
@@ -41,7 +35,6 @@ void setup() {
     mPulse.damping(0.99f);
     mPhysics.add(mPulse);
 }
-
 void draw() {
     mPhysics.step(1.0f / frameRate, 5);
     background(255);
@@ -55,7 +48,6 @@ void draw() {
     ellipse(p1.position().x, p1.position().y, 10, 10);
     ellipse(p2.position().x, p2.position().y, 20, 20);
 }
-
 void mousePressed() {
     mPulse.force().set(mPendulumTip.velocity().normalize().mult(100));
 }
