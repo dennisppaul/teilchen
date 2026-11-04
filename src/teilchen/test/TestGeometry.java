@@ -30,8 +30,10 @@ import processing.core.PVector;
 import teilchen.BasicParticle;
 import teilchen.Physics;
 import teilchen.constraint.LineIntersectionConstraint;
+import teilchen.cubicle.CubicleEntity;
 import teilchen.cubicle.CubicleParticle;
 import teilchen.cubicle.CubicleWorld;
+import teilchen.cubicle.ICubicleEntity;
 import teilchen.force.Spring;
 import teilchen.util.CollisionManager;
 import teilchen.util.CubicleWorldView;
@@ -42,6 +44,8 @@ import teilchen.util.Ray3f;
 import teilchen.util.TransformMatrix4f;
 import teilchen.util.Util;
 import teilchen.util.Vector3i;
+
+import java.util.ArrayList;
 
 /**
  * headless regression test for intersection math, matrices and the cubicle world. run with
@@ -66,9 +70,178 @@ public class TestGeometry {
         testWorldViewMatchesQuery();
         testCollisionsAcrossCells();
         testFixedParticles();
+        testRayPlaneNormal();
+        testRaySphere();
+        testRayTriangleBehindOrigin();
+        testThresholdsScale();
+        testLocalEntities();
+        testCubicleParticlePositionRef();
+        testDeadParticlesLeaveWorld();
 
         System.out.println(mFailures == 0 ? "ALL PASSED" : mFailures + " FAILED");
         System.exit(mFailures == 0 ? 0 : 1);
+    }
+
+    private static void testRayPlaneNormal() {
+        final PVector mOrigin = v(2.5f, 2.5f, 5);
+        final PVector mDown = v(0, 0, -1);
+        final Plane3f mNull = new Plane3f(v(0, 0, 0), v(10, 0, 0), v(0, 10, 0));
+        check("ray/plane null normal hit", hit(mNull, mOrigin, mDown, false), "");
+        check("ray/plane null normal keeps plane", mNull.normal == null && near(mNull.vectorB, 0, 10, 0), "");
+        final Plane3f mUpdated = new Plane3f(v(0, 0, 0), v(10, 0, 0), v(0, 10, 0));
+        mUpdated.updateNormal();
+        check("ray/plane updateNormal hit", hit(mUpdated, mOrigin, mDown, false), "");
+        final Plane3f mStale = new Plane3f(v(0, 0, 0), v(10, 0, 0), v(0, 10, 0));
+        mStale.normal = v(0, 1, 0);
+        check("ray/plane ignores stale normal", hit(mStale, mOrigin, mDown, false), "");
+        final PVector mResult = new PVector();
+        Intersection.intersectRayPlane(new Ray3f(mOrigin, mDown), mNull, mResult, false, false);
+        check("ray/plane hit point", near(mResult, 2.5f, 2.5f, 0), "" + mResult);
+    }
+
+    private static void testRaySphere() {
+        final PVector o = v(0, 0, 0);
+        final PVector mDir = v(1, 0, 0);
+        check("ray/sphere ahead", Intersection.intersect_ray_sphere(o, mDir, v(10, 0, 0), 1), "");
+        check("ray/sphere behind", !Intersection.intersect_ray_sphere(o, mDir, v(-10, 0, 0), 1), "");
+        check("ray/sphere origin inside", Intersection.intersect_ray_sphere(v(0.5f, 0, 0), v(1.5f, 0, 0), o, 1), "");
+        check("ray/sphere miss", !Intersection.intersect_ray_sphere(o, mDir, v(10, 5, 0), 1), "");
+        check("ray/sphere degenerate ray", !Intersection.intersect_ray_sphere(o, o, o, 1), "");
+
+        PVector[] p = Intersection.intersectRaySpherePoints(v(-10, 0, 0), 1, mDir, o);
+        check("ray/sphere points behind", p == null, p == null ? "null" : "" + p.length);
+        p = Intersection.intersectRaySpherePoints(v(10, 0, 0), 1, mDir, o);
+        check("ray/sphere points ahead", p != null && p.length == 2 && near(p[0], 11, 0, 0) && near(p[1], 9, 0, 0),
+              p == null ? "null" : "" + p.length);
+        p = Intersection.intersectRaySpherePoints(o, 1, mDir, o);
+        check("ray/sphere points origin inside", p != null && p.length == 1 && near(p[0], 1, 0, 0),
+              p == null ? "null" : "" + p.length);
+    }
+
+    private static void testRayTriangleBehindOrigin() {
+        final Intersection.IntersectionResult r = new Intersection.IntersectionResult();
+        final PVector a = v(0, 0, 0);
+        final PVector b = v(1, 0, 0);
+        final PVector c = v(0, 1, 0);
+        final PVector o = v(.25f, .25f, 1);
+        check("ray/triangle result behind", !Intersection.intersectRayTriangle(o, v(0, 0, 1), a, b, c, r, false), "");
+        check("ray/triangle result ahead",
+              Intersection.intersectRayTriangle(o, v(0, 0, -1), a, b, c, r, false) && Math.abs(r.t - 1) < TOLERANCE,
+              "t=" + r.t);
+        /* with culling the triangle has to face the ray: a, b, c faces +z */
+        check("ray/triangle culled behind", !Intersection.intersectRayTriangle(v(.25f, .25f, -1), v(0, 0, -1), a, b, c, r, true), "");
+        check("ray/triangle culled ahead", Intersection.intersectRayTriangle(o, v(0, 0, -1), a, b, c, r, true), "t=" + r.t);
+        check("ray/triangle culled back face", !Intersection.intersectRayTriangle(o, v(0, 0, -1), a, c, b, r, true), "");
+    }
+
+    private static void testThresholdsScale() {
+        final PVector t = new PVector();
+        final Intersection.IntersectionResult r = new Intersection.IntersectionResult();
+        check("ray/sphere short ray", Intersection.intersect_ray_sphere(v(0, 0, 0), v(.001f, 0, 0), v(0, 0, 0), 1), "");
+
+        final PVector pa = new PVector();
+        final PVector pb = new PVector();
+        for (float h : new float[]{1, 0.02f, 0.001f}) {
+            check("line/line 3D half length " + h,
+                  Intersection.intersect_line_line(v(-h, 0, 0), v(h, 0, 0), v(0, -h, 1), v(0, h, 1), pa, pb)
+                  && near(pa, 0, 0, 0) && near(pb, 0, 0, 1), pa + " " + pb);
+        }
+        check("line/line 3D short parallel", !Intersection.intersect_line_line(v(0, 0, 0), v(.001f, 0, 0), v(0, 1, 0), v(.001f, 1, 0), pa, pb), "");
+        check("line/line 3D long parallel", !Intersection.intersect_line_line(v(0, 0, 0), v(1000, 0, 0), v(0, 1, 0), v(1000, 1, 0), pa, pb), "");
+        check("line/line 3D degenerate", !Intersection.intersect_line_line(v(1, 1, 1), v(1, 1, 1), v(0, 0, 0), v(0, 1, 0), pa, pb), "");
+
+        final float e = 1e-4f;
+        check("ray/triangle small triangle", Intersection.intersectRayTriangle(v(e / 4, e / 4, 1), v(0, 0, -1), v(0, 0, 0), v(e, 0, 0), v(0, e, 0), t), "");
+        check("ray/triangle small triangle result", Intersection.intersectRayTriangle(v(e / 4, e / 4, 1), v(0, 0, -1), v(0, 0, 0), v(e, 0, 0), v(0, e, 0), r, false), "");
+        check("ray/triangle short direction", Intersection.intersectRayTriangle(v(.025f, .025f, 1), v(0, 0, -1e-6f), v(0, 0, 0), v(.1f, 0, 0), v(0, .1f, 0), t), "");
+        check("ray/triangle short direction result", Intersection.intersectRayTriangle(v(.025f, .025f, 1), v(0, 0, -1e-6f), v(0, 0, 0), v(.1f, 0, 0), v(0, .1f, 0), r, false), "");
+        check("ray/triangle parallel", !Intersection.intersectRayTriangle(v(.25f, .25f, 1), v(1, 0, 0), v(0, 0, 0), v(1, 0, 0), v(0, 1, 0), t), "");
+        check("ray/triangle degenerate", !Intersection.intersectRayTriangle(v(0, 0, 1), v(0, 0, -1), v(0, 0, 0), v(1, 0, 0), v(2, 0, 0), t), "");
+
+        final Plane3f mPlane = new Plane3f(v(0, 0, 0), v(1, 0, 0), v(0, 1, 0));
+        check("ray/plane short ray from front", hit(mPlane, v(.25f, .25f, 1), v(0, 0, -1e-7f), false), "");
+        check("ray/plane short ray from back", hit(mPlane, v(.25f, .25f, -1), v(0, 0, 1e-7f), false), "");
+        check("ray/plane short parallel", !hit(mPlane, v(.25f, .25f, 1), v(1e-7f, 0, 0), false), "");
+
+        final PVector mHit = Intersection.intersect_ray_plane(v(0, 0, 1), v(0, 0, -1e-7f), v(0, 0, 0), v(0, 0, 1));
+        check("ray_plane short ray", near(mHit, 0, 0, 0), "" + mHit);
+        check("ray_plane parallel", Intersection.intersect_ray_plane(v(0, 0, 1), v(1, 0, 0), v(0, 0, 0), v(0, 0, 1)) == null, "");
+        check("ray_plane behind", Intersection.intersect_ray_plane(v(0, 0, 1), v(0, 0, 1), v(0, 0, 0), v(0, 0, 1)) == null, "");
+    }
+
+    private static CubicleEntity entity(CubicleWorld pWorld, float x, float y, float z) {
+        final CubicleEntity e = new CubicleEntity();
+        e.position().set(x, y, z);
+        pWorld.add(e);
+        return e;
+    }
+
+    private static void testLocalEntities() {
+        final CubicleWorld w = world(4, 10);
+        final CubicleEntity mCorner = entity(w, 5, 5, 5);
+        final CubicleEntity mFar = entity(w, -5000, -5000, -5000);
+        final CubicleEntity mNear = entity(w, -1, 5, 5);
+        w.update();
+
+        ArrayList<ICubicleEntity> l = w.getLocalEntities(mFar, 1, 1, 1);
+        check("far off-world entity has no neighbors", l != null && l.isEmpty(), "" + l);
+        l = w.getLocalEntities(mNear, 1, 1, 1);
+        check("off-world entity at border finds cell", l != null && l.contains(mCorner), "" + l);
+        l = w.getLocalEntities(v(-1, 5, 5), 1);
+        check("query outside world finds cell in radius", l != null && l.contains(mCorner), "" + l);
+        l = w.getLocalEntities(v(-5000, 5, 5), 1);
+        check("query far outside world is empty", l != null && l.isEmpty(), "" + l);
+        l = w.getLocalEntities(v(-5000, 5, 5));
+        check("point query outside world is empty", l != null && l.isEmpty(), "" + l);
+        l = w.getLocalEntities(v(35, 35, 35), 0);
+        check("radius query empty cell is empty", l != null && l.isEmpty(), "" + l);
+        l = w.getLocalEntities(v(35, 35, 35));
+        check("point query empty cell is empty", l != null && l.isEmpty(), "" + l);
+
+        l = w.getLocalEntities(v(5, 5, 5));
+        check("point query finds entity", l.size() == 1 && l.contains(mCorner), "" + l.size());
+        l.clear();
+        check("point query result is a copy", w.getAtom(0, 0, 0).size() == 1, "" + w.getAtom(0, 0, 0).size());
+        l = w.getLocalEntities(mCorner);
+        check("entity query finds entity", l.size() == 1 && l.contains(mCorner), "" + l.size());
+        l.clear();
+        check("entity query result is a copy", w.getAtom(0, 0, 0).size() == 1, "" + w.getAtom(0, 0, 0).size());
+        l = w.getLocalEntities(mFar);
+        check("off-world entity query returns off-world entities", l.contains(mFar) && l.contains(mNear), "" + l.size());
+    }
+
+    private static void testCubicleParticlePositionRef() {
+        final CubicleParticle p = new CubicleParticle();
+        final PVector mRef = v(1, 2, 3);
+        p.setPositionRef(mRef);
+        check("cubicle particle setPositionRef", p.position() == mRef, "" + p.position());
+    }
+
+    private static void testDeadParticlesLeaveWorld() {
+        final CubicleWorld w = world(4, 10);
+        final CubicleParticle p = particle(5, 5, 5);
+        final CubicleParticle mAlive = particle(6, 5, 5);
+        w.add(p);
+        w.add(mAlive);
+        w.update();
+        p.dead(true);
+        w.update();
+        check("dead particle leaves world", !w.entities().contains(p) && w.entities().contains(mAlive), "" + w.entities().size());
+        check("dead particle leaves cell", !w.getAtom(0, 0, 0).data().contains(p) && w.getAtom(0, 0, 0).data().contains(mAlive),
+              "" + w.getAtom(0, 0, 0).size());
+
+        final CollisionManager m = manager();
+        final CubicleWorld mWorld = world(4, 100);
+        final CubicleParticle a = particle(50, 50, 50);
+        final CubicleParticle b = particle(55, 50, 50);
+        mWorld.add(a);
+        mWorld.add(b);
+        m.collision().add(a);
+        mWorld.update();
+        b.dead(true);
+        mWorld.update();
+        m.createCollisionResolvers(mWorld);
+        check("no resolver to dead particle", m.collision_forces().isEmpty(), "" + m.collision_forces().size());
     }
 
     private static void check(String pName, boolean pCondition, String pDetail) {
@@ -115,7 +288,6 @@ public class TestGeometry {
     }
 
     private static void testRayPlane() {
-        /* intersectRayPlane expects the normal to be edge A x edge B */
         final Plane3f p = new Plane3f(v(0, 0, 0), v(10, 0, 0), v(0, 10, 0));
         p.normal = v(0, 0, 100);
         check("ray/plane hit from front", hit(p, v(2.5f, 2.5f, 5), v(0, 0, -1), false), "");

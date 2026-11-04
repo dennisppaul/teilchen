@@ -22,26 +22,19 @@
  */
 package teilchen.cubicle;
 
-import processing.core.PVector;
 import teilchen.BasicParticle;
 import teilchen.util.Vector3i;
 
 public class CubicleParticle extends BasicParticle implements ICubicleEntity {
 
     private final Vector3i mCubiclePosition;
-    private final PVector mPosition;
 
     public CubicleParticle() {
         mCubiclePosition = new Vector3i();
-        mPosition = new PVector();
     }
 
     public Vector3i cubicle() {
         return mCubiclePosition;
-    }
-
-    public PVector position() {
-        return mPosition;
     }
 
     public boolean leaving(int pX, int pY, int pZ) {

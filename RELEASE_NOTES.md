@@ -11,6 +11,12 @@
 - `Util.calculateNormal(AB, BC, result)` and `Plane3f.updateNormal` produced a zero normal and overwrote an input
 - `Intersection.intersectRayPlane` parallel check, quad mode and triangle edges
 - `LineIntersectionConstraint` could move particles towards the origin and set z to 0
+- *breaking* `CubicleWorld.getLocalEntities` always returns a new list and never `null`. queries outside of the world find cells within their radius
+- *breaking* `intersect_ray_sphere`, `intersectRaySpherePoints` and `intersectRayTriangle` with `IntersectionResult` no longer report hits behind the ray origin
+- `Intersection.intersectRayPlane` works without a normal and ignores `Plane3f.normal`
+- parallel checks in `Intersection` no longer depend on the size of the input, so small triangles and short rays are detected
+- `CubicleParticle.setPositionRef` had no effect
+- `CubicleWorld.update` removes dead particles
 
 ## v0.5 (20261104)
 

@@ -7,8 +7,9 @@ Date: 2026-11-02
 Audited: `Physics`, particles, all integrators (`Euler`, `Midpoint`, `RungeKutta`, `Verlet`), `Spring`, `Stick`,
 `Box`, `ReflectBox`, `Teleporter`, `CollisionManager`, `BasicBehaviorParticle`, and selected behaviors.
 
-Not audited in depth: `TransformMatrix4f`. `Matrix3f`, `Intersection` and `cubicle/*` were audited on 2026-11-04, see
-[Second pass](#second-pass-intersection-matrix3f-cubicle). Deflectors were replaced, see
+`Matrix3f`, `Intersection` and `cubicle/*` were audited on 2026-11-04, see
+[Second pass](#second-pass-intersection-matrix3f-cubicle). `TransformMatrix4f` was audited on 2026-11-04, see
+[`TransformMatrix4f`](#transformmatrix4f). Deflectors were replaced, see
 [Deflector rework](#deflector-rework--colliders-).
 
 ## Method
@@ -218,8 +219,8 @@ Measured with the `SketchLessonX09_TriangleDeflector` setup ( 500 particles, 10 
 
 ## Second pass: `Intersection`, `Matrix3f`, `cubicle/*`
 
-Date: 2026-11-04. Status: **#18, #19, #21–26 are fixed, see [Second pass fix status](#second-pass-fix-status). #20 and
-#27–33 are open.** The findings below describe the code before the fixes.
+Date: 2026-11-04. Status: **#18–33 are fixed, see [Second pass fix status](#second-pass-fix-status). Low / hygiene items
+are open.** The findings below describe the code before the fixes.
 
 ### Method
 
@@ -320,30 +321,86 @@ user is `wip/Sketch_NonIntersectingStructures`. `Matrix3f` is reached through `T
 
 ### Second pass fix status
 
-Verified by `teilchen.test.TestGeometry` (all checks pass; 29 of its checks failed before the fixes). `TestIntegrators`
-and `TestColliders` still pass. `CubicleWorldView` was checked by recording the matrix it applies, not by rendering.
+Verified by `teilchen.test.TestGeometry` (all checks pass; checks were added first and failed before each fix).
+`TestIntegrators` and `TestColliders` still pass. `CubicleWorldView` was checked by recording the matrix it applies, not
+by rendering.
 
 | #  | Status | Change |
 |----|--------|--------|
 | 18 | Fixed | `intersect_line_segment_plane` computes `n·(origin − p1) / n·d`. |
 | 19 | Fixed | `Util.calculateNormal(AB, BC, result)` writes the normal to `result` and keeps its inputs. |
-| 20 | Open | `intersectRayPlane` still needs `normal = edge1 × edge2`, so `updateNormal()` and a `null` normal still miss. |
+| 20 | Fixed | `intersectRayPlane` computes `edge1 × edge2` itself and ignores `Plane3f.normal`. |
 | 21 | Fixed | Parallel check uses `-EPSILON`, quad mode bounds both parameters, edge `x = 0` counts as a hit. |
 | 22 | Fixed | Padding is always measured from the intersection, and a distance of 0 places the particle on it. 2D `intersect_line_line` takes `z` from segment a. |
 | 23 | Fixed | `Matrix3f.transform` computes `M · v`. `Matrix3f.transformInverse` added, used by `CubicleWorld`. |
 | 24 | Fixed | `CubicleWorldView` passes the matrix to `applyMatrix` in row order. |
 | 25 | Fixed | `CollisionManager` searches all cells within collision distance, and the off-world atom if the distance reaches past the world border. |
 | 26 | Fixed | `CubicleParticle.isActive()` is always `true`, so fixed particles are kept in the right cell. |
+| 27 | Fixed | An off-world entity is looked up by its position, so a far entity has no neighbors and an entity at the border finds the cells in its radius. |
+| 28 | Fixed | Radius queries accept positions outside of the world. |
+| 29 | Fixed | All `getLocalEntities` methods return a new list and never `null`. |
+| 30 | Fixed | `CubicleParticle` uses the position of `BasicParticle`, so `setPositionRef` works. |
+| 31 | Fixed | Functions named `ray` reject hits behind the origin: `intersect_ray_sphere`, `intersectRaySpherePoints` and the `IntersectionResult` overload of `intersectRayTriangle`. `intersectLinePlane` and 3D `intersect_line_line` stay infinite lines. |
+| 32 | Fixed | Parallel and degenerate checks are relative to the input lengths. |
+| 33 | Fixed | `CubicleWorld.update()` removes dead particles. |
 
-Note: after #21, a ray with `|direction · normal| ≤ EPSILON` counts as parallel from both sides. A very short ray from
-the front used to hit and now misses, which is part of #32.
+API changes:
 
-API change: `Matrix3f.transform` now rotates in the opposite direction, and `(a·b).transform(v)` applies `b` first.
-Sketches that relied on the old result can use `transformInverse` for pure rotations.
+- `Matrix3f.transform` rotates in the opposite direction, and `(a·b).transform(v)` applies `b` first. Sketches that
+  relied on the old result can use `transformInverse` for pure rotations. No example uses it.
+- `getLocalEntities` returns an empty list instead of `null`, and a copy instead of the live list. Use
+  `getAtom(x, y, z).data()` for the live list.
+- `intersect_ray_sphere`, `intersectRaySpherePoints` and `intersectRayTriangle( …, IntersectionResult, … )` no longer
+  report hits behind the origin. `intersect_ray_sphere` also ignores `p2` as an end point: it was documented as a
+  segment test but never behaved like one.
+- `intersectRayPlane` ignores `Plane3f.normal`.
+
+The `old_position` NaN reset from the former `dev` branch was checked and is not needed. With `Verlet`, a particle whose
+position and `old_position` are both NaN returns to the origin and is finite again after one more step
+( `TestIntegrators.testRecoverNaN` ).
 
 ### Remaining
 
-- #20 and #31 need a decision about the intended API.
-- #27–#30, #32 and #33 are open. Colliding through `CollisionManager` no longer goes through #27–#29, but direct calls
-  to `getLocalEntities` still do.
 - Low / hygiene items above are open.
+
+## `TransformMatrix4f`
+
+Date: 2026-11-04. Status: **no math errors found. All findings below are low severity and open.**
+
+### Method
+
+10000 random matrices, including non-orthogonal rotation parts, were compared with Processing's `PMatrix3D` for
+`multiply`, `determinant`, `transform` and the `toArray`/`set(float[])` round trip. The largest difference was 0, because
+both classes use the same formulas in the same order. `transform` and `multiply` were also checked against hand-computed
+values, and `a.multiply(b)` followed by `transform(v)` against `a.transform(b.transform(v))`. The probes are not committed.
+
+Blast radius: only `CubicleWorld` and `CubicleWorldView` use this class. No example calls its methods.
+
+### Findings
+
+34. **The default constructor creates a zero matrix.** `new TransformMatrix4f()` and `new TransformMatrix4f(pType)` with
+    an unknown type have a zero rotation part, so `transform((9, 9, 9))` returns only the translation. Only
+    `new TransformMatrix4f(TransformMatrix4f.IDENTITY)` is an identity. `Matrix3f` has the same constructors.
+35. **`IDENTITY` is a mutable `public static int`.** After `TransformMatrix4f.IDENTITY = 5`,
+    `new TransformMatrix4f(TransformMatrix4f.IDENTITY)` is a zero matrix. `Matrix3f.IDENTITY` is `final`.
+36. **`multiply` and `determinant` multiply by a `ZERO` constant.** A non-finite translation therefore poisons unrelated
+    results: with `translation.x = Infinity`, `determinant()` is `NaN` while `rotation.determinant()` is 1, and identity
+    × identity gives `rotation.xx = NaN`. `determinant()` can be `rotation.determinant()`.
+37. **`set(float[])` silently drops the last row** ( elements 3, 7, 11, 15 ). A projection matrix loses its projection
+    with no warning, and `toArray()` then returns `0, 0, 0, 1`. The class documentation does describe those four values as
+    constants.
+38. **The documentation is misleading.** The class comment shows `rxx rxy rxz 0` above `tx ty tz 1`, which does not match
+    `transform`: it computes `R · v + t` with `xx xy xz` as the first row and the translation as the last column.
+    `toString` prints the `toArray` memory order, so it also shows the translation as the last row. The `@todo` on
+    `transform` can go, because `transform` is correct.
+39. **`toArray` returns one shared buffer.** Two calls return the same array, and a held array only updates on the next
+    call. The `toArray()` calls in the constructors have no effect. *By reading:* this is not safe across threads.
+40. *By reading:* `rotation` and `translation` are public and not `final`, so they can be replaced or set to `null`. There
+    is no `invert`, so `CubicleWorld` composes the inverse by hand. The class ships test code in `main`.
+
+### Checked and correct
+
+`multiply` ( including `a.multiply(a)` ), `multiply(float)`, `multiply(float, matrix)`, `determinant`, `transform`,
+`toArray` ( OpenGL column-major ), `set`, the copy constructor ( deep copy ), `setIdentity`, `setRotationIdentity`,
+`setZero` and serialization. `CubicleWorld.worldposition2index` also inverts a rotation part that contains scale. In that
+case `CollisionManager` computes its search distance from the cell size only, as its documentation states.

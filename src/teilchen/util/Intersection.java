@@ -46,37 +46,41 @@ public final class Intersection implements Serializable {
     public static final int NOT_INTERSECTING = 3;
     public static final int PARALLEL = 1;
     private static final float EPSILON = 0.00001f;
+    /* cosine of the angle between a direction and a surface normal below which the two count as perpendicular */
+    private static final float PARALLEL_EPSILON = 0.000001f;
     private static final long serialVersionUID = -5392974339890719551L;
 
     /**
-     * http://local.wasp.uwa.edu.au/~pbourke/geometry/sphereline/raysphere.c Calculate the intersection of a ray and a
-     * sphere The line segment is defined from p1 to p2 The sphere is of radius r and centered at sc There are
-     * potentially two points of intersection given by p = p1 + mu1 (p2 - p1) p = p1 + mu2 (p2 - p1) Return FALSE if the
-     * ray doesn't intersect the sphere.
+     * tests a ray against a sphere. the ray starts at P1 and continues through P2 without an end. a sphere entirely
+     * behind P1 is not hit. a ray starting inside the sphere is a hit.
+     * <p>
+     * after http://local.wasp.uwa.edu.au/~pbourke/geometry/sphereline/raysphere.c
      *
-     * @param pP1           P1
-     * @param pP2           P2
+     * @param pP1           ray origin
+     * @param pP2           point on the ray
      * @param pSphereCenter sphere center
      * @param pSphereRadius sphere radius
      * @return returns true if intersection exists
      */
     public static boolean intersect_ray_sphere(PVector pP1, PVector pP2, PVector pSphereCenter, float pSphereRadius) {
-        float a, b, c;
-        float bb4ac;
-        PVector dp = new PVector();
+        final PVector d = sub(pP2, pP1);
+        final PVector o = sub(pP1, pSphereCenter);
+        final float a = d.dot(d);
+        if (a == 0.0f) {
+            return false;
+        }
+        final float b = 2 * d.dot(o);
+        final float c = o.dot(o) - pSphereRadius * pSphereRadius;
+        final float bb4ac = b * b - 4 * a * c;
+        if (bb4ac < 0) {
+            return false;
+        }
+        /* the larger root is negative only if the whole sphere is behind the origin */
+        return -b + (float) Math.sqrt(bb4ac) >= 0;
+    }
 
-        dp.x = pP2.x - pP1.x;
-        dp.y = pP2.y - pP1.y;
-        dp.z = pP2.z - pP1.z;
-        a = dp.x * dp.x + dp.y * dp.y + dp.z * dp.z;
-        b = 2 * (dp.x * (pP1.x - pSphereCenter.x) + dp.y * (pP1.y - pSphereCenter.y) + dp.z * (pP1.z - pSphereCenter.z));
-        c = pSphereCenter.x * pSphereCenter.x + pSphereCenter.y * pSphereCenter.y + pSphereCenter.z * pSphereCenter.z;
-        c += pP1.x * pP1.x + pP1.y * pP1.y + pP1.z * pP1.z;
-        c -= 2 * (pSphereCenter.x * pP1.x + pSphereCenter.y * pP1.y + pSphereCenter.z * pP1.z);
-        c -= pSphereRadius * pSphereRadius;
-        bb4ac = b * b - 4 * a * c;
-
-        return !(Math.abs(a) < EPSILON || bb4ac < 0);
+    private static float parallelThreshold(final PVector pDirection, final PVector pEdgeA, final PVector pEdgeB) {
+        return PARALLEL_EPSILON * pDirection.mag() * pEdgeA.cross(pEdgeB).mag();
     }
 
     /**
@@ -195,6 +199,18 @@ public final class Intersection implements Serializable {
     //        return true;
     //    }
 
+    /**
+     * tests a ray against the triangle ( or the parallelogram if <code>quad</code> is set ) spanned by the origin and
+     * the vectors A and B of the plane. despite the name, this does not test against the infinite plane. the normal of
+     * the plane is not used.
+     *
+     * @param pRay     ray
+     * @param pPlane   plane providing origin, vector A and vector B
+     * @param pResult  intersection point, or ( t, w1, w2 ) if <code>doPlanar</code> is set ( may be null )
+     * @param doPlanar store ray parameter and weights instead of the intersection point
+     * @param quad     test parallelogram instead of triangle
+     * @return true if the ray hits
+     */
     public static boolean intersectRayPlane(final Ray3f pRay,
                                             final Plane3f pPlane,
                                             final PVector pResult,
@@ -204,18 +220,16 @@ public final class Intersection implements Serializable {
         PVector edge1 = pPlane.vectorA; // mathematik.IntegrationUtil.sub(v1, v0);
         PVector edge2 = pPlane.vectorB; // mathematik.IntegrationUtil.sub(v2, v0);
 
-        PVector norm = pPlane.normal; //new PVector();
+        /* the bounds below rely on the length of this normal, so it can not be the unit normal of the plane */
+        PVector norm = new PVector();
+        cross(edge1, edge2, norm);
 
-        if (pPlane.normal == null) {
-            pPlane.updateNormal();
-            norm = pPlane.normal;
-        }
-
+        final float mParallel = PARALLEL_EPSILON * pRay.direction.mag() * norm.mag();
         float dirDotNorm = pRay.direction.dot(norm);
         float sign;
-        if (dirDotNorm > EPSILON) {
+        if (dirDotNorm > mParallel) {
             sign = 1;
-        } else if (dirDotNorm < -EPSILON) {
+        } else if (dirDotNorm < -mParallel) {
             sign = -1f;
             dirDotNorm = -dirDotNorm;
         } else {
@@ -266,6 +280,15 @@ public final class Intersection implements Serializable {
         return false;
     }
 
+    /**
+     * calculates the points where a ray enters and leaves a sphere. points behind the ray origin are left out.
+     *
+     * @param pSphereCenter sphere center
+     * @param pSphereRadius sphere radius
+     * @param pRayDirection ray direction
+     * @param pRayOrigin    ray origin
+     * @return one or two points, the farther point first. null if the ray does not hit the sphere
+     */
     public static PVector[] intersectRaySpherePoints(PVector pSphereCenter,
                                                      float pSphereRadius,
                                                      PVector pRayDirection,
@@ -282,29 +305,16 @@ public final class Intersection implements Serializable {
         if (disc < 0.0f) {
             return null;
         }
-        int numIntersections;
-        if (disc == 0.0f) {
-            numIntersections = 1;
-        } else {
-            numIntersections = 2;
+        final float t0 = (0.5f * (-b + (float) Math.sqrt(disc))) / a;
+        final float t1 = (0.5f * (-b - (float) Math.sqrt(disc))) / a;
+        if (t0 < 0.0f) {
+            return null;
         }
-
-        // Atleast one intersection
+        final int numIntersections = (disc == 0.0f || t1 < 0.0f) ? 1 : 2;
         PVector[] points = new PVector[numIntersections];
-        float t0;
-        float t1 = 0.0f;
-        t0 = ((0.5f * (-1.0f * b + (float) Math.sqrt(disc))) / a);
+        points[0] = add(pRayOrigin, mult(pRayDirection, t0));
         if (numIntersections == 2) {
-            t1 = ((0.5f * (-1.0f * b - (float) Math.sqrt(disc))) / a);
-        }
-        // point 1 of intersection
-        points[0] = Util.clone(pRayDirection);
-        points[0].mult(t0);
-        points[0].add(pRayOrigin);
-        if (numIntersections == 2) {
-            points[1] = Util.clone(pRayDirection);
-            points[1].mult(t1);
-            points[1].add(pRayOrigin);
+            points[1] = add(pRayOrigin, mult(pRayDirection, t1));
         }
         return points;
     }
@@ -342,7 +352,7 @@ public final class Intersection implements Serializable {
         edge2 = PVector.sub(v2, v0);
         h = pRayDirection.cross(edge2);
         a = edge1.dot(h);
-        if (a > -EPSILON && a < EPSILON) {
+        if (Math.abs(a) <= parallelThreshold(pRayDirection, edge1, edge2)) {
             return false;
         }
         f = 1 / a;
@@ -369,6 +379,8 @@ public final class Intersection implements Serializable {
     /**
      * Fast, Minimum Storage Ray-Triangle Intersection by Tomas Moeller &amp; Ben Trumbore
      * http://jgt.akpeters.com/papers/MollerTrumbore97/code.html
+     * <p>
+     * a triangle behind the ray origin is not hit. <code>pResult</code> is only valid if the method returns true.
      *
      * @param pRayOrigin    ray origin
      * @param pRayDirection ray direction
@@ -405,10 +417,11 @@ public final class Intersection implements Serializable {
 
         /* if determinant is near zero, ray lies in plane of triangle */
         det = TMP_EDGE_1.dot(P_VEC);
+        final float mParallel = parallelThreshold(pRayDirection, TMP_EDGE_1, TMP_EDGE_2);
 
         if (pCullingFlag) {
             /* define TEST_CULL if culling is desired */
-            if (det < M_EPSILON) {
+            if (det <= mParallel) {
                 return false;
             }
             /* calculate distance from vert0 to ray origin */
@@ -437,7 +450,7 @@ public final class Intersection implements Serializable {
             pResult.v *= inv_det;
         } else {
             /* the non-culling branch */
-            if (det > -M_EPSILON && det < M_EPSILON) {
+            if (Math.abs(det) <= mParallel) {
                 return false;
             }
             inv_det = 1.0f / det;
@@ -463,11 +476,10 @@ public final class Intersection implements Serializable {
             /* calculate t, ray intersects triangle */
             pResult.t = TMP_EDGE_2.dot(Q_VEC) * inv_det;
         }
-        return true;
+        return pResult.t > M_EPSILON;
     }
 
     /**
-     * TODO this does calculate the intersection point of two lines. pa + pb are always the same.
      * Calculate the line segment PaPb that is the shortest route between two lines P1P2 and P3P4. Calculate also the
      * values of mua and mub where Pa = P1 + mua (P2 - P1) Pb = P3 + mub (P4 - P3) Return FALSE if no solution exists.
      * <p>
@@ -491,14 +503,7 @@ public final class Intersection implements Serializable {
 
         final PVector p13 = sub(pP1, pP3);
         final PVector p43 = sub(pP4, pP3);
-        if (Math.abs(p43.x) < EPSILON && Math.abs(p43.y) < EPSILON && Math.abs(p43.z) < EPSILON) {
-            return false;
-        }
-
         final PVector p21 = sub(pP2, pP1);
-        if (Math.abs(p21.x) < EPSILON && Math.abs(p21.y) < EPSILON && Math.abs(p21.z) < EPSILON) {
-            return false;
-        }
 
         final float d1343 = p13.x * p43.x + p13.y * p43.y + p13.z * p43.z;
         final float d4321 = p43.x * p21.x + p43.y * p21.y + p43.z * p21.z;
@@ -506,8 +511,13 @@ public final class Intersection implements Serializable {
         final float d4343 = p43.x * p43.x + p43.y * p43.y + p43.z * p43.z;
         final float d2121 = p21.x * p21.x + p21.y * p21.y + p21.z * p21.z;
 
+        if (d2121 == 0.0f || d4343 == 0.0f) {
+            return false;
+        }
+
+        /* denom / ( d2121 * d4343 ) is the squared sine of the angle between the lines */
         final float denom = d2121 * d4343 - d4321 * d4321;
-        if (Math.abs(denom) < EPSILON) {
+        if (Math.abs(denom) <= EPSILON * d2121 * d4343) {
             return false;
         }
         final float numer = d1343 * d4321 - d1321 * d4343;
@@ -597,7 +607,7 @@ public final class Intersection implements Serializable {
                                               PVector plane_origin,
                                               PVector plane_normal) {
         double denominator = plane_normal.dot(ray_direction);
-        if (Math.abs(denominator) < 1e-6) {
+        if (Math.abs(denominator) <= PARALLEL_EPSILON * plane_normal.mag() * ray_direction.mag()) {
             // parallel to the plane, not intersecting
             return null;
         }
