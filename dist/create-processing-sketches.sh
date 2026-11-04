@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+set -e
 
 source config.build
 
@@ -10,6 +12,8 @@ OUTPUT_FOLDER=$2
 M_PACKAGE_FOLDER=$(echo $PROJECT_PACKAGE | sed -e 's/\./\//g')
 SRC_PATH="../src/$M_PACKAGE_FOLDER/$INPUT_FOLDER/"
 OUTPUT_DIR="../processing-library/$LIB_NAME/$OUTPUT_FOLDER"
+TMP_PDE=$(mktemp "${TMPDIR:-/tmp}/teilchen-sketch.XXXXXX")
+trap 'rm -f "$TMP_PDE"' EXIT
 
 if [ -d "$OUTPUT_DIR" ]; then
 	rm -rf "$OUTPUT_DIR"
@@ -46,8 +50,8 @@ do
 	sed '
 			# only consider the lines in PApplet
 			/extends PApplet/,/^}$/ !d
-			# remove all tabs from line start
-			s/[ ^I]*$//
+			# remove trailing whitespace
+			s/[[:space:]]*$//
 			# remove empty lines
 			/^$/ d
 			# remove private + protected + public
@@ -72,9 +76,9 @@ do
 			# remove trailing space
 			s/    //
 		'\
-		> /tmp/tmp.pde
+		> "$TMP_PDE"
 
-		cat /tmp/tmp.pde | \
+		cat "$TMP_PDE" | \
 		sed '
 			1 i\
 '"$M_IMPORTS"''\

@@ -1,8 +1,11 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
+# ROOT=$(pwd)
+ROOT=$(dirname "$0")
+
+set -e
+cd "$ROOT"
 source config.build
-
-ROOT=$(pwd)
 
 if [[ "$TERM" != "dumb" ]]; then
     C0=$(tput sgr0)
@@ -19,24 +22,33 @@ printJob()
 	echo $C0
 }
 
+JAR=../lib/$LIB_NAME.jar
+if [ ! -f "$JAR" ]; then
+	echo "+++ ERROR: '$JAR' does not exist. build it first ( e.g with 'release.sh <version> --build-only' )"
+	exit 1
+fi
+if [ -n "$(find ../src -name '*.java' -newer "$JAR" -print -quit)" ]; then
+	echo "+++ WARNING: '$JAR' is older than the sources in 'src' ( rebuild with 'release.sh <version> --build-only' )"
+fi
+
 printJob "create folder"
-sh $ROOT/create-folder.sh $LIB_NAME
+bash create-folder.sh $LIB_NAME
 printJob "copying jar"
-sh $ROOT/copy_jar.sh $LIB_NAME
+bash copy_jar.sh $LIB_NAME
 printJob "copying additional libs"
 for i in ${ADDITIONAL_LIBS[@]}; do
-	sh $ROOT/copy_additional_libs.sh $LIB_NAME $i
+	bash copy_additional_libs.sh $LIB_NAME $i
 done
 printJob "copying src"
-sh $ROOT/copy_src.sh $LIB_NAME
+bash copy_src.sh $LIB_NAME
 printJob "copying README"
-sh $ROOT/copy_readme.sh $LIB_NAME
+bash copy_readme.sh $LIB_NAME
 printJob "copying reference"
-sh $ROOT/copy_reference.sh $LIB_NAME
+bash copy_reference.sh $LIB_NAME
 printJob "creating processing sketches"
 for i in ${IO_EXAMPLE_PATHS[@]}; do
-	sh $ROOT/create-processing-sketches.sh $LIB_NAME $i
+	bash create-processing-sketches.sh $LIB_NAME $i
 done
 printJob "packing zip"
-sh $ROOT/pack-zip.sh $LIB_NAME
+bash pack-zip.sh $LIB_NAME
 printJob "done"

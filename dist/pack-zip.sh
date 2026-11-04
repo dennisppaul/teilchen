@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+set -e
 
 LIB_NAME=$1
 ZIP_NAME=../$LIB_NAME.zip
@@ -11,5 +13,5 @@ if [ -f "$ZIP_NAME" ]; then
 	rm "$ZIP_NAME"
 fi
 
-zip --quiet -r "$ZIP_NAME" ./$LIB_NAME
+zip --quiet -r "$ZIP_NAME" ./$LIB_NAME -x "*.DS_Store"
 cd ../dist/

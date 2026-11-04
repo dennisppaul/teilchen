@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+set -e
 
 LIB_NAME=$1
 ROOT=$(pwd)

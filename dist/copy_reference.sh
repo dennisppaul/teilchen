@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+set -e
 
 LIB_NAME=$1
 ROOT=$(pwd)
@@ -15,3 +17,4 @@ SRC=$ROOT/../docs
 DST=$ROOT/../processing-library/$LIB_NAME/reference
 
 cp -r "$SRC" "$DST"
+
