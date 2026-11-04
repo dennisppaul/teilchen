@@ -144,6 +144,21 @@ behaving like ×3.5 gravity / ×2 drag, and old `RungeKutta` like ×2–3 gravit
 The old `Verlet` did not build up velocity for a free particle, because `old_position` was overwritten each step.
 `Lesson08` and `X12` were left alone.
 
+Examples driven by attractors, behaviors and vector fields were fitted the same way ( `Motor` and `Attractor` paths
+over 2 s ). The old `Midpoint` behaved like ×4 force / ×2.5 drag, so force parameters ( strength, weights,
+`maximumInnerForce`, break force ) were scaled ×4 and drag ×2.5:
+
+| Example | Forces ( old → new ) | Drag ( old → new ) |
+|---|---|---|
+| `Lesson03` | attractor 150 → 600 | 0.75 → 1.9 |
+| `Lesson12` | max inner force 100 → 400 ( break radius kept at 25 ) | – |
+| `Lesson13` | max inner force 100 → 400, motor 25 → 100 | 1 → 2.5 |
+| `Lesson14` | vector field 40 → 160 | 0.75 → 1.9 |
+| `X06` | max inner force 50–150 → 200–600, break force 12–28 → 48–112 | 0.25 → 0.6 |
+| `X08` | max inner force ×4, weights 50/30/5 → 200/120/20, motor 20 → 80 | 1 → 2.5 |
+
+`Lesson04` and `Lesson05` keep their earlier spring tuning.
+
 ## Deflector rework ( colliders )
 
 ### Findings

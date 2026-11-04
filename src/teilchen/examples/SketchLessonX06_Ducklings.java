@@ -34,7 +34,7 @@ public class SketchLessonX06_Ducklings extends PApplet {
         mPhysics = new Physics();
 
         ViscousDrag mViscousDrag = new ViscousDrag();
-        mViscousDrag.coefficient = 0.25f;
+        mViscousDrag.coefficient = 0.6f;
         mPhysics.add(mViscousDrag);
 
         mCollision = new CollisionManager();
@@ -135,11 +135,11 @@ public class SketchLessonX06_Ducklings extends PApplet {
             /* create particles */
             particle = mPhysics.makeParticle(BasicBehaviorParticle.class);
             particle.position().set(random(width), random(height));
-            particle.maximumInnerForce(random(50, 150));
+            particle.maximumInnerForce(random(200, 600));
             particle.radius(random(6, 10));
 
             arrival = new Arrival();
-            arrival.breakforce(random(12, 28));
+            arrival.breakforce(random(48, 112));
             arrival.breakradius(random(45, 55));
 
             particle.behaviors().add(arrival);

@@ -28,13 +28,13 @@ public class SketchLesson12_ArrivalBehavior extends PApplet {
 
         /* create particles */
         mParticle = mPhysics.makeParticle(BasicBehaviorParticle.class);
-        mParticle.maximumInnerForce(100);
+        mParticle.maximumInnerForce(400);
         mParticle.radius(10);
 
         /* create behavior */
         mArrival = new Arrival();
         mArrival.breakforce(mParticle.maximumInnerForce() * 0.25f);
-        mArrival.breakradius(mParticle.maximumInnerForce() * 0.25f);
+        mArrival.breakradius(25);
         mParticle.behaviors().add(mArrival);
     }
 
