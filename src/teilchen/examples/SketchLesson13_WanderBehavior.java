@@ -5,6 +5,7 @@ import teilchen.BasicBehaviorParticle;
 import teilchen.Physics;
 import teilchen.behavior.Motor;
 import teilchen.behavior.Wander;
+import teilchen.constraint.Teleporter;
 import teilchen.force.ViscousDrag;
 
 public class SketchLesson13_WanderBehavior extends PApplet {
@@ -27,6 +28,12 @@ public class SketchLesson13_WanderBehavior extends PApplet {
         /* physics */
         mPhysics = new Physics();
         mPhysics.add(new ViscousDrag(2.5f));
+
+        /* teleport particles from one edge of the screen to the other */
+        Teleporter mTeleporter = new Teleporter();
+        mTeleporter.min().set(0, 0);
+        mTeleporter.max().set(width, height);
+        mPhysics.add(mTeleporter);
 
         /* create particles */
         mParticle = mPhysics.makeParticle(BasicBehaviorParticle.class);
