@@ -23,7 +23,7 @@
 
 - `TriangleDeflector`, `PlaneDeflector`, `SphereDeflector`, `LineDeflector2D` and the other `*Deflector` forces. internally they still use the new colliders.
 - `teilchen.integration.Util` ( use `IntegrationUtil` )
--  all examples use colliders and are re-tuned to the corrected integrators
+- all examples use colliders and are re-tuned to the corrected integrators
 
 ## v0.4 (20200616)
 
