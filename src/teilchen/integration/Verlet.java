@@ -35,6 +35,7 @@ public class Verlet implements Integrator {
     private float mDamping;
     private final PVector temp1;
     private final PVector temp2;
+    private final PVector mOldPosition;
 
     public Verlet() {
         this(1.0f);
@@ -44,6 +45,7 @@ public class Verlet implements Integrator {
         mDamping = pDamping;
         temp1 = new PVector();
         temp2 = new PVector();
+        mOldPosition = new PVector();
     }
 
     public float damping() {
@@ -70,7 +72,6 @@ public class Verlet implements Integrator {
     }
 
     private void integrate(float pDeltaTime, Particle pParticle) {
-        final PVector mOldPosition = new PVector();
         mOldPosition.set(pParticle.position());
 
         /*

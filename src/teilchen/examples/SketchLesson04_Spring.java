@@ -42,7 +42,8 @@ public class SketchLesson04_Spring extends PApplet {
          * in our case the restlength of the spring is defined by the
          * particles current position.
          */
-        mSpring = mPhysics.makeSpring(mA, mB);
+        /* spring constant ( stiffness ) of 4 and damping of 0.1 */
+        mSpring = mPhysics.makeSpring(mA, mB, 4.0f, 0.1f);
     }
 
     public void draw() {

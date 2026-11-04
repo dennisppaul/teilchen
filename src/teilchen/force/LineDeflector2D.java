@@ -25,117 +25,43 @@ package teilchen.force;
 
 import processing.core.PVector;
 import teilchen.Particle;
-import teilchen.Physics;
-import teilchen.util.Util;
+import teilchen.constraint.Collider;
+import teilchen.constraint.LineCollider2D;
 
-public class LineDeflector2D implements Force {
+/**
+ * @deprecated use {@link teilchen.constraint.LineCollider2D} and add it with <code>Physics.add(Constraint)</code>.
+ * this class wraps a <code>LineCollider2D</code> for compatibility.
+ */
+@Deprecated
+public class LineDeflector2D extends DeflectorAdapter {
 
-    private PVector a = new PVector();
-    private PVector b = new PVector();
-    private boolean mActive = true;
-    private float mCoefficientOfRestitution = 1.0f;
-    private boolean mDead = false;
-    private final long mID;
+    private final LineCollider2D mCollider = new LineCollider2D();
 
-    public LineDeflector2D() {
-        mID = Physics.getUniqueID();
+    public Collider collider() {
+        return mCollider;
     }
 
     public PVector normal() {
-        PVector mNormal = PVector.sub(b, a);
-        mNormal.normalize();
-        /* proper 3D version */
-        //            mNormal = mNormal.cross(new PVector(0, 0, 1));
-        /* 2D optimized version */
-        float y = -mNormal.x;
-        mNormal.x = mNormal.y;
-        mNormal.y = y;
-        return mNormal;
+        return mCollider.normal();
     }
 
     public PVector mid() {
-        return PVector.sub(b, a).mult(0.5f).add(a);
+        return PVector.sub(b(), a()).mult(0.5f).add(a());
     }
 
     public void calculateIntersection(Particle pParticle, float pDeltaTime) {
-        /* calc intersection from velocity */
-        //            PVector mForward = PVector.mult(pParticle.velocity(), pDeltaTime);
-        //            mForward.add(PVector.mult(pParticle.velocity(), pParticle.radius() / pParticle.velocity().mag()));
-        //            PVector mFuturePosition = PVector.add(pParticle.position(), mForward);
-        //            PVector mPointOfIntersection = new PVector();
-        //            int mIntersectionResult = Intersection.lineLineIntersect(pParticle.position(), mFuturePosition,
-        //            a, b,
-        // mPointOfIntersection);
-        //            if (mIntersectionResult == Intersection.INTERESECTING) {
-        //                PVector mReflection = Util.calculateReflectionVector(pParticle, normal());
-        //                pParticle.velocity().set(mReflection);
-        //                pParticle.tag(true);
-        //            }
-
-        /* calc intersection by closest distance to line */
-        PVector mProjectedPointOnLine = Util.projectPointOnLineSegment(a, b, pParticle.position());
-        float mDistanceToLine = PVector.sub(mProjectedPointOnLine, pParticle.position()).mag();
-        if (mDistanceToLine < pParticle.radius()) {
-            /* resolve collision */
-            PVector mPosition = PVector.sub(pParticle.position(), mProjectedPointOnLine);
-            mPosition.mult(pParticle.radius() / mPosition.mag());
-            mPosition.add(mProjectedPointOnLine);
-            pParticle.position().set(mPosition);
-            /* reflect velocity */
-            PVector mReflection = Util.calculateReflectionVector(pParticle, normal()).mult(mCoefficientOfRestitution);
-            pParticle.velocity().set(mReflection);
-            // TODO need to handle `old_position`
-            pParticle.tag(true);
-        }
-    }
-
-    @Override
-    public void apply(float pDeltaTime, Physics pParticleSystem) {
-        for (final Particle mParticle : pParticleSystem.particles()) {
-            if (!mParticle.fixed()) {
-                calculateIntersection(mParticle, pDeltaTime);
-            }
-        }
-    }
-
-    @Override
-    public boolean dead() {
-        return mDead;
-    }
-
-    @Override
-    public void dead(boolean pDead) {
-        mDead = pDead;
-    }
-
-    @Override
-    public boolean active() {
-        return mActive;
-    }
-
-    @Override
-    public void active(boolean pActiveState) {
-        mActive = pActiveState;
-    }
-
-    public long ID() {
-        return mID;
-    }
-
-    public void coefficientofrestitution(float pCoefficientOfRestitution) {
-        mCoefficientOfRestitution = pCoefficientOfRestitution;
+        mCollider.apply(pParticle);
     }
 
     public PVector a() {
-        return a;
+        return mCollider.a();
     }
 
     public PVector b() {
-        return b;
+        return mCollider.b();
     }
 
     public void set_edges(PVector a, PVector b) {
-        this.a = a;
-        this.b = b;
+        mCollider.set_edges(a, b);
     }
 }

@@ -60,24 +60,7 @@ public class Teleporter implements Constraint {
         }
 
         for (final Particle mParticle : pParticleSystem.particles()) {
-            if (mParticle.position().x > mMax.x) {
-                mParticle.position().x -= Math.abs(mMax.x - mMin.x);
-            }
-            if (mParticle.position().y > mMax.y) {
-                mParticle.position().y -= Math.abs(mMax.y - mMin.y);
-            }
-            if (mParticle.position().z > mMax.z) {
-                mParticle.position().z -= Math.abs(mMax.z - mMin.z);
-            }
-            if (mParticle.position().x < mMin.x) {
-                mParticle.position().x += Math.abs(mMax.x - mMin.x);
-            }
-            if (mParticle.position().y < mMin.y) {
-                mParticle.position().y += Math.abs(mMax.y - mMin.y);
-            }
-            if (mParticle.position().z < mMin.z) {
-                mParticle.position().z += Math.abs(mMax.z - mMin.z);
-            }
+            teilchen.util.Util.wrap(mParticle, mMin, mMax);
         }
     }
 

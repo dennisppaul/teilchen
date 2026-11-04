@@ -27,7 +27,7 @@ import processing.core.PVector;
 import teilchen.Connection;
 import teilchen.Particle;
 import teilchen.Physics;
-import teilchen.util.Util;
+import teilchen.integration.Verlet;
 
 import static teilchen.Physics.EPSILON;
 import static teilchen.util.Util.distance;
@@ -100,11 +100,58 @@ public class Stick implements Constraint, Connection {
         if (mA.fixed() && mB.fixed()) {
             return;
         }
+        applyPositionCorrection();
+        if (updatesVelocity(pParticleSystem)) {
+            removeAxialVelocity(mA, mB, mOneWay);
+        }
+    }
+
+    /**
+     * true if the integrator stores velocity explicitly ( i.e not <code>Verlet</code> ). in this case constraints
+     * that move particles also need to correct velocities.
+     */
+    protected static boolean updatesVelocity(Physics pParticleSystem) {
+        return pParticleSystem != null && !(pParticleSystem.getIntegrator() instanceof Verlet);
+    }
+
+    /**
+     * removes the relative velocity of A and B along the axis A-B so that the particles do not keep moving against
+     * the constraint. the velocity perpendicular to the axis ( e.g rotation ) is kept.
+     */
+    protected static void removeAxialVelocity(Particle pA, Particle pB, boolean pOneWay) {
+        float nX = pA.position().x - pB.position().x;
+        float nY = pA.position().y - pB.position().y;
+        float nZ = pA.position().z - pB.position().z;
+        final float mLengthSquared = nX * nX + nY * nY + nZ * nZ;
+        if (mLengthSquared == 0) {
+            return;
+        }
+        final float mInvLength = (float) (1.0 / Math.sqrt(mLengthSquared));
+        nX *= mInvLength;
+        nY *= mInvLength;
+        nZ *= mInvLength;
+        final PVector vA = pA.velocity();
+        final PVector vB = pB.velocity();
+        final float mRelativeVelocity = (vA.x - vB.x) * nX + (vA.y - vB.y) * nY + (vA.z - vB.z) * nZ;
+        final boolean mMoveA = !pA.fixed() && !pOneWay;
+        final boolean mMoveB = !pB.fixed();
+        if (mMoveA && mMoveB) {
+            final float h = mRelativeVelocity * 0.5f;
+            vA.sub(nX * h, nY * h, nZ * h);
+            vB.add(nX * h, nY * h, nZ * h);
+        } else if (mMoveA) {
+            vA.sub(nX * mRelativeVelocity, nY * mRelativeVelocity, nZ * mRelativeVelocity);
+        } else if (mMoveB) {
+            vB.add(nX * mRelativeVelocity, nY * mRelativeVelocity, nZ * mRelativeVelocity);
+        }
+    }
+
+    private void applyPositionCorrection() {
         PVector.sub(mA.position(), mB.position(), mTempDistanceVector);
         final float mDistanceSquared = lengthSquared(mTempDistanceVector);
         if (mDistanceSquared > 0) {
-            final float mInvDistance = Util.fastInverseSqrt(mDistanceSquared);
-            final float mDistance = 1.0f / mInvDistance;
+            final float mDistance = (float) Math.sqrt(mDistanceSquared);
+            final float mInvDistance = 1.0f / mDistance;
             final float mDifference = mRestLength - mDistance;
             if (mDifference > EPSILON || mDifference < -EPSILON) {
                 if (!mOneWay) {
@@ -122,7 +169,7 @@ public class Stick implements Constraint, Connection {
                         mB.position().sub(mTempVector);
                     }
                 } else {
-                    final float mDifferenceScale = mDifference * mInvDistance;
+                    final float mDifferenceScale = mDamping * mDifference * mInvDistance;
                     PVector.mult(mTempDistanceVector, mDifferenceScale, mTempVector);
                     mB.position().sub(mTempVector);
                 }

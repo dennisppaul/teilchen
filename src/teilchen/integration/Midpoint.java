@@ -23,57 +23,68 @@
 
 package teilchen.integration;
 
+import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
 
 import java.util.ArrayList;
 
+/**
+ * second-order midpoint integration. evaluates forces at the start of the step, advances half a step, evaluates
+ * forces again at the midpoint and then advances the original state a full step with the midpoint derivatives.
+ */
 public class Midpoint implements Integrator {
 
-    private final ArrayList<Derivate3f> mK1 = new ArrayList<>();
+    private final ArrayList<PVector> mOriginalPositions  = new ArrayList<>();
+    private final ArrayList<PVector> mOriginalVelocities = new ArrayList<>();
+    private final ArrayList<PVector> mOriginalForces     = new ArrayList<>();
 
     public void step(final float pDeltaTime, final Physics pParticleSystem) {
-        try {
-            synchronized (pParticleSystem.particles()) {
-                synchronized (mK1) {
-                    IntegrationUtil.checkContainerSize(pParticleSystem.particles().size(), mK1, Derivate3f.class);
-                    /* one */
-                    pParticleSystem.applyForces(pDeltaTime);
-                    IntegrationUtil.calculateDerivatives(pParticleSystem.particles(), mK1);
-                    for (int i = 0; i < pParticleSystem.particles().size(); i++) {
-                        Particle mParticle = pParticleSystem.particles().get(i);
-                        if (!mParticle.fixed()) {
-                            if (i < mK1.size()) {
-                                mParticle.position().x += mK1.get(i).px * pDeltaTime / 2;
-                                mParticle.position().y += mK1.get(i).py * pDeltaTime / 2;
-                                mParticle.position().z += mK1.get(i).pz * pDeltaTime / 2;
-                                mParticle.position().x += mK1.get(i).vx * pDeltaTime / 2;
-                                mParticle.position().y += mK1.get(i).vy * pDeltaTime / 2;
-                                mParticle.position().z += mK1.get(i).vz * pDeltaTime / 2;
-                            }
-                        }
-                    }
+        final ArrayList<Particle> mParticles = pParticleSystem.particles();
+        synchronized (mParticles) {
+            /* inner forces ( e.g behaviors ) are evaluated once per step */
+            pParticleSystem.accumulateInnerForces(pDeltaTime);
 
-                    /* two */
-                    pParticleSystem.applyForces(pDeltaTime);
-                    IntegrationUtil.calculateDerivatives(pParticleSystem.particles(), mK1);
-                    for (int i = 0; i < pParticleSystem.particles().size(); i++) {
-                        Particle mParticle = pParticleSystem.particles().get(i);
-                        if (!mParticle.fixed()) {
-                            if (i < mK1.size()) {
-                                mParticle.position().x += mK1.get(i).px * pDeltaTime;
-                                mParticle.position().y += mK1.get(i).py * pDeltaTime;
-                                mParticle.position().z += mK1.get(i).pz * pDeltaTime;
-                                mParticle.velocity().x += mK1.get(i).vx * pDeltaTime;
-                                mParticle.velocity().y += mK1.get(i).vy * pDeltaTime;
-                                mParticle.velocity().z += mK1.get(i).vz * pDeltaTime;
-                            }
-                        }
-                    }
+            final int mSize = mParticles.size();
+            IntegrationUtil.checkContainerSize(mSize, mOriginalPositions, PVector.class);
+            IntegrationUtil.checkContainerSize(mSize, mOriginalVelocities, PVector.class);
+            IntegrationUtil.checkContainerSize(mSize, mOriginalForces, PVector.class);
+            IntegrationUtil.saveState(mParticles, mOriginalPositions, mOriginalVelocities, mOriginalForces);
+
+            /* one: derivatives at start, advance half a step */
+            pParticleSystem.applyForces(pDeltaTime, false);
+            final float mHalfDeltaTime = pDeltaTime * 0.5f;
+            for (int i = 0; i < mSize; i++) {
+                final Particle mParticle = mParticles.get(i);
+                if (!mParticle.fixed()) {
+                    final PVector x0 = mOriginalPositions.get(i);
+                    final PVector v0 = mOriginalVelocities.get(i);
+                    final PVector f  = mParticle.force();
+                    final float   s  = mHalfDeltaTime / mParticle.mass();
+                    mParticle.position().set(x0.x + v0.x * mHalfDeltaTime,
+                                             x0.y + v0.y * mHalfDeltaTime,
+                                             x0.z + v0.z * mHalfDeltaTime);
+                    mParticle.velocity().set(v0.x + f.x * s, v0.y + f.y * s, v0.z + f.z * s);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+
+            /* two: derivatives at midpoint, advance original state a full step */
+            IntegrationUtil.restoreForces(mParticles, mOriginalForces);
+            pParticleSystem.applyForces(pDeltaTime, false);
+            for (int i = 0; i < mSize; i++) {
+                final Particle mParticle = mParticles.get(i);
+                if (!mParticle.fixed()) {
+                    final PVector x0 = mOriginalPositions.get(i);
+                    final PVector v0 = mOriginalVelocities.get(i);
+                    final PVector vm = mParticle.velocity();
+                    final PVector f  = mParticle.force();
+                    final float   s  = pDeltaTime / mParticle.mass();
+                    mParticle.position().set(x0.x + vm.x * pDeltaTime,
+                                             x0.y + vm.y * pDeltaTime,
+                                             x0.z + vm.z * pDeltaTime);
+                    mParticle.velocity().set(v0.x + f.x * s, v0.y + f.y * s, v0.z + f.z * s);
+                }
+            }
         }
     }
 }

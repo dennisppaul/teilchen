@@ -30,6 +30,7 @@ import teilchen.Physics;
 import teilchen.force.Attractor;
 import teilchen.force.Force;
 import teilchen.force.Spring;
+import teilchen.constraint.TriangleCollider;
 import teilchen.force.TriangleDeflector;
 
 import java.util.List;
@@ -127,6 +128,19 @@ public class DrawLib {
      * @param pBBColor           bounding box color
      * @param pNormalColor       normal color
      */
+    public static void draw(final PGraphics g,
+                            final TriangleCollider pTriangleCollider,
+                            int pTriangleColor,
+                            int pHitColor,
+                            int pNormalColor) {
+        final int mTriangleColor = pTriangleCollider.hit() ? pHitColor : pTriangleColor;
+        draw(g, pTriangleCollider.a(), pTriangleCollider.b(), pTriangleCollider.c(), mTriangleColor, pNormalColor);
+    }
+
+    /**
+     * @deprecated use {@link #draw(PGraphics, TriangleCollider, int, int, int)}
+     */
+    @Deprecated
     public static void draw(final PGraphics g,
                             final TriangleDeflector pTriangleDeflector,
                             int pTriangleColor,

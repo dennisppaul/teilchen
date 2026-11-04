@@ -4,8 +4,8 @@ import processing.core.PApplet;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.ShortLivedParticle;
+import teilchen.constraint.SphereCollider;
 import teilchen.force.Gravity;
-import teilchen.force.SphereDeflector;
 import teilchen.force.ViscousDrag;
 
 import java.util.ArrayList;
@@ -13,13 +13,13 @@ import java.util.ArrayList;
 public class SketchLesson11_SphereDeflector extends PApplet {
 
     /*
-     * this sketch demonstrates how to create and use `SphereDeflector` and how to use
+     * this sketch demonstrates how to create and use `SphereCollider` and how to use
      * `ShortLivedParticle` a particle that only exists for a defined period of time.
      *
      * move mouse to spawn particles anywhere on the screen.
      */
 
-    private final ArrayList<SphereDeflector> mDeflectors = new ArrayList<>();
+    private final ArrayList<SphereCollider> mDeflectors = new ArrayList<>();
     private Physics mPhysics;
 
     public void settings() {
@@ -31,7 +31,7 @@ public class SketchLesson11_SphereDeflector extends PApplet {
         mPhysics = new Physics();
 
         for (int i = 0; i < 32; i++) {
-            SphereDeflector d = new SphereDeflector();
+            SphereCollider d = new SphereCollider();
             d.radius(random(20, 60));
             d.coefficientofrestitution(0.9f);
             d.position().set(random(width), random(height));
@@ -41,12 +41,12 @@ public class SketchLesson11_SphereDeflector extends PApplet {
 
         /* create gravity */
         Gravity mGravity = new Gravity();
-        mGravity.force().y = 50;
+        mGravity.force().y = 175;
         mPhysics.add(mGravity);
 
         /* create drag */
         ViscousDrag mViscousDrag = new ViscousDrag();
-        mViscousDrag.coefficient = 0.1f;
+        mViscousDrag.coefficient = 0.2f;
         mPhysics.add(mViscousDrag);
     }
 
@@ -83,7 +83,7 @@ public class SketchLesson11_SphereDeflector extends PApplet {
         }
 
         /* draw deflector */
-        for (SphereDeflector d : mDeflectors) {
+        for (SphereCollider d : mDeflectors) {
             drawDeflector(d);
         }
 
@@ -91,7 +91,7 @@ public class SketchLesson11_SphereDeflector extends PApplet {
         mPhysics.removeTags();
     }
 
-    private void drawDeflector(SphereDeflector mDeflector) {
+    private void drawDeflector(SphereCollider mDeflector) {
         noStroke();
         fill(0);
         circle(mDeflector.position().x, mDeflector.position().y, mDeflector.radius() * 2);

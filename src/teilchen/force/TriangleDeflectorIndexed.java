@@ -23,6 +23,10 @@
 
 package teilchen.force;
 
+/**
+ * @deprecated use {@link teilchen.constraint.TriangleMeshCollider} with an indexed vertex array.
+ */
+@Deprecated
 public class TriangleDeflectorIndexed extends TriangleDeflector {
 
     private final int a_index;

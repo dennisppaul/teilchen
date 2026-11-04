@@ -125,87 +125,48 @@ public class Spring implements Force, Connection {
     }
 
     public void apply(final float pDeltaTime, final Physics pParticleSystem) {
-        if (!(mA.fixed() && mB.fixed())) {
-            final PVector mAB = PVector.sub(mA.position(), mB.position());
-            final float mInvDistance;
-            final float mDistance;
-            if (USE_FAST_SQRT) {
-                final float mInvDistanceSquared = mAB.magSq();
-                if (mInvDistanceSquared == 0.0f) {
-                    return; /* prevent division by zero */
-                }
-                mInvDistance = Util.fastInverseSqrt(mInvDistanceSquared);
-                mDistance = 1.0f / mInvDistance;
-            } else {
-                mDistance = mAB.mag();
-                if (mDistance == 0.0f) {
-                    return; /* prevent division by zero */
-                }
-                mInvDistance = 1.0f / mDistance;
-            }
-            final float mSpringForce = -mSpringConstant * (mDistance - mRestLength); // Fspring = - k * x
-            final PVector mABV = PVector.sub(mA.velocity(), mB.velocity());
-            final PVector mForce = new PVector().set(-mSpringForce, -mSpringForce, -mSpringForce);
-            Util.scale(mABV, mAB);
-            mABV.mult(mInvDistance);
-            mABV.mult(mSpringDamping);
-            mForce.add(mABV);
-            mAB.mult(-mInvDistance);
-            Util.scale(mForce, mAB);
+        if (mA.fixed() && mB.fixed()) {
+            return;
+        }
+        /* see http://paulbourke.net/miscellaneous/particle/ */
+        float nX = mA.position().x - mB.position().x;
+        float nY = mA.position().y - mB.position().y;
+        float nZ = mA.position().z - mB.position().z;
+        final float mDistanceSquared = nX * nX + nY * nY + nZ * nZ;
+        if (mDistanceSquared == 0.0f) {
+            return; /* prevent division by zero */
+        }
+        final float mInvDistance = USE_FAST_SQRT ? Util.fastInverseSqrt(mDistanceSquared) :
+                                   (float) (1.0 / Math.sqrt(mDistanceSquared));
+        final float mDistance = mDistanceSquared * mInvDistance;
+        /* unit vector from B to A */
+        nX *= mInvDistance;
+        nY *= mInvDistance;
+        nZ *= mInvDistance;
 
-            if (mOneWay) {
-                if (!mB.fixed()) {
-                    mForce.mult(-2);
-                    mB.force().add(mForce);
-                }
-            } else {
-                if (!mA.fixed()) {
-                    mA.force().add(mForce);
-                }
-                if (!mB.fixed()) {
-                    mB.force().sub(mForce);
-                }
-            }
-            // see http://paulbourke.net/miscellaneous/particle/
+        /* Fspring = -k * x */
+        final float mSpringForce = -mSpringConstant * (mDistance - mRestLength);
+        /* Fdamping = -c * ( relative velocity projected onto spring axis ) */
+        final float vX = mA.velocity().x - mB.velocity().x;
+        final float vY = mA.velocity().y - mB.velocity().y;
+        final float vZ = mA.velocity().z - mB.velocity().z;
+        final float mDampingForce = -mSpringDamping * (vX * nX + vY * nY + vZ * nZ);
+        final float r = mSpringForce + mDampingForce;
+        final float fX = nX * r;
+        final float fY = nY * r;
+        final float fZ = nZ * r;
 
-//            float a2bX = mA.position().x - mB.position().x;
-//            float a2bY = mA.position().y - mB.position().y;
-//            float a2bZ = mA.position().z - mB.position().z;
-//            final float mInversDistance = fastInverseSqrt(a2bX * a2bX + a2bY * a2bY + a2bZ * a2bZ);
-//            final float mDistance = 1.0f / mInversDistance;
-//
-//            if (mDistance == 0.0f) {
-//                a2bX = 0.0f;
-//                a2bY = 0.0f;
-//                a2bZ = 0.0f;
-//            } else {
-//                a2bX *= mInversDistance;
-//                a2bY *= mInversDistance;
-//                a2bZ *= mInversDistance;
-//            }
-//
-//            final float mSpringForce = -(mDistance - mRestLength) * mSpringConstant;
-//            final float Va2bX = mA.velocity().x - mB.velocity().x;
-//            final float Va2bY = mA.velocity().y - mB.velocity().y;
-//            final float Va2bZ = mA.velocity().z - mB.velocity().z;
-//            final float mDampingForce = -mSpringDamping * (a2bX * Va2bX + a2bY * Va2bY + a2bZ * Va2bZ);
-//            final float r = mSpringForce + mDampingForce;
-//            a2bX *= r;
-//            a2bY *= r;
-//            a2bZ *= r;
-//
-//            if (mOneWay) {
-//                if (!mB.fixed()) {
-//                    mB.force().add(-2 * a2bX, -2 * a2bY, -2 * a2bZ);
-//                }
-//            } else {
-//                if (!mA.fixed()) {
-//                    mA.force().add(a2bX, a2bY, a2bZ);
-//                }
-//                if (!mB.fixed()) {
-//                    mB.force().add(-a2bX, -a2bY, -a2bZ);
-//                }
-//            }
+        if (mOneWay) {
+            if (!mB.fixed()) {
+                mB.force().add(-2 * fX, -2 * fY, -2 * fZ);
+            }
+        } else {
+            if (!mA.fixed()) {
+                mA.force().add(fX, fY, fZ);
+            }
+            if (!mB.fixed()) {
+                mB.force().add(-fX, -fY, -fZ);
+            }
         }
     }
 

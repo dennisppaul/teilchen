@@ -55,7 +55,7 @@ public class ParticleTrail {
     private static <T extends Particle> T createParticle(Class<T> pParticleClass) {
         T mParticle;
         try {
-            mParticle = pParticleClass.newInstance();
+            mParticle = pParticleClass.getDeclaredConstructor().newInstance();
         } catch (Exception ex) {
             System.err.println(ex);
             mParticle = null;

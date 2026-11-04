@@ -61,15 +61,15 @@ class SwarmEntity extends BasicBehaviorParticle {
     SwarmEntity() {
         maximumInnerForce(random(100.0f, 1000.0f));
         radius(10f);
-        separation = new Separation();
+        separation = new Separation<>();
         separation.proximity(20);
         separation.weight(50.0f);
         behaviors().add(separation);
-        alignment = new Alignment();
+        alignment = new Alignment<>();
         alignment.proximity(30);
         alignment.weight(30.0f);
         behaviors().add(alignment);
-        cohesion = new Cohesion();
+        cohesion = new Cohesion<>();
         cohesion.proximity(100);
         cohesion.weight(5.0f);
         behaviors().add(cohesion);

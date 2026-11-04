@@ -24,93 +24,31 @@
 package teilchen.force;
 
 import processing.core.PVector;
-import teilchen.Particle;
-import teilchen.Physics;
+import teilchen.constraint.Collider;
+import teilchen.constraint.SphereCollider;
 
-import static teilchen.util.Util.reflect;
+/**
+ * @deprecated use {@link teilchen.constraint.SphereCollider} and add it with <code>Physics.add(Constraint)</code>.
+ * this class wraps a <code>SphereCollider</code> for compatibility.
+ */
+@Deprecated
+public class SphereDeflector extends DeflectorAdapter {
 
-public class SphereDeflector implements Force {
+    private final SphereCollider mCollider = new SphereCollider();
 
-    private final PVector fPosition = new PVector();
-    private float fRadius;
-    private boolean fActive = true;
-    private float fCoefficientOfRestitution = 1.0f;
-    private boolean fDead = false;
-    private final long fID;
-
-    public SphereDeflector() {
-        fID = Physics.getUniqueID();
-    }
-
-    private void calculateIntersection(Particle particle, float delta_time) {
-        final PVector mDeflectorToParticle = PVector.sub(particle.position(), fPosition);
-        final float mDistance = mDeflectorToParticle.mag();
-        final float mMinimumDistance = fRadius + particle.radius();
-        final float mOverlap = mDistance - mMinimumDistance;
-
-        if (mOverlap < 0) {
-            /* resolve collision */
-            final PVector mNormal = PVector.mult(mDeflectorToParticle, 1.0f / mDistance);
-            final PVector mPointOnCircle = PVector.mult(mNormal, mMinimumDistance).add(fPosition);
-            final PVector mOverlapVector = PVector.sub(particle.position(), mPointOnCircle);
-            particle.position().set(mPointOnCircle);
-            if (mOverlap > -particle.radius()) {
-                final PVector mPositionFraction = reflect(mOverlapVector, mNormal, false);
-                particle.position().add(mPositionFraction);
-            }
-            /* reflect velocity */
-            final PVector mReflection = reflect(particle.velocity(), mNormal, false);
-            particle.velocity().set(mReflection).mult(fCoefficientOfRestitution);
-            particle.tag(true);
-        }
-    }
-
-    @Override
-    public void apply(float pDeltaTime, Physics pParticleSystem) {
-        for (final Particle mParticle : pParticleSystem.particles()) {
-            if (!mParticle.fixed()) {
-                calculateIntersection(mParticle, pDeltaTime);
-            }
-        }
-    }
-
-    @Override
-    public boolean dead() {
-        return fDead;
-    }
-
-    @Override
-    public void dead(boolean pDead) {
-        fDead = pDead;
-    }
-
-    @Override
-    public boolean active() {
-        return fActive;
-    }
-
-    @Override
-    public void active(boolean pActiveState) {
-        fActive = pActiveState;
-    }
-
-    public long ID() {
-        return fID;
-    }
-
-    public void coefficientofrestitution(float pCoefficientOfRestitution) {
-        fCoefficientOfRestitution = pCoefficientOfRestitution;
+    public Collider collider() {
+        return mCollider;
     }
 
     public PVector position() {
-        return fPosition;
+        return mCollider.position();
     }
 
     public float radius() {
-        return fRadius;
+        return mCollider.radius();
     }
 
-    public void radius(float radius) {
-        fRadius = radius;
+    public void radius(float pRadius) {
+        mCollider.radius(pRadius);
     }
 }

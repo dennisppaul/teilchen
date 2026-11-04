@@ -29,188 +29,75 @@ import teilchen.Physics;
 
 import java.util.ArrayList;
 
+/**
+ * classic fourth-order runge-kutta integration.
+ */
 public class RungeKutta implements Integrator {
 
-    private final ArrayList<PVector> mK1Forces;
-    private final ArrayList<PVector> mK1Velocities;
-    private final ArrayList<PVector> mK2Forces;
-    private final ArrayList<PVector> mK2Velocities;
-    private final ArrayList<PVector> mK3Forces;
-    private final ArrayList<PVector> mK3Velocities;
-    private final ArrayList<PVector> mK4Forces;
-    private final ArrayList<PVector> mK4Velocities;
-    private final ArrayList<PVector> mOriginalPositions;
-    private final ArrayList<PVector> mOriginalVelocities;
+    private static final float[] STAGE_OFFSET = {0.5f, 0.5f, 1.0f};
+    private static final float[] STAGE_WEIGHT = {1.0f, 2.0f, 2.0f, 1.0f};
 
-    public RungeKutta() {
-        mOriginalPositions = new ArrayList<>();
-        mOriginalVelocities = new ArrayList<>();
-        mK1Forces = new ArrayList<>();
-        mK1Velocities = new ArrayList<>();
-        mK2Forces = new ArrayList<>();
-        mK2Velocities = new ArrayList<>();
-        mK3Forces = new ArrayList<>();
-        mK3Velocities = new ArrayList<>();
-        mK4Forces = new ArrayList<>();
-        mK4Velocities = new ArrayList<>();
-    }
+    private final ArrayList<PVector> mOriginalPositions  = new ArrayList<>();
+    private final ArrayList<PVector> mOriginalVelocities = new ArrayList<>();
+    private final ArrayList<PVector> mOriginalForces     = new ArrayList<>();
+    private final ArrayList<PVector> mSumVelocities      = new ArrayList<>();
+    private final ArrayList<PVector> mSumAccelerations   = new ArrayList<>();
 
     public void step(final float pDeltaTime, final Physics pParticleSystem) {
+        final ArrayList<Particle> mParticles = pParticleSystem.particles();
+        synchronized (mParticles) {
+            /* inner forces ( e.g behaviors ) are evaluated once per step */
+            pParticleSystem.accumulateInnerForces(pDeltaTime);
 
-        final int mSize = pParticleSystem.particles().size();
-        IntegrationUtil.checkContainerSize(mSize, mOriginalPositions, PVector.class);
-        IntegrationUtil.checkContainerSize(mSize, mOriginalVelocities, PVector.class);
-        IntegrationUtil.checkContainerSize(mSize, mK1Forces, PVector.class);
-        IntegrationUtil.checkContainerSize(mSize, mK1Velocities, PVector.class);
-        IntegrationUtil.checkContainerSize(mSize, mK2Forces, PVector.class);
-        IntegrationUtil.checkContainerSize(mSize, mK2Velocities, PVector.class);
-        IntegrationUtil.checkContainerSize(mSize, mK3Forces, PVector.class);
-        IntegrationUtil.checkContainerSize(mSize, mK3Velocities, PVector.class);
-        IntegrationUtil.checkContainerSize(mSize, mK4Forces, PVector.class);
-        IntegrationUtil.checkContainerSize(mSize, mK4Velocities, PVector.class);
-
-        /* save original position and velocities */
-        for (int i = 0; i < pParticleSystem.particles().size(); ++i) {
-            final Particle mParticle = pParticleSystem.particles().get(i);
-            if (!mParticle.fixed()) {
-                mOriginalPositions.get(i).set(mParticle.position());
-                mOriginalVelocities.get(i).set(mParticle.velocity());
+            final int mSize = mParticles.size();
+            IntegrationUtil.checkContainerSize(mSize, mOriginalPositions, PVector.class);
+            IntegrationUtil.checkContainerSize(mSize, mOriginalVelocities, PVector.class);
+            IntegrationUtil.checkContainerSize(mSize, mOriginalForces, PVector.class);
+            IntegrationUtil.checkContainerSize(mSize, mSumVelocities, PVector.class);
+            IntegrationUtil.checkContainerSize(mSize, mSumAccelerations, PVector.class);
+            IntegrationUtil.saveState(mParticles, mOriginalPositions, mOriginalVelocities, mOriginalForces);
+            for (int i = 0; i < mSize; i++) {
+                mSumVelocities.get(i).set(0, 0, 0);
+                mSumAccelerations.get(i).set(0, 0, 0);
             }
-        }
 
-        /* get all the k1 values */
-        pParticleSystem.applyForces(pDeltaTime);
+            for (int k = 0; k < 4; k++) {
+                /* evaluate derivatives ( k1 .. k4 ) at current state */
+                if (k > 0) {
+                    IntegrationUtil.restoreForces(mParticles, mOriginalForces);
+                }
+                pParticleSystem.applyForces(pDeltaTime, false);
 
-        /* save the intermediate forces */
-        for (int i = 0; i < pParticleSystem.particles().size(); ++i) {
-            final Particle mParticle = pParticleSystem.particles().get(i);
-            if (!mParticle.fixed()) {
-                mK1Forces.get(i).set(mParticle.force());
-                mK1Velocities.get(i).set(mParticle.velocity());
-            }
-        }
+                for (int i = 0; i < mSize; i++) {
+                    final Particle mParticle = mParticles.get(i);
+                    if (mParticle.fixed()) {
+                        continue;
+                    }
+                    final PVector v = mParticle.velocity();
+                    final PVector f = mParticle.force();
+                    final float   w = STAGE_WEIGHT[k];
+                    final float   m = mParticle.mass();
+                    final PVector mSumV = mSumVelocities.get(i);
+                    final PVector mSumA = mSumAccelerations.get(i);
+                    mSumV.add(v.x * w, v.y * w, v.z * w);
+                    mSumA.add(f.x * w / m, f.y * w / m, f.z * w / m);
 
-        /* get k2 values */
-        for (int i = 0; i < pParticleSystem.particles().size(); ++i) {
-            final Particle mParticle = pParticleSystem.particles().get(i);
-            if (!mParticle.fixed()) {
-                final PVector originalPosition = mOriginalPositions.get(i);
-                final PVector k1Velocity = mK1Velocities.get(i);
-
-                mParticle.position().x = originalPosition.x + k1Velocity.x * 0.5f * pDeltaTime;
-                mParticle.position().y = originalPosition.y + k1Velocity.y * 0.5f * pDeltaTime;
-                mParticle.position().z = originalPosition.z + k1Velocity.z * 0.5f * pDeltaTime;
-
-                final PVector originalVelocity = mOriginalVelocities.get(i);
-                final PVector k1Force = mK1Forces.get(i);
-
-                mParticle.velocity().x = originalVelocity.x + k1Force.x * 0.5f * pDeltaTime / mParticle.mass();
-                mParticle.velocity().y = originalVelocity.y + k1Force.y * 0.5f * pDeltaTime / mParticle.mass();
-                mParticle.velocity().z = originalVelocity.z + k1Force.z * 0.5f * pDeltaTime / mParticle.mass();
-            }
-        }
-
-        pParticleSystem.applyForces(pDeltaTime);
-
-        /* save the intermediate forces */
-        for (int i = 0; i < pParticleSystem.particles().size(); ++i) {
-            final Particle mParticle = pParticleSystem.particles().get(i);
-            if (!mParticle.fixed()) {
-                mK2Forces.get(i).set(mParticle.force());
-                mK2Velocities.get(i).set(mParticle.velocity());
-            }
-        }
-
-        /* get k3 values */
-        for (int i = 0; i < pParticleSystem.particles().size(); ++i) {
-            final Particle mParticle = pParticleSystem.particles().get(i);
-            if (!mParticle.fixed()) {
-                final PVector originalPosition = mOriginalPositions.get(i);
-                final PVector k2Velocity = mK2Velocities.get(i);
-
-                mParticle.position().x = originalPosition.x + k2Velocity.x * 0.5f * pDeltaTime;
-                mParticle.position().y = originalPosition.y + k2Velocity.y * 0.5f * pDeltaTime;
-                mParticle.position().z = originalPosition.z + k2Velocity.z * 0.5f * pDeltaTime;
-
-                final PVector originalVelocity = mOriginalVelocities.get(i);
-                final PVector k2Force = mK2Forces.get(i);
-
-                mParticle.velocity().x = originalVelocity.x + k2Force.x * 0.5f * pDeltaTime / mParticle.mass();
-                mParticle.velocity().y = originalVelocity.y + k2Force.y * 0.5f * pDeltaTime / mParticle.mass();
-                mParticle.velocity().z = originalVelocity.z + k2Force.z * 0.5f * pDeltaTime / mParticle.mass();
-            }
-        }
-
-        pParticleSystem.applyForces(pDeltaTime);
-
-        /* save the intermediate forces */
-        for (int i = 0; i < pParticleSystem.particles().size(); ++i) {
-            final Particle mParticle = pParticleSystem.particles().get(i);
-            if (!mParticle.fixed()) {
-                (mK3Forces.get(i)).set(mParticle.force());
-                (mK3Velocities.get(i)).set(mParticle.velocity());
-            }
-        }
-
-        /* get k4 values */
-        for (int i = 0; i < pParticleSystem.particles().size(); ++i) {
-            final Particle mParticle = pParticleSystem.particles().get(i);
-            if (!mParticle.fixed()) {
-                final PVector originalPosition = mOriginalPositions.get(i);
-                final PVector k3Velocity = mK3Velocities.get(i);
-
-                mParticle.position().x = originalPosition.x + k3Velocity.x * pDeltaTime;
-                mParticle.position().y = originalPosition.y + k3Velocity.y * pDeltaTime;
-                mParticle.position().z = originalPosition.z + k3Velocity.z * pDeltaTime;
-
-                final PVector originalVelocity = mOriginalVelocities.get(i);
-                final PVector k3Force = mK3Forces.get(i);
-
-                mParticle.velocity().x = originalVelocity.x + k3Force.x * pDeltaTime / mParticle.mass();
-                mParticle.velocity().y = originalVelocity.y + k3Force.y * pDeltaTime / mParticle.mass();
-                mParticle.velocity().z = originalVelocity.z + k3Force.z * pDeltaTime / mParticle.mass();
-            }
-        }
-
-        pParticleSystem.applyForces(pDeltaTime);
-
-        /* save the intermediate forces */
-        for (int i = 0; i < pParticleSystem.particles().size(); ++i) {
-            final Particle mParticle = pParticleSystem.particles().get(i);
-            if (!mParticle.fixed()) {
-                mK4Forces.get(i).set(mParticle.force());
-                mK4Velocities.get(i).set(mParticle.velocity());
-            }
-        }
-
-        /* put them all together and what do you get? */
-        for (int i = 0; i < pParticleSystem.particles().size(); ++i) {
-            final Particle mParticle = pParticleSystem.particles().get(i);
-            if (!mParticle.fixed()) {
-                /* update position */
-                final PVector originalPosition = mOriginalPositions.get(i);
-                final PVector k1Velocity = mK1Velocities.get(i);
-                final PVector k2Velocity = mK2Velocities.get(i);
-                final PVector k3Velocity = mK3Velocities.get(i);
-                final PVector k4Velocity = mK4Velocities.get(i);
-
-                mParticle.position().x = originalPosition.x + pDeltaTime / 6.0f * (k1Velocity.x + 2.0f * k2Velocity.x + 2.0f * k3Velocity.x + k4Velocity.x);
-                mParticle.position().y = originalPosition.y + pDeltaTime / 6.0f * (k1Velocity.y + 2.0f * k2Velocity.y + 2.0f * k3Velocity.y + k4Velocity.y);
-                mParticle.position().z = originalPosition.z + pDeltaTime / 6.0f * (k1Velocity.z + 2.0f * k2Velocity.z + 2.0f * k3Velocity.z + k4Velocity.z);
-
-                /* update velocity */
-                final PVector originalVelocity = mOriginalVelocities.get(i);
-                final PVector k1Force = mK1Forces.get(i);
-                final PVector k2Force = mK2Forces.get(i);
-                final PVector k3Force = mK3Forces.get(i);
-                final PVector k4Force = mK4Forces.get(i);
-
-                mParticle.velocity().x =
-                        originalVelocity.x + pDeltaTime / (6.0f * mParticle.mass()) * (k1Force.x + 2.0f * k2Force.x + 2.0f * k3Force.x + k4Force.x);
-                mParticle.velocity().y =
-                        originalVelocity.y + pDeltaTime / (6.0f * mParticle.mass()) * (k1Force.y + 2.0f * k2Force.y + 2.0f * k3Force.y + k4Force.y);
-                mParticle.velocity().z =
-                        originalVelocity.z + pDeltaTime / (6.0f * mParticle.mass()) * (k1Force.z + 2.0f * k2Force.z + 2.0f * k3Force.z + k4Force.z);
+                    final PVector x0 = mOriginalPositions.get(i);
+                    final PVector v0 = mOriginalVelocities.get(i);
+                    if (k < 3) {
+                        /* move to next evaluation point */
+                        final float h = STAGE_OFFSET[k] * pDeltaTime;
+                        final float s = h / m;
+                        final float vx = v.x, vy = v.y, vz = v.z;
+                        mParticle.position().set(x0.x + vx * h, x0.y + vy * h, x0.z + vz * h);
+                        mParticle.velocity().set(v0.x + f.x * s, v0.y + f.y * s, v0.z + f.z * s);
+                    } else {
+                        /* combine */
+                        final float h = pDeltaTime / 6.0f;
+                        mParticle.position().set(x0.x + mSumV.x * h, x0.y + mSumV.y * h, x0.z + mSumV.z * h);
+                        mParticle.velocity().set(v0.x + mSumA.x * h, v0.y + mSumA.y * h, v0.z + mSumA.z * h);
+                    }
+                }
             }
         }
     }

@@ -36,8 +36,8 @@ public class SketchLessonX02_Collisions extends PApplet {
         mCollision.minimumDistance(50);
 
         mPhysics = new Physics();
-        mPhysics.add(new ViscousDrag(0.85f));
-        mPhysics.add(new Gravity());
+        mPhysics.add(new ViscousDrag(1.7f));
+        mPhysics.add(new Gravity(0, 35, 0));
 
         Box mBox = new Box();
         mBox.min().set(50, 50, 0);

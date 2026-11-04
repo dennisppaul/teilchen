@@ -47,6 +47,7 @@ public class ReflectBox implements Constraint {
     private final long mID;
     private final PVector mMax;
     private final PVector mMin;
+    private boolean mWarnedAboutIntegrator = false;
 
     static {
         mNormals = new PVector[6];
@@ -91,8 +92,9 @@ public class ReflectBox implements Constraint {
     }
 
     public void apply(final Physics pParticleSystem) {
-        if (!(pParticleSystem.getIntegrator() instanceof Verlet)) {
-            System.out.println("### WARNING @ " + getClass().getSimpleName() + " / only works with verlet integrator.");
+        if (!mWarnedAboutIntegrator && !(pParticleSystem.getIntegrator() instanceof Verlet)) {
+            mWarnedAboutIntegrator = true;
+            System.err.println("### WARNING @ " + getClass().getSimpleName() + " / only works with verlet integrator.");
         }
         apply(pParticleSystem.particles());
     }

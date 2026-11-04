@@ -42,6 +42,7 @@ public class Box implements Constraint {
     private final PVector mMin;
     private boolean mReflectFlag;
     private boolean mTeleport;
+    private final PVector mTempPosition = new PVector();
 
     static {
         NORMALS = new PVector[6];
@@ -98,31 +99,14 @@ public class Box implements Constraint {
 
         for (final Particle myParticle : pParticleSystem.particles()) {
             if (mTeleport) {
-                if (myParticle.position().x > mMax.x) {
-                    myParticle.position().x = mMin.x;
-                }
-                if (myParticle.position().y > mMax.y) {
-                    myParticle.position().y = mMin.y;
-                }
-                if (myParticle.position().z > mMax.z) {
-                    myParticle.position().z = mMin.z;
-                }
-                if (myParticle.position().x < mMin.x) {
-                    myParticle.position().x = mMax.x;
-                }
-                if (myParticle.position().y < mMin.y) {
-                    myParticle.position().y = mMax.y;
-                }
-                if (myParticle.position().z < mMin.z) {
-                    myParticle.position().z = mMax.z;
-                }
+                teilchen.util.Util.wrap(myParticle, mMin, mMax);
             } else {
                 /**
                  * @todo to do this properly we would need to add the normals
                  * and normalize them. maybe later.
                  */
                 int myTag = -1;
-                final PVector myPosition = Util.clone(myParticle.position());
+                final PVector myPosition = mTempPosition.set(myParticle.position());
                 if (myParticle.position().x > mMax.x) {
                     myParticle.position().x = mMax.x;
                     myTag = 0;
