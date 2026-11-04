@@ -46,15 +46,6 @@ public final class Intersection implements Serializable {
     public static final int NOT_INTERSECTING = 3;
     public static final int PARALLEL = 1;
     private static final float EPSILON = 0.00001f;
-    private static final PVector H = new PVector();
-    private static final PVector P_VEC = new PVector();
-    private static final PVector Q = new PVector();
-    private static final PVector Q_VEC = new PVector();
-    private static final PVector S = new PVector();
-    private static final PVector TMP_EDGE_1 = new PVector();
-    private static final PVector TMP_EDGE_2 = new PVector();
-    private static final PVector TMP_EDGE_NORMAL = new PVector();
-    private static final PVector T_VEC = new PVector();
     private static final long serialVersionUID = -5392974339890719551L;
 
     /**
@@ -97,6 +88,7 @@ public final class Intersection implements Serializable {
      * @return float
      */
     public static float intersectLinePlane(final Ray3f pRay, final Plane3f pPlane, final PVector pIntersectionPoint) {
+        final PVector TMP_EDGE_NORMAL = new PVector();
         /*
          * @todo not sure whether this is for ray-plane or line-plane intersection. but i think it s for the latter,
          *   hence the method name.
@@ -392,6 +384,11 @@ public final class Intersection implements Serializable {
                                                final PVector v2,
                                                final IntersectionResult pResult,
                                                final boolean pCullingFlag) {
+        final PVector P_VEC = new PVector();
+        final PVector Q_VEC = new PVector();
+        final PVector TMP_EDGE_1 = new PVector();
+        final PVector TMP_EDGE_2 = new PVector();
+        final PVector T_VEC = new PVector();
 
         float det;
         float inv_det;

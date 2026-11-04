@@ -53,6 +53,7 @@ public class Angular implements Constraint {
     private final PVector mTempA = new PVector();
     private final PVector mTempB = new PVector();
     private final PVector mTempNormal;
+    private boolean mUpdateVelocity = false;
 
     public Angular(Particle pA, Particle pB, Particle pC, float pMinimumAngle, float pMaximumAngle) {
         mID = Physics.getUniqueID();
@@ -86,6 +87,7 @@ public class Angular implements Constraint {
         if (!mActive) {
             return;
         }
+        mUpdateVelocity = Stick.updatesVelocity(pParticleSystem);
 
         /*
          * @todo test for special case: a and c are in the same place.
@@ -214,7 +216,16 @@ public class Angular implements Constraint {
                                                   myOprPointOnAxis);
             mC.position().set(myRotatedPointB);
 
-            System.out.println("correct " + Math.toDegrees(pTheta) + " / " + mTempNormal);
+            if (mUpdateVelocity) {
+                /* rotate velocities with the positions so particles do not keep moving against the constraint */
+                final PVector mOrigin = new PVector();
+                mA.velocity().set(rotatePoint(mA.velocity(), pTheta * -0.5 * STRENGTH, mOrigin, mTempNormal));
+                mC.velocity().set(rotatePoint(mC.velocity(), pTheta * 0.5 * STRENGTH, mOrigin, mTempNormal));
+            }
+
+            if (Physics.VERBOSE) {
+                System.out.println("### Angular / correct " + Math.toDegrees(pTheta) + " / " + mTempNormal);
+            }
         }
     }
 

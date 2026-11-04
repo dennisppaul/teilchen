@@ -82,6 +82,10 @@ public class LineIntersectionConstraint implements Constraint {
                     } else {
                         mParticle.position().set(mIntersection);
                     }
+                    if (Stick.updatesVelocity(pParticleSystem)) {
+                        /* particle is stopped at the line */
+                        mParticle.velocity().set(0, 0, 0);
+                    }
                 }
                 if (DEBUG_VIEW != null) {
                     DEBUG_VIEW.strokeWeight(1);

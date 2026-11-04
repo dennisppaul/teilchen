@@ -21,7 +21,7 @@ void settings() {
 void setup() {
     mPhysics = new Physics();
     /* add gravity for extra fun */
-    mPhysics.add(new Gravity());
+    mPhysics.add(new Gravity(0, 100, 0));
     /* choose verlet integration as it produces more stable results with sticks ( and constraints in general ) */
     Verlet mVerlet = new Verlet();
     mVerlet.damping(0.99f);

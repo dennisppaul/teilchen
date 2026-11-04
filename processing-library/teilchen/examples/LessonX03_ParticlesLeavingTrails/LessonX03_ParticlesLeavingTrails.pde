@@ -23,10 +23,10 @@ void setup() {
     /* create a gravitational force */
     Gravity mGravity = new Gravity();
     mPhysics.add(mGravity);
-    mGravity.force().y = 20;
+    mGravity.force().y = 70;
     /* create drag */
     ViscousDrag mViscousDrag = new ViscousDrag();
-    mViscousDrag.coefficient = 0.1f;
+    mViscousDrag.coefficient = 0.2f;
     mPhysics.add(mViscousDrag);
     final float mBorder = 40;
     Box mBox = new Box(new PVector(mBorder, mBorder, mBorder),

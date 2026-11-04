@@ -29,14 +29,14 @@ void setup() {
     mVectorField.cell_size().set(10, 10);
     mVectorField.position().set(40, 40);
     mPhysics.add(mVectorField);
-    ViscousDrag mDrag = new ViscousDrag(0.75f);
+    ViscousDrag mDrag = new ViscousDrag(1.9f);
     mPhysics.add(mDrag);
-    mVectorField.randomize_forces(40);
+    mVectorField.randomize_forces(160);
     spawnParticles();
 }
 void draw() {
     mVectorField.smooth_forces(true);
-    mVectorField.set_force_strength(40);
+    mVectorField.set_force_strength(160);
     mPhysics.step(1.0f / frameRate);
     background(255);
     /* draw vectro field */
@@ -79,7 +79,7 @@ void keyPressed() {
             mDrawParticlesAsLines = !mDrawParticlesAsLines;
         case ' ':
             spawnParticles();
-            mVectorField.randomize_forces(40);
+            mVectorField.randomize_forces(160);
             break;
         case 'g':
         case 'G':

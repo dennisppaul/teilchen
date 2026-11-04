@@ -1,6 +1,6 @@
 # teilchen / release notes
 
-## v0.5
+## v0.5 (20261104)
 
 - fixed: `Midpoint` and `RungeKutta` counted forces several times per step. motion with these integrators is now physically correct but noticeably slower than before. *breaking:* sketches tuned for v0.4 need about 3× gravity and 2–2.5× drag ( Midpoint ), or 4× attractor/behavior forces and 2.5× drag. see `AUDIT.md` for the factors used in the examples
 - fixed: `Verlet` now builds up velocity for free particles ( `old_position` was overwritten every step )

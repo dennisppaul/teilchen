@@ -20,11 +20,16 @@ void settings() {
 void setup() {
     /* physics */
     mPhysics = new Physics();
-    mPhysics.add(new ViscousDrag());
+    mPhysics.add(new ViscousDrag(2.5f));
+    /* teleport particles from one edge of the screen to the other */
+    Teleporter mTeleporter = new Teleporter();
+    mTeleporter.min().set(0, 0);
+    mTeleporter.max().set(width, height);
+    mPhysics.add(mTeleporter);
     /* create particles */
     mParticle = mPhysics.makeParticle(BasicBehaviorParticle.class);
     mParticle.position().set(width / 2.0f, height / 2.0f);
-    mParticle.maximumInnerForce(100);
+    mParticle.maximumInnerForce(400);
     mParticle.radius(10);
     /* create behavior */
     mWander = new Wander();
@@ -34,7 +39,7 @@ void setup() {
     mMotor = new Motor();
     mMotor.auto_update_direction(true);
     /* the direction the motor pushes into is each step automatically set to the velocity */
-    mMotor.strength(25);
+    mMotor.strength(100);
     mParticle.behaviors().add(mMotor);
 }
 void draw() {

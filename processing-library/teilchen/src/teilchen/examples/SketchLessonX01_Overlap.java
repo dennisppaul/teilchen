@@ -31,8 +31,8 @@ public class SketchLessonX01_Overlap extends PApplet {
         mPhysics = new Physics();
 
         /* create drag */
-        mPhysics.add(new ViscousDrag());
-        mPhysics.add(new Gravity(new PVector(0, 100f, 0)));
+        mPhysics.add(new ViscousDrag(2.0f));
+        mPhysics.add(new Gravity(new PVector(0, 350f, 0)));
 
         mRoot = mPhysics.makeParticle(width / 2.0f, height / 2.0f, 0.0f);
         mRoot.mass(30);
@@ -43,7 +43,7 @@ public class SketchLessonX01_Overlap extends PApplet {
     public void draw() {
         if (mousePressed) {
             Particle mParticle = mPhysics.makeParticle(mouseX, mouseY, 0);
-            mPhysics.makeSpring(mRoot, mParticle);
+            mPhysics.makeSpring(mRoot, mParticle, 4.0f, 0.1f);
 
             /* define a radius for the particle so it has dimensions */
             mParticle.radius(random(PARTICLE_RADIUS / 2) + PARTICLE_RADIUS);

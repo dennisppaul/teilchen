@@ -20,39 +20,24 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.integration;
 
 import teilchen.Particle;
 
 import java.util.List;
 
+/**
+ * @deprecated use {@link IntegrationUtil} instead.
+ */
+@Deprecated
 public final class Util {
 
     public static void calculateDerivatives(final List<Particle> pParticles, final List<Derivate3f> pDerivates) {
-        for (int i = 0; i < pParticles.size(); i++) {
-            pDerivates.get(i).px = pParticles.get(i).velocity().x;
-            pDerivates.get(i).py = pParticles.get(i).velocity().y;
-            pDerivates.get(i).pz = pParticles.get(i).velocity().z;
-            pDerivates.get(i).vx = pParticles.get(i).force().x / pParticles.get(i).mass();
-            pDerivates.get(i).vy = pParticles.get(i).force().y / pParticles.get(i).mass();
-            pDerivates.get(i).vz = pParticles.get(i).force().z / pParticles.get(i).mass();
-        }
+        IntegrationUtil.calculateDerivatives(pParticles, pDerivates);
     }
 
     public static <T> void checkContainerSize(final int pSize, final List<T> pContainer, Class<T> pClass) {
-        final int mDiff = pSize - pContainer.size();
-        if (mDiff > 0) {
-            for (int i = 0; i < mDiff; i++) {
-                try {
-                    pContainer.add(pClass.newInstance());
-                } catch (Exception ex) {
-                    System.err.println(ex);
-                }
-            }
-        } else if (mDiff < 0) {
-            for (int i = 0; i < mDiff; i++) {
-                pContainer.remove(mDiff + pSize);
-            }
-        }
+        IntegrationUtil.checkContainerSize(pSize, pContainer, pClass);
     }
 }

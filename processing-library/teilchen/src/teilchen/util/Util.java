@@ -27,6 +27,7 @@ import processing.core.PMatrix3D;
 import processing.core.PVector;
 import teilchen.Particle;
 import teilchen.Physics;
+import teilchen.constraint.TriangleCollider;
 import teilchen.force.TriangleDeflector;
 import teilchen.force.TriangleDeflectorIndexed;
 
@@ -40,12 +41,6 @@ public class Util {
     private static final float ALMOST_THRESHOLD = 0.001f;
     private static final java.util.Random RND_GENERATOR = new java.util.Random();
     /* normal */
-    private static final PVector TMP_BA = new PVector();
-    private static final PVector TMP_BC = new PVector();
-    private static final PVector TMP_MAX = new PVector();
-    private static final PVector TMP_MIN = new PVector();
-    private static final PVector TMP_NORMAL = new PVector();
-    private static final PVector TMP_TANGENT = new PVector();
 
     public static boolean almost(PVector p0, PVector p1) {
         return Math.abs(p1.x - p0.x) < ALMOST_THRESHOLD && Math.abs(p1.y - p0.y) < ALMOST_THRESHOLD && Math.abs(p1.z - p0.z) < ALMOST_THRESHOLD;
@@ -82,6 +77,8 @@ public class Util {
                                        final PVector pointB,
                                        final PVector pointC,
                                        final PVector pResultNormal) {
+        final PVector TMP_BA = new PVector();
+        final PVector TMP_BC = new PVector();
         sub(pointB, pointA, TMP_BA);
         sub(pointC, pointB, TMP_BC);
         PVector.cross(TMP_BA, TMP_BC, pResultNormal);
@@ -132,6 +129,10 @@ public class Util {
         return (pTestValue > pContainerValue - pRange * 0.5f && pTestValue < pContainerValue + pRange * 0.5f);
     }
 
+    /**
+     * @deprecated use {@link teilchen.constraint.LineCollider2D} for 2D walls.
+     */
+    @Deprecated
     public static TriangleDeflector createTriangleDeflector2D(float x1,
                                                               float y1,
                                                               float x2,
@@ -147,6 +148,50 @@ public class Util {
         return mTriangleDeflector;
     }
 
+    /**
+     * creates one <code>TriangleCollider</code> per triangle. for larger meshes prefer
+     * {@link teilchen.constraint.TriangleMeshCollider}.
+     *
+     * @param pVertices 9 floats ( 3 vertices ) per triangle
+     */
+    public static ArrayList<TriangleCollider> createTriangleColliders(final float[] pVertices,
+                                                                      final float pCoefficientOfRestitution) {
+        final ArrayList<TriangleCollider> mColliders = new ArrayList<>();
+        for (int i = 0; i < pVertices.length / 9; i++) {
+            final int j = i * 9;
+            final TriangleCollider c = new TriangleCollider(new PVector(pVertices[j], pVertices[j + 1], pVertices[j + 2]),
+                                                            new PVector(pVertices[j + 3], pVertices[j + 4], pVertices[j + 5]),
+                                                            new PVector(pVertices[j + 6], pVertices[j + 7], pVertices[j + 8]));
+            c.AUTO_UPDATE = false;
+            c.coefficientofrestitution(pCoefficientOfRestitution);
+            mColliders.add(c);
+        }
+        return mColliders;
+    }
+
+    /**
+     * creates one <code>TriangleCollider</code> per triangle. for larger meshes prefer
+     * {@link teilchen.constraint.TriangleMeshCollider}.
+     *
+     * @param pVertices 3 vertices per triangle
+     */
+    public static ArrayList<TriangleCollider> createTriangleColliders(final PVector[] pVertices,
+                                                                      final float pCoefficientOfRestitution) {
+        final ArrayList<TriangleCollider> mColliders = new ArrayList<>();
+        for (int i = 0; i < pVertices.length / 3; i++) {
+            final TriangleCollider c = new TriangleCollider(pVertices[i * 3], pVertices[i * 3 + 1], pVertices[i * 3 + 2]);
+            c.AUTO_UPDATE = false;
+            c.coefficientofrestitution(pCoefficientOfRestitution);
+            mColliders.add(c);
+        }
+        return mColliders;
+    }
+
+    /**
+     * @deprecated use {@link #createTriangleColliders(float[], float)} or
+     * {@link teilchen.constraint.TriangleMeshCollider}.
+     */
+    @Deprecated
     public static ArrayList<TriangleDeflector> createTriangleDeflectors(final float[] pVertices,
                                                                         final float pCoefficientOfRestitution) {
         final ArrayList<TriangleDeflector> mDeflectors = new ArrayList<>();
@@ -162,6 +207,11 @@ public class Util {
         return mDeflectors;
     }
 
+    /**
+     * @deprecated use {@link #createTriangleColliders(PVector[], float)} or
+     * {@link teilchen.constraint.TriangleMeshCollider}.
+     */
+    @Deprecated
     public static ArrayList<TriangleDeflector> createTriangleDeflectors(final PVector[] pVertices,
                                                                         final float pCoefficientOfRestitution) {
         final ArrayList<TriangleDeflector> mDeflectors = new ArrayList<>();
@@ -177,6 +227,10 @@ public class Util {
         return mDeflectors;
     }
 
+    /**
+     * @deprecated use {@link teilchen.constraint.TriangleMeshCollider}.
+     */
+    @Deprecated
     public static ArrayList<TriangleDeflector> createTriangleDeflectorsIndexed(final float[] pVertices,
                                                                                final float pCoefficientOfRestitution) {
         final ArrayList<TriangleDeflector> mDeflectors = new ArrayList<>();
@@ -478,6 +532,8 @@ public class Util {
     public static void reflectVelocity(final Particle pParticle,
                                        final PVector pNormal,
                                        float pCoefficientOfRestitution) {
+        final PVector TMP_NORMAL = new PVector();
+        final PVector TMP_TANGENT = new PVector();
         final PVector mVelocity = pParticle.velocity();
         /* normal */
         TMP_NORMAL.set(pNormal);
@@ -577,6 +633,36 @@ public class Util {
         }
     }
 
+    /**
+     * wraps particle position into the box defined by <code>pMin</code> and <code>pMax</code> ( periodic boundary ).
+     * the old position is shifted by the same offset so that the velocity implied by
+     * <code>position - old_position</code> ( e.g in verlet integration ) is preserved.
+     */
+    public static void wrap(Particle pParticle, PVector pMin, PVector pMax) {
+        final PVector p = pParticle.position();
+        final float mOffsetX = wrapOffset(p.x, pMin.x, pMax.x);
+        final float mOffsetY = wrapOffset(p.y, pMin.y, pMax.y);
+        final float mOffsetZ = wrapOffset(p.z, pMin.z, pMax.z);
+        if (mOffsetX != 0 || mOffsetY != 0 || mOffsetZ != 0) {
+            p.add(mOffsetX, mOffsetY, mOffsetZ);
+            pParticle.old_position().add(mOffsetX, mOffsetY, mOffsetZ);
+        }
+    }
+
+    private static float wrapOffset(float pValue, float pMin, float pMax) {
+        final float mSize = Math.abs(pMax - pMin);
+        if (mSize == 0) {
+            return 0;
+        }
+        if (pValue > pMax) {
+            return -mSize * (float) Math.ceil((pValue - pMax) / mSize);
+        }
+        if (pValue < pMin) {
+            return mSize * (float) Math.ceil((pMin - pValue) / mSize);
+        }
+        return 0;
+    }
+
     public static void scale(PVector v1, PVector v2) {
         v1.x *= v2.x;
         v1.y *= v2.y;
@@ -591,6 +677,8 @@ public class Util {
 
     public static void updateBoundingBox(final WorldAxisAlignedBoundingBox pWorldAxisAlignedBoundingBox,
                                          final PVector[] mVectors) {
+        final PVector TMP_MAX = new PVector();
+        final PVector TMP_MIN = new PVector();
 
         if (mVectors == null || mVectors.length == 0) {
             return;

@@ -22,7 +22,7 @@ static final float MUSCLE_CONTRACTION_SPEED = 1.5f;
 static final float MUSCLE_PHASE_SHIFT_SCALE = PI;
 static final float PARTICAL_MASS = 0.25f;
 static final float SELECTION_RADIUS = 10;
-static final float SPRING_STRENGTH = 1.0f;
+static final float SPRING_STRENGTH = 2.0f;
 Gravity mGravity;
 boolean mPauseSimulation;
 Physics mPhysics;
@@ -33,7 +33,7 @@ void settings() {
 }
 void setup() {
     mPhysics = new Physics();
-    mGravity = new Gravity();
+    mGravity = new Gravity(0, 35, 0);
     mPhysics.add(mGravity);
     float mPadding = 5;
     Box mBox = new Box();

@@ -17,7 +17,7 @@ there are a few different kinds of particles. the most simple particle has just 
 
 ### forces
 
-forces act on particles ( or rather on their acceleration ). one of the most obvious forces is `Gravity` which pulls particles into a specific direction. but there are all kinds of other forces too like `Attractor` or `TriangleDeflector`. some forces affect all particles in a system, while others only act on specific particles. one prominent example of the latter is the `Spring` that tries to maintain a fixed distance between two particles.
+forces act on particles ( or rather on their acceleration ). one of the most obvious forces is `Gravity` which pulls particles into a specific direction. but there are all kinds of other forces too like `Attractor` or `VectorField`. some forces affect all particles in a system, while others only act on specific particles. one prominent example of the latter is the `Spring` that tries to maintain a fixed distance between two particles.
 
 ### behaviors
 
@@ -26,6 +26,8 @@ a *behavior* is a special kind of force. it is an *internal* force moving the pa
 ### constraints
 
 constraints act on particle positions outside of a physical simulation. constraints manipulate the particles’ positions to satifsy specific constraints like for example keeping an equal distance between two particles or keeping particles within a volume. although constraints might seem similar to forces, it is important to know that forces can only *accelerate* particles while contraints directly *teleport* particles which as a rule of thumb is more *effective* but less *realistic*.
+
+*colliders* are constraints that keep particles from passing through geometry: `PlaneCollider`, `SphereCollider`, `LineCollider2D`, `TriangleCollider` and `TriangleMeshCollider` ( for meshes with many triangles ). colliders test the path a particle traveled during a step, so they work with all integrators and do not miss fast particles. ( the former `*Deflector` forces still work but are deprecated. )
 
 ### integrators
 

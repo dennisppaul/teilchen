@@ -29,7 +29,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
     private static final float MUSCLE_PHASE_SHIFT_SCALE = PI;
     private static final float PARTICAL_MASS = 0.25f;
     private static final float SELECTION_RADIUS = 10;
-    private static final float SPRING_STRENGTH = 1.0f;
+    private static final float SPRING_STRENGTH = 2.0f;
     private Gravity mGravity;
     private boolean mPauseSimulation;
     private Physics mPhysics;
@@ -43,7 +43,7 @@ public class SketchLessonX11_MuscleSprings extends PApplet {
     public void setup() {
         mPhysics = new Physics();
 
-        mGravity = new Gravity();
+        mGravity = new Gravity(0, 35, 0);
         mPhysics.add(mGravity);
 
         float mPadding = 5;

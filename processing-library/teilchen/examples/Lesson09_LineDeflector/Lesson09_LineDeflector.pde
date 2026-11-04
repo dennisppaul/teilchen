@@ -7,12 +7,12 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 /*
- * this sketch demonstrates how to create and use `LineDeflector2D` and how to use
+ * this sketch demonstrates how to create and use `LineCollider2D` and how to use
  * `ShortLivedParticle` a particle that only exists for a defined period of time.
  *
- * press mouse to position deflector.
+ * press mouse to position collider.
  */
-LineDeflector2D mDeflector;
+LineCollider2D mDeflector;
 Physics mPhysics;
 void settings() {
     size(640, 480);
@@ -20,17 +20,18 @@ void settings() {
 void setup() {
     /* create a particle system */
     mPhysics = new Physics();
-    mDeflector = new LineDeflector2D();
+    /* colliders are constraints. they keep particles from passing through geometry */
+    mDeflector = new LineCollider2D();
     mDeflector.a().set(50, height / 2.0f);
     mDeflector.b().set(width - 50, height / 2.0f - 100);
     mPhysics.add(mDeflector);
     /* create gravity */
     Gravity mGravity = new Gravity();
-    mGravity.force().y = 50;
+    mGravity.force().y = 175;
     mPhysics.add(mGravity);
     /* create drag */
     ViscousDrag mViscousDrag = new ViscousDrag();
-    mViscousDrag.coefficient = 0.1f;
+    mViscousDrag.coefficient = 0.2f;
     mPhysics.add(mViscousDrag);
 }
 void draw() {
@@ -72,8 +73,8 @@ void draw() {
     /* finally remove the collision tag */
     mPhysics.removeTags();
 }
-void drawDeflector(LineDeflector2D mDeflector) {
-    PVector mMid = mDeflector.mid();
+void drawDeflector(LineCollider2D mDeflector) {
+    PVector mMid = PVector.add(mDeflector.a(), mDeflector.b()).mult(0.5f);
     PVector mNormal = PVector.add(mMid, PVector.mult(mDeflector.normal(), 10));
     stroke(0);
     strokeWeight(3);

@@ -122,7 +122,7 @@ public class SketchLessonX12_TearableSpring extends PApplet {
     private void createSpring(Particle p0, Particle p1) {
         TearableSpring s = new TearableSpring(p0, p1);
         s.tear_distance(40);
-        s.strength(20.0f);
+        s.strength(50.0f);
         s.damping(1.0f);
         mPhysics.add(s);
     }

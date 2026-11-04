@@ -34,11 +34,11 @@ public class SketchLessonX04_StickMan extends PApplet {
         mPhysics.setIntegratorRef(new RungeKutta());
 
         mGravity = new Gravity();
-        mGravity.force().y = 20;
+        mGravity.force().y = 60;
         mPhysics.add(mGravity);
 
         ViscousDrag mViscousDrag = new ViscousDrag();
-        mViscousDrag.coefficient = 0.85f;
+        mViscousDrag.coefficient = 2.5f;
         mPhysics.add(mViscousDrag);
 
         mAttractor = new Attractor();

@@ -23,10 +23,10 @@ void setup() {
     mPhysics = new Physics();
     mPhysics.setIntegratorRef(new RungeKutta());
     mGravity = new Gravity();
-    mGravity.force().y = 20;
+    mGravity.force().y = 60;
     mPhysics.add(mGravity);
     ViscousDrag mViscousDrag = new ViscousDrag();
-    mViscousDrag.coefficient = 0.85f;
+    mViscousDrag.coefficient = 2.5f;
     mPhysics.add(mViscousDrag);
     mAttractor = new Attractor();
     mAttractor.radius(5000);

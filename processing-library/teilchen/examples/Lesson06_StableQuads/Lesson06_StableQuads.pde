@@ -24,10 +24,10 @@ void setup() {
     /* use `RungeKutta` as it produces more stable results in applications like these */
     mPhysics.setIntegratorRef(new RungeKutta());
     Gravity mGravity = new Gravity();
-    mGravity.force().y = 98.1f;
+    mGravity.force().y = 200;
     mPhysics.add(mGravity);
     /* add drag to smooth the spring interaction */
-    mPhysics.add(new ViscousDrag(0.2f));
+    mPhysics.add(new ViscousDrag(0.1f));
     /* add a container */
     Box mBox = new Box();
     mBox.min().set(0, 0, 0);
@@ -40,7 +40,7 @@ void setup() {
     Particle d = mPhysics.makeParticle(0, 100);
     /* create stable quad from springs */
     /* first the edge-springs ... */
-    final float mSpringConstant = 100;
+    final float mSpringConstant = 250;
     final float mSpringDamping = 5;
     mPhysics.makeSpring(a, b, mSpringConstant, mSpringDamping);
     mPhysics.makeSpring(b, c, mSpringConstant, mSpringDamping);

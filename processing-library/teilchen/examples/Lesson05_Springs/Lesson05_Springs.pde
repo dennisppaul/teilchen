@@ -31,7 +31,7 @@ void draw() {
         Particle mNeighborParticle = teilchen.util.Util.findParticleByProximity(mPhysics, mouseX, mouseY, 0, 20);
         if (mNeighborParticle != null) {
             Particle mParticle = mPhysics.makeParticle(mouseX, mouseY, 0);
-            Spring mSpring = mPhysics.makeSpring(mNeighborParticle, mParticle);
+            Spring mSpring = mPhysics.makeSpring(mNeighborParticle, mParticle, 4.0f, 0.1f);
             /* restlength defines the desired length of the spring. in this case it is the
             distance between the two particles. */
             float mRestlength = mSpring.restlength();

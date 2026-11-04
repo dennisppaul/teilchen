@@ -21,7 +21,7 @@ void settings() {
 }
 void setup() {
     mPhysics = new Physics();
-    mPhysics.add(new Gravity());
+    mPhysics.add(new Gravity(0, 35, 0));
     mPendulumRoot = mPhysics.makeParticle(0, 0, 0, 0.05f);
     mPendulumRoot.position().set(width / 2.0f, 100);
     mPendulumRoot.fixed(true);
@@ -29,7 +29,7 @@ void setup() {
     float mSegmentLength = height / 2.0f;
     Spring mConnection = new Spring(mPendulumRoot, mPendulumTip, mSegmentLength);
     mConnection.damping(0.0f);
-    mConnection.strength(10);
+    mConnection.strength(35);
     mPhysics.add(mConnection);
     mPulse = new Pulse(mPendulumTip);
     mPulse.damping(0.99f);

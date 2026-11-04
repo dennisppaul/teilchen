@@ -20,7 +20,7 @@ void setup() {
     /* create a particle system */
     mPhysics = new Physics();
     /* create a gravitational force and add it to the particle system */
-    Gravity mGravity = new Gravity(0, 30, 0);
+    Gravity mGravity = new Gravity(0, 100, 0);
     mPhysics.add(mGravity);
 }
 void draw() {

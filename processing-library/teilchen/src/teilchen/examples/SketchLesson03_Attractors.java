@@ -28,7 +28,7 @@ public class SketchLesson03_Attractors extends PApplet {
 
         /* create a viscous force that slows down all motion */
         ViscousDrag mDrag = new ViscousDrag();
-        mDrag.coefficient = 0.75f;
+        mDrag.coefficient = 1.9f;
         mPhysics.add(mDrag);
 
         /* teleport particles from one edge of the screen to the other */
@@ -47,7 +47,7 @@ public class SketchLesson03_Attractors extends PApplet {
         /* create an attractor */
         mAttractor = new Attractor();
         mAttractor.radius(100);
-        mAttractor.strength(150);
+        mAttractor.strength(600);
         mPhysics.add(mAttractor);
     }
 

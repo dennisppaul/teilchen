@@ -20,48 +20,71 @@
  * {@link http://www.gnu.org/licenses/lgpl.html}
  *
  */
+
 package teilchen.integration;
 
+import processing.core.PVector;
 import teilchen.Particle;
 
 import java.util.List;
 
 public final class IntegrationUtil {
 
-
     public static void calculateDerivatives(final List<Particle> pParticles, final List<Derivate3f> pDerivates) {
-        try {
-            synchronized (pParticles) {
-                for (int i = 0; i < pParticles.size(); i++) {
-                    if (i < pDerivates.size()) {
-                        pDerivates.get(i).px = pParticles.get(i).velocity().x;
-                        pDerivates.get(i).py = pParticles.get(i).velocity().y;
-                        pDerivates.get(i).pz = pParticles.get(i).velocity().z;
-                        pDerivates.get(i).vx = pParticles.get(i).force().x / pParticles.get(i).mass();
-                        pDerivates.get(i).vy = pParticles.get(i).force().y / pParticles.get(i).mass();
-                        pDerivates.get(i).vz = pParticles.get(i).force().z / pParticles.get(i).mass();
-                    }
-                }
+        synchronized (pParticles) {
+            final int mSize = Math.min(pParticles.size(), pDerivates.size());
+            for (int i = 0; i < mSize; i++) {
+                final Particle    p = pParticles.get(i);
+                final Derivate3f d = pDerivates.get(i);
+                d.px = p.velocity().x;
+                d.py = p.velocity().y;
+                d.pz = p.velocity().z;
+                d.vx = p.force().x / p.mass();
+                d.vy = p.force().y / p.mass();
+                d.vz = p.force().z / p.mass();
             }
-        } catch (Exception ex) {
-            System.err.println(ex);
         }
     }
 
+    /**
+     * resizes container to exactly <code>pSize</code> elements, creating new elements with the default constructor
+     * of <code>pClass</code>.
+     */
     public static <T> void checkContainerSize(final int pSize, final List<T> pContainer, Class<T> pClass) {
-        final int mDiff = pSize - pContainer.size();
-        if (mDiff > 0) {
-            for (int i = 0; i < mDiff; i++) {
-                try {
-                    pContainer.add(pClass.getDeclaredConstructor().newInstance());
-                } catch (Exception ex) {
-                    System.err.println(ex);
-                }
+        while (pContainer.size() < pSize) {
+            try {
+                pContainer.add(pClass.getDeclaredConstructor().newInstance());
+            } catch (Exception ex) {
+                throw new RuntimeException("could not create instance of " + pClass.getName(), ex);
             }
-        } else if (mDiff < 0) {
-            for (int i = 0; i < mDiff; i++) {
-                pContainer.remove(mDiff + pSize);
-            }
+        }
+        while (pContainer.size() > pSize) {
+            pContainer.remove(pContainer.size() - 1);
+        }
+    }
+
+    /**
+     * stores position, velocity and accumulated force of each particle.
+     */
+    public static void saveState(final List<Particle> pParticles,
+                                 final List<PVector> pPositions,
+                                 final List<PVector> pVelocities,
+                                 final List<PVector> pForces) {
+        for (int i = 0; i < pParticles.size(); i++) {
+            final Particle p = pParticles.get(i);
+            pPositions.get(i).set(p.position());
+            pVelocities.get(i).set(p.velocity());
+            pForces.get(i).set(p.force());
+        }
+    }
+
+    /**
+     * resets the force of each particle to the stored value. used by multi-stage integrators so that forces are not
+     * accumulated across stages.
+     */
+    public static void restoreForces(final List<Particle> pParticles, final List<PVector> pForces) {
+        for (int i = 0; i < pParticles.size(); i++) {
+            pParticles.get(i).force().set(pForces.get(i));
         }
     }
 }

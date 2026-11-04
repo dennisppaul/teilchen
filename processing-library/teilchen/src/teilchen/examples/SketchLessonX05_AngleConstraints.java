@@ -36,11 +36,11 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
         mPhysics.setIntegratorRef(new RungeKutta());
 
         ViscousDrag mViscousDrag = new ViscousDrag();
-        mViscousDrag.coefficient = 1f;
+        mViscousDrag.coefficient = 3f;
         mPhysics.add(mViscousDrag);
 
         Gravity mGravity = new Gravity();
-        mGravity.force().y = 50;
+        mGravity.force().y = 150;
         mPhysics.add(mGravity);
 
         /* particles */
@@ -63,12 +63,12 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
 
         /* springs */
         Spring mSpringAB = new Spring(mParticleA, mParticleB);
-        mSpringAB.strength(250);
+        mSpringAB.strength(625);
         mSpringAB.damping(10);
         mPhysics.add(mSpringAB);
 
         Spring mSpringBC = new Spring(mParticleB, mParticleC);
-        mSpringBC.strength(250);
+        mSpringBC.strength(625);
         mSpringBC.damping(10);
         mPhysics.add(mSpringBC);
 
@@ -80,7 +80,7 @@ public class SketchLessonX05_AngleConstraints extends PApplet {
         mAngleConstraintABC = new AngleConstraintSpring(mParticleA, mParticleB, mParticleC);
         mAngleConstraintABC.min_angle(PI * 0.5f);
         mAngleConstraintABC.damping(1);
-        mAngleConstraintABC.strength(200);
+        mAngleConstraintABC.strength(500);
         mPhysics.add(mAngleConstraintABC);
 
         mAngleConstraintBCD = new AngleConstraintStick(mParticleB, mParticleC, mParticleD);

@@ -7,12 +7,12 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 /*
- * this sketch demonstrates how to create and use ``PlaneDeflector` and how to use
+ * this sketch demonstrates how to create and use `PlaneCollider` and how to use
  * `ShortLivedParticle` a particle that only exists for a defined period of time.
  *
- * drag mouse to tilt deflector.
+ * drag mouse to tilt collider.
  */
-PlaneDeflector mDeflector;
+PlaneCollider mDeflector;
 Physics mPhysics;
 void settings() {
     size(640, 480);
@@ -20,27 +20,27 @@ void settings() {
 void setup() {
     /* create a particle system */
     mPhysics = new Physics();
-    /* create a deflector and add it to the particle system.
+    /* create a collider and add it to the particle system. colliders are constraints.
      * the that defines the deflection area is defined by an
      * origin and a normal. this also means that the plane s size
      * is infinite.
-     * note that there is also a triangle deflector that is constraint
+     * note that there is also a triangle collider that is constraint
      * by three points.
      */
-    mDeflector = new PlaneDeflector();
+    mDeflector = new PlaneCollider();
     /* set plane origin into the center of the screen */
     mDeflector.plane().origin.set(width / 2.0f, height / 2.0f, 0);
     mDeflector.plane().normal.set(0, -1, 0);
-    /* the coefficient of restitution defines how hard particles bounce of the deflector */
+    /* the coefficient of restitution defines how hard particles bounce off the collider */
     mDeflector.coefficientofrestitution(0.7f);
     mPhysics.add(mDeflector);
     /* create gravity */
     Gravity mGravity = new Gravity();
-    mGravity.force().y = 50;
+    mGravity.force().y = 175;
     mPhysics.add(mGravity);
     /* create drag */
     ViscousDrag mViscousDrag = new ViscousDrag();
-    mViscousDrag.coefficient = 0.1f;
+    mViscousDrag.coefficient = 0.2f;
     mPhysics.add(mViscousDrag);
 }
 void draw() {

@@ -24,7 +24,7 @@ void settings() {
 void setup() {
     mPhysics = new Physics();
     Verlet mVerlet = new Verlet();
-    mVerlet.damping(0.9f);
+    mVerlet.damping(0.8f);
     mPhysics.setIntegratorRef(mVerlet);
     mPhysics.add(new Gravity(new PVector(0, 1000f, 0)));
     mAttractor = new Attractor();

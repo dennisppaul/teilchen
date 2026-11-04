@@ -7,12 +7,12 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 /*
- * this sketch demonstrates how to create and use `SphereDeflector` and how to use
+ * this sketch demonstrates how to create and use `SphereCollider` and how to use
  * `ShortLivedParticle` a particle that only exists for a defined period of time.
  *
  * move mouse to spawn particles anywhere on the screen.
  */
-final ArrayList<SphereDeflector> mDeflectors = new ArrayList();
+final ArrayList<SphereCollider> mDeflectors = new ArrayList();
 Physics mPhysics;
 void settings() {
     size(640, 480);
@@ -21,7 +21,7 @@ void setup() {
     /* create a particle system */
     mPhysics = new Physics();
     for (int i = 0; i < 32; i++) {
-        SphereDeflector d = new SphereDeflector();
+        SphereCollider d = new SphereCollider();
         d.radius(random(20, 60));
         d.coefficientofrestitution(0.9f);
         d.position().set(random(width), random(height));
@@ -30,11 +30,11 @@ void setup() {
     }
     /* create gravity */
     Gravity mGravity = new Gravity();
-    mGravity.force().y = 50;
+    mGravity.force().y = 175;
     mPhysics.add(mGravity);
     /* create drag */
     ViscousDrag mViscousDrag = new ViscousDrag();
-    mViscousDrag.coefficient = 0.1f;
+    mViscousDrag.coefficient = 0.2f;
     mPhysics.add(mViscousDrag);
 }
 void draw() {
@@ -67,13 +67,13 @@ void draw() {
         }
     }
     /* draw deflector */
-    for (SphereDeflector d : mDeflectors) {
+    for (SphereCollider d : mDeflectors) {
         drawDeflector(d);
     }
     /* finally remove the collision tag */
     mPhysics.removeTags();
 }
-void drawDeflector(SphereDeflector mDeflector) {
+void drawDeflector(SphereCollider mDeflector) {
     noStroke();
     fill(0);
     circle(mDeflector.position().x, mDeflector.position().y, mDeflector.radius() * 2);

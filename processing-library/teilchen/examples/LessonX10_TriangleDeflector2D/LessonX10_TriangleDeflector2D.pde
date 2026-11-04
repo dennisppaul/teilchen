@@ -7,29 +7,34 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 /*
- * this sketch demonstrates how to use `TriangleDeflectors` in a 2D context to make particles
- * bounce off a triangle ( that looks like a line ). it also demonstrates how to use
+ * this sketch demonstrates how to use `TriangleMeshCollider` in a 2D context to make particles
+ * bounce off a wall made from two triangles ( that looks like a line ). note that for 2D
+ * walls `LineCollider2D` is simpler. it also demonstrates how to use
  * `MortalParticle` to remove particles automatically once they leave the screen.
  *
  * press mouse to spawn particles.
  */
 Physics mPhysics;
-TriangleDeflector mTriangleDeflector;
+TriangleMeshCollider mTriangleDeflector;
+float mX1, mY1, mX2, mY2;
 void settings() {
     size(640, 480);
 }
 void setup() {
     /* physics */
     mPhysics = new Physics();
-    Gravity mGravity = new Gravity(0, 20, 0);
+    Gravity mGravity = new Gravity(0, 70, 0);
     mPhysics.add(mGravity);
     /* triangle deflector */
     final float mPadding = 50;
-    mTriangleDeflector = teilchen.util.Util.createTriangleDeflector2D(mPadding,
-                                                                      height - mPadding - 40,
-                                                                      width - mPadding,
-                                                                      height - mPadding + 40,
-                                                                      1.0f);
+    mX1 = mPadding;
+    mY1 = height - mPadding - 40;
+    mX2 = width - mPadding;
+    mY2 = height - mPadding + 40;
+    /* wall is a quad perpendicular to the XY plane, made from two triangles ( 9 floats each ) */
+    final float z = 10;
+    mTriangleDeflector = new TriangleMeshCollider(new float[]{mX1, mY1, -z, mX2, mY2, -z, mX2, mY2, z,
+                                                              mX1, mY1, -z, mX2, mY2, z, mX1, mY1, z});
     mPhysics.add(mTriangleDeflector);
 }
 void draw() {
@@ -51,7 +56,7 @@ void draw() {
     noFill();
     stroke(0);
     strokeWeight(3);
-    line(mTriangleDeflector.a().x, mTriangleDeflector.a().y, mTriangleDeflector.b().x, mTriangleDeflector.b().y);
+    line(mX1, mY1, mX2, mY2);
     /* finally remove the collision tag */
     mPhysics.removeTags();
     /* create and add a particle to the system */

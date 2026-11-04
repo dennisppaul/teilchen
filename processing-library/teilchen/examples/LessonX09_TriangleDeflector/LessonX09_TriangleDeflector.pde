@@ -7,28 +7,29 @@ import teilchen.integration.*;
 import teilchen.util.*; 
 
 /*
- * this sketch demonstrates how to use `TriangleDeflectors` to make particles bounce off two
- * triangles. it also demonstrates how to use `MortalParticle` to remove particles
+ * this sketch demonstrates how to use `TriangleCollider` to make particles bounce off two
+ * triangles. for larger meshes use `TriangleMeshCollider`, which is much faster. it also demonstrates how to use `MortalParticle` to remove particles
  * automatically once they leave the screen.
  *
  * press mouse to create particles. move mouse to rotate view.
  */
 Physics mPhysics;
-ArrayList<TriangleDeflector> mTriangleDeflectors;
+ArrayList<TriangleCollider> mTriangleDeflectors;
 void settings() {
     size(640, 480, P3D);
 }
 void setup() {
     /* physics */
     mPhysics = new Physics();
-    Gravity mGravity = new Gravity(0, -3, -30);
+    Gravity mGravity = new Gravity(0, -10, -100);
     mPhysics.add(mGravity);
     /* triangle deflectors */
     final PVector[] mVertices = new PVector[]{new PVector(0, 0, 0), new PVector(width, height, 0),
                                               new PVector(0, height, 0), new PVector(0, 0, 0),
                                               new PVector(width, 0, 0), new PVector(width, height, 0),};
-    mTriangleDeflectors = teilchen.util.Util.createTriangleDeflectors(mVertices, 1.0f);
-    mPhysics.addForces(mTriangleDeflectors);
+    mTriangleDeflectors = teilchen.util.Util.createTriangleColliders(mVertices, 1.0f);
+    /* colliders are constraints */
+    mPhysics.addConstraints(mTriangleDeflectors);
 }
 void draw() {
     if (mousePressed) {
@@ -62,7 +63,7 @@ void draw() {
         popMatrix();
     }
     /* draw deflectors */
-    for (TriangleDeflector t : mTriangleDeflectors) {
+    for (TriangleCollider t : mTriangleDeflectors) {
         if (t.hit()) {
             fill(0);
             stroke(255);
