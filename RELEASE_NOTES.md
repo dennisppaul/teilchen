@@ -17,6 +17,7 @@
 - parallel checks in `Intersection` no longer depend on the size of the input, so small triangles and short rays are detected
 - `CubicleParticle.setPositionRef` had no effect
 - `CubicleWorld.update` removes dead particles
+- `TransformMatrix4f.multiply` and `determinant` returned `NaN` for a non-finite translation. `TransformMatrix4f.IDENTITY` is now `final`
 
 ## v0.5 (20261104)
 

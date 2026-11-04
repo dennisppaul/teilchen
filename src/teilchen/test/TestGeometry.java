@@ -77,9 +77,36 @@ public class TestGeometry {
         testLocalEntities();
         testCubicleParticlePositionRef();
         testDeadParticlesLeaveWorld();
+        testTransformIgnoresNonFiniteTranslation();
+        testTransformMultiply();
 
         System.out.println(mFailures == 0 ? "ALL PASSED" : mFailures + " FAILED");
         System.exit(mFailures == 0 ? 0 : 1);
+    }
+
+    private static void testTransformIgnoresNonFiniteTranslation() {
+        final TransformMatrix4f a = new TransformMatrix4f(TransformMatrix4f.IDENTITY);
+        a.translation.x = Float.POSITIVE_INFINITY;
+        check("transform determinant ignores translation", a.determinant() == 1, "" + a.determinant());
+        a.multiply(new TransformMatrix4f(TransformMatrix4f.IDENTITY));
+        check("transform multiply keeps rotation", a.rotation.xx == 1 && a.rotation.xy == 0, a.rotation.xx + " " + a.rotation.xy);
+        check("transform multiply keeps translation", a.translation.x == Float.POSITIVE_INFINITY, "" + a.translation.x);
+    }
+
+    private static void testTransformMultiply() {
+        final TransformMatrix4f a = new TransformMatrix4f(TransformMatrix4f.IDENTITY);
+        a.rotation.setZRotation(HALF_PI);
+        a.translation.set(10, 20, 30);
+        final TransformMatrix4f b = new TransformMatrix4f(TransformMatrix4f.IDENTITY);
+        b.rotation.setXRotation(HALF_PI);
+        b.translation.set(-3, 4, 5);
+        final PVector mSteps = v(1, 2, 3);
+        b.transform(mSteps);
+        a.transform(mSteps);
+        a.multiply(b);
+        final PVector mProduct = v(1, 2, 3);
+        a.transform(mProduct);
+        check("transform (a*b) applies b then a", near(mProduct, mSteps.x, mSteps.y, mSteps.z), mProduct + " " + mSteps);
     }
 
     private static void testRayPlaneNormal() {

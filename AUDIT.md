@@ -365,7 +365,8 @@ position and `old_position` are both NaN returns to the origin and is finite aga
 
 ## `TransformMatrix4f`
 
-Date: 2026-11-04. Status: **no math errors found. All findings below are low severity and open.**
+Date: 2026-11-04. Status: **no math errors found. All findings below are low severity. #35, #36 and #38 are fixed, and
+#34 is documented in the class comment. The behavior in #34, #37, #39 and #40 is unchanged.**
 
 ### Method
 
