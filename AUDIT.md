@@ -7,7 +7,9 @@ Date: 2026-11-02
 Audited: `Physics`, particles, all integrators (`Euler`, `Midpoint`, `RungeKutta`, `Verlet`), `Spring`, `Stick`,
 `Box`, `ReflectBox`, `Teleporter`, `CollisionManager`, `BasicBehaviorParticle`, and selected behaviors.
 
-Not audited in depth: util math (`Matrix3f`, `Intersection`, `TransformMatrix4f`), `cubicle/*`, most deflectors.
+Not audited in depth: `TransformMatrix4f`. `Matrix3f`, `Intersection` and `cubicle/*` were audited on 2026-11-04, see
+[Second pass](#second-pass-intersection-matrix3f-cubicle). Deflectors were replaced, see
+[Deflector rework](#deflector-rework--colliders-).
 
 ## Method
 
@@ -213,3 +215,135 @@ Measured with the `SketchLessonX09_TriangleDeflector` setup ( 500 particles, 10 
 - triangle edges and vertices are not rounded for particles with radius; a particle overlapping only the edge of a
   free-standing triangle is not deflected. connected meshes are not affected.
 - `LineCollider2D` ignores z. `PlaneCollider` is one-sided, like `PlaneDeflector`.
+
+## Second pass: `Intersection`, `Matrix3f`, `cubicle/*`
+
+Date: 2026-11-04. Status: **#18, #19, #21–26 are fixed, see [Second pass fix status](#second-pass-fix-status). #20 and
+#27–33 are open.** The findings below describe the code before the fixes.
+
+### Method
+
+`src/` at `b17ef10` was compiled against Processing `core-4.5.7.jar`. `TestIntegrators` and `TestColliders` both report
+`ALL PASSED`, but neither covers the code in this section. Each finding was reproduced with a throwaway headless probe
+that is not committed, unless it is marked *by reading*.
+
+Blast radius: colliders do not use `Intersection`. Its only library caller is `LineIntersectionConstraint`, whose only
+user is `wip/Sketch_NonIntersectingStructures`. `Matrix3f` is reached through `TransformMatrix4f` in `CubicleWorld` and
+`CubicleWorldView`. Sketches can call all of these directly, because they are public API. `X07` never rotates the world.
+`Lesson` and `X` examples do not use the cubicle path of `CollisionManager`.
+
+### High
+
+18. **`Intersection.intersect_line_segment_plane` has the wrong sign** (`:610`). It computes `n·(p1 − origin) / n·d`,
+    which is `−t`. With plane `y = 0`, the segment `y = 1 → −1` returns `null`, and the segment `y = 1 → 3`, which does
+    not cross, returns `(0, 2, 0)`.
+19. **`Util.calculateNormal(AB, BC, result)` destroys its input** (`Util.java:94`). `result.cross(AB, BC)` computes
+    `result × AB` and stores it in `BC`. `Plane3f.updateNormal()` therefore leaves `normal = (0, 0, 0)` and overwrites
+    `vectorB` with `(0, 0, 0)`. `intersectRayPlane` calls this when `normal` is `null`.
+20. **`intersectRayPlane` needs a non-normalized normal** (`:207`). Its bounds test compares against `dirDotNorm`, so the
+    normal must be `edge1 × edge2`. `updateNormal()` normalizes, so fixing #19 alone is not enough: a ray through the
+    inside of a 10-unit triangle misses with a unit normal and hits with `(0, 0, 100)`.
+21. **`intersectRayPlane` has three more defects.** The check at `:218` is `dirDotNorm < EPSILON` and should be
+    `< -EPSILON`. As a result, the parallel branch is effectively dead, and a short ray from the back side misses
+    (direction length `1e-6`) while the mirrored ray hits. With `quad = true`, `dirDotDiffxEdge2` has no upper bound, so
+    a point at `u = 2, v = 0.5` counts as a hit. The test at `:229` uses `> 0`, so the edge `x = 0` misses while the edge
+    `y = 0` hits.
+22. **`LineIntersectionConstraint` teleports particles.** With padding, if `old_position` is exactly 0 or exactly 1 away
+    from the intersection, the padding code is skipped and the raw offset `old_position − intersection` becomes the
+    position. Measured: `(3, -1, 0)` moved to `(0, 0, 0)`, and `(3, -1, 0)` moved to `(0, 1, 0)`. Default padding is 1,
+    so a particle held at the padded distance can meet the second case, subject to float equality; this was not
+    reproduced in a running simulation. Separately, `intersect_line_line` (2D) never writes `z`, and the constraint
+    copies its result, so a particle at `z = 5` moves to `z = 0`. Segments at different `z` also report `INTERSECTING`.
+23. **`Matrix3f.transform` applies the transpose of the matrix** (`:426`). After `setZRotation(90°)`, `transform((1,0,0))`
+    gives `(0, -1, 0)`, while `getXAxis()` and `TransformMatrix4f.transform` both give `(0, 1, 0)`. **`CubicleWorld`
+    depends on this:** `worldposition2index` needs the inverse rotation and gets it through the transpose. Correcting
+    `transform` without changing `CubicleWorld` breaks every rotated world. `(a·b).transform(v)` applies `a` first, then
+    `b`, which is the opposite order to the standard `TransformMatrix4f` convention.
+24. **`CubicleWorldView` draws rotated worlds with the opposite rotation.** It passes the column-major `toArray()` to the
+    row-major `applyMatrix`. With a rotated world, the point drawn for cell `(3, 2, 0)` maps back to `(3, -2, 0)`. The
+    same point through `TransformMatrix4f.transform` maps back correctly, so the query is right and the view is wrong.
+25. **`CollisionManager.createCollisionResolvers(world)` misses pairs across cell borders** (`CollisionManager.java:225`).
+    It queries only the particle's own cell. With cell size 100 and minimum distance 20, two particles 2 apart across a
+    border get 0 resolvers, and two particles 9 apart in one cell get 1.
+26. **Fixed `CubicleParticle`s are never put in a cell.** `isActive()` is `!fixed()`, so `handleEntity` skips them. A
+    particle fixed before its first `update()` stays off-world, so a moving particle 5 away in the same cell gets 0
+    resolvers. A particle fixed later stays in its old cell even when it is moved. `isActive()` is documented as a
+    temporary opt-out, which does not describe fixed obstacles.
+
+### Medium
+
+27. `getLocalEntities(entity, rx, ry, rz)` treats off-world as cell `(-1, -1, -1)`. An entity at `(-5000, -5000, -5000)`
+    with radius 1 receives the entities in cell `(0, 0, 0)`.
+28. `getLocalEntities(position, radius)` returns `null` for a position outside the grid, even when cells inside the
+    radius are occupied. A query at `x = -1` with radius 1 misses an entity in cell `(0, 0, 0)`.
+29. `getLocalEntities` has inconsistent results. An empty cell gives an empty list from the point query and `null` from
+    the radius query. The point query returns the internal live list, so `clear()` on the result removes entities from
+    the cell while they stay in `entities()`.
+30. `CubicleParticle.setPositionRef` has no effect. `CubicleParticle` shadows `BasicParticle.mPosition` with its own
+    field and overrides `position()`, but the setter writes the base field.
+31. `Intersection` is inconsistent about rays, lines and segments. `intersect_ray_sphere` is documented as both a ray and
+    a segment test, but it tests the infinite line, so it hits spheres behind the origin and beyond `p2`.
+    `intersectRaySpherePoints` returns points behind the origin. Of the two `intersectRayTriangle` overloads, the
+    `PVector` one rejects `t ≤ 0` and the `IntersectionResult` one returns `true` with `t = -1`.
+32. `Intersection` uses absolute thresholds on values that scale with input size. A ray of length `0.001` through a unit
+    sphere misses in `intersect_ray_sphere`. `intersect_line_line` (3D) reports no solution for perpendicular lines of
+    half-length `0.02` (`0.03` works). `intersectRayTriangle` misses a triangle with edge `3e-4` (`1e-3` works) or a
+    direction of length `5e-6` on a `0.1` triangle (`1e-5` works).
+33. Particles that are dead and removed from `Physics` stay in `CubicleWorld`, because nothing removes them. Queries can
+    keep returning them. *By reading:* `createCollisionResolvers(world)` can then create a spring to a particle that is
+    no longer simulated.
+
+### Low / hygiene
+
+- `CubicleWorld.add` called twice adds an entity twice: 2 in `entities()`, and a ghost entry in the off-world atom after
+  `update()`.
+- `CubicleWorld.remove` short-circuits. If the cell removal fails, for example because `cubicle()` was changed from
+  outside, the entity stays in `entities()`.
+- A `NaN` position maps to cell `(0, 0, 0)`, because `(int) NaN` is 0.
+- `Matrix3f.invert` silently does nothing for a singular matrix. `setRotation` does not normalize the axis (axis length
+  2 gives determinant 1.43).
+- `Matrix3f.toString` prints the transpose of the row-first field naming. `TransformMatrix4f.IDENTITY` is not `final`.
+  `Matrix3f` and `TransformMatrix4f` ship test code in `main`.
+- *By reading:* `intersectLinePlane` prints to `System.err` on each parallel call. `intersect_line_line` (3D) assigns a
+  new `PVector` to a `null` parameter, so the result is lost. Method naming mixes `intersectX` and `intersect_x`.
+  `CubicleWorld` has both `entities()` and `getEntities()`, and the misspelled field `mEntites`.
+
+### Checked and correct
+
+- `Matrix3f`: `determinant`, `invert`, `toArray`/`set(float[])` round trip, `transpose(self)`, `setXYZRotation`
+  (equals `Rx·Ry·Rz`), `setRotation` with a unit axis. *By reading:* `setXRotation`, `setYRotation` and `setZRotation`
+  are the standard matrices. The `@todo` on `setYRotation` can go.
+- `Intersection`: Möller–Trumbore hit point, `intersectRaySpherePoints` values, 2D `intersect_line_line` result for
+  crossing segments. The `TODO` on 3D `intersect_line_line` is stale: for skew lines it returns different points, `(0,0,0)`
+  and `(0,0,1)`, as it should.
+- `CubicleWorld.worldposition2index` inverts `TransformMatrix4f.transform` correctly, cell lookup included.
+
+### Second pass fix status
+
+Verified by `teilchen.test.TestGeometry` (all checks pass; 29 of its checks failed before the fixes). `TestIntegrators`
+and `TestColliders` still pass. `CubicleWorldView` was checked by recording the matrix it applies, not by rendering.
+
+| #  | Status | Change |
+|----|--------|--------|
+| 18 | Fixed | `intersect_line_segment_plane` computes `n·(origin − p1) / n·d`. |
+| 19 | Fixed | `Util.calculateNormal(AB, BC, result)` writes the normal to `result` and keeps its inputs. |
+| 20 | Open | `intersectRayPlane` still needs `normal = edge1 × edge2`, so `updateNormal()` and a `null` normal still miss. |
+| 21 | Fixed | Parallel check uses `-EPSILON`, quad mode bounds both parameters, edge `x = 0` counts as a hit. |
+| 22 | Fixed | Padding is always measured from the intersection, and a distance of 0 places the particle on it. 2D `intersect_line_line` takes `z` from segment a. |
+| 23 | Fixed | `Matrix3f.transform` computes `M · v`. `Matrix3f.transformInverse` added, used by `CubicleWorld`. |
+| 24 | Fixed | `CubicleWorldView` passes the matrix to `applyMatrix` in row order. |
+| 25 | Fixed | `CollisionManager` searches all cells within collision distance, and the off-world atom if the distance reaches past the world border. |
+| 26 | Fixed | `CubicleParticle.isActive()` is always `true`, so fixed particles are kept in the right cell. |
+
+Note: after #21, a ray with `|direction · normal| ≤ EPSILON` counts as parallel from both sides. A very short ray from
+the front used to hit and now misses, which is part of #32.
+
+API change: `Matrix3f.transform` now rotates in the opposite direction, and `(a·b).transform(v)` applies `b` first.
+Sketches that relied on the old result can use `transformInverse` for pure rotations.
+
+### Remaining
+
+- #20 and #31 need a decision about the intended API.
+- #27–#30, #32 and #33 are open. Colliding through `CollisionManager` no longer goes through #27–#29, but direct calls
+  to `getLocalEntities` still do.
+- Low / hygiene items above are open.

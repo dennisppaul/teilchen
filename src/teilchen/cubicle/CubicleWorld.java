@@ -160,7 +160,7 @@ public class CubicleWorld {
         mPosition.sub(mTransform.translation);
 
         /* rotation */
-        mTransform.rotation.transform(mPosition);
+        mTransform.rotation.transformInverse(mPosition);
 
         /* scale */
         Util.divide(mPosition, mScale);

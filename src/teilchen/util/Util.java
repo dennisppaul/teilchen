@@ -91,7 +91,7 @@ public class Util {
      * @param pResultNormal normal
      */
     public static void calculateNormal(final PVector pVectorAB, final PVector pVectorBC, final PVector pResultNormal) {
-        pResultNormal.cross(pVectorAB, pVectorBC);
+        PVector.cross(pVectorAB, pVectorBC, pResultNormal);
         pResultNormal.normalize();
     }
 

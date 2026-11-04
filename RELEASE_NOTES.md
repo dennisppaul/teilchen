@@ -1,5 +1,17 @@
 # teilchen / release notes
 
+## v0.6 (unreleased)
+
+### fixed
+
+- *breaking* `Matrix3f.transform` applied the transpose of the matrix, so rotations ran in the opposite direction. it now computes `M * v`, and `a.multiply(b)` followed by `a.transform(v)` applies b first. added `Matrix3f.transformInverse`
+- `CollisionManager.createCollisionResolvers(CubicleWorld)` missed pairs across cell borders and pairs with fixed particles. this creates more collisions than before
+- `CubicleWorldView` drew rotated worlds with the opposite rotation
+- `Intersection.intersect_line_segment_plane` had the wrong sign: it missed real crossings and reported false ones
+- `Util.calculateNormal(AB, BC, result)` and `Plane3f.updateNormal` produced a zero normal and overwrote an input
+- `Intersection.intersectRayPlane` parallel check, quad mode and triangle edges
+- `LineIntersectionConstraint` could move particles towards the origin and set z to 0
+
 ## v0.5 (20261104)
 
 ### fixed

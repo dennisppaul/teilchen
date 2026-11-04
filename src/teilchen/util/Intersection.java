@@ -215,7 +215,7 @@ public final class Intersection implements Serializable {
         float sign;
         if (dirDotNorm > EPSILON) {
             sign = 1;
-        } else if (dirDotNorm < EPSILON) {
+        } else if (dirDotNorm < -EPSILON) {
             sign = -1f;
             dirDotNorm = -dirDotNorm;
         } else {
@@ -226,12 +226,14 @@ public final class Intersection implements Serializable {
         PVector mCross = new PVector();
         cross(diff, edge2, mCross);
         float dirDotDiffxEdge2 = sign * pRay.direction.dot(mCross);
-        if (dirDotDiffxEdge2 > 0.0f) {
+        if (dirDotDiffxEdge2 >= 0.0f) {
             mCross = new PVector();
             cross(edge1, diff, mCross);
             float dirDotEdge1xDiff = sign * pRay.direction.dot(mCross);
             if (dirDotEdge1xDiff >= 0.0f) {
-                if (!quad ? dirDotDiffxEdge2 + dirDotEdge1xDiff <= dirDotNorm : dirDotEdge1xDiff <= dirDotNorm) {
+                if (!quad ?
+                    dirDotDiffxEdge2 + dirDotEdge1xDiff <= dirDotNorm :
+                    dirDotDiffxEdge2 <= dirDotNorm && dirDotEdge1xDiff <= dirDotNorm) {
                     float diffDotNorm = -sign * diff.dot(norm);
                     if (diffDotNorm >= 0.0f) {
                         // ray intersects triangle
@@ -533,6 +535,17 @@ public final class Intersection implements Serializable {
         return true;
     }
 
+    /**
+     * intersects two line segments in the xy-plane. z is ignored by the test. the z value of the result is taken from
+     * segment a at the intersection.
+     *
+     * @param aBegin        begin of segment a
+     * @param aEnd          end of segment a
+     * @param bBegin        begin of segment b
+     * @param bEnd          end of segment b
+     * @param pIntersection intersection point ( may be null )
+     * @return COINCIDENT, PARALLEL, INTERSECTING or NOT_INTERSECTING
+     */
     public static int intersect_line_line(PVector aBegin,
                                           PVector aEnd,
                                           PVector bBegin,
@@ -559,6 +572,7 @@ public final class Intersection implements Serializable {
                 // Get the intersection point.
                 pIntersection.x = aBegin.x + ua * (aEnd.x - aBegin.x);
                 pIntersection.y = aBegin.y + ua * (aEnd.y - aBegin.y);
+                pIntersection.z = aBegin.z + ua * (aEnd.z - aBegin.z);
             }
             return INTERSECTING;
         }
@@ -607,7 +621,7 @@ public final class Intersection implements Serializable {
             // line is parallel to plane
             return null;
         }
-        final float distance = plane_normal.dot(sub(line_p1, plane_origin)) / dot;
+        final float distance = plane_normal.dot(sub(plane_origin, line_p1)) / dot;
         if (distance < 0 || distance > 1) {
             // intersection is not within line segment
             return null;

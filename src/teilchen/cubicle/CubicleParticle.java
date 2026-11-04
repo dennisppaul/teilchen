@@ -49,6 +49,6 @@ public class CubicleParticle extends BasicParticle implements ICubicleEntity {
     }
 
     public boolean isActive() {
-        return !fixed();
+        return true;
     }
 }

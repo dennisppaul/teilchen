@@ -74,10 +74,10 @@ public class LineIntersectionConstraint implements Constraint {
                     mMinDistanceToIntersection = mDistanceToIntersection;
                     if (mProxScale > 0.0f) {
                         /* add paddding instead of setting the particle to intersection */
-                        if (mDistanceToIntersection != 0 && mDistanceToIntersection != 1) {
+                        if (mDistanceToIntersection > 0) {
                             mIntersectProx.mult(mProxScale / mDistanceToIntersection);
-                            mIntersectProx.add(mIntersection);
                         }
+                        mIntersectProx.add(mIntersection);
                         mParticle.position().set(mIntersectProx);
                     } else {
                         mParticle.position().set(mIntersection);

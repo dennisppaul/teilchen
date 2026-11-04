@@ -4,7 +4,7 @@
 #
 #   1. sets the version in `lib/library.properties` + `teilchen.txt` and dates the release notes
 #   2. compiles `src` into `lib/teilchen.jar` ( java 17 bytecode )
-#   3. runs the headless tests ( `teilchen.test.TestIntegrators`, `teilchen.test.TestColliders` )
+#   3. runs the headless tests ( `teilchen.test.TestIntegrators`, `teilchen.test.TestColliders`, `teilchen.test.TestGeometry` )
 #   4. generates the reference ( javadoc ) into `docs`
 #   5. runs `build_dist.sh` ( processing library folder + `teilchen.zip` )
 #   6. commits, tags, pushes and creates a GitHub release with `teilchen.zip` + `teilchen.txt`
@@ -204,7 +204,7 @@ echo "$(find "$CLASSES" -name '*.class' | wc -l | tr -d ' ') classes"
 
 if [ "$DO_TESTS" -eq 1 ]; then
     log "running tests"
-    for TEST in teilchen.test.TestIntegrators teilchen.test.TestColliders; do
+    for TEST in teilchen.test.TestIntegrators teilchen.test.TestColliders teilchen.test.TestGeometry; do
         "$JAVA" -Djava.awt.headless=true -cp "$CLASSES:$CLASSPATH_BUILD" "$TEST" > "$BUILD_DIR/test.log" 2>&1 ||
             { cat "$BUILD_DIR/test.log"; fail "$TEST failed"; }
         echo "$TEST: $(tail -n 1 "$BUILD_DIR/test.log")"
