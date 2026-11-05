@@ -27,21 +27,30 @@ import processing.core.PVector;
 import java.io.Serializable;
 
 /**
- * special form of a 4x4 matrix. first of all the way we represent the matrix in this class is similar to the way opengl
- * handles the row column issue. transform matrix -- r = rotation, t = translation rxx rxy rxz 0 ryx ryy ryz 0 rzx rzy
- * rzz 0 tx ty tz 1 the transform matrix is special in the way that is a 3x3 matrix for rotation and scale and a
- * translation vector. the remaining four values a constants. this is the way opengl specifies a 4x4 matrix and also the
- * way 'toArray' returns an array. m[0] m[4] m[8] m[12] m[1] m[5] m[9] m[13] M=( ) m[2] m[6] m[10] m[14] m[3] m[7] m[11]
- * m[15] here is an excerpt from the glMultMatrix man page. "In many computer languages 4x4 arrays are represented in
- * row-major order. The transformations just described represent these matrices in column-major order. The order of the
- * multiplication is important. For example, if the current transformation is a rotation, and glMultMatrix is called
- * with a translation matrix, the translation is done directly on the coordinates to be transformed, while the rotation
- * is done on the results of that translation." also read 'The Matrix and Quaternions FAQ' at
- * http://www.flipcode.com/documents/matrfaq.html
+ * special form of a 4x4 matrix: a 3x3 matrix for rotation and scale, and a translation vector. the last row is constant.
+ * <pre>
+ * | xx xy xz tx |
+ * | yx yy yz ty |
+ * | zx zy zz tz |
+ * |  0  0  0  1 |
+ * </pre>
+ * <code>transform</code> computes <code>R * v + t</code>. <code>a.multiply(b)</code> followed by
+ * <code>a.transform(v)</code> applies b first, then a.
+ * <p>
+ * <code>toArray</code> and <code>set(float[])</code> use the column-major order of opengl:
+ * <pre>
+ * | m[0] m[4] m[ 8] m[12] |
+ * | m[1] m[5] m[ 9] m[13] |
+ * | m[2] m[6] m[10] m[14] |
+ * | m[3] m[7] m[11] m[15] |
+ * </pre>
+ * <code>toString</code> prints the values in that order, one column per line. <code>set(float[])</code> ignores the
+ * last row. the default constructor creates a zero matrix, use <code>TransformMatrix4f(IDENTITY)</code> for an identity.
+ * also read 'The Matrix and Quaternions FAQ' at http://www.flipcode.com/documents/matrfaq.html
  */
 public class TransformMatrix4f implements Serializable {
 
-    public static int IDENTITY = 1;
+    public static final int IDENTITY = 1;
     private static final float ONE = 1;
     private static final float ZERO = 0;
     private static final long serialVersionUID = 2946060493174800199L;
@@ -87,12 +96,8 @@ public class TransformMatrix4f implements Serializable {
     }
 
     public final float determinant() {
-        float d =
-                rotation.xx * ((rotation.yy * rotation.zz * ONE + rotation.yz * translation.z * ZERO + translation.y * rotation.zy * ZERO) - translation.y * rotation.zz * ZERO - rotation.yy * translation.z * ZERO - rotation.yz * rotation.zy * ONE);
-        d -= rotation.xy * ((rotation.yx * rotation.zz * ONE + rotation.yz * translation.z * ZERO + translation.y * rotation.zx * ZERO) - translation.y * rotation.zz * ZERO - rotation.yx * translation.z * ZERO - rotation.yz * rotation.zx * ONE);
-        d += rotation.xz * ((rotation.yx * rotation.zy * ONE + rotation.yy * translation.z * ZERO + translation.y * rotation.zx * ZERO) - translation.y * rotation.zy * ZERO - rotation.yx * translation.z * ZERO - rotation.yy * rotation.zx * ONE);
-        d -= translation.x * ((rotation.yx * rotation.zy * ZERO + rotation.yy * rotation.zz * ZERO + rotation.yz * rotation.zx * ZERO) - rotation.yz * rotation.zy * ZERO - rotation.yx * rotation.zz * ZERO - rotation.yy * rotation.zx * ZERO);
-        return d;
+        /* the last row is ( 0, 0, 0, 1 ), so the translation does not contribute */
+        return rotation.determinant();
     }
 
     public final void set(TransformMatrix4f mat) {
@@ -151,31 +156,31 @@ public class TransformMatrix4f implements Serializable {
 
     public final void multiply(TransformMatrix4f pMatrix4f) {
         float tmp1 =
-                rotation.xx * pMatrix4f.rotation.xx + rotation.xy * pMatrix4f.rotation.yx + rotation.xz * pMatrix4f.rotation.zx + translation.x * TransformMatrix4f.ZERO;
+                rotation.xx * pMatrix4f.rotation.xx + rotation.xy * pMatrix4f.rotation.yx + rotation.xz * pMatrix4f.rotation.zx;
         float tmp2 =
-                rotation.xx * pMatrix4f.rotation.xy + rotation.xy * pMatrix4f.rotation.yy + rotation.xz * pMatrix4f.rotation.zy + translation.x * TransformMatrix4f.ZERO;
+                rotation.xx * pMatrix4f.rotation.xy + rotation.xy * pMatrix4f.rotation.yy + rotation.xz * pMatrix4f.rotation.zy;
         float tmp3 =
-                rotation.xx * pMatrix4f.rotation.xz + rotation.xy * pMatrix4f.rotation.yz + rotation.xz * pMatrix4f.rotation.zz + translation.x * TransformMatrix4f.ZERO;
+                rotation.xx * pMatrix4f.rotation.xz + rotation.xy * pMatrix4f.rotation.yz + rotation.xz * pMatrix4f.rotation.zz;
         float tmp4 =
-                rotation.xx * pMatrix4f.translation.x + rotation.xy * pMatrix4f.translation.y + rotation.xz * pMatrix4f.translation.z + translation.x * TransformMatrix4f.ONE;
+                rotation.xx * pMatrix4f.translation.x + rotation.xy * pMatrix4f.translation.y + rotation.xz * pMatrix4f.translation.z + translation.x;
 
         float tmp5 =
-                rotation.yx * pMatrix4f.rotation.xx + rotation.yy * pMatrix4f.rotation.yx + rotation.yz * pMatrix4f.rotation.zx + translation.y * TransformMatrix4f.ZERO;
+                rotation.yx * pMatrix4f.rotation.xx + rotation.yy * pMatrix4f.rotation.yx + rotation.yz * pMatrix4f.rotation.zx;
         float tmp6 =
-                rotation.yx * pMatrix4f.rotation.xy + rotation.yy * pMatrix4f.rotation.yy + rotation.yz * pMatrix4f.rotation.zy + translation.y * TransformMatrix4f.ZERO;
+                rotation.yx * pMatrix4f.rotation.xy + rotation.yy * pMatrix4f.rotation.yy + rotation.yz * pMatrix4f.rotation.zy;
         float tmp7 =
-                rotation.yx * pMatrix4f.rotation.xz + rotation.yy * pMatrix4f.rotation.yz + rotation.yz * pMatrix4f.rotation.zz + translation.y * TransformMatrix4f.ZERO;
+                rotation.yx * pMatrix4f.rotation.xz + rotation.yy * pMatrix4f.rotation.yz + rotation.yz * pMatrix4f.rotation.zz;
         float tmp8 =
-                rotation.yx * pMatrix4f.translation.x + rotation.yy * pMatrix4f.translation.y + rotation.yz * pMatrix4f.translation.z + translation.y * TransformMatrix4f.ONE;
+                rotation.yx * pMatrix4f.translation.x + rotation.yy * pMatrix4f.translation.y + rotation.yz * pMatrix4f.translation.z + translation.y;
 
         float tmp9 =
-                rotation.zx * pMatrix4f.rotation.xx + rotation.zy * pMatrix4f.rotation.yx + rotation.zz * pMatrix4f.rotation.zx + translation.z * TransformMatrix4f.ZERO;
+                rotation.zx * pMatrix4f.rotation.xx + rotation.zy * pMatrix4f.rotation.yx + rotation.zz * pMatrix4f.rotation.zx;
         float tmp10 =
-                rotation.zx * pMatrix4f.rotation.xy + rotation.zy * pMatrix4f.rotation.yy + rotation.zz * pMatrix4f.rotation.zy + translation.z * TransformMatrix4f.ZERO;
+                rotation.zx * pMatrix4f.rotation.xy + rotation.zy * pMatrix4f.rotation.yy + rotation.zz * pMatrix4f.rotation.zy;
         float tmp11 =
-                rotation.zx * pMatrix4f.rotation.xz + rotation.zy * pMatrix4f.rotation.yz + rotation.zz * pMatrix4f.rotation.zz + translation.z * TransformMatrix4f.ZERO;
+                rotation.zx * pMatrix4f.rotation.xz + rotation.zy * pMatrix4f.rotation.yz + rotation.zz * pMatrix4f.rotation.zz;
         float tmp12 =
-                rotation.zx * pMatrix4f.translation.x + rotation.zy * pMatrix4f.translation.y + rotation.zz * pMatrix4f.translation.z + translation.z * TransformMatrix4f.ONE;
+                rotation.zx * pMatrix4f.translation.x + rotation.zy * pMatrix4f.translation.y + rotation.zz * pMatrix4f.translation.z + translation.z;
 
         /*
          float temp13 = m30 * in2.m00 +
@@ -210,9 +215,6 @@ public class TransformMatrix4f implements Serializable {
     }
 
     public final void transform(PVector pResult) {
-        /**
-         * @todo check if this is right...
-         */
         pResult.set(rotation.xx * pResult.x + rotation.xy * pResult.y + rotation.xz * pResult.z + translation.x,
                     rotation.yx * pResult.x + rotation.yy * pResult.y + rotation.yz * pResult.z + translation.y,
                     rotation.zx * pResult.x + rotation.zy * pResult.y + rotation.zz * pResult.z + translation.z);

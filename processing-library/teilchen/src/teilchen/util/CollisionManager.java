@@ -28,6 +28,7 @@ import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.constraint.Constraint;
 import teilchen.constraint.Stick;
+import teilchen.cubicle.CubicleAtom;
 import teilchen.cubicle.CubicleParticle;
 import teilchen.cubicle.CubicleWorld;
 import teilchen.cubicle.ICubicleEntity;
@@ -194,16 +195,42 @@ public class CollisionManager {
         }
     }
 
+    /**
+     * creates collision resolvers for all cubicle particles, searching all cells within collision distance. call
+     * <code>CubicleWorld.update()</code> first so that the cells are up to date. assumes the rotation of the world's
+     * transform does not scale.
+     *
+     * @param pWorld world containing the particles
+     */
     public void createCollisionResolvers(final CubicleWorld pWorld) {
+        final float mReach = getCollisionReach();
+        final int mReachX = cellsWithinReach(mReach, pWorld.cellscale().x);
+        final int mReachY = cellsWithinReach(mReach, pWorld.cellscale().y);
+        final int mReachZ = cellsWithinReach(mReach, pWorld.cellscale().z);
         /* particles already handled as primary particle. used to create each pair only once. */
         final Set<Particle> mVisited = Collections.newSetFromMap(new IdentityHashMap<>());
         for (int i = 0; i < mCollisionPhysics.particles().size(); i++) {
             final Particle mParticle = mCollisionPhysics.particles().get(i);
             if (mParticle instanceof CubicleParticle) {
-                createCollisionResolver(pWorld, (CubicleParticle) mParticle, mVisited);
+                createCollisionResolver(pWorld, (CubicleParticle) mParticle, mVisited, mReachX, mReachY, mReachZ);
                 mVisited.add(mParticle);
             }
         }
+    }
+
+    private float getCollisionReach() {
+        if (mDistanceMode != DISTANCE_MODE_RADIUS) {
+            return mMinimumDistance;
+        }
+        float mMaximumRadius = 0;
+        for (int i = 0; i < mCollisionPhysics.particles().size(); i++) {
+            mMaximumRadius = Math.max(mMaximumRadius, mCollisionPhysics.particles().get(i).radius());
+        }
+        return 2 * mMaximumRadius;
+    }
+
+    private static int cellsWithinReach(final float pReach, final float pCellScale) {
+        return pCellScale == 0 ? 0 : (int) Math.ceil(pReach / Math.abs(pCellScale));
     }
 
     private boolean ignore(Particle pParticle) {
@@ -221,15 +248,41 @@ public class CollisionManager {
 
     private void createCollisionResolver(final CubicleWorld pWorld,
                                          final CubicleParticle pParticle,
-                                         final Set<Particle> pVisited) {
-        final ArrayList<ICubicleEntity> mNeigbors = pWorld.getLocalEntities(pParticle);
-        if (mNeigbors.size() > 1) {
-            for (final ICubicleEntity mEntity : mNeigbors) {
-                if (mEntity instanceof Particle) {
-                    final Particle mOprParticle = (Particle) mEntity;
-                    if (pParticle != mOprParticle && !pVisited.contains(mOprParticle)) {
-                        checkPair(pParticle, mOprParticle);
-                    }
+                                         final Set<Particle> pVisited,
+                                         final int pReachX,
+                                         final int pReachY,
+                                         final int pReachZ) {
+        final Vector3i mIndex = pWorld.worldposition2index(pParticle.position());
+        final CubicleAtom[][][] mAtoms = pWorld.getDataRef();
+        final int mSizeX = mAtoms.length;
+        final int mSizeY = mSizeX > 0 ? mAtoms[0].length : 0;
+        final int mSizeZ = mSizeY > 0 ? mAtoms[0][0].length : 0;
+        /* long, because the index of a particle far outside of the world can be close to the limits of int */
+        final long mMinX = (long) mIndex.x - pReachX;
+        final long mMaxX = (long) mIndex.x + pReachX;
+        final long mMinY = (long) mIndex.y - pReachY;
+        final long mMaxY = (long) mIndex.y + pReachY;
+        final long mMinZ = (long) mIndex.z - pReachZ;
+        final long mMaxZ = (long) mIndex.z + pReachZ;
+        for (int x = (int) Math.max(mMinX, 0); x <= Math.min(mMaxX, mSizeX - 1); x++) {
+            for (int y = (int) Math.max(mMinY, 0); y <= Math.min(mMaxY, mSizeY - 1); y++) {
+                for (int z = (int) Math.max(mMinZ, 0); z <= Math.min(mMaxZ, mSizeZ - 1); z++) {
+                    checkEntities(mAtoms[x][y][z], pParticle, pVisited);
+                }
+            }
+        }
+        /* particles outside of the world can only be close if the reach extends past the border of the world */
+        if (mMinX < 0 || mMaxX >= mSizeX || mMinY < 0 || mMaxY >= mSizeY || mMinZ < 0 || mMaxZ >= mSizeZ) {
+            checkEntities(pWorld.getOffWorldAtom(), pParticle, pVisited);
+        }
+    }
+
+    private void checkEntities(final CubicleAtom pAtom, final CubicleParticle pParticle, final Set<Particle> pVisited) {
+        for (final ICubicleEntity mEntity : pAtom.data()) {
+            if (mEntity instanceof Particle) {
+                final Particle mOprParticle = (Particle) mEntity;
+                if (pParticle != mOprParticle && !pVisited.contains(mOprParticle)) {
+                    checkPair(pParticle, mOprParticle);
                 }
             }
         }

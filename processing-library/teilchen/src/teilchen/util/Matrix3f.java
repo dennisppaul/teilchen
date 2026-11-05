@@ -423,10 +423,36 @@ public class Matrix3f implements Serializable {
         zz = tmp9;
     }
 
+    /**
+     * applies this matrix to a vector ( <code>M * v</code> ). the x axis of the matrix is the image of ( 1, 0, 0 ), and
+     * <code>a.multiply(b)</code> followed by <code>a.transform(v)</code> applies b first, then a.
+     *
+     * @param pVector vector to transform
+     */
     public final void transform(PVector pVector) {
-        pVector.set(xx * pVector.x + yx * pVector.y + zx * pVector.z,
-                    xy * pVector.x + yy * pVector.y + zy * pVector.z,
-                    pVector.z = xz * pVector.x + yz * pVector.y + zz * pVector.z);
+        pVector.set(xx * pVector.x + xy * pVector.y + xz * pVector.z,
+                    yx * pVector.x + yy * pVector.y + yz * pVector.z,
+                    zx * pVector.x + zy * pVector.y + zz * pVector.z);
+    }
+
+    /**
+     * applies the inverse of this matrix to a vector without changing the matrix. a singular matrix has no inverse and
+     * leaves the vector unchanged.
+     *
+     * @param pVector vector to transform
+     */
+    public final void transformInverse(PVector pVector) {
+        final float mDeterminant = determinant();
+        if (mDeterminant == 0.0f) {
+            return;
+        }
+        final float i = 1 / mDeterminant;
+        final float x = pVector.x;
+        final float y = pVector.y;
+        final float z = pVector.z;
+        pVector.set(i * ((yy * zz - yz * zy) * x + (xz * zy - xy * zz) * y + (xy * yz - xz * yy) * z),
+                    i * ((yz * zx - yx * zz) * x + (xx * zz - xz * zx) * y + (xz * yx - xx * yz) * z),
+                    i * ((yx * zy - yy * zx) * x + (xy * zx - xx * zy) * y + (xx * yy - xy * yx) * z));
     }
 
     public void setScale(PVector pScale) {

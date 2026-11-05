@@ -58,9 +58,24 @@ public class TestIntegrators {
         testStickRemovesAxialVelocity();
         testFixedParticleVelocity();
         testConcurrentAdd();
+        testRecoverNaN();
 
         System.out.println(mFailures == 0 ? "ALL PASSED" : mFailures + " FAILED");
         System.exit(mFailures == 0 ? 0 : 1);
+    }
+
+    private static void testRecoverNaN() {
+        final Physics mPhysics = new Physics();
+        mPhysics.setIntegratorRef(new Verlet());
+        final BasicParticle mParticle = new BasicParticle();
+        mPhysics.add(mParticle);
+        mPhysics.step(0.01f);
+        mParticle.position().set(Float.NaN, Float.NaN, Float.NaN);
+        mParticle.old_position().set(Float.NaN, Float.NaN, Float.NaN);
+        mPhysics.step(0.01f);
+        mPhysics.step(0.01f);
+        final boolean mFinite = !Float.isNaN(mParticle.position().x) && !Float.isNaN(mParticle.old_position().x);
+        check("NaN position recovers with verlet", mFinite, mParticle.position() + " " + mParticle.old_position());
     }
 
     private static void check(String pName, boolean pCondition, String pDetail) {

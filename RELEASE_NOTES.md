@@ -1,6 +1,6 @@
 # teilchen / release notes
 
-## v0.6 (unreleased)
+## v0.6 (20261105)
 
 ### fixed
 

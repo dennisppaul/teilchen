@@ -24,6 +24,7 @@
 package teilchen.cubicle;
 
 import processing.core.PVector;
+import teilchen.Particle;
 import teilchen.util.TransformMatrix4f;
 import teilchen.util.Util;
 import teilchen.util.Vector3i;
@@ -57,7 +58,13 @@ public class CubicleWorld {
     public void update() {
         Iterator<ICubicleEntity> mIterator = mEntites.iterator();
         while (mIterator.hasNext()) {
-            handleEntity(mIterator.next());
+            final ICubicleEntity mEntity = mIterator.next();
+            if (mEntity instanceof Particle && ((Particle) mEntity).dead()) {
+                removeFromCubicle(mEntity);
+                mIterator.remove();
+            } else {
+                handleEntity(mEntity);
+            }
         }
     }
 
@@ -103,49 +110,78 @@ public class CubicleWorld {
         }
     }
 
+    /**
+     * returns the entities in the cell at a position. this and the other <code>getLocalEntities</code> methods always
+     * return a new list, which is empty if there are no entities and never null.
+     *
+     * @param pPosition position in world space
+     * @return entities in the cell, empty if the position is outside of the world
+     */
     public ArrayList<ICubicleEntity> getLocalEntities(PVector pPosition) {
         final Vector3i mIndex = worldposition2index(pPosition);
         if (checkBounds(mIndex.x, mIndex.y, mIndex.z)) {
-            final CubicleAtom mCubicleAtom = getAtom(mIndex.x, mIndex.y, mIndex.z);
-            return mCubicleAtom.data();
+            return new ArrayList<>(getAtom(mIndex.x, mIndex.y, mIndex.z).data());
         }
-        return null;
+        return new ArrayList<>();
     }
 
+    /**
+     * returns the entities in the cell of an entity, including the entity. for an entity outside of the world, this is
+     * all entities outside of the world.
+     *
+     * @param pEntity entity
+     * @return entities in the same cell
+     */
     public ArrayList<ICubicleEntity> getLocalEntities(ICubicleEntity pEntity) {
         final Vector3i mIndex = pEntity.cubicle();
-        return getAtom(mIndex.x, mIndex.y, mIndex.z).data();
+        return new ArrayList<>(getAtom(mIndex.x, mIndex.y, mIndex.z).data());
     }
 
     public ArrayList<ICubicleEntity> getLocalEntities(PVector pPosition, int pExtraRadius) {
         return getLocalEntities(pPosition, pExtraRadius, pExtraRadius, pExtraRadius);
     }
 
+    /**
+     * returns the entities in all cells within a radius around a position. the position may be outside of the world.
+     * entities outside of the world are not included.
+     *
+     * @param pPosition position in world space
+     * @param pXRadius  radius in cells
+     * @param pYRadius  radius in cells
+     * @param pZRadius  radius in cells
+     * @return entities in the cells
+     */
     public ArrayList<ICubicleEntity> getLocalEntities(PVector pPosition, int pXRadius, int pYRadius, int pZRadius) {
-        final Vector3i mIndex = worldposition2index(pPosition);
-        if (checkBounds(mIndex.x, mIndex.y, mIndex.z)) {
-            final ArrayList<CubicleAtom> mAtoms = getAtoms(mIndex.x, mIndex.y, mIndex.z, pXRadius, pYRadius, pZRadius);
-            final ArrayList<ICubicleEntity> mEntities = new ArrayList<>();
-            for (CubicleAtom a : mAtoms) {
-                mEntities.addAll(a.data());
-            }
-            return mEntities.isEmpty() ? null : mEntities;
-        } else {
-            return null;
-        }
+        return collectEntities(worldposition2index(pPosition), pXRadius, pYRadius, pZRadius);
     }
 
+    /**
+     * returns the entities in all cells within a radius around an entity, including the entity if it is inside of the
+     * world. entities outside of the world are not included.
+     *
+     * @param pEntity  entity
+     * @param pXRadius radius in cells
+     * @param pYRadius radius in cells
+     * @param pZRadius radius in cells
+     * @return entities in the cells
+     */
     public ArrayList<ICubicleEntity> getLocalEntities(ICubicleEntity pEntity,
                                                       int pXRadius,
                                                       int pYRadius,
                                                       int pZRadius) {
-        final Vector3i mIndex = pEntity.cubicle();
-        final ArrayList<CubicleAtom> mAtoms = getAtoms(mIndex.x, mIndex.y, mIndex.z, pXRadius, pYRadius, pZRadius);
+        final Vector3i mCubicle = pEntity.cubicle();
+        final boolean mOffWorld = !checkBounds(mCubicle.x, mCubicle.y, mCubicle.z);
+        /* the stored index of an entity outside of the world says nothing about where it is */
+        final Vector3i mIndex = mOffWorld ? worldposition2index(pEntity.position()) : mCubicle;
+        return collectEntities(mIndex, pXRadius, pYRadius, pZRadius);
+    }
+
+    private ArrayList<ICubicleEntity> collectEntities(Vector3i pIndex, int pXRadius, int pYRadius, int pZRadius) {
         final ArrayList<ICubicleEntity> mEntities = new ArrayList<>();
-        for (CubicleAtom a : mAtoms) {
+        for (CubicleAtom a : getAtoms(pIndex.x, pIndex.y, pIndex.z, pXRadius, pYRadius, pZRadius)) {
             mEntities.addAll(a.data());
         }
-        return mEntities.isEmpty() ? null : mEntities;
+        return mEntities;
     }
 
     public ArrayList<ICubicleEntity> entities() {
@@ -160,7 +196,7 @@ public class CubicleWorld {
         mPosition.sub(mTransform.translation);
 
         /* rotation */
-        mTransform.rotation.transform(mPosition);
+        mTransform.rotation.transformInverse(mPosition);
 
         /* scale */
         Util.divide(mPosition, mScale);
